@@ -27,7 +27,10 @@ namespace Scryv.ViewModel
         {
             MainThread.InvokeOnMainThreadAsync(() =>
             {
-                Cameras.Add(new CameraSelectionViewModel());
+                CameraSelectionViewModel newCamera = new();
+                newCamera.RemoveMe += RemoveCamera;
+                Cameras.Add(newCamera);
+                OnPropertyChanged(nameof(ContinueEnabled));
             });            
         }
 
@@ -49,5 +52,12 @@ namespace Scryv.ViewModel
 
         private bool addCameraSpinnerVisible = false;
         public bool AddCameraSpinnerVisible => addCameraSpinnerVisible;
+
+        public void RemoveCamera(object sender, CameraSelectionViewModel camera)
+        {
+            camera.RemoveMe -= RemoveCamera;
+            Cameras.Remove(camera);
+            OnPropertyChanged(nameof(ContinueEnabled));
+        }
     }
 }

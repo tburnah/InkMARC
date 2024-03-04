@@ -28,4 +28,9 @@ public partial class CameraSelection : ContentPage
         if (viewModel != null)
             viewModel.CameraLoaded();
     }
+
+    private void Back_Clicked(object sender, EventArgs e)
+    {
+        Shell.Current.GoToAsync("//ConsentPage");
+    }
 }

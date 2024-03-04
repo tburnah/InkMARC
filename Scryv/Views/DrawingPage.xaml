@@ -54,8 +54,12 @@
                     toolkit:DockLayout.DockPosition="Left"
                     WidthRequest="100"
                     Command="{Binding ClearDrawingCommand}" />
-            <Label Text=" "
-                   toolkit:DockLayout.DockPosition="Top" />
+            <HorizontalStackLayout toolkit:DockLayout.DockPosition="Top" HorizontalOptions="Center">
+                <Label Text="Exercise "/>
+                <Label Text="{Binding CurrentExerciseNumber}" />
+                <Label Text=" of " />
+                <Label Text="{Binding TotalExercises}" />
+            </HorizontalStackLayout>
         </toolkit:DockLayout>
     </Grid>
 </ContentPage>

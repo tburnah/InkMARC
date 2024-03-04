@@ -12,6 +12,8 @@ namespace Scryv.ViewModel
 {
     internal partial class CameraSelectionViewModel : ObservableObject
     {
+        public event EventHandler<CameraSelectionViewModel>? RemoveMe;
+
         public CameraView? Current { get; set; } = null;
 
         public ObservableCollection<string> CameraTypes { get; } = new ObservableCollection<string>
@@ -112,6 +114,12 @@ namespace Scryv.ViewModel
                     ButtonText = "Stop";
                 }
             }
+        }
+
+        [RelayCommand]
+        private void Remove()
+        {
+            RemoveMe?.Invoke(this, this);
         }
     }
 }

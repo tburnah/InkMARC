@@ -33,7 +33,7 @@
         <ActivityIndicator IsVisible="{Binding AddCameraSpinnerVisible}"
                            IsRunning="{Binding AddCameraSpinnerVisible}"
                            HorizontalOptions="End"
-                           Grid.Row="1"/>
+                           Grid.Row="1" />
 
         <Button Grid.Row="1"
                 Text="ADD"
@@ -55,13 +55,13 @@
             <ListView HorizontalOptions="Fill"
                       VerticalOptions="Fill"
                       ItemsSource="{Binding Cameras}"
-                      RowHeight="210">
+                      RowHeight="220">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <Grid Padding="8">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="300" />
+                                    <ColumnDefinition Width="100" />
                                     <ColumnDefinition Width="3*" />
                                     <ColumnDefinition Width="2*" />
                                     <ColumnDefinition Width="40" />
@@ -98,20 +98,38 @@
                                                    Camera="{Binding Camera}"
                                                    AutoStartPreview="False"
                                                    NumCamerasDetected="{Binding NumCameras, Mode=OneWayToSource}"
-                                                   CamerasLoaded="CamView1_CamerasLoaded"/>
+                                                   CamerasLoaded="CamView1_CamerasLoaded" />
                                 </Frame>
                                 <VerticalStackLayout Grid.Column="1"
                                                      Grid.RowSpan="3"
-                                                     IsVisible="{Binding PhoneVisible}" VerticalOptions="Fill" Margin="8">
+                                                     IsVisible="{Binding PhoneVisible}"
+                                                     VerticalOptions="Fill"
+                                                     Margin="8">
                                     <Label Text="Please install and run the Scryv Camera app on your phone."
                                            FontSize="Medium"
-                                           Margin="8,0,0,8"/>
+                                           Margin="8,0,0,8" />
                                     <Label Text="Once Installed, run it and enter the following Session ID:"
-                                           FontSize="Medium" Margin="8,0,0,8"/>
+                                           FontSize="Medium"
+                                           Margin="8,0,0,8" />
                                     <Label Text="Session ID"
                                            HorizontalOptions="Center"
                                            FontSize="Medium"
                                            FontAttributes="Bold" />
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="2"
+                                                     Grid.RowSpan="3"
+                                                     IsVisible="{Binding PhoneVisible}"
+                                                     VerticalOptions="Fill"
+                                                     Margin="8">
+                                    <Image Source="camera_app_qrcode.png"
+                                           WidthRequest="100"
+                                           HeightRequest="100" />
+                                    <Label Text="Scan the QR code with your phone to download the app."
+                                           FontSize="Small"
+                                           Margin="8,0,0,8" />
+                                    <Label Text="https://tavish-burnah.github.io/Scryv/"
+                                           FontSize="Small"
+                                           Margin="8,0,0,8" />
                                 </VerticalStackLayout>
                                 <Button Text="{Binding ButtonText}"
                                         Grid.Row="2"
@@ -120,7 +138,14 @@
                                         IsVisible="{Binding CamerasVisible}"
                                         Command="{Binding StartCommandCommand}"
                                         CommandParameter="{x:Reference CamView1}" />
-                                <ImageButton Grid.Row="2" Grid.Column="3" HeightRequest="35" WidthRequest="35" HorizontalOptions="Center" VerticalOptions="Center" Source="trash.png" />
+                                <ImageButton Grid.Row="2"
+                                             Grid.Column="3"
+                                             HeightRequest="35"
+                                             WidthRequest="35"
+                                             HorizontalOptions="Center"
+                                             VerticalOptions="Center"
+                                             Source="trash.png"
+                                             Command="{Binding RemoveCommand}" />
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
@@ -145,6 +170,7 @@
             <Button toolkit:DockLayout.DockPosition="Left"
                     Text="&lt; Back"
                     FontSize="Medium"
+                    Clicked="Back_Clicked"
                     TextColor="{StaticResource ButtonColor}"
                     BorderWidth="0"
                     HorizontalOptions="Start"
