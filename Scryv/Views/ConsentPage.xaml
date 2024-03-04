@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="Scryv.Views.ConsentPage"
+             Shell.NavBarIsVisible="False"
+             Title="ConsentPage">
+    <Grid x:Name="StartPageGrid"
+          Padding="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition Height="120" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="60" />
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0"
+               Text="Great!  Thank you for your participating."
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               FontSize="Large" />
+        <Label Grid.Row="1"
+               Text="This application will collect videos of your hand as you draw on a tablet.  This data will be used in a data set for machine learning training."
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               FontSize="Medium" />
+
+        <Frame BackgroundColor="{StaticResource LightBackground}"
+               BorderColor="Transparent"
+               CornerRadius="10"
+               Padding="10"
+               HorizontalOptions="Fill"
+               VerticalOptions="Fill"
+               Grid.Row="2">
+            <Label Margin="8"
+                   FontSize="Medium">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <!-- Line break -->
+                        <Span Text="By proceeding, you agree to the following:"
+                              FontAttributes="Bold"
+                              FontSize="Medium" />
+                        <Span Text="&#xA;" />
+                        <!-- Line break -->
+                        <Span Text="• "
+                              FontAttributes="Bold" />
+                        <Span Text="Consent to Data Collection: "
+                              FontAttributes="Bold" />
+                        <Span Text="You allow us to collect and use this data anonymously." />
+                        <Span Text="&#xA;" />
+                        <!-- Line break -->
+                        <Span Text="• "
+                              FontAttributes="Bold" />
+                        <Span Text="Age Verification: "
+                              FontAttributes="Bold" />
+                        <Span Text="You confirm that you are 16 years of age or older, which is our minimum age requirement for users to share their data with us." />
+                        <Span Text="&#xA;&#xA;" />
+                        <!-- Line break -->
+                        <Span Text="Your privacy is important to us, and we are committed to protecting your personal information. Please review our Privacy Policy for more details on how we handle your data." />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+        </Frame>
+        <toolkit:DockLayout Grid.Row="3">
+            <Button toolkit:DockLayout.DockPosition="Right"
+                    Text="Continue"
+                    FontSize="Medium"
+                    TextColor="{StaticResource White}"
+                    BorderColor="{StaticResource ButtonColor}"
+                    BorderWidth="2"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    Clicked="Continue_Clicked"
+                    BackgroundColor="{StaticResource ButtonColor}"
+                    Margin="8" />
+            <Button toolkit:DockLayout.DockPosition="Right"
+                    Text="No Thanks"
+                    FontSize="Medium"
+                    TextColor="{StaticResource ButtonColor}"
+                    BorderColor="{StaticResource ButtonColor}"
+                    BorderWidth="2"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    BackgroundColor="{StaticResource White}"
+                    Clicked="Exit_Clicked"
+                    Margin="8" />
+            <Button toolkit:DockLayout.DockPosition="Left"
+                    Text="&lt; Back"
+                    FontSize="Medium"
+                    TextColor="{StaticResource ButtonColor}"
+                    BorderWidth="0"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    BackgroundColor="{StaticResource White}"
+                    Margin="8"
+                    Clicked="Back_Clicked" />
+        </toolkit:DockLayout>
+    </Grid>
+</ContentPage>

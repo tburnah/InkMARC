@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:vm="clr-namespace:Scryv.ViewModel"
+             x:Class="Scryv.Views.StartPage"
+             Title="StartPage"
+             Loaded="ContentPage_Loaded"              
+             Shell.NavBarIsVisible="False">
+    <ContentPage.BindingContext>
+        <vm:StartPageViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid x:Name="StartPageGrid" Padding="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition Height="60" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="60" />
+            <RowDefinition Height="60" />
+        </Grid.RowDefinitions>
+        <Label Text="Let's see what hardware you have"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               FontSize="Large"
+               FontAutoScalingEnabled="True" />
+        <Label Grid.Row="1"
+               Text="Select any that you have access to."
+               FontSize="Subtitle"
+               TextColor="{StaticResource Gray500}"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               FontAutoScalingEnabled="True" />
+        <StackLayout x:Name="ChoiceStackLayout" Grid.Row="2" SizeChanged="StackLayout_SizeChanged">
+            <Frame x:Name="TabletChoice"  CornerRadius="16"
+                   BackgroundColor="{Binding TabletChoiceColor}"
+                   BorderColor="{Binding TabletChoiceBorderColor}"
+                   HasShadow="True"                   
+                   Margin="8">
+                <Grid>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding PressTabletChoiceCommand}"
+                                              NumberOfTapsRequired="1" />
+                    </Grid.GestureRecognizers>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="3*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="32" />
+                    </Grid.ColumnDefinitions>
+                    <Image Source="{Binding TabletChoiceImage}"
+                           Grid.ColumnSpan="2"/>
+                    <Label Text="Touchscreen"
+                           Grid.Row="1"                           
+                           FontAutoScalingEnabled="True"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center" />
+                    <mi:MauiIcon Icon="{mi:Material Help}"
+                                 IconColor="{StaticResource ButtonColor}"
+                                 IsVisible="{Binding IsTabletSelected, Converter={StaticResource InvertedBoolConverter}}"
+                                 Grid.Row="1"
+                                 Grid.Column="1"
+                                 VerticalOptions="End">
+                        <mi:MauiIcon.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TouchscreenHelpButtonTapped"
+                                                  NumberOfTapsRequired="1" />
+                        </mi:MauiIcon.GestureRecognizers>
+                    </mi:MauiIcon>
+                </Grid>
+            </Frame>
+            <Frame x:Name="StylusChoice" CornerRadius="16"
+                   BackgroundColor="{Binding StylusChoiceColor}"
+                   BorderColor="{Binding StylusChoiceBorderColor}"
+                   HasShadow="True"
+                   Margin="8">
+                <Grid>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding PressStylusChoiceCommand}"
+                                              NumberOfTapsRequired="1" />
+                    </Grid.GestureRecognizers>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="3*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="32" />
+                    </Grid.ColumnDefinitions>
+                    <Image Source="{Binding StylusChoiceImage}" Grid.ColumnSpan="2" />
+                    <Label Text="Stylus"
+                           Grid.Row="1"
+                           HorizontalOptions="Fill"
+                           VerticalOptions="Fill"                           
+                           FontAutoScalingEnabled="True"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center"/>
+                    <mi:MauiIcon Icon="{mi:Material Help}"
+                                 IconColor="{StaticResource ButtonColor}"
+                                 IsVisible="{Binding IsStylusSelected, Converter={StaticResource InvertedBoolConverter}}"
+                                 Grid.Row="1"
+                                 Grid.Column="1"
+                                 VerticalOptions="End">
+                        <mi:MauiIcon.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="StylusHelpButtonTapped"
+                                                  NumberOfTapsRequired="1" />
+                        </mi:MauiIcon.GestureRecognizers>
+                    </mi:MauiIcon>
+                </Grid>
+            </Frame>
+            <Frame x:Name="CameraChoice"
+                   CornerRadius="16"
+                   BackgroundColor="{Binding CameraChoiceColor}"
+                   BorderColor="{Binding CameraChoiceBorderColor}"
+                   HasShadow="True"
+                   Margin="8">
+                <Grid>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding PressCameraChoiceCommand}"
+                                              NumberOfTapsRequired="1" />
+                    </Grid.GestureRecognizers>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="3*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="32" />
+                    </Grid.ColumnDefinitions>
+                    <Image Source="{Binding CameraChoiceImage}" Grid.ColumnSpan="2"/>
+                    <Label Text="Camera"
+                           Grid.Row="1"
+                           FontAutoScalingEnabled="True"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center" />
+                    <mi:MauiIcon Icon="{mi:Material Help}"
+                                 IconColor="{StaticResource ButtonColor}"
+                                 IsVisible="{Binding IsCameraSelected, Converter={StaticResource InvertedBoolConverter}}"
+                                 Grid.Row="1"
+                                 Grid.Column="1"
+                                 VerticalOptions="End">
+                        <mi:MauiIcon.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="CameraHelpButtonTapped"
+                                                  NumberOfTapsRequired="1" />
+                        </mi:MauiIcon.GestureRecognizers>
+                    </mi:MauiIcon>
+                </Grid>
+            </Frame>
+        </StackLayout>
+        <Button Grid.Row="3"                
+                Text="Continue"
+                FontSize="Medium"
+                TextColor="{StaticResource ButtonColor}"
+                BorderColor="{StaticResource ButtonColor}"
+                BorderWidth="2"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Command="{Binding PressContinueCommand}"
+                BackgroundColor="{StaticResource White}"
+                Margin="8" />
+
+        <Label Grid.ColumnSpan="3" Grid.Row="4"
+               Text="Thank you for participating!"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               HorizontalOptions="Center"
+               FontSize="Subtitle"
+               TextColor="{StaticResource Gray500}"
+               FontAutoScalingEnabled="True" />
+    </Grid>
+</ContentPage>

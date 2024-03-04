@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:cv="clr-namespace:Camera.MAUI;assembly=Camera.MAUI"
+             xmlns:vm="clr-namespace:Scryv.ViewModel"
+             Shell.NavBarIsVisible="False"
+             x:Class="Scryv.Views.CameraSelection"
+             Title="CameraSelection">
+    <ContentPage.BindingContext>
+        <vm:AddCameraViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid x:Name="StartPageGrid"
+          Padding="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition Height="60" />
+            <RowDefinition Height="4*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0"
+               Text="Choose at least one camera to monitor your writing"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               FontSize="Large" />
+
+        <ActivityIndicator IsVisible="{Binding AddCameraSpinnerVisible}"
+                           IsRunning="{Binding AddCameraSpinnerVisible}"
+                           HorizontalOptions="End"
+                           Grid.Row="1"/>
+
+        <Button Grid.Row="1"
+                Text="ADD"
+                FontSize="Medium"
+                IsVisible="{Binding AddCameraSpinnerVisible, Converter={StaticResource InvertedBoolConverter}}"
+                Command="{Binding AddCameraCommand}"
+                TextColor="{StaticResource White}"
+                BorderColor="{StaticResource ButtonColor}"
+                BorderWidth="2"
+                HorizontalOptions="End"
+                VerticalOptions="Center"
+                BackgroundColor="{StaticResource ButtonColor}"
+                Margin="8" />
+
+        <Frame BackgroundColor="{StaticResource White}"
+               Grid.Row="2"
+               CornerRadius="10"
+               Padding="8">
+            <ListView HorizontalOptions="Fill"
+                      VerticalOptions="Fill"
+                      ItemsSource="{Binding Cameras}"
+                      RowHeight="210">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Padding="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="300" />
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="40" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Picker Title="Camera Type"
+                                        Background="White"
+                                        Grid.Column="0"
+                                        ItemsSource="{Binding CameraTypes }"
+                                        SelectedItem="{Binding SelectedCameraType}"
+                                        VerticalOptions="Start" />
+                                <Picker Grid.Column="0"
+                                        Grid.Row="1"
+                                        Title="Select Camera"
+                                        VerticalOptions="Start"
+                                        IsVisible="{Binding CamerasVisible}"
+                                        ItemsSource="{Binding Cameras}"
+                                        SelectedItem="{Binding Camera}" />
+                                <Frame CornerRadius="10"
+                                       Margin="8"
+                                       BackgroundColor="{StaticResource LightBackground}"
+                                       Grid.Column="1"
+                                       Grid.ColumnSpan="2"
+                                       WidthRequest="300"
+                                       HeightRequest="200"
+                                       IsVisible="{Binding CamerasVisible}"
+                                       Grid.RowSpan="3">
+                                    <cv:CameraView x:Name="CamView1"
+                                                   Cameras="{Binding Cameras, Mode=OneWayToSource}"
+                                                   Camera="{Binding Camera}"
+                                                   AutoStartPreview="False"
+                                                   NumCamerasDetected="{Binding NumCameras, Mode=OneWayToSource}"
+                                                   CamerasLoaded="CamView1_CamerasLoaded"/>
+                                </Frame>
+                                <VerticalStackLayout Grid.Column="1"
+                                                     Grid.RowSpan="3"
+                                                     IsVisible="{Binding PhoneVisible}" VerticalOptions="Fill" Margin="8">
+                                    <Label Text="Please install and run the Scryv Camera app on your phone."
+                                           FontSize="Medium"
+                                           Margin="8,0,0,8"/>
+                                    <Label Text="Once Installed, run it and enter the following Session ID:"
+                                           FontSize="Medium" Margin="8,0,0,8"/>
+                                    <Label Text="Session ID"
+                                           HorizontalOptions="Center"
+                                           FontSize="Medium"
+                                           FontAttributes="Bold" />
+                                </VerticalStackLayout>
+                                <Button Text="{Binding ButtonText}"
+                                        Grid.Row="2"
+                                        FontSize="Medium"
+                                        VerticalOptions="Center"
+                                        IsVisible="{Binding CamerasVisible}"
+                                        Command="{Binding StartCommandCommand}"
+                                        CommandParameter="{x:Reference CamView1}" />
+                                <ImageButton Grid.Row="2" Grid.Column="3" HeightRequest="35" WidthRequest="35" HorizontalOptions="Center" VerticalOptions="Center" Source="trash.png" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Frame>
+
+
+        <toolkit:DockLayout Grid.Row="3">
+            <Button toolkit:DockLayout.DockPosition="Right"
+                    Text="Continue"
+                    FontSize="Medium"
+                    TextColor="{StaticResource White}"
+                    BorderColor="{StaticResource ButtonColor}"
+                    BorderWidth="2"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    BackgroundColor="{StaticResource ButtonColor}"
+                    IsEnabled="{Binding ContinueEnabled}"
+                    Clicked="Continue_Clicked"
+                    Margin="8" />
+            <Button toolkit:DockLayout.DockPosition="Left"
+                    Text="&lt; Back"
+                    FontSize="Medium"
+                    TextColor="{StaticResource ButtonColor}"
+                    BorderWidth="0"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    BackgroundColor="{StaticResource White}"
+                    Margin="8" />
+        </toolkit:DockLayout>
+    </Grid>
+</ContentPage>

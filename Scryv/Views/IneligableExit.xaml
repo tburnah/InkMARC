@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:vm="clr-namespace:Scryv.ViewModel"
+             x:Class="Scryv.Views.IneligableExit"
+             Shell.NavBarIsVisible="False"
+             Title="IneligableExit">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid x:Name="StartPageGrid"
+          Padding="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Frame BackgroundColor="{StaticResource LightBackground}"
+               BorderColor="Transparent"
+               CornerRadius="10"
+               Padding="10"
+               Grid.Row="0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0"
+                       Text="Thank you for your Willingness.  Unfortunately, you are not eligable to participate"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       FontSize="Large"
+                       FontAutoScalingEnabled="True" />
+                <Image Grid.Row="1"
+                       Source="smile.png"
+                       Aspect="AspectFit"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center" />
+            </Grid>
+        </Frame>
+
+        <Label Grid.Row="1"
+               Text="In order to participate, you must have access to a tablet, stylus and camera."
+               FontSize="Subtitle"
+               TextColor="{StaticResource Gray500}"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               FontAutoScalingEnabled="True" />
+        <toolkit:DockLayout Grid.Row="2">
+            <Button toolkit:DockLayout.DockPosition="Right"
+                    Text="Exit"
+                    FontSize="Medium"
+                    TextColor="{StaticResource White}"
+                    BorderColor="{StaticResource ButtonColor}"
+                    BorderWidth="2"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    Clicked="Exit_Clicked"
+                    BackgroundColor="{StaticResource ButtonColor}"
+                    Margin="8" />
+            <Button toolkit:DockLayout.DockPosition="Left"
+                    Text="&lt; Back"
+                    FontSize="Medium"
+                    TextColor="{StaticResource ButtonColor}"                    
+                    BorderWidth="0"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    BackgroundColor="{StaticResource White}"
+                    Clicked="Back_Clicked"
+                    Margin="8" />
+        </toolkit:DockLayout>
+    </Grid>
+</ContentPage>
