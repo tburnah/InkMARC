@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Scryv.Exercises;
 using Scryv.Interfaces;
+using Scryv.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,9 +18,18 @@ namespace Scryv.ViewModel
 
         public ObservableCollection<IExercise> Exercises { get; private set; }
 
-        public IExercise? CurrentExercise { get; set; }
+        public IExercise? CurrentExercise 
+        { 
+            get => currentExercise;
+            set
+            {
+                currentExercise = value;
+
+            }
+        }
 
         private int currentExerciseIndex = 0;
+        private IExercise? currentExercise;
 
         public int CurrentExerciseNumber => this.currentExerciseIndex + 1;
         public int TotalExercises => this.Exercises.Count;
@@ -42,6 +52,11 @@ namespace Scryv.ViewModel
             OnPropertyChanged(nameof(ImageSource));
             OnPropertyChanged(nameof(ShowTraceImage));
             OnPropertyChanged(nameof(CurrentExerciseNumber));
+            for (int i = 0; i < SessionContext.CameraViews.Count; i++)
+            {
+                var cameraView = SessionContext.CameraViews[i];                                
+                cameraView.StartRecordingAsync(DataUtilities.GetVideoFileName(CurrentExerciseNumber, i, DateTime.Now.ToFileTime()));
+            }
         }
 
         public string Prompt => this.CurrentExercise?.Prompt ?? string.Empty;
@@ -59,6 +74,8 @@ namespace Scryv.ViewModel
         [RelayCommand]
         public void Continue()
         {
+            if (DrawingLines.Count > 0)
+                DataUtilities.SaveAdvancedDrawingLines(DrawingLines.ToList(), DataUtilities.GetDataFileName());
             ClearDrawing();
             if (currentExerciseIndex < TotalExercises - 1)
             {
@@ -68,7 +85,15 @@ namespace Scryv.ViewModel
                 OnPropertyChanged(nameof(ImageSource));
                 OnPropertyChanged(nameof(ShowTraceImage));
                 OnPropertyChanged(nameof(CurrentExerciseNumber));                
-            }            
+            }
+            else
+            {
+                foreach (var cameraView in SessionContext.CameraViews)
+                {
+                    cameraView.StopRecordingAsync();
+                }
+                Shell.Current.GoToAsync("//UploadPage");
+            }
         }
     }
 }

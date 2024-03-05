@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="Scryv.Views.UploadPage"
+             Title="UploadPage"
+             Shell.NavBarIsVisible="False">
+    <Grid x:Name="StartPageGrid"
+          Padding="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition Height="120" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="60" />
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0"
+               Text="Sweet As!  Thank you for participating."
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               FontSize="Large" />
+        <Label Grid.Row="1"
+               Text="Please wait while the data finishes uploading."
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               FontSize="Medium" />
+
+        <Frame BackgroundColor="{StaticResource LightBackground}"
+               BorderColor="Transparent"
+               CornerRadius="10"
+               Padding="10"
+               HorizontalOptions="Fill"
+               VerticalOptions="Fill"
+               Grid.Row="2">
+        </Frame>
+        <Button Grid.Row="3"
+                HorizontalOptions="End"
+                Text="Exit"
+                FontSize="Medium"
+                TextColor="{StaticResource White}"
+                BorderColor="{StaticResource ButtonColor}"
+                BorderWidth="2"
+                VerticalOptions="Center"
+                Clicked="Exit_Clicked"
+                BackgroundColor="{StaticResource ButtonColor}"
+                Margin="8" />
+    </Grid>
+</ContentPage>

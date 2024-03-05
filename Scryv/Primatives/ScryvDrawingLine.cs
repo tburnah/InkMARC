@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Scryv.Primatives
@@ -15,7 +16,20 @@ namespace Scryv.Primatives
         public int Granularity { get; set; }
         public Color LineColor { get; set; }
         public float LineWidth { get; set; }
+        
         public ObservableCollection<ScryvInkPoint> Points { get; set; }
+
+        //public List<ScryvInkPoint> Stroke
+        //{
+        //    get => Points.ToList();
+        //    set
+        //    {
+        //        foreach (var point in value)
+        //        {
+        //            Points.Add(point);
+        //        }
+        //    }
+        //}
         public bool ShouldSmoothPathWhenDrawn { get; set; }
 
         /// <summary>

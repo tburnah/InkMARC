@@ -111,7 +111,7 @@
                                     <Label Text="Once Installed, run it and enter the following Session ID:"
                                            FontSize="Medium"
                                            Margin="8,0,0,8" />
-                                    <Label Text="Session ID"
+                                    <Label Text="{Binding SessionID}"
                                            HorizontalOptions="Center"
                                            FontSize="Medium"
                                            FontAttributes="Bold" />

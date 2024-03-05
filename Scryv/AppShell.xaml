@@ -23,10 +23,10 @@
     <ShellContent Title="DrawingPage"
                   ContentTemplate="{DataTemplate views:DrawingPage}"
                   Route="DrawingPage" />
-    <!--<ShellContent Title="WebCam"
-                  ContentTemplate="{DataTemplate views:WebcamView}"
-                  Route="Webcam" />
-    <ShellContent Title="Mode Choice"
+    <ShellContent Title="UploadPage"
+                  ContentTemplate="{DataTemplate views:UploadPage}"
+                  Route="UploadPage" />
+    <!--<ShellContent Title="Mode Choice"
                   ContentTemplate="{DataTemplate views:ModeChoice}"
                   Route="ModeChoice" />
     <ShellContent Title="Session ID Entry"

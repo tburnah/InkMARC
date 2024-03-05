@@ -8,11 +8,11 @@ namespace Scryv.Primatives
 {
     public struct ScryvInkPoint
     {
-        public PointF Position;
-        public float Pressure;
-        public float TiltX; 
-        public float TiltY; 
-        public ulong Timestamp;
+        public PointF Position { get; set; }
+        public float Pressure { get; set; }
+        public float TiltX { get; set; }
+        public float TiltY { get; set; }
+        public ulong Timestamp { get; set; }
 
         public ScryvInkPoint()
         {

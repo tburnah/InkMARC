@@ -15,7 +15,7 @@
         </Grid.RowDefinitions>
 
         <Label Grid.Row="0"
-               Text="Great!  Thank you for your participating."
+               Text="Great!  Thank you for your participation."
                HorizontalTextAlignment="Center"
                VerticalTextAlignment="Center"
                FontSize="Large" />

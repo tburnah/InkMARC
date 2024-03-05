@@ -1,6 +1,7 @@
 ﻿using Camera.MAUI;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Scryv.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,8 +15,18 @@ namespace Scryv.ViewModel
     {
         public event EventHandler<CameraSelectionViewModel>? RemoveMe;
 
-        public CameraView? Current { get; set; } = null;
-
+        public CameraView? Current 
+        { 
+            get => current;
+            set
+            {
+                current = value;
+                if (!SessionContext.CameraViews.Contains(value))
+                {
+                    SessionContext.CameraViews.Add(value);
+                }
+            }
+        }
         public ObservableCollection<string> CameraTypes { get; } = new ObservableCollection<string>
         {
             "WebCam",
@@ -73,6 +84,7 @@ namespace Scryv.ViewModel
         private string selectedCameraType = string.Empty;
         private string buttonText = "Start";
         private bool camerasVisible;
+        private CameraView? current = null;
 
         public ObservableCollection<CameraInfo> Cameras
         {
@@ -82,6 +94,8 @@ namespace Scryv.ViewModel
                 cameras = value;
             }
         }
+
+        public string SessionID => SessionContext.SessionID;
 
         public int NumCameras
         {
@@ -119,6 +133,10 @@ namespace Scryv.ViewModel
         [RelayCommand]
         private void Remove()
         {
+            if (current is not null && SessionContext.CameraViews.Contains(current))
+            {
+                SessionContext.CameraViews.Remove(current);
+            }
             RemoveMe?.Invoke(this, this);
         }
     }
