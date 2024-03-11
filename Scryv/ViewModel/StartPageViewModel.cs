@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Scryv.Views;
 using Scryv.Views.Popups;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,8 @@ namespace Scryv.ViewModel
         private bool isCameraSelected;
 
         private IPopupService popupService;
+
+        public INavigation? Navigation { get; set; }
 
         public StartPageViewModel()
         {
@@ -136,9 +139,9 @@ namespace Scryv.ViewModel
         public void PressContinue()
         {
             if (isCameraSelected && IsStylusSelected && IsTabletSelected)
-                Shell.Current.GoToAsync("//ConsentPage");
-            else            
-                Shell.Current.GoToAsync("//IneligableExit");
+                Navigation.PushAsync(new ConsentPage());
+            else
+                Navigation.PushAsync(new IneligableExit());                
         }
     }
 }

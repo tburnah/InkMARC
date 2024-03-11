@@ -1,8 +1,11 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Camera.MAUI;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Scryv.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,53 +14,113 @@ namespace Scryv.ViewModel
 {
     internal partial class AddCameraViewModel : ObservableObject
     {
-        private System.Timers.Timer timer = new System.Timers.Timer(100);
+        private ObservableCollection<AvailableCameraModel> availableCameraModels = new ObservableCollection<AvailableCameraModel>();
+        public ObservableCollection<AvailableCameraModel> AvailableCameraModels => availableCameraModels;
 
-        private ObservableCollection<CameraSelectionViewModel> cameras = new ObservableCollection<CameraSelectionViewModel>();
+        public INavigation? Navigation { get; set; }
 
-        public ObservableCollection<CameraSelectionViewModel> Cameras { get => cameras; set => cameras = value; }
+        public AvailableCameraModel? Selected { get; set; }
 
-        public AddCameraViewModel()
+        public bool ContinueEnabled => Selected is not null;
+
+        public CameraView? Current
         {
-            timer.Elapsed += Timer_Elapsed;
-            timer.AutoReset = false;
-        }
-
-        private void Timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
-        {
-            MainThread.InvokeOnMainThreadAsync(() =>
+            get => current;
+            set
             {
-                CameraSelectionViewModel newCamera = new();
-                newCamera.RemoveMe += RemoveCamera;
-                Cameras.Add(newCamera);
+                current = value;
+                if (!SessionContext.CameraViews.Contains(value))
+                {
+                    SessionContext.CameraViews.Add(value);
+                }                
+            }
+        }
+
+        private CameraInfo camera = null;
+        public CameraInfo Camera
+        {
+            get => camera;
+            set
+            {
+                SetProperty(ref camera, value);
+            }
+        }
+
+        public bool CamerasVisible
+        {
+            get => camerasVisible;
+            set => SetProperty(ref camerasVisible, value);
+        }
+
+        private bool camerasVisible;
+        private CameraView? current = null;
+
+        public ObservableCollection<CameraInfo> Cameras
+        {
+            get => cameras;
+            set
+            {
+                cameras = value;
+            }
+        }
+        private ObservableCollection<CameraInfo> cameras = new();
+
+        public string SessionID => SessionContext.SessionID;
+
+        public bool TextVisible => Selected?.IsPhone ?? false;
+
+        public bool BarCodeVisibile => TextVisible;
+
+        public bool CameraVisible => !(Selected?.IsPhone ?? true);
+
+        public int NumCameras
+        {
+            set
+            {
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    AvailableCameraModels.Clear();
+                    AvailableCameraModel model;
+                    if (value > 0)
+                    {                        
+                        //Camera = Cameras.First();
+                        foreach (var camera in Cameras)
+                        {
+                            model = new AvailableCameraModel(camera, false);
+                            model.Selected += Model_Selected;
+                            AvailableCameraModels.Add(model);
+                        }
+                    }
+                    model = new AvailableCameraModel(null, true);
+                    model.Selected += Model_Selected;
+                    AvailableCameraModels.Add(model);
+                });
+                OnPropertyChanged(nameof(availableCameraModels));
+            }
+        }
+
+        private void Model_Selected(object? sender, EventArgs e)
+        {
+            if (sender is AvailableCameraModel model)
+            {                
+                Current.AutoStartPreview = false;
+                Selected = model;
+                foreach (var m in AvailableCameraModels)
+                {
+                    if (m != model)
+                        m.IsSelected = false;
+                }
+                if (model.CameraInfo is not null)
+                {
+                    Current.AutoStartPreview = false;
+                    Camera = model.CameraInfo;
+                    Current.AutoStartPreview = true;
+                }
+                OnPropertyChanged(nameof(TextVisible));
+                OnPropertyChanged(nameof(CameraVisible));
+                OnPropertyChanged(nameof(BarCodeVisibile));
                 OnPropertyChanged(nameof(ContinueEnabled));
-            });            
-        }
-
-        [RelayCommand]
-        public void AddCamera()
-        {
-            addCameraSpinnerVisible = true;
-            OnPropertyChanged(nameof(AddCameraSpinnerVisible));
-            timer.Start();
-        }
-
-        public void CameraLoaded()
-        {
-            addCameraSpinnerVisible = false;
-            OnPropertyChanged(nameof(AddCameraSpinnerVisible));
-        }
-
-        public bool ContinueEnabled => cameras.Count > 0;
-
-        private bool addCameraSpinnerVisible = false;
-        public bool AddCameraSpinnerVisible => addCameraSpinnerVisible;
-
-        public void RemoveCamera(object sender, CameraSelectionViewModel camera)
-        {
-            camera.RemoveMe -= RemoveCamera;
-            Cameras.Remove(camera);
-            OnPropertyChanged(nameof(ContinueEnabled));
+            }            
         }
     }
 }

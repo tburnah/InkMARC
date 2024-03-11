@@ -4,6 +4,7 @@
              xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:vm="clr-namespace:Scryv.ViewModel"
+             BackgroundColor="{StaticResource White}"
              x:Class="Scryv.Views.IneligableExit"
              Shell.NavBarIsVisible="False"
              Title="IneligableExit">
@@ -30,6 +31,7 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0"
+                       TextColor="{StaticResource PrimaryDarkText}"
                        Text="Thank you for your Willingness.  Unfortunately, you are not eligable to participate"
                        HorizontalTextAlignment="Center"
                        VerticalTextAlignment="Center"

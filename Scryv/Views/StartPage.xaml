@@ -6,7 +6,8 @@
              xmlns:vm="clr-namespace:Scryv.ViewModel"
              x:Class="Scryv.Views.StartPage"
              Title="StartPage"
-             Loaded="ContentPage_Loaded"              
+             Loaded="ContentPage_Loaded"
+             Background="{StaticResource White}"
              Shell.NavBarIsVisible="False">
     <ContentPage.BindingContext>
         <vm:StartPageViewModel />
@@ -16,7 +17,8 @@
             <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    <Grid x:Name="StartPageGrid" Padding="16">
+    <Grid x:Name="StartPageGrid"
+          Padding="16">
         <Grid.RowDefinitions>
             <RowDefinition Height="60" />
             <RowDefinition Height="60" />
@@ -25,6 +27,7 @@
             <RowDefinition Height="60" />
         </Grid.RowDefinitions>
         <Label Text="Let's see what hardware you have"
+               TextColor="{StaticResource PrimaryDarkText}"
                HorizontalTextAlignment="Center"
                VerticalTextAlignment="Center"
                FontSize="Large"
@@ -32,15 +35,18 @@
         <Label Grid.Row="1"
                Text="Select any that you have access to."
                FontSize="Subtitle"
-               TextColor="{StaticResource Gray500}"
+               TextColor="{StaticResource SecondaryDarkText}"
                HorizontalTextAlignment="Center"
                VerticalTextAlignment="Center"
                FontAutoScalingEnabled="True" />
-        <StackLayout x:Name="ChoiceStackLayout" Grid.Row="2" SizeChanged="StackLayout_SizeChanged">
-            <Frame x:Name="TabletChoice"  CornerRadius="16"
+        <StackLayout x:Name="ChoiceStackLayout"
+                     Grid.Row="2"
+                     SizeChanged="StackLayout_SizeChanged">
+            <Frame x:Name="TabletChoice"
+                   CornerRadius="16"
                    BackgroundColor="{Binding TabletChoiceColor}"
                    BorderColor="{Binding TabletChoiceBorderColor}"
-                   HasShadow="True"                   
+                   HasShadow="True"
                    Margin="8">
                 <Grid>
                     <Grid.GestureRecognizers>
@@ -56,10 +62,11 @@
                         <ColumnDefinition Width="32" />
                     </Grid.ColumnDefinitions>
                     <Image Source="{Binding TabletChoiceImage}"
-                           Grid.ColumnSpan="2"/>
+                           Grid.ColumnSpan="2" />
                     <Label Text="Touchscreen"
-                           Grid.Row="1"                           
+                           Grid.Row="1"
                            FontAutoScalingEnabled="True"
+                           TextColor="{StaticResource PrimaryDarkText}"
                            HorizontalTextAlignment="Center"
                            VerticalTextAlignment="Center" />
                     <mi:MauiIcon Icon="{mi:Material Help}"
@@ -75,7 +82,8 @@
                     </mi:MauiIcon>
                 </Grid>
             </Frame>
-            <Frame x:Name="StylusChoice" CornerRadius="16"
+            <Frame x:Name="StylusChoice"
+                   CornerRadius="16"
                    BackgroundColor="{Binding StylusChoiceColor}"
                    BorderColor="{Binding StylusChoiceBorderColor}"
                    HasShadow="True"
@@ -93,14 +101,16 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="32" />
                     </Grid.ColumnDefinitions>
-                    <Image Source="{Binding StylusChoiceImage}" Grid.ColumnSpan="2" />
+                    <Image Source="{Binding StylusChoiceImage}"
+                           Grid.ColumnSpan="2" />
                     <Label Text="Stylus"
                            Grid.Row="1"
+                           TextColor="{StaticResource PrimaryDarkText}"
                            HorizontalOptions="Fill"
-                           VerticalOptions="Fill"                           
+                           VerticalOptions="Fill"
                            FontAutoScalingEnabled="True"
                            HorizontalTextAlignment="Center"
-                           VerticalTextAlignment="Center"/>
+                           VerticalTextAlignment="Center" />
                     <mi:MauiIcon Icon="{mi:Material Help}"
                                  IconColor="{StaticResource ButtonColor}"
                                  IsVisible="{Binding IsStylusSelected, Converter={StaticResource InvertedBoolConverter}}"
@@ -133,9 +143,11 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="32" />
                     </Grid.ColumnDefinitions>
-                    <Image Source="{Binding CameraChoiceImage}" Grid.ColumnSpan="2"/>
+                    <Image Source="{Binding CameraChoiceImage}"
+                           Grid.ColumnSpan="2" />
                     <Label Text="Camera"
                            Grid.Row="1"
+                           TextColor="{StaticResource PrimaryDarkText}"
                            FontAutoScalingEnabled="True"
                            HorizontalTextAlignment="Center"
                            VerticalTextAlignment="Center" />
@@ -153,7 +165,7 @@
                 </Grid>
             </Frame>
         </StackLayout>
-        <Button Grid.Row="3"                
+        <Button Grid.Row="3"
                 Text="Continue"
                 FontSize="Medium"
                 TextColor="{StaticResource ButtonColor}"
@@ -165,7 +177,8 @@
                 BackgroundColor="{StaticResource White}"
                 Margin="8" />
 
-        <Label Grid.ColumnSpan="3" Grid.Row="4"
+        <Label Grid.ColumnSpan="3"
+               Grid.Row="4"
                Text="Thank you for participating!"
                HorizontalTextAlignment="Center"
                VerticalTextAlignment="Center"

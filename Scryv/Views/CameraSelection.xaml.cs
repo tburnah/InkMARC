@@ -10,27 +10,24 @@ public partial class CameraSelection : ContentPage
 	{
 		InitializeComponent();
         viewModel = BindingContext as AddCameraViewModel;
+        if (viewModel is not null)
+        {
+            viewModel.Current = CamView;
+            viewModel.Navigation = Navigation;
+        }
 	}
 
     private void Continue_Clicked(object sender, EventArgs e)
     {
-        Shell.Current.GoToAsync("//DrawingPage"); 
+        Navigation.PushAsync(new DrawingPage());        
     }
 
     private void CamView1_CamerasLoaded(object sender, EventArgs e)
     {
-        if (sender is Camera.MAUI.CameraView cameraView)
-        {
-            var parent = VisualTreeHelper.FindParentOfType<Microsoft.Maui.Controls.ViewCell>(cameraView);
-            if (parent is not null && parent.BindingContext is CameraSelectionViewModel cameraSelectionViewModel)
-                cameraSelectionViewModel.Current = cameraView;
-        }
-        if (viewModel != null)
-            viewModel.CameraLoaded();
     }
 
     private void Back_Clicked(object sender, EventArgs e)
     {
-        Shell.Current.GoToAsync("//ConsentPage");
+        Navigation.PopAsync();        
     }
 }

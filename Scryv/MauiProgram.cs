@@ -5,6 +5,7 @@ using Microsoft.Maui.LifecycleEvents;
 using MauiIcons.Material;
 using Scryv.Views.AdvanceDrawingView;
 using Scryv.Handlers;
+using Microsoft.Maui.Controls.Hosting;
 
 namespace Scryv
 {
@@ -17,7 +18,7 @@ namespace Scryv
                 .UseMauiApp<App>()
                 .UseMauiCameraView()
                 .UseMauiCommunityToolkit()
-                .UseMaterialMauiIcons()
+                .UseMaterialMauiIcons()                
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

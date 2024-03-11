@@ -1,22 +1,25 @@
 using CommunityToolkit.Maui.Views;
 using MauiIcons.Core;
+using Scryv.ViewModel;
 using Scryv.Views.Popups;
+using System.Timers;
 
 namespace Scryv.Views;
 
 public partial class StartPage : ContentPage
 {
+    private StartPageViewModel spvm;
+
     private double cardWidth = 0;
     private double cardHeight = 0;
+
 	public StartPage()
-	{
+	{        
 		InitializeComponent();
         _ = new MauiIcon();
-    }
-
-    private void Continue_Clicked(object sender, EventArgs e)
-    {
-        Shell.Current.GoToAsync("//TouchscreenCheck");
+        spvm = BindingContext as StartPageViewModel;
+        if (spvm is not null)
+            spvm.Navigation = Navigation;
     }
 
     private void Exit_Clicked(object sender, EventArgs e)
@@ -42,12 +45,24 @@ public partial class StartPage : ContentPage
             }
             double newWidth = cardWidth < cardHeight ? cardWidth : cardHeight;
             double newHeight = cardWidth < cardHeight ? cardWidth : cardHeight;
-            TabletChoice.WidthRequest = newWidth;
-            TabletChoice.HeightRequest = newHeight;
-            StylusChoice.WidthRequest = newWidth;                
+
+            if (newWidth < 10 || newHeight < 10)
+                return;
+            
+
+            StylusChoice.WidthRequest = newWidth;
             StylusChoice.HeightRequest = newHeight;
             CameraChoice.WidthRequest = newWidth;
             CameraChoice.HeightRequest = newHeight;
+
+            TabletChoice.WidthRequest = newWidth;
+            TabletChoice.HeightRequest = newHeight;
+            StylusChoice.WidthRequest = newWidth;
+            StylusChoice.HeightRequest = newHeight;
+            CameraChoice.WidthRequest = newWidth;
+            CameraChoice.HeightRequest = newHeight;
+
+              InvalidateMeasure();
         }
     }
 

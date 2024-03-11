@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace Scryv.Exercises
 {
-    public class NumericSequenceExercise : IExercise
+    public class SignatureExercise : IExercise
     {
-        public string Prompt => "Continue the numeric sequence: 2, 4, 6, 8, ...";
+        public string Prompt => "Sign your name (with your signature).";
+
         public string? TraceImage => null;
     }
 }

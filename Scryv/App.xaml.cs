@@ -1,4 +1,6 @@
 ﻿
+using Scryv.Views;
+
 namespace Scryv
 {
     /// <summary>
@@ -10,7 +12,7 @@ namespace Scryv
         {
             InitializeComponent();
 
-            MainPage = new AppShell();
+            MainPage = new NavigationPage(new StartPage());
         }
     }
 }

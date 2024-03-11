@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Scryv.Exercises;
 using Scryv.Interfaces;
 using Scryv.Utilities;
+using Scryv.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,8 +19,10 @@ namespace Scryv.ViewModel
 
         public ObservableCollection<IExercise> Exercises { get; private set; }
 
-        public IExercise? CurrentExercise 
-        { 
+        public INavigation? Navigation { get; set; }
+
+        public IExercise? CurrentExercise
+        {
             get => currentExercise;
             set
             {
@@ -44,8 +47,11 @@ namespace Scryv.ViewModel
                 new FruitExercise(),
                 new UpperAlphabetExercise(),
                 new PortraitExercise(),
-                new NumericSequenceExercise(),
-                new MathematicalEquationExercise()                
+                new SignatureExercise(),
+                new SpiralExercise(),
+                new LandscapeExercise(),
+                new ShadedExercise(),
+                new MazeExercise()
             };
             this.CurrentExercise = this.Exercises[this.currentExerciseIndex];
             OnPropertyChanged(nameof(Prompt));
@@ -54,7 +60,7 @@ namespace Scryv.ViewModel
             OnPropertyChanged(nameof(CurrentExerciseNumber));
             for (int i = 0; i < SessionContext.CameraViews.Count; i++)
             {
-                var cameraView = SessionContext.CameraViews[i];                                
+                var cameraView = SessionContext.CameraViews[i];
                 cameraView.StartRecordingAsync(DataUtilities.GetVideoFileName(CurrentExerciseNumber, i, DateTime.Now.ToFileTime()));
             }
         }
@@ -84,7 +90,7 @@ namespace Scryv.ViewModel
                 OnPropertyChanged(nameof(Prompt));
                 OnPropertyChanged(nameof(ImageSource));
                 OnPropertyChanged(nameof(ShowTraceImage));
-                OnPropertyChanged(nameof(CurrentExerciseNumber));                
+                OnPropertyChanged(nameof(CurrentExerciseNumber));
             }
             else
             {
@@ -92,7 +98,7 @@ namespace Scryv.ViewModel
                 {
                     cameraView.StopRecordingAsync();
                 }
-                Shell.Current.GoToAsync("//UploadPage");
+                Navigation.PushAsync(new UploadPage());
             }
         }
     }

@@ -9,7 +9,7 @@ public partial class IneligableExit : ContentPage
 
     private void Back_Clicked(object sender, EventArgs e)
     {
-        Shell.Current.GoToAsync("//StartPage");
+        Navigation.PopAsync();        
     }
     private void Exit_Clicked(object sender, EventArgs e)
     {

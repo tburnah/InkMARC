@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="Scryv.Views.ConsentPage"
+             BackgroundColor="{StaticResource White}"
              Shell.NavBarIsVisible="False"
              Title="ConsentPage">
     <Grid x:Name="StartPageGrid"
@@ -16,10 +17,12 @@
 
         <Label Grid.Row="0"
                Text="Great!  Thank you for your participation."
+               TextColor="{StaticResource PrimaryDarkText}"
                HorizontalTextAlignment="Center"
                VerticalTextAlignment="Center"
                FontSize="Large" />
         <Label Grid.Row="1"
+               TextColor="{StaticResource PrimaryDarkText}"
                Text="This application will collect videos of your hand as you draw on a tablet.  This data will be used in a data set for machine learning training."
                HorizontalTextAlignment="Center"
                VerticalTextAlignment="Center"
@@ -33,27 +36,35 @@
                VerticalOptions="Fill"
                Grid.Row="2">
             <Label Margin="8"
+                   TextColor="{StaticResource PrimaryDarkText}"
                    FontSize="Medium">
                 <Label.FormattedText>
                     <FormattedString>
                         <!-- Line break -->
                         <Span Text="By proceeding, you agree to the following:"
                               FontAttributes="Bold"
+                              TextColor="{StaticResource PrimaryDarkText}"
                               FontSize="Medium" />
                         <Span Text="&#xA;" />
                         <!-- Line break -->
                         <Span Text="• "
+                              TextColor="{StaticResource PrimaryDarkText}"
                               FontAttributes="Bold" />
                         <Span Text="Consent to Data Collection: "
+                              TextColor="{StaticResource PrimaryDarkText}"
                               FontAttributes="Bold" />
-                        <Span Text="You allow us to collect and use this data anonymously." />
+                        <Span Text="You allow us to collect and use this data anonymously."
+                              TextColor="{StaticResource PrimaryDarkText}" />
                         <Span Text="&#xA;" />
                         <!-- Line break -->
                         <Span Text="• "
+                              TextColor="{StaticResource PrimaryDarkText}"
                               FontAttributes="Bold" />
                         <Span Text="Age Verification: "
+                              TextColor="{StaticResource PrimaryDarkText}"
                               FontAttributes="Bold" />
-                        <Span Text="You confirm that you are 16 years of age or older, which is our minimum age requirement for users to share their data with us." />
+                        <Span Text="You confirm that you are 16 years of age or older, which is our minimum age requirement for users to share their data with us."
+                              TextColor="{StaticResource PrimaryDarkText}" />
                         <Span Text="&#xA;&#xA;" />
                         <!-- Line break -->
                         <Span Text="Your privacy is important to us, and we are committed to protecting your personal information. Please review our Privacy Policy for more details on how we handle your data." />

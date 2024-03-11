@@ -4,7 +4,7 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:local="clr-namespace:Scryv"
        xmlns:views="clr-namespace:Scryv.Views"
-       xmlns:wizardpages="clr-namespace:Scryv.Views.WizardPages"
+       BackgroundColor="{StaticResource White}"
        Shell.FlyoutBehavior="Disabled"
        Title="Scryv">
 
@@ -14,9 +14,6 @@
     <ShellContent Title="ConsentPage"
                   ContentTemplate="{DataTemplate views:ConsentPage}"
                   Route="ConsentPage" />
-    <ShellContent Title="IneligableExit"
-                  ContentTemplate="{DataTemplate views:IneligableExit}"
-                  Route="IneligableExit" />
     <ShellContent Title="CameraSelection"
                   ContentTemplate="{DataTemplate views:CameraSelection}"
                   Route="CameraSelection" />
