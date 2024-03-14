@@ -4,8 +4,10 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:cv="clr-namespace:Camera.MAUI;assembly=Camera.MAUI"
              xmlns:vm="clr-namespace:Scryv.ViewModel"
-             Shell.NavBarIsVisible="False"
+             NavigationPage.HasBackButton="False"
+             NavigationPage.HasNavigationBar="False"
              BackgroundColor="{StaticResource White}"
+             Loaded="ContentPage_Loaded"
              x:Class="Scryv.Views.CameraSelection"
              Title="CameraSelection">
     <ContentPage.BindingContext>
@@ -19,13 +21,13 @@
     <Grid x:Name="StartPageGrid"
           Padding="16">
         <Grid.RowDefinitions>
-            <RowDefinition Height="60" />
+            <RowDefinition Height="120" />
             <RowDefinition Height="*" />
             <RowDefinition Height="60" />
         </Grid.RowDefinitions>
 
         <Label Grid.Row="0"
-               Text="Choose one camera to monitor your writing"
+               Text="A camera will be used to monitor your writing.  Choose a camera that you can place to view the tablet and your hand."
                TextColor="{StaticResource PrimaryDarkText}"
                HorizontalTextAlignment="Center"
                VerticalTextAlignment="Center"
@@ -42,8 +44,6 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -52,7 +52,7 @@
                 <!-- CollectionView for dynamic camera list -->
                 <CollectionView ItemsSource="{Binding AvailableCameraModels}"
                                 HorizontalOptions="Center"
-                                Grid.ColumnSpan="5">
+                                Grid.ColumnSpan="3">
                     <CollectionView.ItemsLayout>
                         <LinearItemsLayout Orientation="Horizontal"
                                            ItemSpacing="10" />
@@ -83,58 +83,6 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-                <Frame Grid.Row="1"
-                       Grid.Column="1"
-                       Grid.ColumnSpan="3"
-                       CornerRadius="20" Margin="8" IsVisible="{Binding CameraVisible}">
-                    
-                    <cv:CameraView x:Name="CamView"
-                                   Camera="{Binding Camera}"
-                                   Cameras="{Binding Cameras, Mode=OneWayToSource}"
-                                   NumCamerasDetected="{Binding NumCameras, Mode=OneWayToSource}" />
-                </Frame>
-                <VerticalStackLayout Grid.Row="1"
-                                     Grid.Column="1"
-                                     Grid.ColumnSpan="2"
-                                     IsVisible="{Binding TextVisible}"
-                                     VerticalOptions="Fill"
-                                     Margin="8">
-                    <Label Text="Please install and run the Scryv Camera app on your phone."
-                           TextColor="{StaticResource PrimaryDarkText}"
-                           FontSize="Medium"
-                           Margin="8,0,0,8" />
-                    <Label Text="Once Installed, run it and enter the following Session ID:"
-                           TextColor="{StaticResource PrimaryDarkText}"
-                           FontSize="Medium"
-                           Margin="8,0,0,8" />
-                    <Label Text="{Binding SessionID}"
-                           TextColor="{StaticResource PrimaryDarkText}"
-                           HorizontalOptions="Center"
-                           FontSize="Medium"
-                           FontAttributes="Bold" />
-                </VerticalStackLayout>
-                <Grid Grid.Column="3"                     
-                      IsVisible="{Binding BarCodeVisibile}"
-                      Grid.Row="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                    </Grid.RowDefinitions>
-                    <Image Source="camera_app_qrcode.png" Grid.Row="0"/>
-                    <Label Grid.Row="1"
-                        Text="Scan the QR code with your phone to download the app."
-                           TextColor="{StaticResource PrimaryDarkText}"
-                           FontSize="Small"
-                           HorizontalTextAlignment="Center"
-                           Margin="8,0,0,8" />
-                    <Label Grid.Row="2"
-                           Text="https://tavish-burnah.github.io/Scryv/"
-                           HorizontalTextAlignment="Center"
-                           TextColor="{StaticResource PrimaryDarkText}"
-                           FontSize="Small"
-                           Margin="8,0,0,8" />
-                </Grid>
             </Grid>
         </Frame>
         <toolkit:DockLayout Grid.Row="3">
@@ -148,12 +96,12 @@
                     VerticalOptions="Center"
                     BackgroundColor="{StaticResource ButtonColor}"
                     IsEnabled="{Binding ContinueEnabled}"
-                    Clicked="Continue_Clicked"
+                    Command="{Binding ChooseContinueCommand}"                    
                     Margin="8" />
             <Button toolkit:DockLayout.DockPosition="Left"
                     Text="&lt; Back"
                     FontSize="Medium"
-                    Clicked="Back_Clicked"
+                    Command="{Binding BackCommand}"                
                     TextColor="{StaticResource ButtonColor}"
                     BorderWidth="0"
                     HorizontalOptions="Start"

@@ -1,4 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
+
 
 #if IOS || MACCATALYST
 using DecodeDataType = UIKit.UIImage;
@@ -31,6 +33,9 @@ public class CameraView : View, ICameraView
     public static readonly BindableProperty AutoStartPreviewProperty = BindableProperty.Create(nameof(AutoStartPreview), typeof(bool), typeof(CameraView), false, propertyChanged: AutoStartPreviewChanged);
     public static readonly BindableProperty AutoRecordingFileProperty = BindableProperty.Create(nameof(AutoRecordingFile), typeof(string), typeof(CameraView), string.Empty);
     public static readonly BindableProperty AutoStartRecordingProperty = BindableProperty.Create(nameof(AutoStartRecording), typeof(bool), typeof(CameraView), false, propertyChanged: AutoStartRecordingChanged);
+
+    public event EventHandler FinishedStopping;
+    public event EventHandler FinishedStarting;
 
     /// <summary>
     /// Binding property for use this control in MVVM.
@@ -255,9 +260,15 @@ public class CameraView : View, ICameraView
             try
             {
                 if ((bool)newValue)
+                {
                     await control.StartCameraAsync();
+                    control.FinishedStarting?.Invoke(control, EventArgs.Empty);
+                }
                 else
+                {
                     await control.StopCameraAsync();
+                    control.FinishedStopping?.Invoke(control, EventArgs.Empty);
+                }
             }
             catch { }
                     
@@ -273,9 +284,13 @@ public class CameraView : View, ICameraView
                 {
                     if (!string.IsNullOrEmpty(control.AutoRecordingFile))
                         await control.StartRecordingAsync(control.AutoRecordingFile);
+                    control.FinishedStarting?.Invoke(control, EventArgs.Empty);
                 }
                 else
+                {
                     await control.StopRecordingAsync();
+                    control.FinishedStopping?.Invoke(control, EventArgs.Empty);
+                }
             }
             catch { }
 
@@ -363,6 +378,8 @@ public class CameraView : View, ICameraView
         {
             result = await handler.StopRecordingAsync();
         }
+        Debug.Write("Camera Result -->");
+        Debug.WriteLine(result);
         return result;
     }
     /// <summary>

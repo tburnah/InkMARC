@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="Scryv.Views.CameraSetup"
+             Title="CameraSetup">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="60" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Label Text="Place your camera so the tablet and your hand are in view when drawing."
+               Grid.ColumnSpan="2"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               TextColor="{StaticResource PrimaryDarkText}"
+               FontSize="Medium"
+               TextType="Text"
+               FontAutoScalingEnabled="True" />
+        <Image Source="example_camera_views.png"
+               Grid.Row="1"
+               Grid.Column="0" Margin="16"/>
+        <Label Text="Your view should look like one of the above." Grid.Row="2" Grid.Column="0" HorizontalTextAlignment="Center"/>
+        <Image Source="cameraplacement.png"
+               Grid.Row="1"
+               Grid.RowSpan="3"
+               Grid.Column="1" Margin="16"/>
+        <Label Text="You can place your camera at any angle facing the tablet."
+               Grid.Row="4"
+               Grid.Column="1" HorizontalTextAlignment="Center"/>
+        <Frame Margin="16"
+               Grid.Row="3"
+               Grid.Column="0"
+               BackgroundColor="Black">
+            
+        </Frame>
+        <Label Text="Your Camera"
+               Grid.Row="4"
+               Grid.Column="0" HorizontalTextAlignment="Center" />
+        <toolkit:DockLayout Grid.Row="5" Grid.ColumnSpan="2">
+            <Button toolkit:DockLayout.DockPosition="Right"
+                    Text="Continue"
+                    FontSize="Medium"
+                    TextColor="{StaticResource White}"
+                    BorderColor="{StaticResource ButtonColor}"
+                    BorderWidth="2"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    BackgroundColor="{StaticResource ButtonColor}"                                   
+                    Margin="8" />
+            <Button toolkit:DockLayout.DockPosition="Left"
+                    Text="&lt; Back"
+                    FontSize="Medium"                    
+                    TextColor="{StaticResource ButtonColor}"
+                    BorderWidth="0"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    BackgroundColor="{StaticResource White}"
+                    Margin="8" />
+        </toolkit:DockLayout>
+    </Grid>
+</ContentPage>

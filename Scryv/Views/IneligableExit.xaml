@@ -6,7 +6,8 @@
              xmlns:vm="clr-namespace:Scryv.ViewModel"
              BackgroundColor="{StaticResource White}"
              x:Class="Scryv.Views.IneligableExit"
-             Shell.NavBarIsVisible="False"
+             NavigationPage.HasBackButton="False"
+             NavigationPage.HasNavigationBar="False"
              Title="IneligableExit">
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -32,7 +33,7 @@
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0"
                        TextColor="{StaticResource PrimaryDarkText}"
-                       Text="Thank you for your Willingness.  Unfortunately, you are not eligable to participate"
+                       Text="Thank you for your willingness.  Unfortunately, you are not eligible to participate"
                        HorizontalTextAlignment="Center"
                        VerticalTextAlignment="Center"
                        FontSize="Large"

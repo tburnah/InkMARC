@@ -12,16 +12,11 @@ public partial class ConsentPage : ContentPage
     private void Continue_Clicked(object sender, EventArgs e)
     {
         SessionContext.SessionID = SessionIDUtilities.GetUniqueSessionID();
-        Navigation.PushAsync(new CameraSelection());        
+        Navigation.PushAsync(new StartPage());        
     }
 
     private void Exit_Clicked(object sender, EventArgs e)
     {
         Application.Current.Quit();
-    }
-
-    private void Back_Clicked(object sender, EventArgs e)
-    {
-        Navigation.PopAsync();        
     }
 }

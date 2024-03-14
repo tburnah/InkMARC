@@ -7,6 +7,11 @@ using Windows.Graphics.Imaging;
 using Panel = Windows.Devices.Enumeration.Panel;
 using Windows.Media.MediaProperties;
 using Windows.Media.Devices;
+using System.Diagnostics;
+using System.Linq.Expressions;
+using Windows.Storage;
+using System;
+using Windows.Devices.AllJoyn;
 
 namespace Camera.MAUI.Platforms.Windows;
 
@@ -25,6 +30,7 @@ public sealed partial class MauiCameraView : UserControl, IDisposable
     private bool initiated = false;
     private bool recording = false;
     private FileStream recordStream;
+    //private StorageFile storagefile;
     bool mediaLoaded = false;
 
     private readonly CameraView cameraView;
@@ -190,9 +196,54 @@ public sealed partial class MauiCameraView : UserControl, IDisposable
                         StreamingCaptureMode = StreamingCaptureMode.Video
                     });
 
+                    StorageFile storageFile;
+
                     MediaEncodingProfile profile = MediaEncodingProfile.CreateMp4(VideoEncodingQuality.Auto);
-                    recordStream = new(file, FileMode.Create);
-                    mediaRecording = await mediaCapture.PrepareLowLagRecordToStreamAsync(profile, recordStream.AsRandomAccessStream());
+                    try
+                    {
+                        // Create or open the file to save the recording
+                        storageFile = await KnownFolders.VideosLibrary.CreateFileAsync(
+                            file, CreationCollisionOption.GenerateUniqueName);
+                        bool successfulPreparation = false;
+                        int retryCount = 0;
+                        while (!successfulPreparation && retryCount < 100)
+                        {
+                            Debug.WriteLine(retryCount);
+                            try
+                            {
+                                mediaRecording = await mediaCapture.PrepareLowLagRecordToStorageFileAsync(profile, storageFile);
+                                successfulPreparation = true;
+                            }
+                            catch (System.Runtime.InteropServices.COMException comEx)
+                            {
+                                Debug.WriteLine($"COMException: {comEx.Message}, HResult: {comEx.HResult}");
+                                await Task.Delay(100);
+                                retryCount++;
+                            }
+                            catch (Exception ex2)
+                            {
+                                Debug.WriteLine(ex2.Message);
+                                await Task.Delay(100);
+                                retryCount++;
+                            }                            
+                        }
+                        //try
+                        //{
+                        //    mediaRecording = await mediaCapture.PrepareLowLagRecordToStorageFileAsync(profile, storageFile);
+                        //}
+                        //catch (System.Runtime.InteropServices.COMException comEx)
+                        //{
+                        //    Debug.WriteLine($"COMException: {comEx.Message}, HResult: {comEx.HResult}");
+                        //}
+                        //catch (Exception ex2)
+                        //{
+                        //    Debug.WriteLine(ex2.Message);
+                        //}
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(ex.Message);
+                    }
 
                     frameSource = mediaCapture.FrameSources.FirstOrDefault(source => source.Value.Info.MediaStreamType == MediaStreamType.VideoRecord
                                                                                   && source.Value.Info.SourceKind == MediaFrameSourceKind.Color).Value;
@@ -237,7 +288,7 @@ public sealed partial class MauiCameraView : UserControl, IDisposable
     }
     internal async Task<CameraResult> StopRecordingAsync()
     {
-        return await StartCameraAsync(cameraView.PhotosResolution);
+        return await StopCameraAsync();
     }
     internal async Task<CameraResult> StartCameraAsync(Size PhotosResolution)
     {
@@ -253,14 +304,21 @@ public sealed partial class MauiCameraView : UserControl, IDisposable
                 mediaCapture = new MediaCapture();
                 try
                 {
-                    await mediaCapture.InitializeAsync(new MediaCaptureInitializationSettings
+                    try
                     {
-                        SourceGroup = sGroups.First(s => s.Id == cameraView.Camera.DeviceId),
-                        MemoryPreference = MediaCaptureMemoryPreference.Cpu,
-                        StreamingCaptureMode = StreamingCaptureMode.Video
-                    });
-                    frameSource = mediaCapture.FrameSources.FirstOrDefault(source => source.Value.Info.MediaStreamType == MediaStreamType.VideoRecord
-                                                                                          && source.Value.Info.SourceKind == MediaFrameSourceKind.Color).Value;
+                        await mediaCapture.InitializeAsync(new MediaCaptureInitializationSettings
+                        {
+                            SourceGroup = sGroups.First(s => s.Id == cameraView.Camera.DeviceId),
+                            MemoryPreference = MediaCaptureMemoryPreference.Cpu,
+                            StreamingCaptureMode = StreamingCaptureMode.Video
+                        });
+                        frameSource = mediaCapture.FrameSources.FirstOrDefault(source => source.Value.Info.MediaStreamType == MediaStreamType.VideoRecord
+                                                                                              && source.Value.Info.SourceKind == MediaFrameSourceKind.Color).Value;
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(ex.Message);
+                    }
                     if (frameSource != null)
                     {
                         frames = 0;
@@ -357,13 +415,15 @@ public sealed partial class MauiCameraView : UserControl, IDisposable
                 {
                     await mediaRecording.StopAsync();
                     recording = false;
-                    recordStream?.Close();
-                    recordStream?.Dispose();
+                    //storagefile
+                    //recordStream?.Close();
+                    //recordStream?.Dispose();
                 }
                 if (frameReader != null)
                 {
                     await frameReader.StopAsync();
-                    frameReader.FrameArrived -= FrameReader_FrameArrived;
+                    if (frameReader is not null)
+                        frameReader.FrameArrived -= FrameReader_FrameArrived;
                     frameReader?.Dispose();
                     frameReader = null;
                 }

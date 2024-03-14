@@ -94,4 +94,9 @@ public partial class StartPage : ContentPage
     {
         StackLayout_SizeChanged(ChoiceStackLayout, e);
     }
+
+    private void Back_Clicked(object sender, EventArgs e)
+    {
+        Navigation.PopAsync();
+    }
 }

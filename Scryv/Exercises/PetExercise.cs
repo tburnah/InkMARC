@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Scryv.Exercises
 {
-    public class SignatureExercise : IExercise
+    public class PetExercise : IExercise
     {
-        public string Prompt => "Imagine you're writing a fancy party invitation.  Write the \"You're Invited\" text.";
+        public string Prompt => "Draw a picture of a pet you would like to have.";
 
         public string? TraceImage => null;
     }

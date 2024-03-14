@@ -6,6 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+#if WINDOWS
+using Windows.Storage;
+#endif
 
 namespace Scryv.Utilities
 {
@@ -14,6 +17,23 @@ namespace Scryv.Utilities
     /// </summary>
     public static class DataUtilities
     {
+        public static string GetDataFolder() => FileSystem.AppDataDirectory;
+
+        private static string GetVideosFolderPath()
+        {
+#if WINDOWS
+            return KnownFolders.VideosLibrary.Path;
+#else
+            string folderPath = 
+                Path.Combine(FileSystem.AppDataDirectory, "Videos");
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+            return folderPath;
+#endif
+        }
+
         /// <summary>
         /// Gets the video file name based on the exercise and session ID.
         /// </summary>
@@ -21,13 +41,26 @@ namespace Scryv.Utilities
         /// <param name="camera">The camera index</param>
         /// <param name="timestamp">The filetime</param>
         /// <returns>The video file name.</returns>
-        public static string GetVideoFileName(int exercise, int camera, long timestamp) => Path.Combine(FileSystem.AppDataDirectory, $"video_{SessionContext.FilePathSessionID}_{exercise}_{camera}_{timestamp}.mp4");
+        public static string GetVideoFileName(long timestamp, int exercise)
+        {
+#if IOS
+            return $"video_{SessionContext.FilePathSessionID}_{timestamp}_{exercise}.mov";
+#else
+            return $"video_{SessionContext.FilePathSessionID}_{timestamp}_{exercise}.mp4";
+#endif
+        }
 
         /// <summary>
         /// Gets the data file name based on the current session ID.
         /// </summary>
         /// <returns>The data file name.</returns>
-        public static string GetDataFileName() => Path.Combine(FileSystem.AppDataDirectory, $"data_{SessionContext.FilePathSessionID}.json");
+        public static string GetDataFileName() => Path.Combine(GetVideosFolderPath(), $"data_{SessionContext.FilePathSessionID}.json");
+
+        /// <summary>
+        /// Gets the data file name based on the current session ID.
+        /// </summary>
+        /// <returns>The data file name.</returns>
+        public static string GetDataFileName(int exercise) => Path.Combine(GetVideosFolderPath(), $"data_{SessionContext.FilePathSessionID}_{exercise}.json");
 
         /// <summary>
         /// Saves the advanced drawing lines to a file.

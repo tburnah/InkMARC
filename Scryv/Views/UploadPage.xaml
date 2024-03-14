@@ -5,7 +5,9 @@
              x:Class="Scryv.Views.UploadPage"
              Title="UploadPage"
              Background="{StaticResource White}"
-             Shell.NavBarIsVisible="False">
+             Loaded="ContentPage_Loaded"
+             NavigationPage.HasBackButton="False"
+             NavigationPage.HasNavigationBar="False">
     <Grid x:Name="StartPageGrid"
           Padding="16">
         <Grid.RowDefinitions>
@@ -35,6 +37,7 @@
                HorizontalOptions="Fill"
                VerticalOptions="Fill"
                Grid.Row="2">
+            <Button Text="Open Data Location" Clicked="Button_Clicked" />
         </Frame>
         <Button Grid.Row="3"
                 HorizontalOptions="End"

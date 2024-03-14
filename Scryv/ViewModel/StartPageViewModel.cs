@@ -139,7 +139,7 @@ namespace Scryv.ViewModel
         public void PressContinue()
         {
             if (isCameraSelected && IsStylusSelected && IsTabletSelected)
-                Navigation.PushAsync(new ConsentPage());
+                Navigation.PushAsync(new CameraSelection());
             else
                 Navigation.PushAsync(new IneligableExit());                
         }

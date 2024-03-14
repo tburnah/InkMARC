@@ -8,7 +8,8 @@
              Title="StartPage"
              Loaded="ContentPage_Loaded"
              Background="{StaticResource White}"
-             Shell.NavBarIsVisible="False">
+             NavigationPage.HasBackButton="False"
+             NavigationPage.HasNavigationBar="False">
     <ContentPage.BindingContext>
         <vm:StartPageViewModel />
     </ContentPage.BindingContext>
@@ -165,13 +166,24 @@
                 </Grid>
             </Frame>
         </StackLayout>
+        <Button Text="&lt; Back"
+                FontSize="Medium"
+                TextColor="{StaticResource ButtonColor}"
+                BorderWidth="0"
+                HorizontalOptions="Start"
+                VerticalOptions="Center"
+                BackgroundColor="{StaticResource White}"
+                Margin="8"
+                Grid.Row="3"
+                Clicked="Back_Clicked" />
+
         <Button Grid.Row="3"
                 Text="Continue"
                 FontSize="Medium"
                 TextColor="{StaticResource ButtonColor}"
                 BorderColor="{StaticResource ButtonColor}"
                 BorderWidth="2"
-                HorizontalOptions="Center"
+                HorizontalOptions="End"
                 VerticalOptions="Center"
                 Command="{Binding PressContinueCommand}"
                 BackgroundColor="{StaticResource White}"

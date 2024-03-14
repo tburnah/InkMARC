@@ -4,10 +4,10 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="Scryv.Views.ConsentPage"
              BackgroundColor="{StaticResource White}"
-             Shell.NavBarIsVisible="False"
+             NavigationPage.HasBackButton="False"
+             NavigationPage.HasNavigationBar="False"
              Title="ConsentPage">
-    <Grid x:Name="StartPageGrid"
-          Padding="16">
+    <Grid Padding="16">
         <Grid.RowDefinitions>
             <RowDefinition Height="60" />
             <RowDefinition Height="120" />
@@ -16,14 +16,14 @@
         </Grid.RowDefinitions>
 
         <Label Grid.Row="0"
-               Text="Great!  Thank you for your participation."
+               Text="OcuInk Train"
                TextColor="{StaticResource PrimaryDarkText}"
                HorizontalTextAlignment="Center"
                VerticalTextAlignment="Center"
                FontSize="Large" />
         <Label Grid.Row="1"
                TextColor="{StaticResource PrimaryDarkText}"
-               Text="This application will collect videos of your hand as you draw on a tablet.  This data will be used in a data set for machine learning training."
+               Text="In this app, you'll draw and write on a tablet using a stylus while a camera records your movements. Your anonymized work and videos will be used for Human Computer Interaction research."
                HorizontalTextAlignment="Center"
                VerticalTextAlignment="Center"
                FontSize="Medium" />
@@ -40,34 +40,15 @@
                    FontSize="Medium">
                 <Label.FormattedText>
                     <FormattedString>
-                        <!-- Line break -->
+                        <Span Text="You should be able to finish the app's exercises in about 15 minutes.&#xA;This app requires a smart tablet or phone, an additional device for video recording, and a stylus.&#xA;&#xA;"/>
                         <Span Text="By proceeding, you agree to the following:"
-                              FontAttributes="Bold"
-                              TextColor="{StaticResource PrimaryDarkText}"
-                              FontSize="Medium" />
-                        <Span Text="&#xA;" />
-                        <!-- Line break -->
-                        <Span Text="• "
-                              TextColor="{StaticResource PrimaryDarkText}"
                               FontAttributes="Bold" />
-                        <Span Text="Consent to Data Collection: "
-                              TextColor="{StaticResource PrimaryDarkText}"
+                        <Span Text="&#xA;• Consent to Data Collection: "
                               FontAttributes="Bold" />
-                        <Span Text="You allow us to collect and use this data anonymously."
-                              TextColor="{StaticResource PrimaryDarkText}" />
-                        <Span Text="&#xA;" />
-                        <!-- Line break -->
-                        <Span Text="• "
-                              TextColor="{StaticResource PrimaryDarkText}"
+                        <Span Text="You allow us to collect and use this data anonymously.&#xA;"/>
+                        <Span Text="• Age Verification: "
                               FontAttributes="Bold" />
-                        <Span Text="Age Verification: "
-                              TextColor="{StaticResource PrimaryDarkText}"
-                              FontAttributes="Bold" />
-                        <Span Text="You confirm that you are 16 years of age or older, which is our minimum age requirement for users to share their data with us."
-                              TextColor="{StaticResource PrimaryDarkText}" />
-                        <Span Text="&#xA;&#xA;" />
-                        <!-- Line break -->
-                        <Span Text="Your privacy is important to us, and we are committed to protecting your personal information. Please review our Privacy Policy for more details on how we handle your data." />
+                        <Span Text="You confirm that you are 16 years of age or older.&#xA;&#xA;If you press continue, you acknowledge that you agree to the above terms and conditions." />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
@@ -95,16 +76,6 @@
                     BackgroundColor="{StaticResource White}"
                     Clicked="Exit_Clicked"
                     Margin="8" />
-            <Button toolkit:DockLayout.DockPosition="Left"
-                    Text="&lt; Back"
-                    FontSize="Medium"
-                    TextColor="{StaticResource ButtonColor}"
-                    BorderWidth="0"
-                    HorizontalOptions="Start"
-                    VerticalOptions="Center"
-                    BackgroundColor="{StaticResource White}"
-                    Margin="8"
-                    Clicked="Back_Clicked" />
         </toolkit:DockLayout>
     </Grid>
 </ContentPage>

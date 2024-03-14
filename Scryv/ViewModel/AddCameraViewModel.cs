@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Scryv.Utilities;
+using Scryv.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,69 +10,75 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace Scryv.ViewModel
 {
     internal partial class AddCameraViewModel : ObservableObject
     {
-        private ObservableCollection<AvailableCameraModel> availableCameraModels = new ObservableCollection<AvailableCameraModel>();
-        public ObservableCollection<AvailableCameraModel> AvailableCameraModels => availableCameraModels;
-
         public INavigation? Navigation { get; set; }
-
-        public AvailableCameraModel? Selected { get; set; }
 
         public bool ContinueEnabled => Selected is not null;
 
-        public CameraView? Current
+        #region Camera Selection
+
+        private ObservableCollection<AvailableCameraModel> availableCameraModels = new ObservableCollection<AvailableCameraModel>();
+        public ObservableCollection<AvailableCameraModel> AvailableCameraModels => availableCameraModels;
+
+        public AvailableCameraModel? Selected { get; set; }
+
+        private void Model_Selected(object? sender, EventArgs e)
         {
-            get => current;
+            if (sender is AvailableCameraModel model)
+            {
+                Selected = model;
+                foreach (var m in AvailableCameraModels)
+                {
+                    if (m != model)
+                        m.IsSelected = false;
+                }
+                if (model.CameraInfo is not null)
+                {
+                    Camera = model.CameraInfo;
+                }
+                OnPropertyChanged(nameof(ContinueEnabled));
+            }
+        }
+
+        #endregion
+
+        #region CameraView Properties
+
+        public CameraInfo? Camera
+        {
+            get => CameraWindowViewModel.Current?.Camera ?? null;
             set
             {
-                current = value;
-                if (!SessionContext.CameraViews.Contains(value))
+                if (CameraWindowViewModel.Current is not null)
                 {
-                    SessionContext.CameraViews.Add(value);
+                    if (CameraWindowViewModel.Current.Camera is null)
+                    {
+                        CameraWindowViewModel.Current.Camera = value;
+                        CameraWindowViewModel.Current.AutoStartRecording = true;
+                    }
+                    else
+                    {
+                        CameraWindowViewModel.Current.Camera = value;
+                        CameraWindowViewModel.Current?.RestartCameraPreview();
+                    }
                 }                
             }
         }
-
-        private CameraInfo camera = null;
-        public CameraInfo Camera
-        {
-            get => camera;
-            set
-            {
-                SetProperty(ref camera, value);
-            }
-        }
-
-        public bool CamerasVisible
-        {
-            get => camerasVisible;
-            set => SetProperty(ref camerasVisible, value);
-        }
-
-        private bool camerasVisible;
-        private CameraView? current = null;
-
+        
         public ObservableCollection<CameraInfo> Cameras
         {
-            get => cameras;
+            get => CameraWindowViewModel.Current?.Cameras ?? new();
             set
             {
-                cameras = value;
+                if (CameraWindowViewModel.Current is not null)
+                    CameraWindowViewModel.Current.Cameras = value;                
             }
-        }
-        private ObservableCollection<CameraInfo> cameras = new();
-
-        public string SessionID => SessionContext.SessionID;
-
-        public bool TextVisible => Selected?.IsPhone ?? false;
-
-        public bool BarCodeVisibile => TextVisible;
-
-        public bool CameraVisible => !(Selected?.IsPhone ?? true);
+        }        
 
         public int NumCameras
         {
@@ -82,7 +89,7 @@ namespace Scryv.ViewModel
                     AvailableCameraModels.Clear();
                     AvailableCameraModel model;
                     if (value > 0)
-                    {                        
+                    {
                         //Camera = Cameras.First();
                         foreach (var camera in Cameras)
                         {
@@ -91,35 +98,46 @@ namespace Scryv.ViewModel
                             AvailableCameraModels.Add(model);
                         }
                     }
-                    model = new AvailableCameraModel(null, true);
-                    model.Selected += Model_Selected;
-                    AvailableCameraModels.Add(model);
                 });
                 OnPropertyChanged(nameof(availableCameraModels));
             }
         }
+        
+        #endregion
 
-        private void Model_Selected(object? sender, EventArgs e)
+        #region Commands
+
+        [RelayCommand]
+        public async void ChooseContinue()
         {
-            if (sender is AvailableCameraModel model)
-            {                
-                Current.AutoStartPreview = false;
-                Selected = model;
-                foreach (var m in AvailableCameraModels)
+            Navigation.PushAsync(new DrawingPage());
+        }
+
+        [RelayCommand]
+        public void Back()
+        {
+            Navigation.PopAsync();
+        }
+
+        #endregion
+
+        public void CameraWindow_Loaded(object? sender, EventArgs e)
+        {
+            if (CameraWindowViewModel.Current is not null)
+            {
+                CameraWindowViewModel.Current.PropertyChanged += Camera_PropertyChanged;
+                if (CameraWindowViewModel.Current.NumCameras > 0)
                 {
-                    if (m != model)
-                        m.IsSelected = false;
-                }
-                if (model.CameraInfo is not null)
-                {
-                    Current.AutoStartPreview = false;
-                    Camera = model.CameraInfo;
-                    Current.AutoStartPreview = true;
-                }
-                OnPropertyChanged(nameof(TextVisible));
-                OnPropertyChanged(nameof(CameraVisible));
-                OnPropertyChanged(nameof(BarCodeVisibile));
-                OnPropertyChanged(nameof(ContinueEnabled));
+                    NumCameras = CameraWindowViewModel.Current.NumCameras;
+                }   
+            }            
+        }
+
+        private void Camera_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(CameraWindowViewModel.NumCameras))
+            {
+                NumCameras = CameraWindowViewModel.Current.NumCameras;
             }            
         }
     }

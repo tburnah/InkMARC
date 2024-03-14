@@ -4,9 +4,12 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:adv="clr-namespace:Scryv.Views.AdvanceDrawingView"
              xmlns:vm="clr-namespace:Scryv.ViewModel"
+             xmlns:cv="clr-namespace:Camera.MAUI;assembly=Camera.MAUI"
              x:Class="Scryv.Views.DrawingPage"
-             Shell.NavBarIsVisible="False"
-             Title="DrawingView" Background="{StaticResource White}">
+             NavigationPage.HasBackButton="False"
+             NavigationPage.HasNavigationBar="False"
+             Title="DrawingView"
+             Background="{StaticResource White}">
     <ContentPage.BindingContext>
         <vm:DrawingPageViewModel />
     </ContentPage.BindingContext>
@@ -16,7 +19,12 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="60" />
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="80" />
+        </Grid.ColumnDefinitions>
         <Label Text="{Binding Prompt}"
+               Grid.Column="0"
                HorizontalTextAlignment="Center"
                VerticalTextAlignment="Center"
                TextColor="{StaticResource PrimaryDarkText}"
@@ -24,9 +32,10 @@
                TextType="Text"
                FontAutoScalingEnabled="True" />
         <Frame CornerRadius="10"
+               Margin="8"
                Padding="8"
                BackgroundColor="{StaticResource White}"
-               Grid.Row="1">
+               Grid.Row="1" Grid.ColumnSpan="2">
             <Grid>
                 <Image Source="{Binding ImageSource}"
                        Margin="8,8,8,8"
@@ -56,10 +65,13 @@
                     WidthRequest="100"
                     Margin="8"
                     Command="{Binding ClearDrawingCommand}" />
-            <HorizontalStackLayout toolkit:DockLayout.DockPosition="Top" HorizontalOptions="Center">
-                <Label Text="Exercise" Margin="0,0,5,0"/>
+            <HorizontalStackLayout toolkit:DockLayout.DockPosition="Top"
+                                   HorizontalOptions="Center">
+                <Label Text="Exercise"
+                       Margin="0,0,5,0" />
                 <Label Text="{Binding CurrentExerciseNumber}" />
-                <Label Text="of" Margin="5,0,5,0"/>
+                <Label Text="of"
+                       Margin="5,0,5,0" />
                 <Label Text="{Binding TotalExercises}" />
             </HorizontalStackLayout>
         </toolkit:DockLayout>
