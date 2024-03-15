@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks>net8.0-maccatalyst</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
@@ -21,10 +21,10 @@
 		<Nullable>enable</Nullable>
 
 		<!-- Display name -->
-		<ApplicationTitle>Scryv</ApplicationTitle>
+		<ApplicationTitle>OcuInk Train</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.Scryv</ApplicationId>
+		<ApplicationId>com.tavishburnah.ocuinktrain</ApplicationId>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
@@ -39,7 +39,16 @@
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>		
 		<PublishAot>False</PublishAot>		
 		<SignAssembly>False</SignAssembly>		
-		<RunAnalyzersDuringLiveAnalysis>True</RunAnalyzersDuringLiveAnalysis>
+		<RunAnalyzersDuringLiveAnalysis>True</RunAnalyzersDuringLiveAnalysis>		
+		<GenerateAppInstallerFile>True</GenerateAppInstallerFile>		
+		<AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>		
+		<PackageCertificateThumbprint>B67D5311D0FA4DAB717FC06AA01F0863EEB5EB5F</PackageCertificateThumbprint>		
+		<AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>		
+		<AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>		
+		<AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>		
+		<GenerateTestArtifacts>True</GenerateTestArtifacts>		
+		<AppInstallerUri>https://masseyuni.sharepoint.com/:f:/r/teams/HCIResearch-Tavish-PhD/Shared%2520Documents/Tavish%2520-%2520PhD/Data%2520Collection%2520app%3fcsf=1&amp;web=1&amp;e=979Fk9</AppInstallerUri>		
+		<HoursBetweenUpdateChecks>24</HoursBetweenUpdateChecks>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
