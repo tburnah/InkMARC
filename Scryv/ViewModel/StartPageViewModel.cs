@@ -1,10 +1,12 @@
 ﻿using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Scryv.Utilities;
 using Scryv.Views;
 using Scryv.Views.Popups;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +26,8 @@ namespace Scryv.ViewModel
         public StartPageViewModel()
         {
             this.popupService = DependencyService.Get<IPopupService>();
+            string loadVideoPath = DataUtilities.GetVideosFolderPath();
+            Debug.WriteLine(loadVideoPath);
         }
 
         public bool IsTabletSelected

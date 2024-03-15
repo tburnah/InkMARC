@@ -19,19 +19,26 @@ namespace Scryv.Utilities
     {
         public static string GetDataFolder() => FileSystem.AppDataDirectory;
 
-        private static string GetVideosFolderPath()
+        private static string? videoFolderPath = null;
+        public static string GetVideosFolderPath()
         {
-#if WINDOWS
-            return KnownFolders.VideosLibrary.Path;
-#else
-            string folderPath = 
-                Path.Combine(FileSystem.AppDataDirectory, "Videos");
-            if (!Directory.Exists(folderPath))
+            if (videoFolderPath is null)
             {
-                Directory.CreateDirectory(folderPath);
-            }
-            return folderPath;
+#if WINDOWS
+
+                var videosLibrary = Task.Run(async () => await StorageLibrary.GetLibraryAsync(KnownLibraryId.Videos)).GetAwaiter().GetResult();            
+                videoFolderPath = videosLibrary.SaveFolder.Path;                        
+#else            
+                string folderPath = 
+                Path.Combine(FileSystem.AppDataDirectory, "Videos");
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+                videoFolderPath = folderPath;
 #endif
+            }
+            return videoFolderPath;
         }
 
         /// <summary>

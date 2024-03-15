@@ -9,7 +9,7 @@ namespace Scryv.Exercises
 {
     public class ShadedExercise : IExercise
     {
-        public string Prompt => "Duplicate the shading with lines or dots.";
+        public string Prompt => "Color the shading, or shadows and lightness of the shapes.";
 
         public string? TraceImage => "shadedshapes.png";
     }
