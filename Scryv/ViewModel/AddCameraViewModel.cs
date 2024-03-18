@@ -1,30 +1,39 @@
 ﻿using Camera.MAUI;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Scryv.Utilities;
 using Scryv.Views;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
+
 
 namespace Scryv.ViewModel
 {
+    /// <summary>
+    /// ViewModel for adding a camera.
+    /// </summary>
     internal partial class AddCameraViewModel : ObservableObject
     {
+        /// <summary>
+        /// Gets or sets the navigation service.
+        /// </summary>
         public INavigation? Navigation { get; set; }
 
+        /// <summary>
+        /// Gets a value indicating whether the continue button is enabled.
+        /// </summary>
         public bool ContinueEnabled => Selected is not null;
 
         #region Camera Selection
 
         private ObservableCollection<AvailableCameraModel> availableCameraModels = new ObservableCollection<AvailableCameraModel>();
+        /// <summary>
+        /// Gets the collection of available camera models.
+        /// </summary>
         public ObservableCollection<AvailableCameraModel> AvailableCameraModels => availableCameraModels;
 
+        /// <summary>
+        /// Gets or sets the selected camera model.
+        /// </summary>
         public AvailableCameraModel? Selected { get; set; }
 
         private void Model_Selected(object? sender, EventArgs e)
@@ -49,6 +58,9 @@ namespace Scryv.ViewModel
 
         #region CameraView Properties
 
+        /// <summary>
+        /// Gets or sets the current camera.
+        /// </summary>
         public CameraInfo? Camera
         {
             get => CameraWindowViewModel.Current?.Camera ?? null;
@@ -66,20 +78,26 @@ namespace Scryv.ViewModel
                         CameraWindowViewModel.Current.Camera = value;
                         CameraWindowViewModel.Current?.RestartCameraPreview();
                     }
-                }                
+                }
             }
         }
-        
+
+        /// <summary>
+        /// Gets or sets the collection of cameras.
+        /// </summary>
         public ObservableCollection<CameraInfo> Cameras
         {
             get => CameraWindowViewModel.Current?.Cameras ?? new();
             set
             {
                 if (CameraWindowViewModel.Current is not null)
-                    CameraWindowViewModel.Current.Cameras = value;                
+                    CameraWindowViewModel.Current.Cameras = value;
             }
-        }        
+        }
 
+        /// <summary>
+        /// Sets the number of cameras.
+        /// </summary>
         public int NumCameras
         {
             set
@@ -102,25 +120,36 @@ namespace Scryv.ViewModel
                 OnPropertyChanged(nameof(availableCameraModels));
             }
         }
-        
+
         #endregion
 
         #region Commands
 
+        /// <summary>
+        /// Command to choose continue.
+        /// </summary>
         [RelayCommand]
         public async void ChooseContinue()
         {
-            Navigation.PushAsync(new DrawingPage());
+            if (Navigation is not null)
+                await Navigation.PushAsync(new DrawingPage());
         }
 
+        /// <summary>
+        /// Command to go back.
+        /// </summary>
         [RelayCommand]
-        public void Back()
+        public async void Back()
         {
-            Navigation.PopAsync();
+            if (Navigation is not null)
+                await Navigation.PopAsync();
         }
 
         #endregion
 
+        /// <summary>
+        /// Event handler for the CameraWindow loaded event.
+        /// </summary>
         public void CameraWindow_Loaded(object? sender, EventArgs e)
         {
             if (CameraWindowViewModel.Current is not null)
@@ -129,8 +158,8 @@ namespace Scryv.ViewModel
                 if (CameraWindowViewModel.Current.NumCameras > 0)
                 {
                     NumCameras = CameraWindowViewModel.Current.NumCameras;
-                }   
-            }            
+                }
+            }
         }
 
         private void Camera_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -138,7 +167,7 @@ namespace Scryv.ViewModel
             if (e.PropertyName == nameof(CameraWindowViewModel.NumCameras))
             {
                 NumCameras = CameraWindowViewModel.Current.NumCameras;
-            }            
+            }
         }
     }
 }

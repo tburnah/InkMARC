@@ -53,14 +53,11 @@ public partial class ScryvDrawingView : PlatformTouchGraphicsView
 
         var (tiltX, tiltY) = StylusTiltCalculator.CalculateTilt(orientation, tilt);
 
-        var point = new ScryvInkPoint()
-		{
-			Position = new(touchX / (float)DeviceDisplay.MainDisplayInfo.Density, touchY / (float)DeviceDisplay.MainDisplayInfo.Density),
-			Pressure = e.Pressure,
-            TiltX = (float)tiltX,
-            TiltY = (float)tiltY,
-            Timestamp = (ulong)e.EventTime
-		};
+		var point = new ScryvInkPoint(new(touchX / (float)DeviceDisplay.MainDisplayInfo.Density, touchY / (float)DeviceDisplay.MainDisplayInfo.Density),
+			e.Pressure,
+			(float)tiltX,
+			(float)tiltY,
+			(ulong)e.EventTime);		
 		
 		switch (e.Action)
 		{
@@ -117,7 +114,7 @@ public partial class ScryvDrawingView : PlatformTouchGraphicsView
 		{
 			var pointX = Math.Clamp(point.Position.X, 0, drawingViewWidth / canvasScale);
 			var pointY = Math.Clamp(point.Position.Y, 0, drawingViewHeight / canvasScale);
-            newPoints.Add(new ScryvInkPoint() { Position = new PointF(pointX, pointY), Pressure = point.Pressure, TiltX = point.TiltX, TiltY = point.TiltY, Timestamp = point.Timestamp });
+			newPoints.Add(new ScryvInkPoint(new PointF(pointX, pointY), point.Pressure, point.TiltX, point.TiltY, point.Timestamp));
         }
 
 		return newPoints.ToObservableCollection();

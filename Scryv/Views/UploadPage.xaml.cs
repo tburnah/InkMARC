@@ -17,7 +17,7 @@ public partial class UploadPage : ContentPage
 
     private void Exit_Clicked(object sender, EventArgs e)
     {
-        Application.Current.Quit();
+        Application.Current?.Quit();
     }
 
     private async void ContentPage_Loaded(object sender, EventArgs e)

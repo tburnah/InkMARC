@@ -63,15 +63,14 @@ public partial class ScryvDrawingView : PlatformTouchGraphicsView, IDisposable
 
 		var currentPoint = e.GetCurrentPoint(this);
 		var wPoint = currentPoint.Position;
-		
-		var scryvPoint = new ScryvInkPoint()
-		{
-            Position = new(wPoint._x, wPoint._y),
-            Pressure = currentPoint.Properties.Pressure,
-            TiltX = currentPoint.Properties.XTilt,
-            TiltY = currentPoint.Properties.YTilt,
-            Timestamp = e.GetCurrentPoint(this).Timestamp
-        };
+
+		var scryvPoint = new ScryvInkPoint(
+			new(wPoint._x, wPoint._y),
+			currentPoint.Properties.Pressure,
+			currentPoint.Properties.XTilt,
+			currentPoint.Properties.YTilt,
+			e.GetCurrentPoint(this).Timestamp);
+        
 		OnStart(scryvPoint);
 	}
 
@@ -82,14 +81,13 @@ public partial class ScryvDrawingView : PlatformTouchGraphicsView, IDisposable
         var currentPoint = e.GetCurrentPoint(this);
         var wPoint = currentPoint.Position;
 
-        var scryvPoint = new ScryvInkPoint()
-        {
-            Position = new(wPoint._x, wPoint._y),
-            Pressure = currentPoint.Properties.Pressure,
-            TiltX = currentPoint.Properties.XTilt,
-            TiltY = currentPoint.Properties.YTilt,
-            Timestamp = e.GetCurrentPoint(this).Timestamp
-        };
+        var scryvPoint = new ScryvInkPoint(        
+            new(wPoint._x, wPoint._y),
+            currentPoint.Properties.Pressure,
+            currentPoint.Properties.XTilt,
+            currentPoint.Properties.YTilt,
+            e.GetCurrentPoint(this).Timestamp
+        );
         OnMoving(scryvPoint);
 	}
 

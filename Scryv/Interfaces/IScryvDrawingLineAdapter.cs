@@ -1,11 +1,4 @@
-﻿using CommunityToolkit.Maui.Core.Views;
-using CommunityToolkit.Maui.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Scryv.Primatives;
+﻿using Scryv.Primatives;
 
 namespace Scryv.Interfaces
 {

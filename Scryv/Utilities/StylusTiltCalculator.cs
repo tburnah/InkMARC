@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Scryv.Utilities
+﻿namespace Scryv.Utilities
 {
     /// <summary>
     /// A utility class for calculating the tiltX and tiltY values based on azimuth and altitude angles in degrees.

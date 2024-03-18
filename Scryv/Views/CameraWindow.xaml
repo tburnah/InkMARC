@@ -4,6 +4,7 @@
              xmlns:cv="clr-namespace:Camera.MAUI;assembly=Camera.MAUI"
              xmlns:vm="clr-namespace:Scryv.ViewModel"
              x:Class="Scryv.Views.CameraWindow"
+             x:DataType="vm:CameraWindowViewModel"
              WidthRequest="600"
              HeightRequest="400"
              Title="CameraWindow">
@@ -18,6 +19,10 @@
                        AutoStartPreview="{Binding AutoStartPreview}"
                        AutoStartRecording="{Binding AutoStartRecording}"
                        AutoRecordingFile="{Binding RecordingFile}"
-                       NumCamerasDetected="{Binding NumCameras, Mode=OneWayToSource}" />
+                       NumCamerasDetected="{Binding NumCameras, Mode=OneWayToSource}">
+            <cv:CameraView.GestureRecognizers>
+                <PanGestureRecognizer PanUpdated="OnPanUpdated" />
+            </cv:CameraView.GestureRecognizers>
+        </cv:CameraView>
     </VerticalStackLayout>
 </ContentPage>

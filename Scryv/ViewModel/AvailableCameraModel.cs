@@ -1,25 +1,34 @@
 ﻿using Camera.MAUI;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Scryv.ViewModel
 {
+    /// <summary>
+    /// Represents the view model for an available camera.
+    /// </summary>
     public partial class AvailableCameraModel : ObservableObject
     {
+        /// <summary>
+        /// Event that is raised when the camera is selected.
+        /// </summary>
         public event EventHandler Selected;
 
+        /// <summary>
+        /// Gets or sets the navigation service.
+        /// </summary>
         public INavigation? Navigation { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AvailableCameraModel"/> class.
+        /// </summary>
+        /// <param name="cameraInfo">The camera information.</param>
+        /// <param name="isPhone">A value indicating whether the camera is a phone camera.</param>
         public AvailableCameraModel(CameraInfo cameraInfo, bool isPhone)
         {
             IsPhone = isPhone;
             CameraInfo = cameraInfo;
-            
+
             if (cameraInfo is null)
             {
                 CameraName = "Phone";
@@ -43,9 +52,15 @@ namespace Scryv.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the camera is a phone camera.
+        /// </summary>
         public bool IsPhone { get; set; }
 
         private string cameraName;
+        /// <summary>
+        /// Gets or sets the name of the camera.
+        /// </summary>
         public string CameraName
         {
             get => cameraName;
@@ -53,6 +68,9 @@ namespace Scryv.ViewModel
         }
 
         private string cameraImage;
+        /// <summary>
+        /// Gets or sets the image of the camera.
+        /// </summary>
         public string CameraImage
         {
             get => cameraImage;
@@ -60,6 +78,9 @@ namespace Scryv.ViewModel
         }
 
         private CameraInfo cameraInfo;
+        /// <summary>
+        /// Gets or sets the camera information.
+        /// </summary>
         public CameraInfo CameraInfo
         {
             get => cameraInfo;
@@ -67,6 +88,9 @@ namespace Scryv.ViewModel
         }
 
         private bool isSelected = false;
+        /// <summary>
+        /// Gets or sets a value indicating whether the camera is selected.
+        /// </summary>
         public bool IsSelected
         {
             get => isSelected;
@@ -81,6 +105,9 @@ namespace Scryv.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gets the background border color of the camera.
+        /// </summary>
         public Color BackgroundBorderColor
         {
             get
@@ -101,10 +128,13 @@ namespace Scryv.ViewModel
             }
         }
 
+        /// <summary>
+        /// Command that is executed when the camera is tapped.
+        /// </summary>
         [RelayCommand]
         public void Tapped()
         {
-            IsSelected = !IsSelected; 
+            IsSelected = !IsSelected;
         }
     }
 }

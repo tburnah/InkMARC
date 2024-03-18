@@ -8,7 +8,8 @@
              NavigationPage.HasNavigationBar="False"
              BackgroundColor="{StaticResource White}"
              Loaded="ContentPage_Loaded"
-             x:Class="Scryv.Views.CameraSelection"
+             x:DataType="vm:AddCameraViewModel"
+             x:Class="Scryv.Views.CameraSelection"             
              Title="CameraSelection">
     <ContentPage.BindingContext>
         <vm:AddCameraViewModel />
@@ -58,7 +59,7 @@
                                            ItemSpacing="10" />
                     </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
-                        <DataTemplate>
+                        <DataTemplate x:DataType="vm:AvailableCameraModel">
                             <Frame CornerRadius="10"
                                    Margin="10"
                                    Padding="10"

@@ -9,8 +9,15 @@ using Microsoft.Maui.Controls.Hosting;
 
 namespace Scryv
 {
+    /// <summary>
+    /// The main entry point for the Maui application.
+    /// </summary>
     public static class MauiProgram
     {
+        /// <summary>
+        /// Creates and configures the Maui application.
+        /// </summary>
+        /// <returns>The configured Maui application.</returns>
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
@@ -18,7 +25,7 @@ namespace Scryv
                 .UseMauiApp<App>()
                 .UseMauiCameraView()
                 .UseMauiCommunityToolkit()
-                .UseMaterialMauiIcons()                
+                .UseMaterialMauiIcons()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -27,7 +34,7 @@ namespace Scryv
                 .ConfigureLifecycleEvents(events =>
                 {
 #if WINDOWS
-                    events.AddWindows(windowsLifecycleBuilder => 
+                    events.AddWindows(windowsLifecycleBuilder =>
                     {
                         windowsLifecycleBuilder.OnWindowCreated(window =>
                         {
@@ -47,8 +54,8 @@ namespace Scryv
                 });
 
 #if DEBUG
-    		builder.Logging.AddDebug();
-#endif   
+            builder.Logging.AddDebug();
+#endif
             builder.ConfigureMauiHandlers(handlers =>
             {
                 handlers.AddHandler<AdvancedDrawingView, AdvancedDrawingViewHandler>();

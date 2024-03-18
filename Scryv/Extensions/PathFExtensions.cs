@@ -1,10 +1,4 @@
-﻿using Scryv.Interfaces;
-using Scryv.Primatives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Scryv.Primatives;
 
 namespace Scryv.Extensions
 {

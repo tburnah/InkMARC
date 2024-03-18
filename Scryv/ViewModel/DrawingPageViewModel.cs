@@ -1,40 +1,39 @@
-﻿using Camera.MAUI;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Scryv.Exercises;
 using Scryv.Interfaces;
 using Scryv.Utilities;
 using Scryv.Views;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
 
 namespace Scryv.ViewModel
 {
+    /// <summary>
+    /// Represents the view model for the DrawingPage.
+    /// </summary>
     internal partial class DrawingPageViewModel : ObservableObject
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DrawingPageViewModel"/> class.
+        /// </summary>
         public DrawingPageViewModel()
         {
             this.DrawingLines = new ObservableCollection<IAdvancedDrawingLine>();
             Exercises = new ObservableCollection<IExercise>
-            {
-                new ShapesExercise(),
-                new LowerAlphabetExercise(),
-                new FruitExercise(),
-                new UpperAlphabetExercise(),
-                new PortraitExercise(),
-                new SignatureExercise(),
-                new SpiralExercise(),
-                new LandscapeExercise(),
-                new ShadedExercise(),
-                new FoodExercise(),
-                new MazeExercise(),
-                new PetExercise()
-            };            
+                {
+                    new ShapesExercise(),
+                    new LowerAlphabetExercise(),
+                    new FruitExercise(),
+                    new NurseryRhymeExercise(),
+                    new PortraitExercise(),
+                    new SignatureExercise(),
+                    new SpiralExercise(),
+                    new LandscapeExercise(),
+                    new ShadedExercise(),
+                    new FoodExercise(),
+                    new MazeExercise(),
+                    new PetExercise()
+                };
             this.CurrentExercise = this.Exercises.First();
             OnPropertyChanged(nameof(Prompt));
             OnPropertyChanged(nameof(ImageSource));
@@ -52,21 +51,31 @@ namespace Scryv.ViewModel
                 CameraWindowViewModel.Current.StartRecording.Execute(null);
             }
         }
+
         private void StopRecording()
         {
             if (CameraWindowViewModel.Current != null)
             {
-                CameraWindowViewModel.Current.StopRecording.Execute(null);                
+                CameraWindowViewModel.Current.StopRecording.Execute(null);
             }
         }
 
         #endregion
 
         #region Exercises
+        /// <summary>
+        /// Gets the collection of exercises.
+        /// </summary>
         public ObservableCollection<IExercise> Exercises { get; private set; }
 
+        /// <summary>
+        /// Gets or sets the navigation service.
+        /// </summary>
         public INavigation? Navigation { get; set; }
 
+        /// <summary>
+        /// Gets or sets the current exercise.
+        /// </summary>
         public IExercise? CurrentExercise
         {
             get => currentExercise;
@@ -76,25 +85,50 @@ namespace Scryv.ViewModel
         private int currentExerciseIndex = 0;
         private IExercise? currentExercise;
 
+        /// <summary>
+        /// Gets the current exercise number.
+        /// </summary>
         public int CurrentExerciseNumber => this.currentExerciseIndex + 1;
+
+        /// <summary>
+        /// Gets the total number of exercises.
+        /// </summary>
         public int TotalExercises => this.Exercises.Count;
 
         #endregion
 
+        /// <summary>
+        /// Gets the collection of drawing lines.
+        /// </summary>
         public ObservableCollection<IAdvancedDrawingLine> DrawingLines { get; private set; }
 
+        /// <summary>
+        /// Gets the prompt for the current exercise.
+        /// </summary>
         public string Prompt => this.CurrentExercise?.Prompt ?? string.Empty;
 
+        /// <summary>
+        /// Gets the image source for the current exercise.
+        /// </summary>
         public string ImageSource => this.CurrentExercise?.TraceImage ?? string.Empty;
 
+        /// <summary>
+        /// Gets a value indicating whether to show the trace image.
+        /// </summary>
         public bool ShowTraceImage => !string.IsNullOrEmpty(this.ImageSource);
 
+        /// <summary>
+        /// Clears the drawing lines.
+        /// </summary>
         [RelayCommand]
         public void ClearDrawing()
         {
             this.DrawingLines.Clear();
         }
 
+        /// <summary>
+        /// Continues to the next exercise.
+        /// </summary>
         [RelayCommand]
         public async void Continue()
         {
@@ -114,9 +148,10 @@ namespace Scryv.ViewModel
                 CameraWindowViewModel.Current.RestartCameraPreview(DataUtilities.GetVideoFileName(DateTime.Now.ToFileTime(), currentExerciseIndex));
             }
             else
-            { 
+            {
                 StopRecording();
-                Navigation.PushAsync(new UploadPage());
+                if (Navigation is not null)
+                    await Navigation.PushAsync(new UploadPage());
             }
         }
     }

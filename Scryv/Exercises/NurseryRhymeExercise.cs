@@ -3,14 +3,14 @@
 namespace Scryv.Exercises
 {
     /// <summary>
-    /// Represents an exercise that requires writing as much of the lower case alphabet as possible.
+    /// Represents an exercise for writing the words to a favorite nursery rhyme or children's song.
     /// </summary>
-    public class LowerAlphabetExercise : IExercise
+    public class NurseryRhymeExercise : IExercise
     {
         /// <summary>
         /// Gets the prompt for the exercise.
         /// </summary>
-        public string Prompt => "Write as much of the lower case alphabet as you can fit.";
+        public string Prompt => "Write the words to a favorite nursery rhyme or children's song.";
 
         /// <summary>
         /// Gets the trace image for the exercise.

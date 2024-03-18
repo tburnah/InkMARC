@@ -6,6 +6,9 @@ using System.Timers;
 
 namespace Scryv.Views;
 
+/// <summary>
+/// Represents the start page of the application.
+/// </summary>
 public partial class StartPage : ContentPage
 {
     private StartPageViewModel spvm;
@@ -13,20 +16,33 @@ public partial class StartPage : ContentPage
     private double cardWidth = 0;
     private double cardHeight = 0;
 
-	public StartPage()
-	{        
-		InitializeComponent();
+    /// <summary>
+    /// Initializes a new instance of the <see cref="StartPage"/> class.
+    /// </summary>
+    public StartPage()
+    {
+        InitializeComponent();
         _ = new MauiIcon();
         spvm = BindingContext as StartPageViewModel;
         if (spvm is not null)
             spvm.Navigation = Navigation;
     }
 
+    /// <summary>
+    /// Handles the event when the exit button is clicked.
+    /// </summary>
+    /// <param name="sender">The sender of the event.</param>
+    /// <param name="e">The event arguments.</param>
     private void Exit_Clicked(object sender, EventArgs e)
-    {        
+    {
         Application.Current.Quit();
     }
 
+    /// <summary>
+    /// Handles the event when the size of the stack layout changes.
+    /// </summary>
+    /// <param name="sender">The sender of the event.</param>
+    /// <param name="e">The event arguments.</param>
     private void StackLayout_SizeChanged(object sender, EventArgs e)
     {
         if (sender is StackLayout stackLayout)
@@ -48,7 +64,6 @@ public partial class StartPage : ContentPage
 
             if (newWidth < 10 || newHeight < 10)
                 return;
-            
 
             StylusChoice.WidthRequest = newWidth;
             StylusChoice.HeightRequest = newHeight;
@@ -62,10 +77,15 @@ public partial class StartPage : ContentPage
             CameraChoice.WidthRequest = newWidth;
             CameraChoice.HeightRequest = newHeight;
 
-              InvalidateMeasure();
+            InvalidateMeasure();
         }
     }
 
+    /// <summary>
+    /// Handles the event when the touchscreen help button is tapped.
+    /// </summary>
+    /// <param name="sender">The sender of the event.</param>
+    /// <param name="e">The event arguments.</param>
     private void TouchscreenHelpButtonTapped(object sender, TappedEventArgs e)
     {
         if (StartPageGrid.Width < StartPageGrid.Height)
@@ -74,6 +94,11 @@ public partial class StartPage : ContentPage
             this.ShowPopup<TouchscreenCheckHelp>(new TouchscreenCheckHelp(StartPageGrid.Height));
     }
 
+    /// <summary>
+    /// Handles the event when the stylus help button is tapped.
+    /// </summary>
+    /// <param name="sender">The sender of the event.</param>
+    /// <param name="e">The event arguments.</param>
     private void StylusHelpButtonTapped(object sender, TappedEventArgs e)
     {
         if (StartPageGrid.Width < StartPageGrid.Height)
@@ -82,6 +107,11 @@ public partial class StartPage : ContentPage
             this.ShowPopup<StylusCheckHelp>(new StylusCheckHelp(StartPageGrid.Height));
     }
 
+    /// <summary>
+    /// Handles the event when the camera help button is tapped.
+    /// </summary>
+    /// <param name="sender">The sender of the event.</param>
+    /// <param name="e">The event arguments.</param>
     private void CameraHelpButtonTapped(object sender, TappedEventArgs e)
     {
         if (StartPageGrid.Width < StartPageGrid.Height)
@@ -90,11 +120,21 @@ public partial class StartPage : ContentPage
             this.ShowPopup<CameraCheckHelp>(new CameraCheckHelp(StartPageGrid.Height));
     }
 
+    /// <summary>
+    /// Handles the event when the content page is loaded.
+    /// </summary>
+    /// <param name="sender">The sender of the event.</param>
+    /// <param name="e">The event arguments.</param>
     private void ContentPage_Loaded(object sender, EventArgs e)
     {
         StackLayout_SizeChanged(ChoiceStackLayout, e);
     }
 
+    /// <summary>
+    /// Handles the event when the back button is clicked.
+    /// </summary>
+    /// <param name="sender">The sender of the event.</param>
+    /// <param name="e">The event arguments.</param>
     private void Back_Clicked(object sender, EventArgs e)
     {
         Navigation.PopAsync();

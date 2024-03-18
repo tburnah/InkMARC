@@ -124,15 +124,14 @@ public partial class ScryvDrawingView
 		{
 			Points = new ObservableCollection<ScryvInkPoint>
 			{
-				new ScryvInkPoint()
-				{
-					Position = previousPoint.Position,
-					Pressure = previousPoint.Pressure,
-					TiltX = previousPoint.TiltX,
-					TiltY = previousPoint.TiltY,
-					Timestamp = previousPoint.Timestamp
-				}				
-			},
+                new(
+                    previousPoint.Position,
+                    previousPoint.Pressure,
+                    previousPoint.TiltX,
+                    previousPoint.TiltY,
+                    previousPoint.Timestamp
+                )
+            },
 			LineColor = LineColor,
 			LineWidth = LineWidth
 		};

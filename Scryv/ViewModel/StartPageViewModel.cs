@@ -3,16 +3,13 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Scryv.Utilities;
 using Scryv.Views;
-using Scryv.Views.Popups;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Scryv.ViewModel
 {
+    /// <summary>
+    /// ViewModel for the StartPage.
+    /// </summary>
     public partial class StartPageViewModel : ObservableObject
     {
         private bool isTabletSelected;
@@ -21,8 +18,14 @@ namespace Scryv.ViewModel
 
         private IPopupService popupService;
 
+        /// <summary>
+        /// Gets or sets the navigation service.
+        /// </summary>
         public INavigation? Navigation { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StartPageViewModel"/> class.
+        /// </summary>
         public StartPageViewModel()
         {
             this.popupService = DependencyService.Get<IPopupService>();
@@ -30,6 +33,9 @@ namespace Scryv.ViewModel
             Debug.WriteLine(loadVideoPath);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the tablet is selected.
+        /// </summary>
         public bool IsTabletSelected
         {
             get => isTabletSelected;
@@ -39,13 +45,16 @@ namespace Scryv.ViewModel
                 OnPropertyChanged(nameof(IsTabletSelected));
                 OnPropertyChanged(nameof(TabletChoiceImage));
                 OnPropertyChanged(nameof(TabletChoiceBorderColor));
-                OnPropertyChanged(nameof(TabletChoiceColor));                
+                OnPropertyChanged(nameof(TabletChoiceColor));
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the stylus is selected.
+        /// </summary>
         public bool IsStylusSelected
         {
-            get => isStylusSelected; 
+            get => isStylusSelected;
             set
             {
                 SetProperty(ref isStylusSelected, value);
@@ -56,9 +65,12 @@ namespace Scryv.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the camera is selected.
+        /// </summary>
         public bool IsCameraSelected
         {
-            get => isCameraSelected; 
+            get => isCameraSelected;
             set
             {
                 SetProperty(ref isCameraSelected, value);
@@ -68,7 +80,7 @@ namespace Scryv.ViewModel
                 OnPropertyChanged(nameof(CameraChoiceColor));
             }
         }
-        
+
         private Color getBackgroundColor(bool value)
         {
             if (value)
@@ -103,49 +115,88 @@ namespace Scryv.ViewModel
             return Colors.White;
         }
 
+        /// <summary>
+        /// Gets the image for the tablet choice.
+        /// </summary>
         public string TabletChoiceImage => IsTabletSelected ? "check.png" : "tablet.png";
 
+        /// <summary>
+        /// Gets the image for the stylus choice.
+        /// </summary>
         public string StylusChoiceImage => IsStylusSelected ? "check.png" : "stylus.png";
 
+        /// <summary>
+        /// Gets the image for the camera choice.
+        /// </summary>
         public string CameraChoiceImage => IsCameraSelected ? "check.png" : "webcam.png";
 
+        /// <summary>
+        /// Gets the color for the tablet choice.
+        /// </summary>
         public Color TabletChoiceColor => getBackgroundColor(IsTabletSelected);
 
+        /// <summary>
+        /// Gets the color for the stylus choice.
+        /// </summary>
         public Color StylusChoiceColor => getBackgroundColor(IsStylusSelected);
-        
+
+        /// <summary>
+        /// Gets the color for the camera choice.
+        /// </summary>
         public Color CameraChoiceColor => getBackgroundColor(IsCameraSelected);
 
+        /// <summary>
+        /// Gets the border color for the tablet choice.
+        /// </summary>
         public Color TabletChoiceBorderColor => getBackgroundBorderColor(IsTabletSelected);
 
+        /// <summary>
+        /// Gets the border color for the stylus choice.
+        /// </summary>
         public Color StylusChoiceBorderColor => getBackgroundBorderColor(IsStylusSelected);
 
+        /// <summary>
+        /// Gets the border color for the camera choice.
+        /// </summary>
         public Color CameraChoiceBorderColor => getBackgroundBorderColor(IsCameraSelected);
 
+        /// <summary>
+        /// Command to toggle the tablet choice.
+        /// </summary>
         [RelayCommand]
         public void PressTabletChoice()
         {
             IsTabletSelected = !IsTabletSelected;
         }
 
+        /// <summary>
+        /// Command to toggle the stylus choice.
+        /// </summary>
         [RelayCommand]
         public void PressStylusChoice()
         {
             IsStylusSelected = !IsStylusSelected;
         }
 
+        /// <summary>
+        /// Command to toggle the camera choice.
+        /// </summary>
         [RelayCommand]
         public void PressCameraChoice()
         {
             IsCameraSelected = !IsCameraSelected;
         }
 
+        /// <summary>
+        /// Command to handle the continue button press.
+        /// </summary>
         [RelayCommand]
         public void PressContinue()
         {
             if (isCameraSelected && IsStylusSelected && IsTabletSelected)
                 Navigation.PushAsync(new CameraSelection());
             else
-                Navigation.PushAsync(new IneligableExit());                
+                Navigation.PushAsync(new IneligableExit());
         }
     }
 }

@@ -7,6 +7,7 @@
              x:Class="Scryv.Views.StartPage"
              Title="StartPage"
              Loaded="ContentPage_Loaded"
+             x:DataType="vm:StartPageViewModel"
              Background="{StaticResource White}"
              NavigationPage.HasBackButton="False"
              NavigationPage.HasNavigationBar="False">

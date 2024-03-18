@@ -1,15 +1,20 @@
 ﻿using Scryv.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Scryv.Exercises
 {
+    /// <summary>
+    /// Represents a fruit exercise.
+    /// </summary>
     public class FruitExercise : IExercise
     {
+        /// <summary>
+        /// Gets the prompt for the exercise.
+        /// </summary>
         public string Prompt => "Trace the image shown.";
+
+        /// <summary>
+        /// Gets the path to the trace image.
+        /// </summary>
         public string? TraceImage => "fruit.png";
     }
 }

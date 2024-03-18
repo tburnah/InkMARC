@@ -1,15 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Scryv.Interfaces
+﻿namespace Scryv.Interfaces
 {
+    /// <summary>
+    /// Represents an exercise.
+    /// </summary>
     public interface IExercise
     {
-        public string Prompt { get; }
+        /// <summary>
+        /// Gets the prompt for the exercise.
+        /// </summary>
+        string Prompt { get; }
 
-        public string? TraceImage { get; }
+        /// <summary>
+        /// Gets the trace image for the exercise, if available.
+        /// </summary>
+        string? TraceImage { get; }
     }
 }

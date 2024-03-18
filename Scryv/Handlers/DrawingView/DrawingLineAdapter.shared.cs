@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Maui.Core.Extensions;
-using CommunityToolkit.Maui.Core.Views;
 using Scryv.Interfaces;
 using Scryv.Primatives;
 
@@ -13,7 +12,7 @@ public sealed class AdvancedDrawingLineAdapter : IAdvancedDrawingLineAdapter
     /// <summary>
     /// Convert <see cref="ScryvDrawingLine"/> to <see cref="IAdvancedDrawingLine"/>.
     /// </summary>
-    /// <returns><see cref="IScryvDrawingLine"/></returns>
+    /// <returns><see cref="IAdvancedDrawingLine"/></returns>
     public IAdvancedDrawingLine ConvertScryvDrawingLine(ScryvDrawingLine scryvDrawingLine)
 	{
 		return new ScryvDrawingLine

@@ -1,13 +1,9 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows.Input;
-using CommunityToolkit.Maui.Core;
-using CommunityToolkit.Maui.Core.Extensions;
-using CommunityToolkit.Maui.Core.Views;
-using CommunityToolkit.Maui.Views;
-using Scryv.Extensions;
+﻿using CommunityToolkit.Maui.Core;
 using Scryv.Interfaces;
 using Scryv.Primatives;
 using Scryv.Services;
+using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace Scryv.Views.AdvanceDrawingView;
 
@@ -302,6 +298,11 @@ public class AdvancedDrawingView : View, IScryvDrawingView
         }
     }
 
+    /// <summary>
+    /// Event handler for the Unloaded event of the AdvancedDrawingView.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The event arguments.</param>
     public void OnDrawingViewUnloaded(object? sender, EventArgs e)
     {
         Unloaded -= OnDrawingViewUnloaded;

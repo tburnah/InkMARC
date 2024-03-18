@@ -1,16 +1,20 @@
 ﻿using Scryv.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Scryv.Exercises
 {
-    internal class FoodExercise : IExercise
+    /// <summary>
+    /// Represents a food exercise.
+    /// </summary>
+    public class FoodExercise : IExercise
     {
-        public string Prompt => "Draw a picture of a your favorite food.";
+        /// <summary>
+        /// Gets the prompt for the exercise.
+        /// </summary>
+        public string Prompt => "Draw a picture of your favorite food.";
 
-        public string? TraceImage => null;       
+        /// <summary>
+        /// Gets the trace image for the exercise.
+        /// </summary>
+        public string? TraceImage => null;
     }
 }

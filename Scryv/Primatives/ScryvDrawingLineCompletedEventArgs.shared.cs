@@ -1,7 +1,4 @@
-﻿using CommunityToolkit.Maui.Core.Views;
-using Scryv.Interfaces;
-
-namespace Scryv.Primatives;
+﻿namespace Scryv.Primatives;
 
 /// <summary>
 /// Contains last drawing line

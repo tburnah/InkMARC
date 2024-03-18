@@ -1,16 +1,20 @@
 ﻿using Scryv.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Scryv.Exercises
 {
+    /// <summary>
+    /// Represents a shaded exercise.
+    /// </summary>
     public class ShadedExercise : IExercise
     {
+        /// <summary>
+        /// Gets the prompt for the exercise.
+        /// </summary>
         public string Prompt => "Color the shading, or shadows and lightness of the shapes.";
 
+        /// <summary>
+        /// Gets the trace image for the exercise.
+        /// </summary>
         public string? TraceImage => "shadedshapes.png";
     }
 }

@@ -1,11 +1,6 @@
 ﻿using Scryv.Interfaces;
 using Scryv.Primatives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 #if WINDOWS
 using Windows.Storage;
 #endif
@@ -20,17 +15,23 @@ namespace Scryv.Utilities
         public static string GetDataFolder() => FileSystem.AppDataDirectory;
 
         private static string? videoFolderPath = null;
+        /// <summary>
+        /// Gets the folder path for storing videos.
+        /// </summary>
+        /// <returns>The folder path for videos.</returns>
         public static string GetVideosFolderPath()
         {
             if (videoFolderPath is null)
             {
 #if WINDOWS
-
-                var videosLibrary = Task.Run(async () => await StorageLibrary.GetLibraryAsync(KnownLibraryId.Videos)).GetAwaiter().GetResult();            
-                videoFolderPath = videosLibrary.SaveFolder.Path;                        
-#else            
-                string folderPath = 
-                Path.Combine(FileSystem.AppDataDirectory, "Videos");
+                // Get the videos library
+                var videosLibrary = Task.Run(async () => await StorageLibrary.GetLibraryAsync(KnownLibraryId.Videos)).GetAwaiter().GetResult();
+                // Get the save folder path
+                videoFolderPath = videosLibrary.SaveFolder.Path;
+#else
+                // Create the folder path
+                string folderPath = Path.Combine(FileSystem.AppDataDirectory, "Videos");
+                // Create the folder if it doesn't exist
                 if (!Directory.Exists(folderPath))
                 {
                     Directory.CreateDirectory(folderPath);
@@ -45,7 +46,6 @@ namespace Scryv.Utilities
         /// Gets the video file name based on the exercise and session ID.
         /// </summary>
         /// <param name="exercise">The exercise number.</param>
-        /// <param name="camera">The camera index</param>
         /// <param name="timestamp">The filetime</param>
         /// <returns>The video file name.</returns>
         public static string GetVideoFileName(long timestamp, int exercise)

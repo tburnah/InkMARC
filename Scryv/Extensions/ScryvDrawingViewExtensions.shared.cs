@@ -2,13 +2,10 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Core.Extensions;
-using CommunityToolkit.Maui.Core.Handlers;
-using CommunityToolkit.Maui.Core.Views;
 using Scryv.Handlers;
 using Scryv.Interfaces;
 using Scryv.Primatives;
 using Scryv.Views;
-using Scryv.Views.AdvanceDrawingView;
 
 namespace Scryv.Extensions;
 
@@ -181,9 +178,19 @@ public static class ScryvDrawingViewExtensions
         }
     }
 
-    static ScryvInkPoint GetIntermediatePoint(ScryvInkPoint p0, ScryvInkPoint p1, ScryvInkPoint p2, ScryvInkPoint p3, in float t, in float tt, in float ttt) => new()
-    {
-        Position = new()
+    /// <summary>
+    /// Calculates the intermediate point between four given points using Catmull-Rom splines.
+    /// </summary>
+    /// <param name="p0">The first point.</param>
+    /// <param name="p1">The second point.</param>
+    /// <param name="p2">The third point.</param>
+    /// <param name="p3">The fourth point.</param>
+    /// <param name="t">The interpolation parameter.</param>
+    /// <param name="tt">The squared interpolation parameter.</param>
+    /// <param name="ttt">The cubed interpolation parameter.</param>
+    /// <returns>The intermediate point.</returns>
+    static ScryvInkPoint GetIntermediatePoint(ScryvInkPoint p0, ScryvInkPoint p1, ScryvInkPoint p2, ScryvInkPoint p3, in float t, in float tt, in float ttt) => new(
+        new()
         {
             X = 0.5f * (2f * p1.Position.X +
                     (p2.Position.X - p0.Position.X) * t +
@@ -194,17 +201,17 @@ public static class ScryvDrawingViewExtensions
                     (2 * p0.Position.Y - 5 * p1.Position.Y + 4 * p2.Position.Y - p3.Position.Y) * tt +
                     (3 * p1.Position.Y - p0.Position.Y - 3 * p2.Position.Y + p3.Position.Y) * ttt)
         },
-        Pressure = 0.5f * (2 * p1.Pressure + (p2.Pressure - p0.Pressure) * t +
+        0.5f * (2 * p1.Pressure + (p2.Pressure - p0.Pressure) * t +
                    (2 * p0.Pressure - 5 * p1.Pressure + 4 * p2.Pressure - p3.Pressure) * tt +
                    (3 * p1.Pressure - p0.Pressure - 3 * p2.Pressure + p3.Pressure) * ttt),
-        TiltX = 0.5f * (2 * p1.TiltX + (p2.TiltX - p0.TiltX) * t +
-				(2 * p0.TiltX - 5 * p1.TiltX + 4 * p2.TiltX - p3.TiltX) * tt +
+        0.5f * (2 * p1.TiltX + (p2.TiltX - p0.TiltX) * t +
+    (2 * p0.TiltX - 5 * p1.TiltX + 4 * p2.TiltX - p3.TiltX) * tt +
                 (3 * p1.TiltX - p0.TiltX - 3 * p2.TiltX + p3.TiltX) * ttt),
-        TiltY = 0.5f * (2 * p1.TiltY + (p2.TiltY - p0.TiltY) * t +
-				(2 * p0.TiltY - 5 * p1.TiltY + 4 * p2.TiltY - p3.TiltY) * tt +
+        0.5f * (2 * p1.TiltY + (p2.TiltY - p0.TiltY) * t +
+    (2 * p0.TiltY - 5 * p1.TiltY + 4 * p2.TiltY - p3.TiltY) * tt +
                 (3 * p1.TiltY - p0.TiltY - 3 * p2.TiltY + p3.TiltY) * ttt),
-        Timestamp = (ulong)(0.5f * (2 * p1.Timestamp + (p2.Timestamp - p0.Timestamp) * t +
-					(2 * p0.Timestamp - 5 * p1.Timestamp + 4 * p2.Timestamp - p3.Timestamp) * tt +
+        (ulong)(0.5f * (2 * p1.Timestamp + (p2.Timestamp - p0.Timestamp) * t +
+                    (2 * p0.Timestamp - 5 * p1.Timestamp + 4 * p2.Timestamp - p3.Timestamp) * tt +
                     (3 * p1.Timestamp - p0.Timestamp - 3 * p2.Timestamp + p3.Timestamp) * ttt))
-    };
+    );
 }
