@@ -21,6 +21,7 @@ namespace OcuInkTrain.ViewModel
             this.DrawingLines = new ObservableCollection<IAdvancedDrawingLine>();
             Exercises = new ObservableCollection<IExercise>
                 {
+                    new CornersExercise(),
                     new ShapesExercise(),
                     new LowerAlphabetExercise(),
                     new FruitExercise(),
