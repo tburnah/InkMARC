@@ -85,13 +85,13 @@ namespace Scryv.ViewModel
         {
             if (value)
             {
-                if (Application.Current.Resources.TryGetValue("Selected", out var activeColor))
+                if (Application.Current is not null && Application.Current.Resources.TryGetValue("Selected", out var activeColor))
                 {
                     return (Color)activeColor;
                 }
                 return Colors.GreenYellow;
             }
-            if (Application.Current.Resources.TryGetValue("White", out var inactiveColor))
+            if (Application.Current is not null && Application.Current.Resources.TryGetValue("White", out var inactiveColor))
             {
                 return (Color)inactiveColor;
             }
@@ -102,13 +102,13 @@ namespace Scryv.ViewModel
         {
             if (value)
             {
-                if (Application.Current.Resources.TryGetValue("SelectionBorder", out var activeColor))
+                if (Application.Current is not null && Application.Current.Resources.TryGetValue("SelectionBorder", out var activeColor))
                 {
                     return (Color)activeColor;
                 }
                 return Colors.GreenYellow;
             }
-            if (Application.Current.Resources.TryGetValue("UnselectedBorder", out var inactiveColor))
+            if (Application.Current is not null && Application.Current.Resources.TryGetValue("UnselectedBorder", out var inactiveColor))
             {
                 return (Color)inactiveColor;
             }
@@ -193,10 +193,13 @@ namespace Scryv.ViewModel
         [RelayCommand]
         public void PressContinue()
         {
-            if (isCameraSelected && IsStylusSelected && IsTabletSelected)
-                Navigation.PushAsync(new CameraSelection());
-            else
-                Navigation.PushAsync(new IneligableExit());
+            if (Navigation is not null)
+            {
+                if (isCameraSelected && IsStylusSelected && IsTabletSelected)
+                    Navigation.PushAsync(new CameraSelection());
+                else
+                    Navigation.PushAsync(new IneligableExit());
+            }
         }
     }
 }

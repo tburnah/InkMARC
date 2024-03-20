@@ -149,9 +149,9 @@ public static class ScryvDrawingViewExtensions
 			{
 				LineColor = line.LineColor,
 				ShouldSmoothPathWhenDrawn = line.ShouldSmoothPathWhenDrawn,
-				Granularity = line.Granularity,
+				Granularity = line.Granularity ,
 				LineWidth = line.LineWidth,
-				Points = line.Points.ToObservableCollection()
+				Points = line.Points?.ToObservableCollection()
 			});
 		}
 	}

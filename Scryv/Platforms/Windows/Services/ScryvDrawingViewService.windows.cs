@@ -134,7 +134,7 @@ public static class ScryvDrawingViewService
 
 	static CanvasRenderTarget? GetImageInternal(IList<IAdvancedDrawingLine> lines, Size size, Paint? background, bool scale = false)
 	{
-		var points = lines.SelectMany(x => x.Points).ToList();
+		var points = lines.SelectMany(x => x.Points ?? []).ToList();
 		var maxLineWidth = lines.Select(x => x.LineWidth).Max();
 		var (offscreen, offset) = GetCanvasRenderTarget(points, size, scale, maxLineWidth);
 		if (offscreen is null)
@@ -149,8 +149,8 @@ public static class ScryvDrawingViewService
 		session.FillRectangle(new Rect(0, 0, offscreen.Size.Width, offscreen.Size.Height), brush);
 
 		foreach (var line in lines)
-		{
-			DrawStrokes(session, line.Points, line.LineColor, line.LineWidth, offset);
+		{			
+			DrawStrokes(session, line.Points ?? new System.Collections.ObjectModel.ObservableCollection<ScryvInkPoint>(), line.LineColor ?? Colors.Black, line.LineWidth, offset);
 		}
 
 		return offscreen;

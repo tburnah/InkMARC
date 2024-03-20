@@ -132,14 +132,14 @@ namespace Scryv.ViewModel
         public async void ChooseContinue()
         {
             if (Navigation is not null)
-                await Navigation.PushAsync(new DrawingPage());
+                await Navigation.PushAsync(new ConsentPage());
         }
 
         /// <summary>
         /// Command to go back.
         /// </summary>
         [RelayCommand]
-        public async void Back()
+        public async Task Back()
         {
             if (Navigation is not null)
                 await Navigation.PopAsync();
@@ -164,7 +164,7 @@ namespace Scryv.ViewModel
 
         private void Camera_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(CameraWindowViewModel.NumCameras))
+            if (e.PropertyName == nameof(CameraWindowViewModel.NumCameras) && CameraWindowViewModel.Current is not null)
             {
                 NumCameras = CameraWindowViewModel.Current.NumCameras;
             }

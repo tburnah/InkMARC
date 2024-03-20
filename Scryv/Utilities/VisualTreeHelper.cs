@@ -11,7 +11,7 @@
         /// <typeparam name="T">The type of the parent element to find.</typeparam>
         /// <param name="element">The element whose parent to find.</param>
         /// <returns>The parent element of type T, or null if not found.</returns>
-        public static T FindParentOfType<T>(Element element) where T : Element
+        public static T? FindParentOfType<T>(Element element) where T : Element
         {
             if (element == null)
                 return null;

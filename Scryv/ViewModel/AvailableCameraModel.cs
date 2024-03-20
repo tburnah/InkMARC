@@ -12,7 +12,7 @@ namespace Scryv.ViewModel
         /// <summary>
         /// Event that is raised when the camera is selected.
         /// </summary>
-        public event EventHandler Selected;
+        public event EventHandler? Selected;
 
         /// <summary>
         /// Gets or sets the navigation service.
@@ -57,31 +57,31 @@ namespace Scryv.ViewModel
         /// </summary>
         public bool IsPhone { get; set; }
 
-        private string cameraName;
+        private string? cameraName;
         /// <summary>
         /// Gets or sets the name of the camera.
         /// </summary>
-        public string CameraName
+        public string? CameraName
         {
             get => cameraName;
             set => SetProperty(ref cameraName, value);
         }
 
-        private string cameraImage;
+        private string? cameraImage;
         /// <summary>
         /// Gets or sets the image of the camera.
         /// </summary>
-        public string CameraImage
+        public string? CameraImage
         {
             get => cameraImage;
             set => SetProperty(ref cameraImage, value);
         }
 
-        private CameraInfo cameraInfo;
+        private CameraInfo? cameraInfo;
         /// <summary>
         /// Gets or sets the camera information.
         /// </summary>
-        public CameraInfo CameraInfo
+        public CameraInfo? CameraInfo
         {
             get => cameraInfo;
             set => SetProperty(ref cameraInfo, value);
@@ -114,13 +114,13 @@ namespace Scryv.ViewModel
             {
                 if (isSelected)
                 {
-                    if (Application.Current.Resources.TryGetValue("SelectionBorder", out var activeColor))
+                    if (Application.Current is not null && Application.Current.Resources.TryGetValue("SelectionBorder", out var activeColor))
                     {
                         return (Color)activeColor;
                     }
                     return Colors.GreenYellow;
                 }
-                if (Application.Current.Resources.TryGetValue("UnselectedBorder", out var inactiveColor))
+                if (Application.Current is not null && Application.Current.Resources.TryGetValue("UnselectedBorder", out var inactiveColor))
                 {
                     return (Color)inactiveColor;
                 }

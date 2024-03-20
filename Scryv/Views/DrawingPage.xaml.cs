@@ -7,7 +7,7 @@ namespace Scryv.Views;
 /// </summary>
 public partial class DrawingPage : ContentPage
 {
-    private DrawingPageViewModel? viewModel = null;
+    private readonly DrawingPageViewModel? viewModel = null;
 
     /// <summary>
     /// Initializes a new instance of the DrawingPage class.
@@ -15,7 +15,10 @@ public partial class DrawingPage : ContentPage
     public DrawingPage()
     {
         InitializeComponent();
-        viewModel = BindingContext as DrawingPageViewModel;
-        viewModel.Navigation = Navigation;
+        if (BindingContext is DrawingPageViewModel drawingViewModel)
+        {
+            viewModel = drawingViewModel;
+            viewModel.Navigation = Navigation;
+        }
     }
 }

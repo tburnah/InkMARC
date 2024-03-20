@@ -17,7 +17,7 @@ namespace Scryv.Primatives
         /// <summary>
         /// Gets or sets the color of the drawing line.
         /// </summary>
-        public Color LineColor { get; set; }
+        public Color? LineColor { get; set; }
 
         /// <summary>
         /// Gets or sets the width of the drawing line.
@@ -27,7 +27,7 @@ namespace Scryv.Primatives
         /// <summary>
         /// Gets or sets the collection of ink points that make up the drawing line.
         /// </summary>
-        public ObservableCollection<ScryvInkPoint> Points { get; set; }
+        public ObservableCollection<ScryvInkPoint>? Points { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the path should be smoothed when drawn.

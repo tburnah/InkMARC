@@ -154,7 +154,7 @@ public partial class ScryvDrawingView
 #endif
 
 		Redraw();
-		currentLine?.Points.Add(currentPoint);
+		currentLine?.Points?.Add(currentPoint);
 		OnDrawing(currentPoint);
 	}
 
@@ -250,12 +250,14 @@ public partial class ScryvDrawingView
 			{
 				var path = new PathF();
 				var points = line.ShouldSmoothPathWhenDrawn
-					? line.Points.CreateSmoothedPathWithGranularity(line.Granularity)
+					? line.Points?.CreateSmoothedPathWithGranularity(line.Granularity)
 					: line.Points;
 #if ANDROID
+#pragma warning disable CS8604 // Possible null reference argument.
 				points = CreateCollectionWithNormalizedPoints(points, drawingView.Width, drawingView.Height, canvas.DisplayScale);
+#pragma warning restore CS8604 // Possible null reference argument.
 #endif
-				if (points.Count > 0)
+				if (points is not null && points.Count > 0)
 				{
 					path.MoveTo(points[0].Position.X, points[0].Position.Y);
 					foreach (var point in points)
@@ -263,7 +265,7 @@ public partial class ScryvDrawingView
 						path.LineTo(point);
 					}
 
-					SetStroke(canvas, line.LineWidth, line.LineColor);
+					SetStroke(canvas, line.LineWidth, line.LineColor ?? Colors.Black);
 					canvas.DrawPath(path);
 				}
 			}

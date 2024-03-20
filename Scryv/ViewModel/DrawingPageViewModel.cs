@@ -130,7 +130,7 @@ namespace Scryv.ViewModel
         /// Continues to the next exercise.
         /// </summary>
         [RelayCommand]
-        public async void Continue()
+        public async Task Continue()
         {
             if (DrawingLines.Count > 0)
             {
@@ -145,7 +145,7 @@ namespace Scryv.ViewModel
                 OnPropertyChanged(nameof(ImageSource));
                 OnPropertyChanged(nameof(ShowTraceImage));
                 OnPropertyChanged(nameof(CurrentExerciseNumber));
-                CameraWindowViewModel.Current.RestartCameraPreview(DataUtilities.GetVideoFileName(DateTime.Now.ToFileTime(), currentExerciseIndex));
+                CameraWindowViewModel.Current?.RestartCameraPreview(DataUtilities.GetVideoFileName(DateTime.Now.ToFileTime(), currentExerciseIndex));
             }
             else
             {

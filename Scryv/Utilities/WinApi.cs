@@ -5,7 +5,7 @@ namespace Scryv.Utilities
     /// <summary>
     /// Provides access to Windows API functions and constants.
     /// </summary>
-    public static class WinApi
+    public static partial class WinApi
     {
         /// <summary>
         /// Retrieves the window styles of a specified window.
@@ -50,6 +50,21 @@ namespace Scryv.Utilities
         /// <returns>The previous 32-bit value.</returns>
         [DllImport("user32.dll")]
         public static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
+        /// <summary>
+        /// Shows a window in its most recent size and position.
+        /// </summary>
+        /// <param name="hWnd"></param>
+        /// <param name="nCmdShow"></param>
+        /// <returns></returns>
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static partial bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+        /// <summary>
+        /// Maximizes the window.
+        /// </summary>
+        public const int SW_MAXIMIZE = 3;
 
         /// <summary>
         /// Closes the window.

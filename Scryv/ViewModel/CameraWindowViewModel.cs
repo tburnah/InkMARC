@@ -14,7 +14,7 @@ namespace Scryv.ViewModel
         /// <summary>
         /// Gets or sets the current instance of the <see cref="CameraWindowViewModel"/>.
         /// </summary>
-        public static CameraWindowViewModel Current { get; set; }
+        public static CameraWindowViewModel? Current { get; set; }
 
         private ObservableCollection<AvailableCameraModel> availableCameraModels = new ObservableCollection<AvailableCameraModel>();
         /// <summary>
@@ -22,8 +22,7 @@ namespace Scryv.ViewModel
         /// </summary>
         public ObservableCollection<AvailableCameraModel> AvailableCameraModels => availableCameraModels;
 
-        private System.Timers.Timer cameraTimer;
-        private bool leaving = false;
+        private readonly System.Timers.Timer cameraTimer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CameraWindowViewModel"/> class.
@@ -65,11 +64,11 @@ namespace Scryv.ViewModel
             Current = this;
         }
 
-        private CameraInfo camera = null;
+        private CameraInfo? camera = null;
         /// <summary>
         /// Gets or sets the current camera.
         /// </summary>
-        public CameraInfo Camera
+        public CameraInfo? Camera
         {
             get => camera;
             set

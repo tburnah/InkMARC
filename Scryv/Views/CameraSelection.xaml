@@ -100,6 +100,7 @@
                     Command="{Binding ChooseContinueCommand}"                    
                     Margin="8" />
             <Button toolkit:DockLayout.DockPosition="Left"
+                    IsVisible="False"
                     Text="&lt; Back"
                     FontSize="Medium"
                     Command="{Binding BackCommand}"                

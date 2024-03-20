@@ -30,6 +30,6 @@ public partial class IneligableExit : ContentPage
     /// <param name="e">The event arguments.</param>
     private void Exit_Clicked(object sender, EventArgs e)
     {
-        Application.Current.Quit();
+        Application.Current?.Quit();
     }
 }

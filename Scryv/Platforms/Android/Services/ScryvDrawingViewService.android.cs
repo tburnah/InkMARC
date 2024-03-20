@@ -90,7 +90,9 @@ public static class ScryvDrawingViewService
 
 	static Bitmap? GetBitmapForLines(IList<IAdvancedDrawingLine> lines, Paint? background)
 	{
+#pragma warning disable CS8603 // Possible null reference return.
 		var points = lines.SelectMany(x => x.Points).ToList();
+#pragma warning restore CS8603 // Possible null reference return.
 		var maxLineWidth = lines.Select(x => x.LineWidth).Max();
 		var (image, offset) = GetBitmap(points, maxLineWidth);
 		if (image is null)
@@ -102,7 +104,11 @@ public static class ScryvDrawingViewService
 		DrawBackground(canvas, background);
 		foreach (var line in lines)
 		{
+#pragma warning disable CS8604 // Possible null reference argument.
+#pragma warning disable CS8604 // Possible null reference argument.
 			DrawStrokes(canvas, line.Points, line.LineWidth, line.LineColor, offset);
+#pragma warning restore CS8604 // Possible null reference argument.
+#pragma warning restore CS8604 // Possible null reference argument.
 		}
 
 		return image;

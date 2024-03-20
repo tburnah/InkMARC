@@ -15,13 +15,16 @@ public sealed class AdvancedDrawingLineAdapter : IAdvancedDrawingLineAdapter
     /// <returns><see cref="IAdvancedDrawingLine"/></returns>
     public IAdvancedDrawingLine ConvertScryvDrawingLine(ScryvDrawingLine scryvDrawingLine)
 	{
+		if (scryvDrawingLine is null)
+			return new ScryvDrawingLine();
+
 		return new ScryvDrawingLine
 		{
-			LineColor = scryvDrawingLine.LineColor,
-			ShouldSmoothPathWhenDrawn = scryvDrawingLine.ShouldSmoothPathWhenDrawn,
-			Granularity = scryvDrawingLine.Granularity,
-			LineWidth = scryvDrawingLine.LineWidth,
-			Points = scryvDrawingLine.Points.ToObservableCollection()
+			LineColor = scryvDrawingLine?.LineColor ?? Colors.Black,
+			ShouldSmoothPathWhenDrawn = scryvDrawingLine?.ShouldSmoothPathWhenDrawn ?? true,
+			Granularity = scryvDrawingLine?.Granularity ?? 5,
+			LineWidth = scryvDrawingLine?.LineWidth ?? 1,
+			Points = scryvDrawingLine?.Points?.ToObservableCollection() ?? new System.Collections.ObjectModel.ObservableCollection<ScryvInkPoint>()
 		};
 	}
 }

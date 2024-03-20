@@ -1,4 +1,5 @@
 ﻿#if IOS || MACCATALYST
+#pragma warning disable CS0414 // The field 'MauiCameraView.micInput' is assigned but its value is never used
 using AVFoundation;
 using CoreAnimation;
 using CoreFoundation;
@@ -561,3 +562,4 @@ internal class MauiCameraView : UIView, IAVCaptureVideoDataOutputSampleBufferDel
     }
 }
 #endif
+#pragma warning restore CS0414 // The field 'MauiCameraView.micInput' is assigned but its value is never used#endif

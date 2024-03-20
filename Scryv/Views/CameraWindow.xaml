@@ -5,13 +5,16 @@
              xmlns:vm="clr-namespace:Scryv.ViewModel"
              x:Class="Scryv.Views.CameraWindow"
              x:DataType="vm:CameraWindowViewModel"
-             WidthRequest="600"
-             HeightRequest="400"
+             WidthRequest="160"
+             HeightRequest="120"
              Title="CameraWindow">
     <ContentPage.BindingContext>
         <vm:CameraWindowViewModel />
     </ContentPage.BindingContext>
     <VerticalStackLayout>
+        <VerticalStackLayout.GestureRecognizers>
+            <PanGestureRecognizer PanUpdated="OnPanUpdated" />
+        </VerticalStackLayout.GestureRecognizers>
         <cv:CameraView FinishedStarting="CamView_FinishedStarting"
                        FinishedStopping="CamView_FinishedStopping"
                        Camera="{Binding Camera}"

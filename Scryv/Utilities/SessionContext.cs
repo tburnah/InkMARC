@@ -15,12 +15,12 @@ namespace Scryv.Utilities
         /// <summary>
         /// Gets or sets the session ID.
         /// </summary>
-        public static string SessionID { get; set; }
+        public static string? SessionID { get; set; }
 
         /// <summary>
         /// Gets the file path session ID by removing spaces from the session ID.
         /// </summary>
-        public static string FilePathSessionID => SessionID.Replace(" ", "");
+        public static string FilePathSessionID => SessionID?.Replace(" ", "") ?? string.Empty;
 
         /// <summary>
         /// Gets or sets the camera window.

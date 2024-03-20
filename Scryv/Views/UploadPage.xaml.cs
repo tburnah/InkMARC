@@ -8,8 +8,14 @@ using System.Diagnostics;
 
 namespace Scryv.Views;
 
+/// <summary>
+/// Final page of the app.
+/// </summary>
 public partial class UploadPage : ContentPage
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="UploadPage"/> class.
+    /// </summary>
 	public UploadPage()
 	{
 		InitializeComponent();
@@ -20,7 +26,9 @@ public partial class UploadPage : ContentPage
         Application.Current?.Quit();
     }
 
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
     private async void ContentPage_Loaded(object sender, EventArgs e)
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
     {
         //AzureStorageService azureStorageService = new AzureStorageService();
 

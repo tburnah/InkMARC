@@ -35,9 +35,6 @@ public partial class CameraSelection : ContentPage
 
         SessionContext.CameraWin = secondWindow;
 
-        secondWindow.Width = 300;
-        secondWindow.Height = 200;
-
         if (Application.Current is not null)
         {
             Application.Current.OpenWindow(secondWindow);
@@ -47,10 +44,11 @@ public partial class CameraSelection : ContentPage
             // You can now use the window handle for your specific needs
             var windowId = Win32Interop.GetWindowIdFromWindow(windowHandle);
             var appWindow = AppWindow.GetFromWindowId(windowId);
+            appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
             var presenter = appWindow.Presenter as OverlappedPresenter;
             if (presenter is not null)
             {
-                appWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
+                //appWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
                 presenter.IsMaximizable = false;
                 presenter.IsMinimizable = false;
                 presenter.IsAlwaysOnTop = true;
@@ -59,6 +57,8 @@ public partial class CameraSelection : ContentPage
                 WinApi.SetWindowLong(windowHandle, WinApi.GWL_STYLE, currentStyle & ~(int)WinApi.WS_SYSMENU & ~(int)WinApi.WS_CAPTION);
             }
 #endif
+            secondWindow.Width = 160;
+            secondWindow.Height = 120;
         }
     }
 

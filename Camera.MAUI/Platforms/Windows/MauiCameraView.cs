@@ -12,6 +12,7 @@ using System.Linq.Expressions;
 using Windows.Storage;
 using System;
 using Windows.Devices.AllJoyn;
+using static System.Net.WebRequestMethods;
 
 namespace Camera.MAUI.Platforms.Windows;
 
@@ -42,6 +43,7 @@ public sealed partial class MauiCameraView : UserControl, IDisposable
             HorizontalAlignment = Microsoft.UI.Xaml.HorizontalAlignment.Stretch,
             VerticalAlignment = Microsoft.UI.Xaml.VerticalAlignment.Stretch
         };
+        mediaElement.AreTransportControlsEnabled = false;
         mediaElement.Loaded += MediaElement_Loaded;
         Content = mediaElement;
         InitDevices();
@@ -140,14 +142,14 @@ public sealed partial class MauiCameraView : UserControl, IDisposable
                     mediaCapture.InitializeAsync(new MediaCaptureInitializationSettings
                     {
                         SourceGroup = s,
-                        MemoryPreference = MediaCaptureMemoryPreference.Cpu,
+                        MemoryPreference = MediaCaptureMemoryPreference.Auto,
                         StreamingCaptureMode = StreamingCaptureMode.Video
                     }).GetAwaiter().GetResult();
                     frameSource = mediaCapture.FrameSources.FirstOrDefault(source => source.Value.Info.MediaStreamType == MediaStreamType.VideoRecord
                                                                                           && source.Value.Info.SourceKind == MediaFrameSourceKind.Color).Value;
                     var camInfo = new CameraInfo
                     {
-                        Name = s.DisplayName,
+                        Name = s.DisplayName,                        
                         DeviceId = s.Id,
                         Position = position,
                         HasFlashUnit = frameSource.Controller.VideoDeviceController.FlashControl.Supported,
@@ -192,13 +194,15 @@ public sealed partial class MauiCameraView : UserControl, IDisposable
                     await mediaCapture.InitializeAsync(new MediaCaptureInitializationSettings
                     {
                         VideoDeviceId = cameraView.Camera.DeviceId,
-                        MemoryPreference = MediaCaptureMemoryPreference.Cpu,
-                        StreamingCaptureMode = StreamingCaptureMode.Video
+                        MemoryPreference = MediaCaptureMemoryPreference.Auto,
+                        StreamingCaptureMode = StreamingCaptureMode.Video,
+                        MediaCategory = MediaCategory.Communications
                     });
 
                     StorageFile storageFile;
 
-                    MediaEncodingProfile profile = MediaEncodingProfile.CreateMp4(VideoEncodingQuality.Auto);
+                    MediaEncodingProfile profile = MediaEncodingProfile.CreateMp4(VideoEncodingQuality.Vga);
+
                     try
                     {
                         // Create or open the file to save the recording
@@ -227,18 +231,6 @@ public sealed partial class MauiCameraView : UserControl, IDisposable
                                 retryCount++;
                             }                            
                         }
-                        //try
-                        //{
-                        //    mediaRecording = await mediaCapture.PrepareLowLagRecordToStorageFileAsync(profile, storageFile);
-                        //}
-                        //catch (System.Runtime.InteropServices.COMException comEx)
-                        //{
-                        //    Debug.WriteLine($"COMException: {comEx.Message}, HResult: {comEx.HResult}");
-                        //}
-                        //catch (Exception ex2)
-                        //{
-                        //    Debug.WriteLine(ex2.Message);
-                        //}
                     }
                     catch (Exception ex)
                     {
@@ -249,11 +241,11 @@ public sealed partial class MauiCameraView : UserControl, IDisposable
                                                                                   && source.Value.Info.SourceKind == MediaFrameSourceKind.Color).Value;
                     if (frameSource != null)
                     {
-                        MediaFrameFormat frameFormat;
-                        if (Resolution.Width <= 0 || Resolution.Height <= 0)
-                            frameFormat = frameSource.SupportedFormats.OrderByDescending(f => f.VideoFormat.Width * f.VideoFormat.Height).FirstOrDefault();
-                        else
-                            frameFormat = frameSource.SupportedFormats.First(f => f.VideoFormat.Width == Resolution.Width && f.VideoFormat.Height == Resolution.Height);
+                        MediaFrameFormat frameFormat = frameSource.SupportedFormats.FirstOrDefault(format => format.VideoFormat.Width == 640 && format.VideoFormat.Height == 480);
+                        //if (Resolution.Width <= 0 || Resolution.Height <= 0)
+                        //    frameFormat = frameSource.SupportedFormats.OrderByDescending(f => f.VideoFormat.Width * f.VideoFormat.Height).FirstOrDefault();
+                        //else
+                        //    frameFormat = frameSource.SupportedFormats.First(f => f.VideoFormat.Width == Resolution.Width && f.VideoFormat.Height == Resolution.Height);
 
                         if (frameFormat != null)
                         {
@@ -261,7 +253,8 @@ public sealed partial class MauiCameraView : UserControl, IDisposable
                             UpdateTorch();
                             SetZoomFactor(cameraView.ZoomFactor);
                             mediaElement.AutoPlay = true;
-                            mediaElement.Source = MediaSource.CreateFromMediaFrameSource(frameSource);
+                            mediaElement.MediaPlayer.RealTimePlayback = true;
+                            mediaElement.Source = MediaSource.CreateFromMediaFrameSource(frameSource);                            
                             await mediaRecording.StartAsync();
                             recording = true;
                         }
@@ -309,7 +302,7 @@ public sealed partial class MauiCameraView : UserControl, IDisposable
                         await mediaCapture.InitializeAsync(new MediaCaptureInitializationSettings
                         {
                             SourceGroup = sGroups.First(s => s.Id == cameraView.Camera.DeviceId),
-                            MemoryPreference = MediaCaptureMemoryPreference.Cpu,
+                            MemoryPreference = MediaCaptureMemoryPreference.Auto,
                             StreamingCaptureMode = StreamingCaptureMode.Video
                         });
                         frameSource = mediaCapture.FrameSources.FirstOrDefault(source => source.Value.Info.MediaStreamType == MediaStreamType.VideoRecord
@@ -337,6 +330,7 @@ public sealed partial class MauiCameraView : UserControl, IDisposable
                             await frameSource.SetFormatAsync(frameFormat);
                             mediaElement.AutoPlay = true;
                             mediaElement.Source = MediaSource.CreateFromMediaFrameSource(frameSource);
+                            mediaElement.MediaPlayer.RealTimePlayback = true;
                             mediaElement.FlowDirection = flowDirection;
 
                             frameReader = await mediaCapture.CreateFrameReaderAsync(frameSource);
@@ -595,7 +589,7 @@ public sealed partial class MauiCameraView : UserControl, IDisposable
                     ImageFormat.JPEG => BitmapEncoder.JpegEncoderId,
                     _ => BitmapEncoder.PngEncoderId
                 };
-                if (File.Exists(SnapFilePath)) File.Delete(SnapFilePath);
+                if (System.IO.File.Exists(SnapFilePath)) System.IO.File.Delete(SnapFilePath);
                 using FileStream stream = new(SnapFilePath, FileMode.OpenOrCreate);
                 BitmapEncoder encoder = await BitmapEncoder.CreateAsync(iformat, stream.AsRandomAccessStream());
                 var img = SoftwareBitmap.Convert(snapshot, BitmapPixelFormat.Rgba8, BitmapAlphaMode.Premultiplied);

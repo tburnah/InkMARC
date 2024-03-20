@@ -1,5 +1,7 @@
-﻿using Scryv.Interfaces;
+﻿using Camera.MAUI;
+using Scryv.Interfaces;
 using Scryv.Primatives;
+using Scryv.ViewModel;
 using System.Text.Json;
 #if WINDOWS
 using Windows.Storage;
@@ -12,6 +14,10 @@ namespace Scryv.Utilities
     /// </summary>
     public static class DataUtilities
     {
+        /// <summary>
+        /// Gets the data folder path.
+        /// </summary>
+        /// <returns></returns>
         public static string GetDataFolder() => FileSystem.AppDataDirectory;
 
         private static string? videoFolderPath = null;
@@ -69,6 +75,8 @@ namespace Scryv.Utilities
         /// <returns>The data file name.</returns>
         public static string GetDataFileName(int exercise) => Path.Combine(GetVideosFolderPath(), $"data_{SessionContext.FilePathSessionID}_{exercise}.json");
 
+        private static JsonSerializerOptions jssOptions = new() { WriteIndented = true };
+
         /// <summary>
         /// Saves the advanced drawing lines to a file.
         /// </summary>
@@ -76,28 +84,36 @@ namespace Scryv.Utilities
         /// <param name="filePath">The file path to save the lines to.</param>
         public static void SaveAdvancedDrawingLines(List<IAdvancedDrawingLine> lines, string filePath)
         {
-            List<ScryvDrawingLine> existingLines = new List<ScryvDrawingLine>();
+            ExerciseData data = new()
+            {
+                CameraInfo = CameraWindowViewModel.Current?.Camera ?? null,
+                DrawingLines = lines.OfType<ScryvDrawingLine>().ToList()
+            };
 
             // Check if the file exists and has content
             if (File.Exists(filePath) && new FileInfo(filePath).Length > 0)
             {
                 // Read the existing content and deserialize it
                 string existingJson = File.ReadAllText(filePath);
-                foreach (var line in JsonSerializer.Deserialize<List<ScryvDrawingLine>>(existingJson))
-                {
-                    existingLines.Add(line);
-                }
+                data = JsonSerializer.Deserialize<ExerciseData>(existingJson, jssOptions) ?? data;
             }
 
             // Add the new lines to the existing lines
             foreach (var  advancedLine in lines)
             {
-                existingLines.Add(advancedLine as ScryvDrawingLine);
+                if (advancedLine is ScryvDrawingLine scryvLine && data is not null && data.DrawingLines is not null)
+                    data.DrawingLines.Add(scryvLine);
             }            
 
             // Serialize the combined list and write/overwrite the file
-            string json = JsonSerializer.Serialize(existingLines, new JsonSerializerOptions { WriteIndented = true });
+            string json = JsonSerializer.Serialize(data, jssOptions);
             File.WriteAllText(filePath, json);
+        }
+
+        private class ExerciseData
+        {
+            public CameraInfo? CameraInfo { get; set; }
+            public List<ScryvDrawingLine>? DrawingLines { get; set; }
         }
     }
 }

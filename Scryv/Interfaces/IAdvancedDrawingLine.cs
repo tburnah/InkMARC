@@ -16,7 +16,7 @@ namespace Scryv.Interfaces
         /// <summary>
         /// Gets or sets the Microsoft.Maui.Graphics.Color that is used to draw this line on the CommunityToolkit.Maui.Core.IDrawingView.
         /// </summary>
-        Color LineColor { get; set; }
+        Color? LineColor { get; set; }
 
         /// <summary>
         /// Gets or sets the width that is used to draw this line on the CommunityToolkit.Maui.Core.IDrawingView.
@@ -26,7 +26,7 @@ namespace Scryv.Interfaces
         /// <summary>
         /// Gets or sets the collection of Microsoft.Maui.Graphics.PointF that makes up this line on the CommunityToolkit.Maui.Core.IDrawingView.
         /// </summary>
-        ObservableCollection<ScryvInkPoint> Points { get; set; }
+        ObservableCollection<ScryvInkPoint>? Points { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether this line is smoothed (anti-aliased) when drawn.

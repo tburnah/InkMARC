@@ -251,7 +251,8 @@ public class AdvancedDrawingView : View, IScryvDrawingView
     /// <param name="lastDrawingLine">Last drawing line</param>
     public void OnDrawingLineCompleted(IAdvancedDrawingLine lastDrawingLine)
     {
-        drawingViewEventManager.HandleEvent(this, new ScryvDrawingLineCompletedEventArgs(lastDrawingLine as ScryvDrawingLine), nameof(DrawingLineCompleted));
+        if (lastDrawingLine is ScryvDrawingLine scryvDrawingLine)
+            drawingViewEventManager.HandleEvent(this, new ScryvDrawingLineCompletedEventArgs(scryvDrawingLine), nameof(DrawingLineCompleted));
 
         if (DrawingLineCompletedCommand?.CanExecute(lastDrawingLine) ?? false)
         {

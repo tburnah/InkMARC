@@ -2,6 +2,9 @@ using Scryv.Utilities;
 
 namespace Scryv.Views;
 
+/// <summary>
+/// Represents the ConsentPage.
+/// </summary>
 public partial class ConsentPage : ContentPage
 {
     /// <summary>
@@ -20,7 +23,7 @@ public partial class ConsentPage : ContentPage
     private void Continue_Clicked(object sender, EventArgs e)
     {
         SessionContext.SessionID = SessionIDUtilities.GetUniqueSessionID();
-        Navigation.PushAsync(new StartPage());
+        Navigation.PushAsync(new DrawingPage());
     }
 
     /// <summary>
@@ -30,6 +33,6 @@ public partial class ConsentPage : ContentPage
     /// <param name="e">The event arguments.</param>
     private void Exit_Clicked(object sender, EventArgs e)
     {
-        Application.Current.Quit();
+        Application.Current?.Quit();
     }
 }

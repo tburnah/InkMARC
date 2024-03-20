@@ -11,7 +11,7 @@ namespace Scryv.Views;
 /// </summary>
 public partial class StartPage : ContentPage
 {
-    private StartPageViewModel spvm;
+    private StartPageViewModel? spvm;
 
     private double cardWidth = 0;
     private double cardHeight = 0;
@@ -35,7 +35,7 @@ public partial class StartPage : ContentPage
     /// <param name="e">The event arguments.</param>
     private void Exit_Clicked(object sender, EventArgs e)
     {
-        Application.Current.Quit();
+        Application.Current?.Quit();
     }
 
     /// <summary>

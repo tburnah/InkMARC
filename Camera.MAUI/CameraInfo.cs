@@ -12,6 +12,8 @@ public class CameraInfo
     public float VerticalViewAngle { get; internal set; }
 
     public List<Size> AvailableResolutions { get; internal set; }
+    public Size SelectedResolution { get; internal set; } = new Size(640, 480);
+    public string EncodingQuality { get; internal set; } = "VGA";
     public override string ToString()
     {
         return Name;

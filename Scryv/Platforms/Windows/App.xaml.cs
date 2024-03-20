@@ -19,6 +19,10 @@ namespace Scryv.WinUI
             this.InitializeComponent();
         }
 
+        /// <summary>
+        /// Creates the Maui application instance.
+        /// </summary>
+        /// <returns>The Maui application instance.</returns>
         protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
     }
 
