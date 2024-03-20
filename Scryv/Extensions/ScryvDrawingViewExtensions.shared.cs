@@ -2,12 +2,12 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Core.Extensions;
-using Scryv.Handlers;
-using Scryv.Interfaces;
-using Scryv.Primatives;
-using Scryv.Views;
+using OcuInkTrain.Handlers;
+using OcuInkTrain.Interfaces;
+using OcuInkTrain.Primatives;
+using OcuInkTrain.Views;
 
-namespace Scryv.Extensions;
+namespace OcuInkTrain.Extensions;
 
 /// <summary>
 /// Extension methods to support <see cref="IDrawingView"/>

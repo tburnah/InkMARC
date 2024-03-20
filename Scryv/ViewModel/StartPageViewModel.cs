@@ -1,11 +1,11 @@
 ﻿using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Scryv.Utilities;
-using Scryv.Views;
+using OcuInkTrain.Utilities;
+using OcuInkTrain.Views;
 using System.Diagnostics;
 
-namespace Scryv.ViewModel
+namespace OcuInkTrain.ViewModel
 {
     /// <summary>
     /// ViewModel for the StartPage.

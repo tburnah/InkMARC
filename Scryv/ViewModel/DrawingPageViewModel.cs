@@ -1,12 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Scryv.Exercises;
-using Scryv.Interfaces;
-using Scryv.Utilities;
-using Scryv.Views;
+using OcuInkTrain.Exercises;
+using OcuInkTrain.Interfaces;
+using OcuInkTrain.Utilities;
+using OcuInkTrain.Views;
 using System.Collections.ObjectModel;
 
-namespace Scryv.ViewModel
+namespace OcuInkTrain.ViewModel
 {
     /// <summary>
     /// Represents the view model for the DrawingPage.

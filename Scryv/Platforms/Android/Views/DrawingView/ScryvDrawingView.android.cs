@@ -3,14 +3,14 @@ using Android.Content;
 using Android.Views;
 using CommunityToolkit.Maui.Core.Extensions;
 using Microsoft.Maui.Platform;
-using Scryv.Primatives;
-using Scryv.Utilities;
+using OcuInkTrain.Primatives;
+using OcuInkTrain.Utilities;
 using AColor = Android.Graphics.Color;
 using APaint = Android.Graphics.Paint;
 using APath = Android.Graphics.Path;
 using AView = Android.Views.View;
 
-namespace Scryv.Views;
+namespace OcuInkTrain.Views;
 
 public partial class ScryvDrawingView : PlatformTouchGraphicsView
 {

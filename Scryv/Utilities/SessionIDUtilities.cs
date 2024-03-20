@@ -1,4 +1,4 @@
-﻿namespace Scryv.Utilities
+﻿namespace OcuInkTrain.Utilities
 {
     /// <summary>
     /// Provides utility methods for generating and manipulating session IDs.

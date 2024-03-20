@@ -1,6 +1,6 @@
-﻿using Scryv.Primatives;
+﻿using OcuInkTrain.Primatives;
 
-namespace Scryv.Interfaces
+namespace OcuInkTrain.Interfaces
 {
     /// <summary>
     /// Represents an adapter for converting ScryvDrawingLine to IAdvancedDrawingLine.

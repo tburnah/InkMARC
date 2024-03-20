@@ -1,6 +1,6 @@
-﻿using Scryv.Interfaces;
+﻿using OcuInkTrain.Interfaces;
 
-namespace Scryv.Exercises
+namespace OcuInkTrain.Exercises
 {
     /// <summary>
     /// Represents a landscape exercise that prompts the user to draw a picture of a place outside.

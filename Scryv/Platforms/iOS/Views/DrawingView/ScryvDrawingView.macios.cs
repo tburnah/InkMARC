@@ -1,11 +1,11 @@
 ﻿using Foundation;
 using Microsoft.Maui.Graphics.Platform;
 using Microsoft.Maui.Platform;
-using Scryv.Primatives;
-using Scryv.Utilities;
+using OcuInkTrain.Primatives;
+using OcuInkTrain.Utilities;
 using UIKit;
 
-namespace Scryv.Views;
+namespace OcuInkTrain.Views;
 
 public partial class ScryvDrawingView : PlatformTouchGraphicsView
 {

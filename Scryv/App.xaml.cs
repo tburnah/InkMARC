@@ -1,10 +1,10 @@
 ﻿
-using Scryv.Views;
+using OcuInkTrain.Views;
 
-namespace Scryv
+namespace OcuInkTrain
 {
     /// <summary>
-    /// Scryv - Stylus capture and recording yielding video
+    /// OcuInk Train - Stylus capture and recording yielding video
     /// </summary>
     public partial class App : Application
     {

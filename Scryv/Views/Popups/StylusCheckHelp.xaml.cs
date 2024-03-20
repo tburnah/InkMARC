@@ -1,6 +1,6 @@
 using CommunityToolkit.Maui.Views;
 
-namespace Scryv.Views.Popups;
+namespace OcuInkTrain.Views.Popups;
 
 /// <summary>
 /// Represents the StylusCheckHelp popup.

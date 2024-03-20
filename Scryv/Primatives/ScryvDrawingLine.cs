@@ -1,11 +1,11 @@
-﻿using Scryv.Interfaces;
-using Scryv.Services;
+﻿using OcuInkTrain.Interfaces;
+using OcuInkTrain.Services;
 using System.Collections.ObjectModel;
 
-namespace Scryv.Primatives
+namespace OcuInkTrain.Primatives
 {
     /// <summary>
-    /// Represents a drawing line in the Scryv application.
+    /// Represents a drawing line in the OcuInkTrain application.
     /// </summary>
     public class ScryvDrawingLine : IAdvancedDrawingLine
     {

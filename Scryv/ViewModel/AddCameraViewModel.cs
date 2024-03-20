@@ -1,12 +1,12 @@
 ﻿using Camera.MAUI;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Scryv.Views;
+using OcuInkTrain.Views;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 
-namespace Scryv.ViewModel
+namespace OcuInkTrain.ViewModel
 {
     /// <summary>
     /// ViewModel for adding a camera.

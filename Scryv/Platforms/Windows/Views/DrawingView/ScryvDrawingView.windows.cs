@@ -1,11 +1,11 @@
 ﻿using Microsoft.Maui.Platform;
 using Microsoft.UI.Xaml.Input;
-using Scryv.Primatives;
+using OcuInkTrain.Primatives;
 using WBrush = Microsoft.UI.Xaml.Media.Brush;
 using WColor = Microsoft.UI.Colors;
 using WSolidColorBrush = Microsoft.UI.Xaml.Media.SolidColorBrush;
 
-namespace Scryv.Views;
+namespace OcuInkTrain.Views;
 
 /// <summary>
 /// DrawingView Native Control

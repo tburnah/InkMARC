@@ -1,13 +1,13 @@
 ﻿using Camera.MAUI;
-using Scryv.Interfaces;
-using Scryv.Primatives;
-using Scryv.ViewModel;
+using OcuInkTrain.Interfaces;
+using OcuInkTrain.Primatives;
+using OcuInkTrain.ViewModel;
 using System.Text.Json;
 #if WINDOWS
 using Windows.Storage;
 #endif
 
-namespace Scryv.Utilities
+namespace OcuInkTrain.Utilities
 {
     /// <summary>
     /// Provides utility methods for working with data.

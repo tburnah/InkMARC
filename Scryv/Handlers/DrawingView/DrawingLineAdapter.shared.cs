@@ -1,8 +1,8 @@
 ﻿using CommunityToolkit.Maui.Core.Extensions;
-using Scryv.Interfaces;
-using Scryv.Primatives;
+using OcuInkTrain.Interfaces;
+using OcuInkTrain.Primatives;
 
-namespace Scryv.Handlers;
+namespace OcuInkTrain.Handlers;
 
 /// <summary>
 /// DrawingLine Adapter

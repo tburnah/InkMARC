@@ -1,13 +1,13 @@
 ﻿using Android.Graphics;
 using Microsoft.Maui.Platform;
-using Scryv.Interfaces;
-using Scryv.Primatives;
+using OcuInkTrain.Interfaces;
+using OcuInkTrain.Primatives;
 using APaint = Android.Graphics.Paint;
 using Color = Microsoft.Maui.Graphics.Color;
 using Math = System.Math;
 using Paint = Microsoft.Maui.Graphics.Paint;
 
-namespace Scryv.Services;
+namespace OcuInkTrain.Services;
 
 /// <summary>
 /// Drawing view service

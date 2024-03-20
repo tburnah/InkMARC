@@ -3,13 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:cv="clr-namespace:Camera.MAUI;assembly=Camera.MAUI"
-             xmlns:vm="clr-namespace:Scryv.ViewModel"
+             xmlns:vm="clr-namespace:OcuInkTrain.ViewModel"
              NavigationPage.HasBackButton="False"
              NavigationPage.HasNavigationBar="False"
              BackgroundColor="{StaticResource White}"
              Loaded="ContentPage_Loaded"
              x:DataType="vm:AddCameraViewModel"
-             x:Class="Scryv.Views.CameraSelection"             
+             x:Class="OcuInkTrain.Views.CameraSelection"             
              Title="CameraSelection">
     <ContentPage.BindingContext>
         <vm:AddCameraViewModel />

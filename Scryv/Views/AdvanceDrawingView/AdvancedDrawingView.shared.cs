@@ -1,11 +1,11 @@
 ﻿using CommunityToolkit.Maui.Core;
-using Scryv.Interfaces;
-using Scryv.Primatives;
-using Scryv.Services;
+using OcuInkTrain.Interfaces;
+using OcuInkTrain.Primatives;
+using OcuInkTrain.Services;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-namespace Scryv.Views.AdvanceDrawingView;
+namespace OcuInkTrain.Views.AdvanceDrawingView;
 
 /// <summary>
 /// The DrawingView allows you to draw one or multiple lines on a canvas.

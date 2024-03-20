@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace Scryv
+namespace OcuInkTrain
 {
     [Application]
     public class MainApplication : MauiApplication

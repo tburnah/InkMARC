@@ -1,6 +1,6 @@
-﻿using Scryv.Interfaces;
+﻿using OcuInkTrain.Interfaces;
 
-namespace Scryv.Handlers;
+namespace OcuInkTrain.Handlers;
 
 /// <summary>
 /// <see cref="IScryvDrawingView"/> handler.

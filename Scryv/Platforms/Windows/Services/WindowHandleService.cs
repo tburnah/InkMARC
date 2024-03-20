@@ -1,7 +1,7 @@
-﻿using Scryv.Interfaces;
+﻿using OcuInkTrain.Interfaces;
 
 [assembly: Dependency(typeof(WindowHandleService))]
-namespace Scryv.Interfaces
+namespace OcuInkTrain.Interfaces
 {
     /// <summary>
     /// Service for retrieving the window handle of a window.

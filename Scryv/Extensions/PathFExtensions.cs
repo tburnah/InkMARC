@@ -1,6 +1,6 @@
-﻿using Scryv.Primatives;
+﻿using OcuInkTrain.Primatives;
 
-namespace Scryv.Extensions
+namespace OcuInkTrain.Extensions
 {
     /// <summary>
     /// Provides extension methods for the PathF class.

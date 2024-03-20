@@ -2,15 +2,15 @@
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Brushes;
 using Microsoft.Maui.Platform;
-using Scryv.Interfaces;
-using Scryv.Primatives;
+using OcuInkTrain.Interfaces;
+using OcuInkTrain.Primatives;
 using Windows.Storage.Streams;
 using Windows.UI.Input.Inking;
 using Point = Windows.Foundation.Point;
 using Rect = Windows.Foundation.Rect;
 using Size = Microsoft.Maui.Graphics.Size;
 
-namespace Scryv.Services;
+namespace OcuInkTrain.Services;
 
 /// <summary>
 ///     Drawing view service

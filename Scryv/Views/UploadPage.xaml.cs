@@ -1,12 +1,12 @@
 #if ANDROID
 using Android.Content;
 #endif
-using Scryv.Utilities;
+using OcuInkTrain.Utilities;
 #if WINDOWS
 using System.Diagnostics;
 #endif
 
-namespace Scryv.Views;
+namespace OcuInkTrain.Views;
 
 /// <summary>
 /// Final page of the app.

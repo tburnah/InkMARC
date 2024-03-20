@@ -3,11 +3,11 @@ using CommunityToolkit.Maui;
 using MauiIcons.Material;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
-using Scryv.Handlers;
-using Scryv.Utilities;
-using Scryv.Views.AdvanceDrawingView;
+using OcuInkTrain.Handlers;
+using OcuInkTrain.Utilities;
+using OcuInkTrain.Views.AdvanceDrawingView;
 
-namespace Scryv
+namespace OcuInkTrain
 {
     /// <summary>
     /// The main entry point for the Maui application.
@@ -48,8 +48,8 @@ namespace Scryv
                         })
                         .OnClosed((window, args) =>
                         {
-                            if (window.Title == "OcuInk Train" && Scryv.Utilities.SessionContext.CameraWin is not null)
-                                Application.Current?.CloseWindow(Scryv.Utilities.SessionContext.CameraWin);
+                            if (window.Title == "OcuInk Train" && OcuInkTrain.Utilities.SessionContext.CameraWin is not null)
+                                Application.Current?.CloseWindow(OcuInkTrain.Utilities.SessionContext.CameraWin);
                         });
                     });
 #endif

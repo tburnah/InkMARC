@@ -1,6 +1,6 @@
-﻿using Scryv.Interfaces;
+﻿using OcuInkTrain.Interfaces;
 
-namespace Scryv.Exercises
+namespace OcuInkTrain.Exercises
 {
     /// <summary>
     /// Represents an exercise for tracing a given image.

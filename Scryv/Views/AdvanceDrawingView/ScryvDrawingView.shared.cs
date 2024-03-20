@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Maui.Core.Extensions;
-using Scryv.Primatives;
-using Scryv.Extensions;
+using OcuInkTrain.Primatives;
+using OcuInkTrain.Extensions;
 
-namespace Scryv.Views;
+namespace OcuInkTrain.Views;
 
 /// <summary>
 /// DrawingView Platform Control

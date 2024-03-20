@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Scryv.Utilities
+namespace OcuInkTrain.Utilities
 {
     /// <summary>
     /// Represents the session context for the application.

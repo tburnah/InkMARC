@@ -1,11 +1,11 @@
-using Scryv.ViewModel;
-using Scryv.Utilities;
+using OcuInkTrain.ViewModel;
+using OcuInkTrain.Utilities;
 #if WINDOWS
 using Microsoft.UI.Windowing;
 using Microsoft.UI;
 #endif
 
-namespace Scryv.Views;
+namespace OcuInkTrain.Views;
 
 /// <summary>
 /// Represents the CameraSelection view.

@@ -1,4 +1,4 @@
-﻿namespace Scryv.Primatives
+﻿namespace OcuInkTrain.Primatives
 {
     /// <summary>
     /// Represents a point in an ink stroke.

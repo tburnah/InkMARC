@@ -1,4 +1,4 @@
-﻿namespace Scryv.Utilities
+﻿namespace OcuInkTrain.Utilities
 {
     /// <summary>
     /// Provides helper methods for working with the visual tree.

@@ -1,11 +1,11 @@
 ﻿using System.Collections.Specialized;
-using Scryv.Extensions;
+using OcuInkTrain.Extensions;
 using Microsoft.Maui.Handlers;
-using Scryv.Interfaces;
-using Scryv.Primatives;
-using Scryv.Views;
+using OcuInkTrain.Interfaces;
+using OcuInkTrain.Primatives;
+using OcuInkTrain.Views;
 
-namespace Scryv.Handlers;
+namespace OcuInkTrain.Handlers;
 
 /// <summary>
 /// DrawingView handler

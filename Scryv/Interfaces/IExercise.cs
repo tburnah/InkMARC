@@ -1,4 +1,4 @@
-﻿namespace Scryv.Interfaces
+﻿namespace OcuInkTrain.Interfaces
 {
     /// <summary>
     /// Represents an exercise.

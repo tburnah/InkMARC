@@ -1,10 +1,10 @@
 ﻿using Camera.MAUI;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Scryv.Utilities;
+using OcuInkTrain.Utilities;
 using System.Collections.ObjectModel;
 using System.Timers;
 
-namespace Scryv.ViewModel
+namespace OcuInkTrain.ViewModel
 {
     /// <summary>
     /// Represents the view model for the camera window.

@@ -1,7 +1,7 @@
-using Scryv.Utilities;
-using Scryv.ViewModel;
+using OcuInkTrain.Utilities;
+using OcuInkTrain.ViewModel;
 
-namespace Scryv.Views;
+namespace OcuInkTrain.Views;
 
 /// <summary>
 /// Represents the camera window view.

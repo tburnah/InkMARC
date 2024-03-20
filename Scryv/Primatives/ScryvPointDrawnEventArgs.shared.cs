@@ -1,5 +1,5 @@
 
-namespace Scryv.Primatives;
+namespace OcuInkTrain.Primatives;
 
 /// <summary>
 /// Contains last scryv drawing point

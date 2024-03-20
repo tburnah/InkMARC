@@ -1,4 +1,4 @@
-﻿namespace Scryv.Interfaces
+﻿namespace OcuInkTrain.Interfaces
 {
     /// <summary>
     /// Represents a service for retrieving the window handle of a specified window.

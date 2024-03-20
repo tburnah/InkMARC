@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace Scryv
+namespace OcuInkTrain
 {
     public class Program
     {

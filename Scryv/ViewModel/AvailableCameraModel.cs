@@ -2,7 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-namespace Scryv.ViewModel
+namespace OcuInkTrain.ViewModel
 {
     /// <summary>
     /// Represents the view model for an available camera.

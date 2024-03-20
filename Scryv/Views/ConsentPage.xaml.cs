@@ -1,6 +1,6 @@
-using Scryv.Utilities;
+using OcuInkTrain.Utilities;
 
-namespace Scryv.Views;
+namespace OcuInkTrain.Views;
 
 /// <summary>
 /// Represents the ConsentPage.

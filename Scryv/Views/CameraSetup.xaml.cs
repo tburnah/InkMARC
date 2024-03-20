@@ -1,4 +1,4 @@
-namespace Scryv.Views;
+namespace OcuInkTrain.Views;
 
 /// <summary>
 /// Represents the CameraSetup view.

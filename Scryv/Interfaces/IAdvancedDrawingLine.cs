@@ -1,7 +1,7 @@
-﻿using Scryv.Primatives;
+﻿using OcuInkTrain.Primatives;
 using System.Collections.ObjectModel;
 
-namespace Scryv.Interfaces
+namespace OcuInkTrain.Interfaces
 {
     /// <summary>
     /// Represents an advanced drawing line.

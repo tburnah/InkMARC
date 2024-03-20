@@ -1,10 +1,10 @@
 using CommunityToolkit.Maui.Views;
 using MauiIcons.Core;
-using Scryv.ViewModel;
-using Scryv.Views.Popups;
+using OcuInkTrain.ViewModel;
+using OcuInkTrain.Views.Popups;
 using System.Timers;
 
-namespace Scryv.Views;
+namespace OcuInkTrain.Views;
 
 /// <summary>
 /// Represents the start page of the application.

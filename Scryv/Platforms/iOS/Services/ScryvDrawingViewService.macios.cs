@@ -3,11 +3,11 @@ using System.Runtime.InteropServices;
 using CoreGraphics;
 using Microsoft.Maui.Graphics.Platform;
 using Microsoft.Maui.Platform;
-using Scryv.Interfaces;
-using Scryv.Primatives;
+using OcuInkTrain.Interfaces;
+using OcuInkTrain.Primatives;
 using UIKit;
 
-namespace Scryv.Services;
+namespace OcuInkTrain.Services;
 
 /// <summary>
 /// Drawing view service

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Scryv.Utilities
+namespace OcuInkTrain.Utilities
 {
     /// <summary>
     /// Provides access to Windows API functions and constants.

@@ -1,6 +1,6 @@
-﻿using Scryv.Interfaces;
+﻿using OcuInkTrain.Interfaces;
 
-namespace Scryv.Exercises
+namespace OcuInkTrain.Exercises
 {
     /// <summary>
     /// Represents a portrait exercise.

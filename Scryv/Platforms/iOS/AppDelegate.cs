@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace Scryv
+namespace OcuInkTrain
 {
     [Register("AppDelegate")]
     public class AppDelegate : MauiUIApplicationDelegate

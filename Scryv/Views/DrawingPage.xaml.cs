@@ -1,6 +1,6 @@
-using Scryv.ViewModel;
+using OcuInkTrain.ViewModel;
 
-namespace Scryv.Views;
+namespace OcuInkTrain.Views;
 
 /// <summary>
 /// Represents the DrawingPage class.

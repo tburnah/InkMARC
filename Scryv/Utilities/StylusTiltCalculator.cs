@@ -1,4 +1,4 @@
-﻿namespace Scryv.Utilities
+﻿namespace OcuInkTrain.Utilities
 {
     /// <summary>
     /// A utility class for calculating the tiltX and tiltY values based on azimuth and altitude angles in degrees.
