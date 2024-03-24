@@ -11,6 +11,17 @@ namespace OcuInkTrain.ViewModel
     /// </summary>
     public class CameraWindowViewModel : ObservableObject
     {
+
+        public static long GetTimeStamp()
+        {
+            DateTime now = DateTime.UtcNow;
+            DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
+            long unixTimeMilliseconds = (long)(now - epoch).TotalMilliseconds;
+
+            return unixTimeMilliseconds;
+        }
+
         /// <summary>
         /// Gets or sets the current instance of the <see cref="CameraWindowViewModel"/>.
         /// </summary>

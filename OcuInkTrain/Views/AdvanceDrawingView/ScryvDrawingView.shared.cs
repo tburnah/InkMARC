@@ -3,6 +3,7 @@ using CommunityToolkit.Maui.Core.Extensions;
 using OcuInkTrain.Primatives;
 using OcuInkTrain.Extensions;
 
+
 namespace OcuInkTrain.Views;
 
 /// <summary>
@@ -11,6 +12,8 @@ namespace OcuInkTrain.Views;
 public partial class OcuInkDrawingView
 {
 	readonly WeakEventManager weakEventManager = new();
+
+	System.Timers.Timer redrawTimer = new System.Timers.Timer(1000/30);
 
 	bool isDrawing;
 	OcuInkPoint previousPoint;
@@ -27,6 +30,13 @@ public partial class OcuInkDrawingView
 		remove => weakEventManager.RemoveEventHandler(value);
 	}
 
+	public void ThrottleRedraw()
+	{
+		if (!redrawTimer.Enabled)
+		{
+			redrawTimer.Start();
+		}
+	}
 	/// <summary>
 	/// Event raised when drawing started 
 	/// </summary>
@@ -93,8 +103,9 @@ public partial class OcuInkDrawingView
 		set
 		{
 			paint = value;
-			Redraw();
-		}
+			ThrottleRedraw();
+            //Redraw();
+        }
 	}
 
 	/// <summary>
@@ -135,8 +146,8 @@ public partial class OcuInkDrawingView
 			LineColor = LineColor,
 			LineWidth = LineWidth
 		};
-
-		Redraw();
+        ThrottleRedraw();
+        //Redraw();
 
 		Lines.CollectionChanged += OnLinesCollectionChanged;
 		OnDrawingStarted(point);
@@ -152,8 +163,8 @@ public partial class OcuInkDrawingView
 #if !ANDROID
 		AddPointToPath(currentPoint);
 #endif
-
-		Redraw();
+        ThrottleRedraw();
+        //Redraw();
 		currentLine?.Points?.Add(currentPoint);
 		OnDrawing(currentPoint);
 	}
@@ -180,7 +191,8 @@ public partial class OcuInkDrawingView
 	{
 		currentLine = null;
 		ClearPath();
-		Redraw();
+        ThrottleRedraw();
+        //Redraw();
 		isDrawing = false;
 		OnDrawingCancelled();
 	}
@@ -204,7 +216,8 @@ public partial class OcuInkDrawingView
 	void LoadLines()
 	{
 		ClearPath();
-		Redraw();
+        ThrottleRedraw();
+        //Redraw();
 	}
 
 	void ClearPath()

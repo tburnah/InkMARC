@@ -19,6 +19,8 @@ public partial class OcuInkDrawingView : PlatformTouchGraphicsView
 	/// </summary>
 	public OcuInkDrawingView(Context context) : base(context)
 	{
+		redrawTimer.AutoReset = false;
+		redrawTimer.Elapsed += (s, e) => Redraw();
 		previousPoint = new();
 	}
 
@@ -88,7 +90,8 @@ public partial class OcuInkDrawingView : PlatformTouchGraphicsView
 				return false;
 		}
 
-		Redraw();
+        ThrottleRedraw();
+        //Redraw();
 
 		return true;
 	}
