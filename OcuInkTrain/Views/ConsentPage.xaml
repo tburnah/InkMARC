@@ -64,7 +64,7 @@
                 <Label Margin="8"
                        TextColor="{StaticResource PrimaryDarkText}"
                        FontSize="Small"
-                       Text="Researchers: Tavish Burnah, Rachel Blagojevic" />
+                       Text="Researcher: Tavish Burnah. Supervisors: Rachel Blagojevic, Athar Imtiaz, Hans Guesgen, George Rudolph." />
             </VerticalStackLayout>
         </Frame>
         <toolkit:DockLayout Grid.Row="3">

@@ -75,6 +75,13 @@ namespace OcuInkTrain.Utilities
         /// <returns>The data file name.</returns>
         public static string GetDataFileName(int exercise) => Path.Combine(GetVideosFolderPath(), $"data_{DateTime.Now.ToFileTime()}_{SessionContext.FilePathSessionID}_{exercise}.json");
 
+        /// <summary>
+        /// Gets the image file name based on the current session ID.`
+        /// </summary>
+        /// <param name="exercise"></param>
+        /// <returns></returns>
+        public static string GatImageFileName(int exercise) => Path.Combine(GetVideosFolderPath(), $"image_{DateTime.Now.ToFileTime()}_{SessionContext.FilePathSessionID}_{exercise}.png");
+
         private static JsonSerializerOptions jssOptions = new() { WriteIndented = true };
 
         /// <summary>

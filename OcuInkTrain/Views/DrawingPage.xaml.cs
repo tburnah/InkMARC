@@ -19,6 +19,7 @@ public partial class DrawingPage : ContentPage
         {
             viewModel = drawingViewModel;
             viewModel.Navigation = Navigation;
+            viewModel.OcuInkDrawingView = MyDrawingView;
         }
     }
 }

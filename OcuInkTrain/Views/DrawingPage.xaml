@@ -43,7 +43,8 @@
                        HorizontalOptions="Center"
                        VerticalOptions="Center"
                        IsVisible="{Binding ShowTraceImage}" />
-                <adv:AdvancedDrawingView BackgroundColor="Transparent"
+                <adv:AdvancedDrawingView x:Name="MyDrawingView"
+                                         BackgroundColor="Transparent"
                                          Lines="{Binding DrawingLines}"
                                          IsMultiLineModeEnabled="True" />
             </Grid>

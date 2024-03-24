@@ -4,6 +4,7 @@ using OcuInkTrain.Exercises;
 using OcuInkTrain.Interfaces;
 using OcuInkTrain.Utilities;
 using OcuInkTrain.Views;
+using OcuInkTrain.Views.AdvanceDrawingView;
 using System.Collections.ObjectModel;
 
 namespace OcuInkTrain.ViewModel
@@ -13,6 +14,8 @@ namespace OcuInkTrain.ViewModel
     /// </summary>
     internal partial class DrawingPageViewModel : ObservableObject
     {
+        public AdvancedDrawingView? OcuInkDrawingView { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DrawingPageViewModel"/> class.
         /// </summary>
@@ -39,8 +42,7 @@ namespace OcuInkTrain.ViewModel
             OnPropertyChanged(nameof(Prompt));
             OnPropertyChanged(nameof(ImageSource));
             OnPropertyChanged(nameof(ShowTraceImage));
-            OnPropertyChanged(nameof(CurrentExerciseNumber));
-            //StartRecording();
+            OnPropertyChanged(nameof(CurrentExerciseNumber));            
         }
 
         #region CameraView Properties        
@@ -136,6 +138,11 @@ namespace OcuInkTrain.ViewModel
             if (DrawingLines.Count > 0)
             {
                 DataUtilities.SaveAdvancedDrawingLines(DrawingLines.ToList(), DataUtilities.GetDataFileName(currentExerciseIndex));
+                using var stream = await OcuInkDrawingView.GetImageStream(OcuInkDrawingView.Width, OcuInkDrawingView.Height);
+                using (var fileStream = new FileStream(DataUtilities.GatImageFileName(currentExerciseIndex), FileMode.Create, FileAccess.Write))
+                {
+                    await stream.CopyToAsync(fileStream);
+                }
             }
             if (currentExerciseIndex < TotalExercises - 1)
             {
