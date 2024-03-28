@@ -39,7 +39,7 @@
 		<PublishAot>False</PublishAot>		
 		<SignAssembly>True</SignAssembly>		
 		<RunAnalyzersDuringLiveAnalysis>True</RunAnalyzersDuringLiveAnalysis>		
-		<GenerateAppInstallerFile>True</GenerateAppInstallerFile>		
+		<GenerateAppInstallerFile>False</GenerateAppInstallerFile>		
 		<AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>		
 		<PackageCertificateThumbprint>B67D5311D0FA4DAB717FC06AA01F0863EEB5EB5F</PackageCertificateThumbprint>		
 		<AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>		
@@ -47,7 +47,7 @@
 		<AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>		
 		<GenerateTestArtifacts>True</GenerateTestArtifacts>		
 		<AppInstallerUri>https://masseyuni.sharepoint.com/:f:/r/teams/HCIResearch-Tavish-PhD/Shared%2520Documents/Tavish%2520-%2520PhD/Data%2520Collection%2520app%3fcsf=1&amp;web=1&amp;e=979Fk9</AppInstallerUri>		
-		<HoursBetweenUpdateChecks>24</HoursBetweenUpdateChecks>
+		<HoursBetweenUpdateChecks>168</HoursBetweenUpdateChecks>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
@@ -91,6 +91,7 @@
 	  <PackageIcon>appicon.png</PackageIcon>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
 	  <RepositoryUrl>https://github.com/tavish-burnah/OcuInkTrain</RepositoryUrl>
+	  <PublishTrimmed>False</PublishTrimmed>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android34.0|AnyCPU'">
