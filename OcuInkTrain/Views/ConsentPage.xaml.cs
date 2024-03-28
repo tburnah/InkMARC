@@ -1,4 +1,5 @@
 using CommunityToolkit.Maui.Core.Platform;
+using OcuInk.Views;
 using OcuInkTrain.Utilities;
 
 namespace OcuInkTrain.Views;

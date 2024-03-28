@@ -67,6 +67,123 @@
                     WidthRequest="100"
                     Margin="8"
                     Command="{Binding ClearDrawingCommand}" />
+            <Button Text="Undo"
+                    BackgroundColor="{StaticResource White}"
+                    FontSize="Medium"
+                    TextColor="{StaticResource ButtonColor}"
+                    toolkit:DockLayout.DockPosition="Left"
+                    WidthRequest="100"
+                    Margin="8"
+                    Command="{Binding UndoCommand}" />
+            <Grid toolkit:DockLayout.DockPosition="Right">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="19" />
+                    <RowDefinition Height="19" />
+                    <RowDefinition Height="19" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="29" />
+                    <ColumnDefinition Width="29" />
+                    <ColumnDefinition Width="29" />
+                    <ColumnDefinition Width="29" />
+                </Grid.ColumnDefinitions>
+                <Rectangle BackgroundColor="Black"
+                           Grid.Row="0"
+                           Grid.Column="0">
+                    <Rectangle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ChooseColorCommand}"
+                                              CommandParameter="{StaticResource Black}" />
+                    </Rectangle.GestureRecognizers>
+                </Rectangle>
+                <Rectangle BackgroundColor="White"
+                           Grid.Row="1"
+                           Grid.Column="0">
+                    <Rectangle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ChooseColorCommand}"
+                                              CommandParameter="{StaticResource White}" />
+                    </Rectangle.GestureRecognizers>
+                </Rectangle>
+                <Rectangle BackgroundColor="Gray"
+                           Grid.Row="2"
+                           Grid.Column="0">
+                    <Rectangle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ChooseColorCommand}"
+                                              CommandParameter="{StaticResource Gray}" />
+                    </Rectangle.GestureRecognizers>
+                </Rectangle>
+                <Rectangle BackgroundColor="Red"
+                           Grid.Row="0"
+                           Grid.Column="1">
+                    <Rectangle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ChooseColorCommand}"
+                                              CommandParameter="{StaticResource Red}" />
+                    </Rectangle.GestureRecognizers>
+                </Rectangle>
+                <Rectangle BackgroundColor="green"
+                           Grid.Row="1"
+                           Grid.Column="1">
+                    <Rectangle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ChooseColorCommand}"
+                                              CommandParameter="{StaticResource Green}" />
+                    </Rectangle.GestureRecognizers>
+                </Rectangle>
+                <Rectangle BackgroundColor="blue"
+                           Grid.Row="2"
+                           Grid.Column="1">
+                    <Rectangle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ChooseColorCommand}"
+                                              CommandParameter="{StaticResource Blue}" />
+                    </Rectangle.GestureRecognizers>
+                </Rectangle>
+                <Rectangle BackgroundColor="Magenta"
+                           Grid.Row="0"
+                           Grid.Column="2">
+                    <Rectangle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ChooseColorCommand}"
+                                              CommandParameter="{StaticResource Magenta}" />
+                    </Rectangle.GestureRecognizers>
+                </Rectangle>
+                <Rectangle BackgroundColor="Yellow"
+                           Grid.Row="1"
+                           Grid.Column="2">
+                    <Rectangle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ChooseColorCommand}"
+                                              CommandParameter="{StaticResource Yellow}" />
+                    </Rectangle.GestureRecognizers>
+                </Rectangle>
+                <Rectangle BackgroundColor="Cyan"
+                           Grid.Row="2"
+                           Grid.Column="2">
+                    <Rectangle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ChooseColorCommand}"
+                                              CommandParameter="{StaticResource Cyan}" />
+                    </Rectangle.GestureRecognizers>
+                </Rectangle>
+                <Rectangle BackgroundColor="purple"
+                           Grid.Row="0"
+                           Grid.Column="3">
+                    <Rectangle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ChooseColorCommand}"
+                                              CommandParameter="{StaticResource Purple}" />
+                    </Rectangle.GestureRecognizers>
+                </Rectangle>
+                <Rectangle BackgroundColor="orange"
+                           Grid.Row="1"
+                           Grid.Column="3">
+                    <Rectangle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ChooseColorCommand}"
+                                              CommandParameter="{StaticResource Orange}" />
+                    </Rectangle.GestureRecognizers>
+                </Rectangle>
+                <Rectangle BackgroundColor="Brown"
+                           Grid.Row="2"
+                           Grid.Column="3">
+                    <Rectangle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ChooseColorCommand}"
+                                              CommandParameter="{StaticResource Brown}" />
+                    </Rectangle.GestureRecognizers>
+                </Rectangle>
+            </Grid>
             <HorizontalStackLayout toolkit:DockLayout.DockPosition="Top"
                                    HorizontalOptions="Center">
                 <Label Text="Exercise"

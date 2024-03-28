@@ -378,8 +378,6 @@ public class CameraView : View, ICameraView
         {
             result = await handler.StopRecordingAsync();
         }
-        Debug.Write("Camera Result -->");
-        Debug.WriteLine(result);
         return result;
     }
     /// <summary>

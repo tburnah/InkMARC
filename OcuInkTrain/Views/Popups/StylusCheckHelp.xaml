@@ -20,12 +20,12 @@
             <RowDefinition Height="6*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <mi:MauiIcon Icon="{mi:Material Help}"
-                     IconColor="{StaticResource ButtonColor}"
-                     IconSize="48"
-                     Grid.Row="0"                     
-                     HorizontalOptions="Center"
-                     VerticalOptions="Fill" />
+        <Image Source="help.png"
+               WidthRequest="48"
+               HeightRequest="48"
+               Grid.Row="0"               
+               HorizontalOptions="Center"
+               VerticalOptions="Center" />
         <Label Text="What counts as a stylus?"
                HorizontalTextAlignment="Center"
                VerticalTextAlignment="Center"

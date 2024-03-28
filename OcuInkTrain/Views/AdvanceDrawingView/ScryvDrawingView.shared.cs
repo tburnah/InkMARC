@@ -2,6 +2,7 @@
 using CommunityToolkit.Maui.Core.Extensions;
 using OcuInkTrain.Primatives;
 using OcuInkTrain.Extensions;
+using System.Diagnostics;
 
 
 namespace OcuInkTrain.Views;
@@ -32,11 +33,13 @@ public partial class OcuInkDrawingView
 
 	public void ThrottleRedraw()
 	{
-		if (!redrawTimer.Enabled)
-		{
-			redrawTimer.Start();
-		}
+		Redraw();
+		//if (!redrawTimer.Enabled)
+		//{
+		//	redrawTimer.Start();
+		//}
 	}
+
 	/// <summary>
 	/// Event raised when drawing started 
 	/// </summary>
@@ -120,7 +123,7 @@ public partial class OcuInkDrawingView
 	void OnStart(OcuInkPoint point)
 	{
 		isDrawing = true;
-
+        currentCount = 0;
 		Lines.CollectionChanged -= OnLinesCollectionChanged;
 
 		if (!IsMultiLineModeEnabled)
@@ -153,13 +156,16 @@ public partial class OcuInkDrawingView
 		OnDrawingStarted(point);
 	}
 
+	private int currentCount;
+	const int MaxPointsInLine = 100;
 	void OnMoving(OcuInkPoint currentPoint)
-	{
+	{		
 		if (!isDrawing)
 		{
 			return;
 		}
 
+        currentCount++;
 #if !ANDROID
 		AddPointToPath(currentPoint);
 #endif
@@ -167,6 +173,28 @@ public partial class OcuInkDrawingView
         //Redraw();
 		currentLine?.Points?.Add(currentPoint);
 		OnDrawing(currentPoint);
+		if (currentCount > MaxPointsInLine)
+		{
+            Lines.Add(currentLine);
+            previousPoint = currentPoint;
+            //currentPath.MoveTo(previousPoint.Position.X, previousPoint.Position.Y);
+            currentCount = 0;
+            currentLine = new OcuInkDrawingLine
+            {
+                Points = new ObservableCollection<OcuInkPoint>
+				{
+					new(
+						previousPoint.Position,
+						previousPoint.Pressure,
+						previousPoint.TiltX,
+						previousPoint.TiltY,
+						previousPoint.Timestamp
+					)
+				},
+                LineColor = LineColor,
+                LineWidth = LineWidth
+            };
+        }
 	}
 
 	void OnFinish()
@@ -189,6 +217,7 @@ public partial class OcuInkDrawingView
 
 	void OnCancel()
 	{
+		Debug.WriteLine("OnCancel");
 		currentLine = null;
 		ClearPath();
         ThrottleRedraw();

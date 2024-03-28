@@ -80,7 +80,7 @@ namespace OcuInkTrain.Utilities
         /// </summary>
         /// <param name="exercise"></param>
         /// <returns></returns>
-        public static string GatImageFileName(int exercise) => Path.Combine(GetVideosFolderPath(), $"image_{DateTime.Now.ToFileTime()}_{SessionContext.FilePathSessionID}_{exercise}.png");
+        public static string GetImageFileName(int exercise) => Path.Combine(GetVideosFolderPath(), $"image_{DateTime.Now.ToFileTime()}_{SessionContext.FilePathSessionID}_{exercise}.png");
 
         private static JsonSerializerOptions jssOptions = new() { WriteIndented = true };
 

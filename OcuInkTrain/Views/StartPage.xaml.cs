@@ -1,5 +1,4 @@
 using CommunityToolkit.Maui.Views;
-using MauiIcons.Core;
 using OcuInkTrain.ViewModel;
 using OcuInkTrain.Views.Popups;
 using System.Timers;
@@ -21,8 +20,7 @@ public partial class StartPage : ContentPage
     /// </summary>
     public StartPage()
     {
-        InitializeComponent();
-        _ = new MauiIcon();
+        InitializeComponent();        
         spvm = BindingContext as StartPageViewModel;
         if (spvm is not null)
             spvm.Navigation = Navigation;

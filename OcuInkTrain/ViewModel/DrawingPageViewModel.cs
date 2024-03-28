@@ -129,6 +129,13 @@ namespace OcuInkTrain.ViewModel
             this.DrawingLines.Clear();
         }
 
+        [RelayCommand]
+        public void Undo()
+        {
+            if (DrawingLines.Count > 0)
+                DrawingLines.RemoveAt(DrawingLines.Count - 1);
+        }
+
         /// <summary>
         /// Continues to the next exercise.
         /// </summary>
@@ -139,10 +146,12 @@ namespace OcuInkTrain.ViewModel
             {
                 DataUtilities.SaveAdvancedDrawingLines(DrawingLines.ToList(), DataUtilities.GetDataFileName(currentExerciseIndex));
                 using var stream = await OcuInkDrawingView.GetImageStream(OcuInkDrawingView.Width, OcuInkDrawingView.Height);
-                using (var fileStream = new FileStream(DataUtilities.GatImageFileName(currentExerciseIndex), FileMode.Create, FileAccess.Write))
-                {
-                    await stream.CopyToAsync(fileStream);
+                string imagePath = DataUtilities.GetImageFileName(currentExerciseIndex);
+                using (var fileStream = new FileStream(imagePath, FileMode.Create, FileAccess.Write))
+                {                    
+                    await stream.CopyToAsync(fileStream);                    
                 }
+                SessionContext.ImagePaths.Add(imagePath);
             }
             if (currentExerciseIndex < TotalExercises - 1)
             {
@@ -160,6 +169,15 @@ namespace OcuInkTrain.ViewModel
                 StopRecording();
                 if (Navigation is not null)
                     await Navigation.PushAsync(new UploadPage());
+            }
+        }
+
+        [RelayCommand]
+        public void ChooseColor(object color)
+        {
+            if (color is Color selectedColor && OcuInkDrawingView is not null)
+            {
+                OcuInkDrawingView.LineColor = selectedColor;
             }
         }
     }

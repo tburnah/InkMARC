@@ -212,7 +212,6 @@ public sealed partial class MauiCameraView : UserControl, IDisposable
                         int retryCount = 0;
                         while (!successfulPreparation && retryCount < 100)
                         {
-                            Debug.WriteLine(retryCount);
                             try
                             {
                                 mediaRecording = await mediaCapture.PrepareLowLagRecordToStorageFileAsync(profile, storageFile);

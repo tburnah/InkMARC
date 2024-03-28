@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net8.0-android34.0;net8.0-ios</TargetFrameworks>
+		<TargetFrameworks>net8.0-android34.0</TargetFrameworks>
 
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
@@ -30,8 +30,7 @@
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
 
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">16.1</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">16.1</SupportedOSPlatformVersion>		
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>		
@@ -40,7 +39,7 @@
 		<PublishAot>False</PublishAot>		
 		<SignAssembly>True</SignAssembly>		
 		<RunAnalyzersDuringLiveAnalysis>True</RunAnalyzersDuringLiveAnalysis>		
-		<GenerateAppInstallerFile>False</GenerateAppInstallerFile>		
+		<GenerateAppInstallerFile>True</GenerateAppInstallerFile>		
 		<AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>		
 		<PackageCertificateThumbprint>B67D5311D0FA4DAB717FC06AA01F0863EEB5EB5F</PackageCertificateThumbprint>		
 		<AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>		
@@ -60,13 +59,10 @@
 	  <ApplicationIdGuid>AA6252FC-A523-4362-9B45-B6D9EE66F2CB</ApplicationIdGuid>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-maccatalyst|AnyCPU'">
-	  <ApplicationId>com.tavishburnah.ocuink</ApplicationId>
-	</PropertyGroup>
-
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.19041.0|AnyCPU'">
 	  <ApplicationId>com.tavishburnah.ocuink</ApplicationId>
 	  <ApplicationIdGuid>AA6252FC-A523-4362-9B45-B6D9EE66F2CB</ApplicationIdGuid>
+	  <DebugType>none</DebugType>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|AnyCPU'">
@@ -78,13 +74,10 @@
 	  <ApplicationIdGuid>AA6252FC-A523-4362-9B45-B6D9EE66F2CB</ApplicationIdGuid>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-maccatalyst|AnyCPU'">
-	  <ApplicationId>com.tavishburnah.ocuink</ApplicationId>
-	</PropertyGroup>
-
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.19041.0|AnyCPU'">
 	  <ApplicationId>com.tavishburnah.ocuink</ApplicationId>
 	  <ApplicationIdGuid>AA6252FC-A523-4362-9B45-B6D9EE66F2CB</ApplicationIdGuid>
+	  <DebugType>none</DebugType>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -102,10 +95,12 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android34.0|AnyCPU'">
 	  <ApplicationIdGuid>AA6252FC-A523-4362-9B45-B6D9EE66F2CB</ApplicationIdGuid>
+	  <DebugType>none</DebugType>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android34.0|AnyCPU'">
 	  <ApplicationIdGuid>AA6252FC-A523-4362-9B45-B6D9EE66F2CB</ApplicationIdGuid>
+	  <DebugType>none</DebugType>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -133,9 +128,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AathifMahir.Maui.MauiIcons.Core" Version="2.1.1" />
-		<PackageReference Include="AathifMahir.Maui.MauiIcons.Material" Version="2.1.1" />
-		<PackageReference Include="Azure.Storage.Blobs" Version="12.19.1" />
 		<PackageReference Include="CommunityToolkit.Maui" Version="7.0.1" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
@@ -165,6 +157,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ConsentPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Demographics.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\DrawingPage.xaml">

@@ -20,13 +20,13 @@
             <ColumnDefinition Width="3*" />
             <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
-        <mi:MauiIcon Icon="{mi:Material Help}"
-                     IconColor="{StaticResource ButtonColor}"
-                     IconSize="48"  
-                     Grid.Row="0"
-                     Grid.ColumnSpan="2"
-                     HorizontalOptions="Center"
-                     VerticalOptions="Fill"/>
+        <Image Source="help.png"
+               WidthRequest="48"
+               HeightRequest="48"
+               Grid.Row="0"
+               Grid.ColumnSpan="2"
+               HorizontalOptions="Center"
+               VerticalOptions="Center" />
         <Label Text="What counts as a camera?"
                HorizontalTextAlignment="Center"
                VerticalTextAlignment="Center"

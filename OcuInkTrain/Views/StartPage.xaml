@@ -71,17 +71,18 @@
                            TextColor="{StaticResource PrimaryDarkText}"
                            HorizontalTextAlignment="Center"
                            VerticalTextAlignment="Center" />
-                    <mi:MauiIcon Icon="{mi:Material Help}"
-                                 IconColor="{StaticResource ButtonColor}"
-                                 IsVisible="{Binding IsTabletSelected, Converter={StaticResource InvertedBoolConverter}}"
-                                 Grid.Row="1"
-                                 Grid.Column="1"
-                                 VerticalOptions="End">
-                        <mi:MauiIcon.GestureRecognizers>
+                    <Image Source="help.png"
+                           WidthRequest="48"
+                           HeightRequest="48"
+                           Grid.Row="1"
+                           Grid.Column="1"
+                           HorizontalOptions="Center"
+                           VerticalOptions="End">
+                        <Image.GestureRecognizers>
                             <TapGestureRecognizer Tapped="TouchscreenHelpButtonTapped"
                                                   NumberOfTapsRequired="1" />
-                        </mi:MauiIcon.GestureRecognizers>
-                    </mi:MauiIcon>
+                        </Image.GestureRecognizers>
+                    </Image>
                 </Grid>
             </Frame>
             <Frame x:Name="StylusChoice"
@@ -113,17 +114,18 @@
                            FontAutoScalingEnabled="True"
                            HorizontalTextAlignment="Center"
                            VerticalTextAlignment="Center" />
-                    <mi:MauiIcon Icon="{mi:Material Help}"
-                                 IconColor="{StaticResource ButtonColor}"
-                                 IsVisible="{Binding IsStylusSelected, Converter={StaticResource InvertedBoolConverter}}"
-                                 Grid.Row="1"
-                                 Grid.Column="1"
-                                 VerticalOptions="End">
-                        <mi:MauiIcon.GestureRecognizers>
+                    <Image Source="help.png"
+                           WidthRequest="48"
+                           HeightRequest="48"
+                           Grid.Row="1"
+                           Grid.Column="1"
+                           HorizontalOptions="Center"
+                           VerticalOptions="End">
+                        <Image.GestureRecognizers>
                             <TapGestureRecognizer Tapped="StylusHelpButtonTapped"
                                                   NumberOfTapsRequired="1" />
-                        </mi:MauiIcon.GestureRecognizers>
-                    </mi:MauiIcon>
+                        </Image.GestureRecognizers>
+                    </Image>                    
                 </Grid>
             </Frame>
             <Frame x:Name="CameraChoice"
@@ -153,17 +155,18 @@
                            FontAutoScalingEnabled="True"
                            HorizontalTextAlignment="Center"
                            VerticalTextAlignment="Center" />
-                    <mi:MauiIcon Icon="{mi:Material Help}"
-                                 IconColor="{StaticResource ButtonColor}"
-                                 IsVisible="{Binding IsCameraSelected, Converter={StaticResource InvertedBoolConverter}}"
-                                 Grid.Row="1"
-                                 Grid.Column="1"
-                                 VerticalOptions="End">
-                        <mi:MauiIcon.GestureRecognizers>
+                    <Image Source="help.png"
+                           WidthRequest="48"
+                           HeightRequest="48"
+                           Grid.Row="1"
+                           Grid.Column="1"
+                           HorizontalOptions="Center"
+                           VerticalOptions="End">
+                        <Image.GestureRecognizers>
                             <TapGestureRecognizer Tapped="CameraHelpButtonTapped"
                                                   NumberOfTapsRequired="1" />
-                        </mi:MauiIcon.GestureRecognizers>
-                    </mi:MauiIcon>
+                        </Image.GestureRecognizers>
+                    </Image>
                 </Grid>
             </Frame>
         </StackLayout>

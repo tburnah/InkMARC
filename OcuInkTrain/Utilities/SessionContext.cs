@@ -23,6 +23,11 @@ namespace OcuInkTrain.Utilities
         public static string FilePathSessionID => SessionID?.Replace(" ", "") ?? string.Empty;
 
         /// <summary>
+        /// Gets the list of image paths.
+        /// </summary>
+        public static List<string> ImagePaths { get; } = [];
+
+        /// <summary>
         /// Gets or sets the camera window.
         /// </summary>
         public static Window? CameraWin { get; set; }

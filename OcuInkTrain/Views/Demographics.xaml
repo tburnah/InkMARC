@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:OcuInk.ViewModel"
+             xmlns:ut="clr-namespace:OcuInk.Utilities"
+             x:Class="OcuInk.Views.Demographics"
+             Title="Demographics"
+             Background="{StaticResource White}"             
+             NavigationPage.HasBackButton="False"
+             NavigationPage.HasNavigationBar="False">
+    <ContentPage.BindingContext>
+        <vm:DemographicsViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <ut:ColorValueConverter x:Key="ColorValueConverter" />
+            <ut:ColorTextValueConverter x:Key="ColorTextValueConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid x:Name="StartPageGrid"
+          Padding="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="60" />
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0"
+               Text="Anonymous Demographics Information."
+               TextColor="{StaticResource PrimaryDarkText}"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               FontSize="Large" />
+
+        <Frame BackgroundColor="{StaticResource LightBackground}"
+               BorderColor="Transparent"
+               CornerRadius="10"
+               Padding="10"
+               HorizontalOptions="Fill"
+               VerticalOptions="Fill"
+               Grid.Row="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                
+                <Label Text="Age"
+                       Grid.Row="0"
+                       HorizontalTextAlignment="Center"
+                       FontSize="Medium"                       
+                       Grid.ColumnSpan="8" />
+                <RoundRectangle Grid.Row="1"
+                                Grid.Column="0"
+                                CornerRadius="30,0,30,0"
+                                Fill="{Binding Age, Converter={ut:ColorValueConverter}, ConverterParameter='16-18'}"
+                                StrokeThickness="1"
+                                Stroke="Black"
+                                Margin="1">
+                    <RoundRectangle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectAgeCommand}"
+                                              CommandParameter="16-18" />
+                    </RoundRectangle.GestureRecognizers>
+                </RoundRectangle>
+                <Rectangle Grid.Row="1"
+                           Grid.Column="1"                           
+                           Fill="{StaticResource White}"
+                           StrokeThickness="1"
+                           Stroke="Black"
+                           Margin="1" />
+                <Rectangle Grid.Row="1"
+                           Grid.Column="2"
+                           Fill="{StaticResource White}"
+                           StrokeThickness="1"
+                           Stroke="Black"
+                           Margin="1" />
+                <Rectangle Grid.Row="1"
+                           Grid.Column="3"
+                           Fill="{StaticResource ButtonColor}"
+                           StrokeThickness="1"
+                           Stroke="Black"
+                           Margin="1" />
+                <Rectangle Grid.Row="1"
+                           Grid.Column="4"
+                           Fill="{StaticResource White}"
+                           StrokeThickness="1"
+                           Stroke="Black"
+                           Margin="1" />
+                <Rectangle Grid.Row="1"
+                           Grid.Column="5"
+                           Fill="{StaticResource White}"
+                           StrokeThickness="1"
+                           Stroke="Black"
+                           Margin="1" />
+                <Rectangle Grid.Row="1"
+                           Grid.Column="6"
+                           Fill="{StaticResource White}"
+                           StrokeThickness="1"
+                           Stroke="Black"
+                           Margin="1" />
+                <RoundRectangle Grid.Row="1"
+                                Grid.Column="7"
+                                CornerRadius="0,30,0,30"
+                                Fill="{StaticResource White}"
+                                StrokeThickness="1"
+                                Stroke="Black"
+                                Margin="1" />
+                <Label Grid.Row="1"
+                       Grid.Column="0"
+                       Text="16-18"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       TextColor="{StaticResource PrimaryDarkText}"
+                       FontSize="Medium">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectAgeCommand}"
+                                              CommandParameter="16-18" />
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label Grid.Row="1"
+                       Grid.Column="1"
+                       Text="19-24"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       TextColor="{StaticResource PrimaryDarkText}"
+                       FontSize="Medium" />
+                <Label Grid.Row="1"
+                       Grid.Column="2"
+                       Text="25-34"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       TextColor="{StaticResource PrimaryDarkText}"
+                       FontSize="Medium" />
+                <Label Grid.Row="1"
+                       Grid.Column="3"
+                       Text="35-44"
+                       TextColor="White"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"                       
+                       FontSize="Medium" />
+                <Label Grid.Row="1"
+                       Grid.Column="4"
+                       Text="45-54"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       TextColor="{StaticResource PrimaryDarkText}"
+                       FontSize="Medium" />
+                <Label Grid.Row="1"
+                       Grid.Column="5"
+                       Text="55-64"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       TextColor="{StaticResource PrimaryDarkText}"
+                       FontSize="Medium" />
+                <Label Grid.Row="1"
+                       Grid.Column="6"
+                       Text="65 and Over"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       TextColor="{StaticResource PrimaryDarkText}"
+                       FontSize="Medium" />
+                <Label Grid.Row="1"
+                       Grid.Column="7"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       TextColor="{StaticResource PrimaryDarkText}"
+                       FontSize="Medium">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Prefer not&#xA;to say" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+                <Label Text="Gender"
+                       Grid.Row="2"
+                       HorizontalTextAlignment="Center"
+                       FontSize="Medium"
+                       Margin="0,10,0,0"
+                       Grid.ColumnSpan="8" />
+                <RoundRectangle Grid.Row="3"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="2"
+                                CornerRadius="30,0,30,0"
+                                Fill="{StaticResource White}"
+                                StrokeThickness="1"
+                                Stroke="Black"
+                                Margin="1" />
+                <Rectangle Grid.Row="3"
+                           Grid.Column="2"
+                           Grid.ColumnSpan="2"
+                           Fill="{StaticResource ButtonColor}"
+                           StrokeThickness="1"
+                           Stroke="Black"
+                           Margin="1" />
+                <Rectangle Grid.Row="3"
+                           Grid.Column="4"
+                           Grid.ColumnSpan="2"
+                           Fill="{StaticResource White}"
+                           StrokeThickness="1"
+                           Stroke="Black"
+                           Margin="1" />
+                <RoundRectangle Grid.Row="3"
+                                Grid.Column="6"
+                                Grid.ColumnSpan="2"
+                                CornerRadius="0,30,0,30"
+                                Fill="{StaticResource White}"
+                                StrokeThickness="1"
+                                Stroke="Black"
+                                Margin="1" />
+                <Label Grid.Row="3"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="2"
+                       Text="Female"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       TextColor="{StaticResource PrimaryDarkText}"
+                       FontSize="Medium" />
+                <Label Grid.Row="3"
+                       Grid.Column="2"
+                       Grid.ColumnSpan="2"
+                       Text="Male"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       TextColor="{StaticResource White}"
+                       FontSize="Medium" />
+                <Label Grid.Row="3"
+                       Grid.Column="4"
+                       Grid.ColumnSpan="2"
+                       Text="Non-Binary"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       TextColor="{StaticResource PrimaryDarkText}"
+                       FontSize="Medium" />
+                <Label Grid.Row="3"
+                       Grid.Column="6"
+                       Grid.ColumnSpan="2"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       TextColor="{StaticResource PrimaryDarkText}"
+                       FontSize="Medium">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Prefer not&#xA;to say" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+                <Label Text="Ethnicity"
+                       Grid.Row="4"
+                       HorizontalTextAlignment="Center"
+                       FontSize="Medium"
+                       Margin="0,10,0,0"
+                       Grid.ColumnSpan="8" />
+                <RoundRectangle Grid.Row="5"
+                                Grid.Column="0"
+                                CornerRadius="30,0,30,0"
+                                Fill="{StaticResource ButtonColor}"
+                                StrokeThickness="1"
+                                Stroke="Black"
+                                Margin="1" />
+                <Rectangle Grid.Row="5"
+                           Grid.Column="1"
+                           Fill="{StaticResource White}"
+                           StrokeThickness="1"
+                           Stroke="Black"
+                           Margin="1" />
+                <Rectangle Grid.Row="5"
+                           Grid.Column="2"
+                           Fill="{StaticResource White}"
+                           StrokeThickness="1"
+                           Stroke="Black"
+                           Margin="1" />
+                <Rectangle Grid.Row="5"
+                           Grid.Column="3"
+                           Fill="{StaticResource White}"
+                           StrokeThickness="1"
+                           Stroke="Black"
+                           Margin="1" />
+                <Rectangle Grid.Row="5"
+                           Grid.Column="4"
+                           Fill="{StaticResource White}"
+                           StrokeThickness="1"
+                           Stroke="Black"
+                           Margin="1" />
+                <Rectangle Grid.Row="5"
+                           Grid.Column="5"
+                           Fill="{StaticResource White}"
+                           StrokeThickness="1"
+                           Stroke="Black"
+                           Margin="1" />
+                <Rectangle Grid.Row="5"
+                           Grid.Column="6"
+                           Fill="{StaticResource White}"
+                           StrokeThickness="1"
+                           Stroke="Black"
+                           Margin="1" />
+                <RoundRectangle Grid.Row="5"
+                                Grid.Column="7"
+                                CornerRadius="0,30,0,30"
+                                Fill="{StaticResource White}"
+                                StrokeThickness="1"
+                                Stroke="Black"
+                                Margin="1" />
+                <Label Grid.Row="5"
+                       Grid.Column="0"
+                       Text="European/Pākehā"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       TextColor="{StaticResource White}"
+                       FontSize="Medium" />
+                <Label Grid.Row="5"
+                       Grid.Column="1"
+                       Text="Māori"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       TextColor="{StaticResource PrimaryDarkText}"
+                       FontSize="Medium" />
+                <Label Grid.Row="5"
+                       Grid.Column="2"
+                       Text="Other Pacific Peoples"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       TextColor="{StaticResource PrimaryDarkText}"
+                       FontSize="Medium" />
+                <Label Grid.Row="5"
+                       Grid.Column="3"
+                       Text="Chinese"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       TextColor="{StaticResource PrimaryDarkText}"
+                       FontSize="Medium" />
+                <Label Grid.Row="5"
+                       Grid.Column="4"
+                       Text="Indian"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       TextColor="{StaticResource PrimaryDarkText}"
+                       FontSize="Medium" />
+                <Label Grid.Row="5"
+                       Grid.Column="5"
+                       Text="Other Asian"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       TextColor="{StaticResource PrimaryDarkText}"
+                       FontSize="Medium" />
+                <Label Grid.Row="5"
+                       Grid.Column="6"
+                       Text="Other Ethnicity"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       TextColor="{StaticResource PrimaryDarkText}"
+                       FontSize="Medium" />
+                <Label Grid.Row="5"
+                       Grid.Column="7"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       TextColor="{StaticResource PrimaryDarkText}"
+                       FontSize="Medium">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Prefer not&#xA;to say" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                
+                <Label Text="Handedness"
+                       Grid.Row="6"
+                       HorizontalTextAlignment="Center"
+                       FontSize="Medium"
+                       Margin="0,10,0,0"
+                       Grid.ColumnSpan="8" />
+                <RoundRectangle Grid.Row="7"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="4"
+                                CornerRadius="30,0,30,0"
+                                Fill="{StaticResource White}"
+                                StrokeThickness="1"
+                                Stroke="Black"
+                                Margin="1" />
+                <RoundRectangle Grid.Row="7"
+                                Grid.Column="4"
+                                Grid.ColumnSpan="4"
+                                CornerRadius="0,30,0,30"
+                                Fill="{StaticResource ButtonColor}"
+                                StrokeThickness="1"
+                                Stroke="Black"
+                                Margin="1" />
+                <Label Grid.Row="7"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="4"
+                       Text="Left-Handed"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       TextColor="{StaticResource PrimaryDarkText}"
+                       FontSize="Medium" />
+                <Label Grid.Row="7"
+                       Grid.Column="4"
+                       Grid.ColumnSpan="4"
+                       Text="Right-Handed"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       TextColor="{StaticResource White}"
+                       FontSize="Medium" />
+            </Grid>
+        </Frame>
+        <Button Grid.Row="2"
+                HorizontalOptions="End"
+                Text="Continue"
+                FontSize="Medium"
+                TextColor="{StaticResource White}"
+                BorderColor="{StaticResource ButtonColor}"
+                BorderWidth="2"
+                VerticalOptions="Center"
+                BackgroundColor="{StaticResource ButtonColor}"
+                Margin="8" />
+    </Grid>
+</ContentPage>

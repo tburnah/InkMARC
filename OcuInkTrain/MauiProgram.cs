@@ -1,6 +1,5 @@
 ﻿using Camera.MAUI;
 using CommunityToolkit.Maui;
-using MauiIcons.Material;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
 using OcuInkTrain.Handlers;
@@ -24,8 +23,7 @@ namespace OcuInkTrain
             builder
                 .UseMauiApp<App>()
                 .UseMauiCameraView()
-                .UseMauiCommunityToolkit()
-                .UseMaterialMauiIcons()
+                .UseMauiCommunityToolkit()                
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

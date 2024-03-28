@@ -189,29 +189,25 @@ public static class OcuInkDrawingViewExtensions
     /// <param name="tt">The squared interpolation parameter.</param>
     /// <param name="ttt">The cubed interpolation parameter.</param>
     /// <returns>The intermediate point.</returns>
-    static OcuInkPoint GetIntermediatePoint(OcuInkPoint p0, OcuInkPoint p1, OcuInkPoint p2, OcuInkPoint p3, in float t, in float tt, in float ttt) => new(
-        new()
+    public static OcuInkPoint GetIntermediatePoint(OcuInkPoint p0, OcuInkPoint p1, OcuInkPoint p2, OcuInkPoint p3, float t, float tt, float ttt)
+    {
+        // Abstracted method to calculate cubic Hermite spline for a single dimension
+        static float ComputeDimension(float v0, float v1, float v2, float v3, float t, float tt, float ttt)
         {
-            X = 0.5f * (2f * p1.Position.X +
-                    (p2.Position.X - p0.Position.X) * t +
-                    (2f * p0.Position.X - 5f * p1.Position.X + 4f * p2.Position.X - p3.Position.X) * tt +
-                    (3f * p1.Position.X - p0.Position.X - 3f * p2.Position.X + p3.Position.X) * ttt),
-            Y = 0.5f * (2 * p1.Position.Y +
-                    (p2.Position.Y - p0.Position.Y) * t +
-                    (2 * p0.Position.Y - 5 * p1.Position.Y + 4 * p2.Position.Y - p3.Position.Y) * tt +
-                    (3 * p1.Position.Y - p0.Position.Y - 3 * p2.Position.Y + p3.Position.Y) * ttt)
-        },
-        0.5f * (2 * p1.Pressure + (p2.Pressure - p0.Pressure) * t +
-                   (2 * p0.Pressure - 5 * p1.Pressure + 4 * p2.Pressure - p3.Pressure) * tt +
-                   (3 * p1.Pressure - p0.Pressure - 3 * p2.Pressure + p3.Pressure) * ttt),
-        0.5f * (2 * p1.TiltX + (p2.TiltX - p0.TiltX) * t +
-    (2 * p0.TiltX - 5 * p1.TiltX + 4 * p2.TiltX - p3.TiltX) * tt +
-                (3 * p1.TiltX - p0.TiltX - 3 * p2.TiltX + p3.TiltX) * ttt),
-        0.5f * (2 * p1.TiltY + (p2.TiltY - p0.TiltY) * t +
-    (2 * p0.TiltY - 5 * p1.TiltY + 4 * p2.TiltY - p3.TiltY) * tt +
-                (3 * p1.TiltY - p0.TiltY - 3 * p2.TiltY + p3.TiltY) * ttt),
-        (ulong)(0.5f * (2 * p1.Timestamp + (p2.Timestamp - p0.Timestamp) * t +
-                    (2 * p0.Timestamp - 5 * p1.Timestamp + 4 * p2.Timestamp - p3.Timestamp) * tt +
-                    (3 * p1.Timestamp - p0.Timestamp - 3 * p2.Timestamp + p3.Timestamp) * ttt))
-    );
+            return 0.5f * (
+                2f * v1 +
+                (v2 - v0) * t +
+                (2f * v0 - 5f * v1 + 4f * v2 - v3) * tt +
+                (3f * v1 - v0 - 3f * v2 + v3) * ttt);
+        }
+
+        var positionX = ComputeDimension(p0.Position.X, p1.Position.X, p2.Position.X, p3.Position.X, t, tt, ttt);
+        var positionY = ComputeDimension(p0.Position.Y, p1.Position.Y, p2.Position.Y, p3.Position.Y, t, tt, ttt);
+        var pressure = ComputeDimension(p0.Pressure, p1.Pressure, p2.Pressure, p3.Pressure, t, tt, ttt);
+        var tiltX = ComputeDimension(p0.TiltX, p1.TiltX, p2.TiltX, p3.TiltX, t, tt, ttt);
+        var tiltY = ComputeDimension(p0.TiltY, p1.TiltY, p2.TiltY, p3.TiltY, t, tt, ttt);
+        var timestamp = (ulong)ComputeDimension(p0.Timestamp, p1.Timestamp, p2.Timestamp, p3.Timestamp, t, tt, ttt);
+
+        return new OcuInkPoint(new PointF(positionX, positionY), pressure, tiltX, tiltY, timestamp);
+    }   
 }

@@ -33,30 +33,30 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0|AnyCPU'">
-	  <DebugType>full</DebugType>
+	  <DebugType>none</DebugType>
 	  <Optimize>False</Optimize>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-maccatalyst|AnyCPU'">
-	  <DebugType>full</DebugType>
+	  <DebugType>none</DebugType>
 	  <Optimize>False</Optimize>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.19041.0|AnyCPU'">
-	  <DebugType>full</DebugType>
+	  <DebugType>none</DebugType>
 	  <Optimize>False</Optimize>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0|AnyCPU'">
-	  <DebugType>full</DebugType>
+	  <DebugType>none</DebugType>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-maccatalyst|AnyCPU'">
-	  <DebugType>full</DebugType>
+	  <DebugType>none</DebugType>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.19041.0|AnyCPU'">
-	  <DebugType>full</DebugType>
+	  <DebugType>none</DebugType>
 	</PropertyGroup>
 
 	<ItemGroup>

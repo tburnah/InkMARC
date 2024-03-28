@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:OcuInk.ViewModel"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="OcuInkTrain.Views.UploadPage"
              Title="UploadPage"
@@ -8,6 +9,9 @@
              Loaded="ContentPage_Loaded"
              NavigationPage.HasBackButton="False"
              NavigationPage.HasNavigationBar="False">
+    <ContentPage.BindingContext>
+        <vm:UploadPageViewModel />
+    </ContentPage.BindingContext>
     <Grid x:Name="StartPageGrid"
           Padding="16">
         <Grid.RowDefinitions>
@@ -31,7 +35,15 @@
                HorizontalOptions="Fill"
                VerticalOptions="Fill"
                Grid.Row="2">
-            <Image Source="smile.png" />
+            <CarouselView ItemsSource="{Binding ImagePaths}"
+                          RemainingItemsThreshold="13">
+                <CarouselView.ItemTemplate>
+                    <DataTemplate>
+                        <Image Source="{Binding .}"
+                               Aspect="AspectFit" />
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </CarouselView>
         </Frame>
         <Button Grid.Row="3"
                 HorizontalOptions="End"
