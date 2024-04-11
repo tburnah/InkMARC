@@ -1,5 +1,9 @@
 ﻿using Android.Graphics;
 using Microsoft.Maui.Platform;
+using OcuInk.Extensions;
+using OcuInk.Models.Interfaces;
+using OcuInk.Models.Primatives;
+using OcuInkTrain.Extensions;
 using OcuInkTrain.Interfaces;
 using OcuInkTrain.Primatives;
 using APaint = Android.Graphics.Paint;
@@ -106,7 +110,7 @@ public static class OcuInkDrawingViewService
 		{
 #pragma warning disable CS8604 // Possible null reference argument.
 #pragma warning disable CS8604 // Possible null reference argument.
-			DrawStrokes(canvas, line.Points, line.LineWidth, line.LineColor, offset);
+			DrawStrokes(canvas, line.Points, line.LineWidth, line.LineColor.ToMauiColor(), offset);
 #pragma warning restore CS8604 // Possible null reference argument.
 #pragma warning restore CS8604 // Possible null reference argument.
 		}
@@ -121,10 +125,10 @@ public static class OcuInkDrawingViewService
 			return (null, SizeF.Zero);
 		}
 
-		var minPointX = points.Min(p => p.Position.X) - maxLineWidth;
-		var minPointY = points.Min(p => p.Position.Y) - maxLineWidth;
-		var drawingWidth = points.Max(p => p.Position.X) - minPointX + maxLineWidth;
-		var drawingHeight = points.Max(p => p.Position.Y) - minPointY + maxLineWidth;
+		var minPointX = points.Min(p => p.X) - maxLineWidth;
+		var minPointY = points.Min(p => p.Y) - maxLineWidth;
+		var drawingWidth = points.Max(p => p.X) - minPointX + maxLineWidth;
+		var drawingHeight = points.Max(p => p.Y) - minPointY + maxLineWidth;
 		const int minSize = 1;
 		if (drawingWidth < minSize || drawingHeight < minSize)
 		{
@@ -168,7 +172,7 @@ public static class OcuInkDrawingViewService
 			var p1 = points.ElementAt(i);
 			var p2 = points.ElementAt(i + 1);
 
-			canvas.DrawLine(p1.Position.X - offset.Width, p1.Position.Y - offset.Height, p2.Position.X - offset.Width, p2.Position.Y - offset.Height, paint);
+			canvas.DrawLine(p1.X - offset.Width, p1.Y - offset.Height, p2.X - offset.Width, p2.Y - offset.Height, paint);
 		}
 	}
 

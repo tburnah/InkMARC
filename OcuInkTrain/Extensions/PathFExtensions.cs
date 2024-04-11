@@ -1,4 +1,5 @@
-﻿using OcuInkTrain.Primatives;
+﻿using OcuInk.Models.Primatives;
+using OcuInkTrain.Primatives;
 
 namespace OcuInkTrain.Extensions
 {
@@ -14,7 +15,7 @@ namespace OcuInkTrain.Extensions
         /// <param name="point">The OcuInkPoint object representing the position to draw the line to.</param>
         public static void LineTo(this PathF path, OcuInkPoint point)
         {
-            path.LineTo(point.Position.X, point.Position.Y);
+            path.LineTo(point.X, point.Y);
         }
     }
 }

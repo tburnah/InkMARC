@@ -1,4 +1,6 @@
 ﻿using Camera.MAUI;
+using OcuInk.Models.Interfaces;
+using OcuInk.Models.Primatives;
 using OcuInkTrain.Interfaces;
 using OcuInkTrain.Primatives;
 using OcuInkTrain.ViewModel;
@@ -91,9 +93,22 @@ namespace OcuInkTrain.Utilities
         /// <param name="filePath">The file path to save the lines to.</param>
         public static void SaveAdvancedDrawingLines(List<IAdvancedDrawingLine> lines, string filePath)
         {
+            var otherCameraInfo = CameraWindowViewModel.Current?.Camera;
+            
             ExerciseData data = new()
             {
-                CameraInfo = CameraWindowViewModel.Current?.Camera ?? null,
+                CameraInfo = new OcuInk.Models.Primatives.CameraInfo()
+                {
+                    Name = otherCameraInfo?.Name ?? "Unknown",
+                    DeviceId = otherCameraInfo?.DeviceId ?? "Unknown",
+                    Position = otherCameraInfo is null ? OcuInk.Models.Primatives.CameraPosition.Unknown 
+                                                       : otherCameraInfo.Position == Camera.MAUI.CameraPosition.Front ? OcuInk.Models.Primatives.CameraPosition.Front 
+                                                       : otherCameraInfo.Position == Camera.MAUI.CameraPosition.Back ? OcuInk.Models.Primatives.CameraPosition.Back 
+                                                       : OcuInk.Models.Primatives.CameraPosition.Unknown,
+                    SelectedResolution = otherCameraInfo is null ? new OcuInkSize(640, 480) 
+                                                                 : new OcuInkSize((float)otherCameraInfo.SelectedResolution.Width, (float)otherCameraInfo.SelectedResolution.Height),
+                    EncodingQuality = otherCameraInfo?.EncodingQuality ?? "VGA"                     
+                },
                 DrawingLines = lines.OfType<OcuInkDrawingLine>().ToList()
             };
 
@@ -119,7 +134,7 @@ namespace OcuInkTrain.Utilities
 
         private class ExerciseData
         {
-            public CameraInfo? CameraInfo { get; set; }
+            public OcuInk.Models.Primatives.CameraInfo? CameraInfo { get; set; }
             public List<OcuInkDrawingLine>? DrawingLines { get; set; }
         }
     }

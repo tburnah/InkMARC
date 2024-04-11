@@ -1,4 +1,4 @@
-﻿namespace OcuInkTrain.Primatives
+﻿namespace OcuInk.Models.Primatives
 {
     /// <summary>
     /// Represents a point in an ink stroke.
@@ -6,9 +6,14 @@
     public struct OcuInkPoint
     {
         /// <summary>
-        /// Gets or sets the position of the ink point.
+        /// Gets or sets the X position of the ink point.
         /// </summary>
-        public PointF Position { get; set; }
+        public float X { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Y position of the ink point.
+        /// </summary>
+        public float Y { get; set; }
 
         /// <summary>
         /// Gets or sets the pressure of the ink point.
@@ -45,9 +50,10 @@
         /// <param name="tiltX">The tilt along the X-axis of the ink point.</param>
         /// <param name="tiltY">The tilt along the Y-axis of the ink point.</param>
         /// <param name="timestamp">The timestamp of the ink point.</param>
-        public OcuInkPoint(PointF position, float pressure, float tiltX, float tiltY, ulong timestamp)
+        public OcuInkPoint(float x, float y, float pressure, float tiltX, float tiltY, ulong timestamp)
         {
-            Position = position;
+            X = x;
+            Y = y;
             Pressure = pressure;
             TiltX = tiltX;
             TiltY = tiltY;

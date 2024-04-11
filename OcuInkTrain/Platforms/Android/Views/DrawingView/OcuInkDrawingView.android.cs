@@ -3,6 +3,7 @@ using Android.Content;
 using Android.Views;
 using CommunityToolkit.Maui.Core.Extensions;
 using Microsoft.Maui.Platform;
+using OcuInk.Models.Primatives;
 using OcuInkTrain.Primatives;
 using OcuInkTrain.Utilities;
 using AColor = Android.Graphics.Color;
@@ -55,7 +56,7 @@ public partial class OcuInkDrawingView : PlatformTouchGraphicsView
 
         var (tiltX, tiltY) = StylusTiltCalculator.CalculateTilt(orientation, tilt);
 
-		var point = new OcuInkPoint(new(touchX / (float)DeviceDisplay.MainDisplayInfo.Density, touchY / (float)DeviceDisplay.MainDisplayInfo.Density),
+		var point = new OcuInkPoint(touchX / (float)DeviceDisplay.MainDisplayInfo.Density, touchY / (float)DeviceDisplay.MainDisplayInfo.Density,
 			e.Pressure,
 			(float)tiltX,
 			(float)tiltY,
@@ -115,9 +116,7 @@ public partial class OcuInkDrawingView : PlatformTouchGraphicsView
 		var newPoints = new List<OcuInkPoint>();
 		foreach (var point in points)
 		{
-			var pointX = Math.Clamp(point.Position.X, 0, drawingViewWidth / canvasScale);
-			var pointY = Math.Clamp(point.Position.Y, 0, drawingViewHeight / canvasScale);
-			newPoints.Add(new OcuInkPoint(new PointF(pointX, pointY), point.Pressure, point.TiltX, point.TiltY, point.Timestamp));
+			newPoints.Add(new OcuInkPoint(Math.Clamp(point.X, 0, drawingViewWidth / canvasScale), Math.Clamp(point.Y, 0, drawingViewHeight / canvasScale), point.Pressure, point.TiltX, point.TiltY, point.Timestamp));
         }
 
 		return newPoints.ToObservableCollection();

@@ -34,7 +34,7 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>		
-		<GenerateDocumentationFile>True</GenerateDocumentationFile>		
+		<GenerateDocumentationFile>False</GenerateDocumentationFile>		
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>		
 		<PublishAot>False</PublishAot>		
 		<SignAssembly>True</SignAssembly>		
@@ -200,6 +200,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Camera.MAUI\Camera.MAUI.csproj" />
+	  <ProjectReference Include="..\OcuInk.Models\OcuInk.Models.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

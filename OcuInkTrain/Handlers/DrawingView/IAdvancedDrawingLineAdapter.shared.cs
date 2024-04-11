@@ -1,5 +1,5 @@
-﻿using OcuInkTrain.Interfaces;
-using OcuInkTrain.Primatives;
+﻿using OcuInk.Models.Interfaces;
+using OcuInk.Models.Primatives;
 
 namespace OcuInkTrain.Handlers;
 

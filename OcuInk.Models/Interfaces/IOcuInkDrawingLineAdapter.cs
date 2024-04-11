@@ -1,7 +1,6 @@
-﻿using OcuInk.Models.Interfaces;
-using OcuInk.Models.Primatives;
+﻿using OcuInk.Models.Primatives;
 
-namespace OcuInkTrain.Interfaces
+namespace OcuInk.Models.Interfaces
 {
     /// <summary>
     /// Represents an adapter for converting OcuInkDrawingLine to IAdvancedDrawingLine.

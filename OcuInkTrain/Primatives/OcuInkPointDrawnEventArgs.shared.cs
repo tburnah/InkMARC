@@ -1,4 +1,6 @@
 
+using OcuInk.Models.Primatives;
+
 namespace OcuInkTrain.Primatives;
 
 /// <summary>

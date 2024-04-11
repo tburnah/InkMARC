@@ -1,4 +1,6 @@
 ﻿using CommunityToolkit.Maui.Core.Extensions;
+using OcuInk.Models.Interfaces;
+using OcuInk.Models.Primatives;
 using OcuInkTrain.Interfaces;
 using OcuInkTrain.Primatives;
 
@@ -20,7 +22,7 @@ public sealed class AdvancedDrawingLineAdapter : IAdvancedDrawingLineAdapter
 
 		return new OcuInkDrawingLine
 		{
-			LineColor = ocuInkDrawingLine?.LineColor ?? Colors.Black,
+			LineColor = ocuInkDrawingLine is null ? new InkColor() : ocuInkDrawingLine.LineColor,
 			ShouldSmoothPathWhenDrawn = ocuInkDrawingLine?.ShouldSmoothPathWhenDrawn ?? true,
 			Granularity = ocuInkDrawingLine?.Granularity ?? 5,
 			LineWidth = ocuInkDrawingLine?.LineWidth ?? 1,

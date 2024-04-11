@@ -1,4 +1,6 @@
 ﻿using CommunityToolkit.Maui.Core;
+using OcuInk.Models.Interfaces;
+using OcuInk.Models.Primatives;
 using OcuInkTrain.Interfaces;
 using OcuInkTrain.Primatives;
 using OcuInkTrain.Services;

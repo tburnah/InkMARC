@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using OcuInk.Models.Interfaces;
 using OcuInkTrain.Exercises;
 using OcuInkTrain.Interfaces;
 using OcuInkTrain.Utilities;

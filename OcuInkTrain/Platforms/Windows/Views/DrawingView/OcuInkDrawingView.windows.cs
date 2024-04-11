@@ -1,5 +1,6 @@
 ﻿using Microsoft.Maui.Platform;
 using Microsoft.UI.Xaml.Input;
+using OcuInk.Models.Primatives;
 using OcuInkTrain.Primatives;
 using System.Diagnostics;
 using WBrush = Microsoft.UI.Xaml.Media.Brush;
@@ -68,7 +69,7 @@ public partial class OcuInkDrawingView : PlatformTouchGraphicsView, IDisposable
         var wPoint = currentPoint.Position;
 
         var ocuInkPoint = new OcuInkPoint(
-            new(wPoint._x, wPoint._y),
+            wPoint._x, wPoint._y,
             currentPoint.Properties.Pressure,
             currentPoint.Properties.XTilt,
             currentPoint.Properties.YTilt,
@@ -85,7 +86,7 @@ public partial class OcuInkDrawingView : PlatformTouchGraphicsView, IDisposable
         var wPoint = currentPoint.Position;
 
         var ocuInkPoint = new OcuInkPoint(
-            new(wPoint._x, wPoint._y),
+            wPoint._x, wPoint._y,
             currentPoint.Properties.Pressure,
             currentPoint.Properties.XTilt,
             currentPoint.Properties.YTilt,

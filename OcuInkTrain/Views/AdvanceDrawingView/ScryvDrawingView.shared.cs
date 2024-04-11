@@ -3,6 +3,8 @@ using CommunityToolkit.Maui.Core.Extensions;
 using OcuInkTrain.Primatives;
 using OcuInkTrain.Extensions;
 using System.Diagnostics;
+using OcuInk.Models.Primatives;
+using OcuInk.Extensions;
 
 
 namespace OcuInkTrain.Views;
@@ -133,20 +135,21 @@ public partial class OcuInkDrawingView
 		}
 
 		previousPoint = point;
-		currentPath.MoveTo(previousPoint.Position.X, previousPoint.Position.Y);
+		currentPath.MoveTo(previousPoint.X, previousPoint.Y);
 		currentLine = new OcuInkDrawingLine
 		{
 			Points = new ObservableCollection<OcuInkPoint>
 			{
                 new(
-                    previousPoint.Position,
+                    previousPoint.X,
+					previousPoint.Y,
                     previousPoint.Pressure,
                     previousPoint.TiltX,
                     previousPoint.TiltY,
                     previousPoint.Timestamp
                 )
             },
-			LineColor = LineColor,
+			LineColor = LineColor.ToInkColor(),
 			LineWidth = LineWidth
 		};
         ThrottleRedraw();
@@ -184,14 +187,15 @@ public partial class OcuInkDrawingView
                 Points = new ObservableCollection<OcuInkPoint>
 				{
 					new(
-						previousPoint.Position,
+						previousPoint.X,
+						previousPoint.Y,
 						previousPoint.Pressure,
 						previousPoint.TiltX,
 						previousPoint.TiltY,
 						previousPoint.Timestamp
 					)
 				},
-                LineColor = LineColor,
+                LineColor = LineColor.ToInkColor(),
                 LineWidth = LineWidth
             };
         }
@@ -301,13 +305,13 @@ public partial class OcuInkDrawingView
 #endif
 				if (points is not null && points.Count > 0)
 				{
-					path.MoveTo(points[0].Position.X, points[0].Position.Y);
+					path.MoveTo(points[0].X, points[0].Y);
 					foreach (var point in points)
 					{
 						path.LineTo(point);
 					}
 
-					SetStroke(canvas, line.LineWidth, line.LineColor ?? Colors.Black);
+					SetStroke(canvas, line.LineWidth, line.LineColor.ToMauiColor());
 					canvas.DrawPath(path);
 				}
 			}

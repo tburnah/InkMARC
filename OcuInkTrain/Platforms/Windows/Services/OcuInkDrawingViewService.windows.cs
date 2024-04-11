@@ -2,8 +2,11 @@
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Brushes;
 using Microsoft.Maui.Platform;
+using OcuInk.Models.Interfaces;
+using OcuInk.Models.Primatives;
 using OcuInkTrain.Interfaces;
 using OcuInkTrain.Primatives;
+using OcuInk.Extensions;
 using Windows.Storage.Streams;
 using Windows.UI.Input.Inking;
 using Point = Windows.Foundation.Point;
@@ -105,7 +108,7 @@ public static class OcuInkDrawingViewService
 		strokeBuilder.SetDefaultDrawingAttributes(inkDrawingAttributes);
 		var strokes = new[]
 		{
-			strokeBuilder.CreateStroke(points.Select(p => new Point(p.Position.X - offset.Width, p.Position.Y - offset.Height)))
+			strokeBuilder.CreateStroke(points.Select(p => new Point(p.X - offset.Width, p.Y - offset.Height)))
 		};
 		session.DrawInk(strokes);
 	}
@@ -119,10 +122,10 @@ public static class OcuInkDrawingViewService
 			return (null, Size.Zero);
 		}
 
-		var minPointX = points.Min(p => p.Position.X) - maxLineWidth;
-		var minPointY = points.Min(p => p.Position.Y) - maxLineWidth;
-		var drawingWidth = points.Max(p => p.Position.X) - minPointX + maxLineWidth;
-		var drawingHeight = points.Max(p => p.Position.Y) - minPointY + maxLineWidth;
+		var minPointX = points.Min(p => p.X) - maxLineWidth;
+		var minPointY = points.Min(p => p.Y) - maxLineWidth;
+		var drawingWidth = points.Max(p => p.X) - minPointX + maxLineWidth;
+		var drawingHeight = points.Max(p => p.Y) - minPointY + maxLineWidth;
 		if (drawingWidth < minSize || drawingHeight < minSize)
 		{
 			return (null, new Size(minPointX, minPointY));
@@ -150,7 +153,7 @@ public static class OcuInkDrawingViewService
 
 		foreach (var line in lines)
 		{			
-			DrawStrokes(session, line.Points ?? new System.Collections.ObjectModel.ObservableCollection<OcuInkPoint>(), line.LineColor ?? Colors.Black, line.LineWidth, offset);
+			DrawStrokes(session, line.Points ?? new System.Collections.ObjectModel.ObservableCollection<OcuInkPoint>(), line.LineColor.ToMauiColor() ?? Colors.Black, line.LineWidth, offset);
 		}
 
 		return offscreen;

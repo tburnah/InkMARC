@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Core.Extensions;
+using OcuInk.Models.Primatives;
 using OcuInkTrain.Handlers;
 using OcuInkTrain.Interfaces;
 using OcuInkTrain.Primatives;
@@ -201,13 +202,13 @@ public static class OcuInkDrawingViewExtensions
                 (3f * v1 - v0 - 3f * v2 + v3) * ttt);
         }
 
-        var positionX = ComputeDimension(p0.Position.X, p1.Position.X, p2.Position.X, p3.Position.X, t, tt, ttt);
-        var positionY = ComputeDimension(p0.Position.Y, p1.Position.Y, p2.Position.Y, p3.Position.Y, t, tt, ttt);
+        var positionX = ComputeDimension(p0.X, p1.X, p2.X, p3.X, t, tt, ttt);
+        var positionY = ComputeDimension(p0.Y, p1.Y, p2.Y, p3.Y, t, tt, ttt);
         var pressure = ComputeDimension(p0.Pressure, p1.Pressure, p2.Pressure, p3.Pressure, t, tt, ttt);
         var tiltX = ComputeDimension(p0.TiltX, p1.TiltX, p2.TiltX, p3.TiltX, t, tt, ttt);
         var tiltY = ComputeDimension(p0.TiltY, p1.TiltY, p2.TiltY, p3.TiltY, t, tt, ttt);
         var timestamp = (ulong)ComputeDimension(p0.Timestamp, p1.Timestamp, p2.Timestamp, p3.Timestamp, t, tt, ttt);
 
-        return new OcuInkPoint(new PointF(positionX, positionY), pressure, tiltX, tiltY, timestamp);
+        return new OcuInkPoint(positionX, positionY, pressure, tiltX, tiltY, timestamp);
     }   
 }

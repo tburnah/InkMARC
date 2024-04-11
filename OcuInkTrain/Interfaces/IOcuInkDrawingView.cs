@@ -1,4 +1,5 @@
-﻿using OcuInkTrain.Primatives;
+﻿using OcuInk.Models.Interfaces;
+using OcuInk.Models.Primatives;
 using System.Collections.ObjectModel;
 
 namespace OcuInkTrain.Interfaces

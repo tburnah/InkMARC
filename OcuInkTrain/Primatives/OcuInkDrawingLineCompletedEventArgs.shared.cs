@@ -1,4 +1,6 @@
-﻿namespace OcuInkTrain.Primatives;
+﻿using OcuInk.Models.Primatives;
+
+namespace OcuInkTrain.Primatives;
 
 /// <summary>
 /// Contains last drawing line
