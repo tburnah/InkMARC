@@ -15,7 +15,7 @@ namespace OcuInkTrain
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(new CameraSelection());            
+            MainPage = new NavigationPage(new ConsentPage());            
         }
     }
 }

@@ -79,54 +79,89 @@
                     </RoundRectangle.GestureRecognizers>
                 </RoundRectangle>
                 <Rectangle Grid.Row="1"
-                           Grid.Column="1"                           
-                           Fill="{StaticResource White}"
+                           Grid.Column="1"
+                           Fill="{Binding Age, Converter={ut:ColorValueConverter}, ConverterParameter='19-24'}"
                            StrokeThickness="1"
                            Stroke="Black"
-                           Margin="1" />
+                           Margin="1">
+                    <Rectangle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectAgeCommand}"
+                                              CommandParameter="19-24" />
+                    </Rectangle.GestureRecognizers>
+                </Rectangle>
                 <Rectangle Grid.Row="1"
                            Grid.Column="2"
-                           Fill="{StaticResource White}"
+                           Fill="{Binding Age, Converter={ut:ColorValueConverter}, ConverterParameter='25-34'}"
                            StrokeThickness="1"
                            Stroke="Black"
-                           Margin="1" />
+                           Margin="1">
+                    <Rectangle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectAgeCommand}"
+                                              CommandParameter="25-34" />
+                    </Rectangle.GestureRecognizers>
+                </Rectangle>
                 <Rectangle Grid.Row="1"
                            Grid.Column="3"
-                           Fill="{StaticResource ButtonColor}"
+                           Fill="{Binding Age, Converter={ut:ColorValueConverter}, ConverterParameter='35-44'}"
                            StrokeThickness="1"
                            Stroke="Black"
-                           Margin="1" />
+                           Margin="1">
+                    <Rectangle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectAgeCommand}"
+                                              CommandParameter="35-44" />
+                    </Rectangle.GestureRecognizers>
+                </Rectangle>
                 <Rectangle Grid.Row="1"
                            Grid.Column="4"
-                           Fill="{StaticResource White}"
+                           Fill="{Binding Age, Converter={ut:ColorValueConverter}, ConverterParameter='45-54'}"
                            StrokeThickness="1"
                            Stroke="Black"
-                           Margin="1" />
+                           Margin="1">
+                    <Rectangle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectAgeCommand}"
+                                              CommandParameter="45-54" />
+                    </Rectangle.GestureRecognizers>
+                </Rectangle>
                 <Rectangle Grid.Row="1"
                            Grid.Column="5"
-                           Fill="{StaticResource White}"
+                           Fill="{Binding Age, Converter={ut:ColorValueConverter}, ConverterParameter='55-64'}"
                            StrokeThickness="1"
                            Stroke="Black"
-                           Margin="1" />
+                           Margin="1">
+                    <Rectangle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectAgeCommand}"
+                                              CommandParameter="55-64" />
+                    </Rectangle.GestureRecognizers>
+                </Rectangle>
                 <Rectangle Grid.Row="1"
                            Grid.Column="6"
-                           Fill="{StaticResource White}"
+                           Fill="{Binding Age, Converter={ut:ColorValueConverter}, ConverterParameter='65 and Over'}"
                            StrokeThickness="1"
                            Stroke="Black"
-                           Margin="1" />
+                           Margin="1">
+                    <Rectangle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectAgeCommand}"
+                                              CommandParameter="65 and Over" />
+                    </Rectangle.GestureRecognizers>
+                </Rectangle>
                 <RoundRectangle Grid.Row="1"
                                 Grid.Column="7"
                                 CornerRadius="0,30,0,30"
-                                Fill="{StaticResource White}"
+                                Fill="{Binding Age, Converter={ut:ColorValueConverter}, ConverterParameter='Prefer not'}"
                                 StrokeThickness="1"
                                 Stroke="Black"
-                                Margin="1" />
+                                Margin="1" >
+                    <RoundRectangle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectAgeCommand}"
+                                              CommandParameter="Prefer not" />
+                    </RoundRectangle.GestureRecognizers>
+                </RoundRectangle>
                 <Label Grid.Row="1"
                        Grid.Column="0"
                        Text="16-18"
                        HorizontalTextAlignment="Center"
                        VerticalTextAlignment="Center"
-                       TextColor="{StaticResource PrimaryDarkText}"
+                       TextColor="{Binding Age, Converter={ut:ColorTextValueConverter}, ConverterParameter='16-18'}"
                        FontSize="Medium">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding SelectAgeCommand}"
@@ -138,54 +173,89 @@
                        Text="19-24"
                        HorizontalTextAlignment="Center"
                        VerticalTextAlignment="Center"
-                       TextColor="{StaticResource PrimaryDarkText}"
-                       FontSize="Medium" />
+                       TextColor="{Binding Age, Converter={ut:ColorTextValueConverter}, ConverterParameter='19-24'}"
+                       FontSize="Medium">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectAgeCommand}"
+                                              CommandParameter="19-24" />
+                    </Label.GestureRecognizers>
+                </Label>
                 <Label Grid.Row="1"
                        Grid.Column="2"
                        Text="25-34"
                        HorizontalTextAlignment="Center"
                        VerticalTextAlignment="Center"
-                       TextColor="{StaticResource PrimaryDarkText}"
-                       FontSize="Medium" />
+                       TextColor="{Binding Age, Converter={ut:ColorTextValueConverter}, ConverterParameter='25-34'}"
+                       FontSize="Medium">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectAgeCommand}"
+                                              CommandParameter="25-34" />
+                    </Label.GestureRecognizers>
+                </Label>
                 <Label Grid.Row="1"
                        Grid.Column="3"
                        Text="35-44"
-                       TextColor="White"
+                       TextColor="{Binding Age, Converter={ut:ColorTextValueConverter}, ConverterParameter='35-44'}"
                        HorizontalTextAlignment="Center"
-                       VerticalTextAlignment="Center"                       
-                       FontSize="Medium" />
+                       VerticalTextAlignment="Center"
+                       FontSize="Medium">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectAgeCommand}"
+                                              CommandParameter="35-44" />
+                    </Label.GestureRecognizers>
+                </Label>
                 <Label Grid.Row="1"
                        Grid.Column="4"
                        Text="45-54"
                        HorizontalTextAlignment="Center"
                        VerticalTextAlignment="Center"
-                       TextColor="{StaticResource PrimaryDarkText}"
-                       FontSize="Medium" />
+                       TextColor="{Binding Age, Converter={ut:ColorTextValueConverter}, ConverterParameter='45-54'}"
+                       FontSize="Medium">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectAgeCommand}"
+                                              CommandParameter="45-54" />
+                    </Label.GestureRecognizers>
+                </Label>
                 <Label Grid.Row="1"
                        Grid.Column="5"
                        Text="55-64"
                        HorizontalTextAlignment="Center"
                        VerticalTextAlignment="Center"
-                       TextColor="{StaticResource PrimaryDarkText}"
-                       FontSize="Medium" />
+                       TextColor="{Binding Age, Converter={ut:ColorTextValueConverter}, ConverterParameter='55-64'}"
+                       FontSize="Medium">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectAgeCommand}"
+                                              CommandParameter="55-64" />
+                    </Label.GestureRecognizers>
+                </Label>
                 <Label Grid.Row="1"
                        Grid.Column="6"
                        Text="65 and Over"
                        HorizontalTextAlignment="Center"
                        VerticalTextAlignment="Center"
-                       TextColor="{StaticResource PrimaryDarkText}"
-                       FontSize="Medium" />
+                       TextColor="{Binding Age, Converter={ut:ColorTextValueConverter}, ConverterParameter='65 and Over'}"
+                       FontSize="Medium">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectAgeCommand}"
+                                              CommandParameter="65 and Over" />
+                    </Label.GestureRecognizers>
+                </Label>
                 <Label Grid.Row="1"
                        Grid.Column="7"
                        HorizontalTextAlignment="Center"
                        VerticalTextAlignment="Center"
-                       TextColor="{StaticResource PrimaryDarkText}"
+                       TextColor="{Binding Age, Converter={ut:ColorTextValueConverter}, ConverterParameter='Prefer not'}"
                        FontSize="Medium">
                     <Label.FormattedText>
                         <FormattedString>
-                            <Span Text="Prefer not&#xA;to say" />
+                            <Span Text="Prefer not&#xA;to say"
+                                  TextColor="{Binding Age, Converter={ut:ColorTextValueConverter}, ConverterParameter='Prefer not'}" />
                         </FormattedString>
                     </Label.FormattedText>
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectAgeCommand}"
+                                              CommandParameter="Prefer not" />
+                    </Label.GestureRecognizers>
                 </Label>
 
                 <Label Text="Gender"
@@ -198,56 +268,91 @@
                                 Grid.Column="0"
                                 Grid.ColumnSpan="2"
                                 CornerRadius="30,0,30,0"
-                                Fill="{StaticResource White}"
+                                Fill="{Binding Gender, Converter={ut:ColorValueConverter}, ConverterParameter='Female'}"
                                 StrokeThickness="1"
                                 Stroke="Black"
-                                Margin="1" />
+                                Margin="1">
+                    <RoundRectangle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectGenderCommand}"
+                                              CommandParameter="Female" />
+                    </RoundRectangle.GestureRecognizers>
+                </RoundRectangle>
                 <Rectangle Grid.Row="3"
                            Grid.Column="2"
                            Grid.ColumnSpan="2"
-                           Fill="{StaticResource ButtonColor}"
+                           Fill="{Binding Gender, Converter={ut:ColorValueConverter}, ConverterParameter='Male'}"
                            StrokeThickness="1"
                            Stroke="Black"
-                           Margin="1" />
+                           Margin="1">
+                    <Rectangle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectGenderCommand}"
+                                              CommandParameter="Male" />
+                    </Rectangle.GestureRecognizers>
+                </Rectangle>
                 <Rectangle Grid.Row="3"
                            Grid.Column="4"
                            Grid.ColumnSpan="2"
-                           Fill="{StaticResource White}"
+                           Fill="{Binding Gender, Converter={ut:ColorValueConverter}, ConverterParameter='Another gender'}"
                            StrokeThickness="1"
                            Stroke="Black"
-                           Margin="1" />
+                           Margin="1">
+                    <Rectangle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectGenderCommand}"
+                                              CommandParameter="Another gender" />
+                    </Rectangle.GestureRecognizers>
+                </Rectangle>
                 <RoundRectangle Grid.Row="3"
                                 Grid.Column="6"
                                 Grid.ColumnSpan="2"
                                 CornerRadius="0,30,0,30"
-                                Fill="{StaticResource White}"
+                                Fill="{Binding Gender, Converter={ut:ColorValueConverter}, ConverterParameter='Prefer not'}"
                                 StrokeThickness="1"
                                 Stroke="Black"
-                                Margin="1" />
+                                Margin="1">
+                    <RoundRectangle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectGenderCommand}"
+                                              CommandParameter="Prefer not" />
+                    </RoundRectangle.GestureRecognizers>
+                </RoundRectangle>
                 <Label Grid.Row="3"
                        Grid.Column="0"
                        Grid.ColumnSpan="2"
                        Text="Female"
                        HorizontalTextAlignment="Center"
                        VerticalTextAlignment="Center"
-                       TextColor="{StaticResource PrimaryDarkText}"
-                       FontSize="Medium" />
+                       TextColor="{Binding Gender, Converter={ut:ColorTextValueConverter}, ConverterParameter='Female'}"
+                       FontSize="Medium">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectGenderCommand}"
+                                              CommandParameter="Female" />
+                    </Label.GestureRecognizers>
+                </Label>
                 <Label Grid.Row="3"
                        Grid.Column="2"
                        Grid.ColumnSpan="2"
                        Text="Male"
                        HorizontalTextAlignment="Center"
                        VerticalTextAlignment="Center"
-                       TextColor="{StaticResource White}"
-                       FontSize="Medium" />
+                       TextColor="{Binding Gender, Converter={ut:ColorTextValueConverter}, ConverterParameter='Male'}"
+                       FontSize="Medium">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectGenderCommand}"
+                                              CommandParameter="Male" />
+                    </Label.GestureRecognizers>
+                </Label>
                 <Label Grid.Row="3"
                        Grid.Column="4"
                        Grid.ColumnSpan="2"
-                       Text="Non-Binary"
+                       Text="Another gender"
                        HorizontalTextAlignment="Center"
                        VerticalTextAlignment="Center"
-                       TextColor="{StaticResource PrimaryDarkText}"
-                       FontSize="Medium" />
+                       TextColor="{Binding Gender, Converter={ut:ColorTextValueConverter}, ConverterParameter='Another gender'}"
+                       FontSize="Medium">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectGenderCommand}"
+                                              CommandParameter="Another gender" />
+                    </Label.GestureRecognizers>
+                </Label>
                 <Label Grid.Row="3"
                        Grid.Column="6"
                        Grid.ColumnSpan="2"
@@ -257,9 +362,14 @@
                        FontSize="Medium">
                     <Label.FormattedText>
                         <FormattedString>
-                            <Span Text="Prefer not&#xA;to say" />
+                            <Span Text="Prefer not&#xA;to say"
+                                  TextColor="{Binding Gender, Converter={ut:ColorTextValueConverter}, ConverterParameter='Prefer not'}" />
                         </FormattedString>
                     </Label.FormattedText>
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectGenderCommand}"
+                                              CommandParameter="Prefer not" />
+                    </Label.GestureRecognizers>
                 </Label>
 
                 <Label Text="Ethnicity"
@@ -271,113 +381,193 @@
                 <RoundRectangle Grid.Row="5"
                                 Grid.Column="0"
                                 CornerRadius="30,0,30,0"
-                                Fill="{StaticResource ButtonColor}"
+                                Fill="{Binding Ethnicity, Converter={ut:ColorValueConverter}, ConverterParameter='European/Pākehā'}"
                                 StrokeThickness="1"
                                 Stroke="Black"
-                                Margin="1" />
+                                Margin="1">
+                    <RoundRectangle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectEthnicityCommand}"
+                                              CommandParameter="European/Pākehā" />
+                    </RoundRectangle.GestureRecognizers>
+                </RoundRectangle>
                 <Rectangle Grid.Row="5"
                            Grid.Column="1"
-                           Fill="{StaticResource White}"
+                           Fill="{Binding Ethnicity, Converter={ut:ColorValueConverter}, ConverterParameter='Māori'}"
                            StrokeThickness="1"
                            Stroke="Black"
-                           Margin="1" />
+                           Margin="1">
+                    <Rectangle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectEthnicityCommand}"
+                                              CommandParameter="Māori" />
+                    </Rectangle.GestureRecognizers>
+                </Rectangle>
                 <Rectangle Grid.Row="5"
                            Grid.Column="2"
-                           Fill="{StaticResource White}"
+                           Fill="{Binding Ethnicity, Converter={ut:ColorValueConverter}, ConverterParameter='Pacific'}"
                            StrokeThickness="1"
                            Stroke="Black"
-                           Margin="1" />
+                           Margin="1">
+                    <Rectangle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectEthnicityCommand}"
+                                              CommandParameter="Pacific" />
+                    </Rectangle.GestureRecognizers>                    
+                </Rectangle>
                 <Rectangle Grid.Row="5"
                            Grid.Column="3"
-                           Fill="{StaticResource White}"
+                           Fill="{Binding Ethnicity, Converter={ut:ColorValueConverter}, ConverterParameter='East Asian'}"
                            StrokeThickness="1"
                            Stroke="Black"
-                           Margin="1" />
+                           Margin="1">
+                    <Rectangle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectEthnicityCommand}"
+                                              CommandParameter="East Asian" />
+                    </Rectangle.GestureRecognizers>
+                </Rectangle>
                 <Rectangle Grid.Row="5"
                            Grid.Column="4"
-                           Fill="{StaticResource White}"
+                           Fill="{Binding Ethnicity, Converter={ut:ColorValueConverter}, ConverterParameter='South Asian'}"
                            StrokeThickness="1"
                            Stroke="Black"
-                           Margin="1" />
+                           Margin="1">
+                    <Rectangle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectEthnicityCommand}"
+                                              CommandParameter="South Asian" />
+                    </Rectangle.GestureRecognizers>
+                </Rectangle>
                 <Rectangle Grid.Row="5"
                            Grid.Column="5"
-                           Fill="{StaticResource White}"
+                           Fill="{Binding Ethnicity, Converter={ut:ColorValueConverter}, ConverterParameter='Other Asian'}"
                            StrokeThickness="1"
                            Stroke="Black"
-                           Margin="1" />
+                           Margin="1">
+                    <Rectangle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectEthnicityCommand}"
+                                              CommandParameter="Other Asian" />
+                    </Rectangle.GestureRecognizers>
+                </Rectangle>
                 <Rectangle Grid.Row="5"
                            Grid.Column="6"
-                           Fill="{StaticResource White}"
+                           Fill="{Binding Ethnicity, Converter={ut:ColorValueConverter}, ConverterParameter='Other Ethnicity'}"
                            StrokeThickness="1"
                            Stroke="Black"
-                           Margin="1" />
+                           Margin="1">
+                    <Rectangle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectEthnicityCommand}"
+                                              CommandParameter="Other Ethnicity" />
+                    </Rectangle.GestureRecognizers>
+                </Rectangle>
                 <RoundRectangle Grid.Row="5"
                                 Grid.Column="7"
                                 CornerRadius="0,30,0,30"
-                                Fill="{StaticResource White}"
+                                Fill="{Binding Ethnicity, Converter={ut:ColorValueConverter}, ConverterParameter='Prefer not'}"
                                 StrokeThickness="1"
                                 Stroke="Black"
-                                Margin="1" />
+                                Margin="1">
+                    <RoundRectangle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectEthnicityCommand}"
+                                              CommandParameter="Prefer not" />
+                    </RoundRectangle.GestureRecognizers>
+                </RoundRectangle>
                 <Label Grid.Row="5"
                        Grid.Column="0"
                        Text="European/Pākehā"
                        HorizontalTextAlignment="Center"
                        VerticalTextAlignment="Center"
-                       TextColor="{StaticResource White}"
-                       FontSize="Medium" />
+                       TextColor="{Binding Ethnicity, Converter={ut:ColorTextValueConverter}, ConverterParameter='European/Pākehā'}"
+                       FontSize="Medium">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectEthnicityCommand}"
+                                              CommandParameter="European/Pākehā" />
+                    </Label.GestureRecognizers>
+                </Label>
                 <Label Grid.Row="5"
                        Grid.Column="1"
                        Text="Māori"
                        HorizontalTextAlignment="Center"
                        VerticalTextAlignment="Center"
-                       TextColor="{StaticResource PrimaryDarkText}"
-                       FontSize="Medium" />
+                       TextColor="{Binding Ethnicity, Converter={ut:ColorTextValueConverter}, ConverterParameter='Māori'}"
+                       FontSize="Medium">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectEthnicityCommand}"
+                                              CommandParameter="Māori" />
+                    </Label.GestureRecognizers>
+                </Label>
                 <Label Grid.Row="5"
                        Grid.Column="2"
-                       Text="Other Pacific Peoples"
+                       Text="Pacific"
                        HorizontalTextAlignment="Center"
                        VerticalTextAlignment="Center"
-                       TextColor="{StaticResource PrimaryDarkText}"
-                       FontSize="Medium" />
+                       TextColor="{Binding Ethnicity, Converter={ut:ColorTextValueConverter}, ConverterParameter='Pacific'}"
+                       FontSize="Medium">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectEthnicityCommand}"
+                                              CommandParameter="Pacific" />
+                    </Label.GestureRecognizers>
+                </Label>
                 <Label Grid.Row="5"
                        Grid.Column="3"
-                       Text="Chinese"
+                       Text="East Asian"
                        HorizontalTextAlignment="Center"
                        VerticalTextAlignment="Center"
-                       TextColor="{StaticResource PrimaryDarkText}"
-                       FontSize="Medium" />
+                       TextColor="{Binding Ethnicity, Converter={ut:ColorTextValueConverter}, ConverterParameter='East Asian'}"
+                       FontSize="Medium">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectEthnicityCommand}"
+                                              CommandParameter="East Asian" />
+                    </Label.GestureRecognizers>
+                </Label>
                 <Label Grid.Row="5"
                        Grid.Column="4"
-                       Text="Indian"
+                       Text="South Asian"
                        HorizontalTextAlignment="Center"
                        VerticalTextAlignment="Center"
-                       TextColor="{StaticResource PrimaryDarkText}"
-                       FontSize="Medium" />
+                       TextColor="{Binding Ethnicity, Converter={ut:ColorTextValueConverter}, ConverterParameter='South Asian'}"
+                       FontSize="Medium">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectEthnicityCommand}"
+                                              CommandParameter="South Asian" />
+                    </Label.GestureRecognizers>
+                </Label>
                 <Label Grid.Row="5"
                        Grid.Column="5"
                        Text="Other Asian"
                        HorizontalTextAlignment="Center"
                        VerticalTextAlignment="Center"
-                       TextColor="{StaticResource PrimaryDarkText}"
-                       FontSize="Medium" />
+                       TextColor="{Binding Ethnicity, Converter={ut:ColorTextValueConverter}, ConverterParameter='Other Asian'}"
+                       FontSize="Medium">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectEthnicityCommand}"
+                                              CommandParameter="Other Asian" />
+                    </Label.GestureRecognizers>
+                </Label>
                 <Label Grid.Row="5"
                        Grid.Column="6"
                        Text="Other Ethnicity"
                        HorizontalTextAlignment="Center"
                        VerticalTextAlignment="Center"
-                       TextColor="{StaticResource PrimaryDarkText}"
-                       FontSize="Medium" />
+                       TextColor="{Binding Ethnicity, Converter={ut:ColorTextValueConverter}, ConverterParameter='Other Ethnicity'}"
+                       FontSize="Medium">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectEthnicityCommand}"
+                                              CommandParameter="Other Ethnicity" />
+                    </Label.GestureRecognizers>
+                </Label>
                 <Label Grid.Row="5"
                        Grid.Column="7"
                        HorizontalTextAlignment="Center"
                        VerticalTextAlignment="Center"
-                       TextColor="{StaticResource PrimaryDarkText}"
+                       TextColor="{Binding Ethnicity, Converter={ut:ColorTextValueConverter}, ConverterParameter='Prefer not'}"
                        FontSize="Medium">
                     <Label.FormattedText>
                         <FormattedString>
-                            <Span Text="Prefer not&#xA;to say" />
+                            <Span Text="Prefer not&#xA;to say"
+                                  TextColor="{Binding Ethnicity, Converter={ut:ColorTextValueConverter}, ConverterParameter='Prefer not'}" />
                         </FormattedString>
                     </Label.FormattedText>
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectEthnicityCommand}"
+                                              CommandParameter="Prefer not" />
+                    </Label.GestureRecognizers>
                 </Label>
                 
                 <Label Text="Handedness"
@@ -390,34 +580,55 @@
                                 Grid.Column="0"
                                 Grid.ColumnSpan="4"
                                 CornerRadius="30,0,30,0"
-                                Fill="{StaticResource White}"
+                                Fill="{Binding Handedness, Converter={ut:ColorValueConverter}, ConverterParameter='Left'}"
                                 StrokeThickness="1"
                                 Stroke="Black"
-                                Margin="1" />
+                                Margin="1">
+                    <RoundRectangle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectHandednessCommand}"
+                                              CommandParameter="Left" />
+                    </RoundRectangle.GestureRecognizers>
+                </RoundRectangle>
                 <RoundRectangle Grid.Row="7"
                                 Grid.Column="4"
                                 Grid.ColumnSpan="4"
                                 CornerRadius="0,30,0,30"
-                                Fill="{StaticResource ButtonColor}"
+                                Fill="{Binding Handedness, Converter={ut:ColorValueConverter}, ConverterParameter='Right'}"
                                 StrokeThickness="1"
                                 Stroke="Black"
-                                Margin="1" />
+                                Margin="1">
+                    <RoundRectangle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectHandednessCommand}"
+                                              CommandParameter="Right" />
+                    </RoundRectangle.GestureRecognizers>
+                </RoundRectangle>
                 <Label Grid.Row="7"
                        Grid.Column="0"
                        Grid.ColumnSpan="4"
                        Text="Left-Handed"
                        HorizontalTextAlignment="Center"
                        VerticalTextAlignment="Center"
-                       TextColor="{StaticResource PrimaryDarkText}"
-                       FontSize="Medium" />
+                       TextColor="{Binding Handedness, Converter={ut:ColorTextValueConverter}, ConverterParameter='Left'}"
+                       FontSize="Medium">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectHandednessCommand}"
+                                              CommandParameter="Left" />
+                    </Label.GestureRecognizers>
+                </Label>
                 <Label Grid.Row="7"
                        Grid.Column="4"
                        Grid.ColumnSpan="4"
                        Text="Right-Handed"
                        HorizontalTextAlignment="Center"
                        VerticalTextAlignment="Center"
-                       TextColor="{StaticResource White}"
-                       FontSize="Medium" />
+                       TextColor="{Binding Handedness, Converter={ut:ColorTextValueConverter}, ConverterParameter='Right'}"
+                       FontSize="Medium">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectHandednessCommand}"
+                                              CommandParameter="Right" />
+                    </Label.GestureRecognizers>
+
+                </Label>
             </Grid>
         </Frame>
         <Button Grid.Row="2"
@@ -428,6 +639,7 @@
                 BorderColor="{StaticResource ButtonColor}"
                 BorderWidth="2"
                 VerticalOptions="Center"
+                Command="{Binding ContinueCommand}"
                 BackgroundColor="{StaticResource ButtonColor}"
                 Margin="8" />
     </Grid>

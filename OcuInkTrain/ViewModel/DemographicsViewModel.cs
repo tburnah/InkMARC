@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using OcuInkTrain.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,11 @@ namespace OcuInk.ViewModel
         private string gender = string.Empty;
         private string ethnicity = string.Empty;
         private string handedness = string.Empty;
+
+        /// <summary>
+        /// Gets or sets the navigation service.
+        /// </summary>
+        public INavigation? Navigation { get; set; }
 
         /// <summary>
         /// Gets or sets the age.
@@ -93,5 +99,12 @@ namespace OcuInk.ViewModel
         {
             Handedness = value.ToString();
         }
+
+        [RelayCommand]
+        public void Continue()
+        {
+            Navigation?.PushAsync(new CameraSelection());
+        }
+
     }
 }

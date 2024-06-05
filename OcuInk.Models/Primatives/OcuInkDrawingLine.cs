@@ -10,6 +10,26 @@ namespace OcuInk.Models.Primatives
     public class OcuInkDrawingLine : IAdvancedDrawingLine
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="OcuInkDrawingLine"/> class.
+        /// </summary>
+        public OcuInkDrawingLine()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OcuInkDrawingLine"/> class with the specified source line.
+        /// </summary>
+        /// <param name="source">The source line to copy.</param>
+        public OcuInkDrawingLine(OcuInkDrawingLine source)
+        {
+            Granularity = source.Granularity;
+            LineColor = source.LineColor;
+            LineWidth = source.LineWidth;
+            Points = source.Points != null ? new ObservableCollection<OcuInkPoint>(source.Points) : null;
+            ShouldSmoothPathWhenDrawn = source.ShouldSmoothPathWhenDrawn;
+        }
+
+        /// <summary>
         /// Gets or sets the granularity of the drawing line.
         /// </summary>
         public int Granularity { get; set; }

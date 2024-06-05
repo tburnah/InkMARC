@@ -31,7 +31,7 @@
         public float TiltY { get; set; }
 
         /// <summary>
-        /// Gets or sets the timestamp of the ink point.
+        /// Gets or sets the timestamp of the ink point. Microseconds since boot.
         /// </summary>
         public ulong Timestamp { get; set; }
 

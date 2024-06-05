@@ -132,7 +132,7 @@ namespace OcuInkTrain.ViewModel
         public async void ChooseContinue()
         {
             if (Navigation is not null)
-                await Navigation.PushAsync(new ConsentPage());
+                await Navigation.PushAsync(new DrawingPage());
         }
 
         /// <summary>

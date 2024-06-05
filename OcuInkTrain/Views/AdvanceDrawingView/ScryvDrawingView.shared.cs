@@ -160,7 +160,7 @@ public partial class OcuInkDrawingView
 	}
 
 	private int currentCount;
-	const int MaxPointsInLine = 100;
+	const int MaxPointsInLine = 100;	
 	void OnMoving(OcuInkPoint currentPoint)
 	{		
 		if (!isDrawing)
@@ -178,7 +178,7 @@ public partial class OcuInkDrawingView
 		OnDrawing(currentPoint);
 		if (currentCount > MaxPointsInLine)
 		{
-            Lines.Add(currentLine);
+			AddLine(new OcuInkDrawingLine(currentLine));            
             previousPoint = currentPoint;
             //currentPath.MoveTo(previousPoint.Position.X, previousPoint.Position.Y);
             currentCount = 0;
@@ -200,6 +200,19 @@ public partial class OcuInkDrawingView
             };
         }
 	}
+
+	private OcuInkDrawingLine? savedLine = null;
+	private void AddLine(OcuInkDrawingLine line)
+	{
+		if (savedLine is not null)
+		{
+			Lines.Add(savedLine);
+			savedLine = null;
+		}
+		savedLine = line;
+		Lines.Add(line);
+		savedLine = null;
+    }
 
 	void OnFinish()
 	{

@@ -25,7 +25,7 @@ public partial class ConsentPage : ContentPage
     private void Continue_Clicked(object sender, EventArgs e)
     {
         SessionContext.SessionID = SessionIDUtilities.GetUniqueSessionID();        
-        Navigation.PushAsync(new DrawingPage());
+        Navigation.PushAsync(new Demographics());
     }
 
     /// <summary>
