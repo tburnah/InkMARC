@@ -1,3 +1,3 @@
 # OcuInk Deform
-Training Data gathering application for videos of hands writing with styli.
 
+Application to study how the hand deforms when using a stylus with various pressures.
