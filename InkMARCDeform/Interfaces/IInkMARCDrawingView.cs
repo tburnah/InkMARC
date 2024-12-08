@@ -25,6 +25,11 @@ namespace InkMARCDeform.Interfaces
         ObservableCollection<IAdvancedDrawingLine> Lines { get; }
 
         /// <summary>
+        /// The most recent pressure of the input device.
+        /// </summary>
+        public float Pressure { get; }
+
+        /// <summary>
         /// Toggles multi-line mode. When true, multiple lines can be drawn on the CommunityToolkit.Maui.Core.IDrawingView
         /// while the tap/click is released in-between lines. Note: when CommunityToolkit.Maui.Core.IDrawingView.ShouldClearOnFinish
         /// is also enabled, the lines are cleared after the tap/click is released. Additionally,
@@ -32,6 +37,11 @@ namespace InkMARCDeform.Interfaces
         /// will be fired after each line that is drawn.
         /// </summary>
         bool IsMultiLineModeEnabled { get; }
+
+        /// <summary>
+        /// Allow floating lines
+        /// </summary>
+        bool AllowFloatingLines { get; }
 
         /// <summary>
         /// Indicates whether the CommunityToolkit.Maui.Core.IDrawingView is cleared after
@@ -84,5 +94,11 @@ namespace InkMARCDeform.Interfaces
         /// </summary>
         /// <param name="lastDrawingLine">Last drawing line</param>
         void OnDrawingLineCompleted(IAdvancedDrawingLine lastDrawingLine);
+
+        /// <summary>
+        /// Event occurred when pressure changed
+        /// </summary>
+        /// <param name="pressure">The Pressure</param>
+        void OnPressureChanged(float pressure);
     }
 }

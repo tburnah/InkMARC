@@ -43,6 +43,18 @@ public class AdvancedDrawingView : View, IInkMARCDrawingView
         BindableProperty.Create(nameof(IsMultiLineModeEnabled), typeof(bool), typeof(AdvancedDrawingView), DrawingViewDefaults.IsMultiLineModeEnabled);
 
     /// <summary>
+    /// Backing BindableProperty for the <see cref="AllowFloatingLines"/> property.
+    /// </summary>
+    public static readonly BindableProperty AllowFloatingLinesProperty =
+        BindableProperty.Create(nameof(AllowFloatingLines), typeof(bool), typeof(AdvancedDrawingView), false);
+
+    /// <summary>
+    /// Backing BindableProperty for the <see cref="Pressure"/> property.
+    /// </summary>
+    public static readonly BindableProperty PressureProperty = BindableProperty.Create(
+        nameof(Pressure), typeof(float), typeof(AdvancedDrawingView), defaultValueCreator: (_) => 0.0f, defaultBindingMode: BindingMode.OneWayToSource);
+
+    /// <summary>
     /// Backing BindableProperty for the <see cref="Lines"/> property.
     /// </summary>
     public static readonly BindableProperty LinesProperty = BindableProperty.Create(
@@ -183,6 +195,15 @@ public class AdvancedDrawingView : View, IInkMARCDrawingView
     }
 
     /// <summary>
+    /// The most recent pressure of the input device. This is a bindable property.
+    /// </summary>
+    public float Pressure
+    {
+        get => (float)GetValue(PressureProperty);
+        set => SetValue(PressureProperty, value);
+    }
+
+    /// <summary>
     /// Toggles multi-line mode. When true, multiple lines can be drawn on the <see cref="AdvancedDrawingView"/> while the tap/click is released in-between lines.
     /// Note: when <see cref="ShouldClearOnFinish"/> is also enabled, the lines are cleared after the tap/click is released.
     /// Additionally, <see cref="DrawingLineCompletedCommand"/> will be fired after each line that is drawn.
@@ -192,6 +213,15 @@ public class AdvancedDrawingView : View, IInkMARCDrawingView
     {
         get => (bool)GetValue(IsMultiLineModeEnabledProperty);
         set => SetValue(IsMultiLineModeEnabledProperty, value);
+    }
+
+    /// <summary>
+    /// Allow floating lines.
+    /// </summary>
+    public bool AllowFloatingLines
+    {
+        get => (bool)GetValue(AllowFloatingLinesProperty);
+        set => SetValue(AllowFloatingLinesProperty, value);
     }
 
     /// <summary>
@@ -310,5 +340,14 @@ public class AdvancedDrawingView : View, IInkMARCDrawingView
     {
         Unloaded -= OnDrawingViewUnloaded;
         Handler?.DisconnectHandler();
+    }
+
+    /// <summary>
+    /// Event occurred when pressure changed
+    /// </summary>
+    /// <param name="pressure">The Pressure</param>
+    public void OnPressureChanged(float pressure)
+    {
+        SetValue(PressureProperty, pressure);
     }
 }

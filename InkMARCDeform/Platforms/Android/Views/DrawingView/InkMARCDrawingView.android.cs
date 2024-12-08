@@ -20,8 +20,6 @@ public partial class InkMARCDrawingView : PlatformTouchGraphicsView
 	/// </summary>
 	public InkMARCDrawingView(Context context) : base(context)
 	{
-		redrawTimer.AutoReset = false;
-		redrawTimer.Elapsed += (s, e) => Redraw();
 		previousPoint = new();
 	}
 
@@ -91,8 +89,7 @@ public partial class InkMARCDrawingView : PlatformTouchGraphicsView
 				return false;
 		}
 
-        ThrottleRedraw();
-        //Redraw();
+        Redraw();
 
 		return true;
 	}

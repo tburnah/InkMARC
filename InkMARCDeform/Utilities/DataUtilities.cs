@@ -90,12 +90,22 @@ namespace InkMARCDeform.Utilities
         /// </summary>
         /// <param name="lines">The advanced drawing lines to save.</param>
         /// <param name="filePath">The file path to save the lines to.</param>
-        public static void SaveAdvancedDrawingLines(List<IAdvancedDrawingLine> lines, string filePath)
-        {         
+        public static void SaveAdvancedDrawingLines(List<IAdvancedDrawingLine> lines, ulong startingTimeStamp, string filePath)
+        {
             ExerciseData data = new()
             {
                 DrawingLines = lines.OfType<InkMARCDrawingLine>().ToList()
             };
+
+            for (int i = 0; i < data.DrawingLines.Count; i++)
+            {
+                for (int j = 0; j < data.DrawingLines[i].Points.Count; j++)
+                {
+                    InkMARCPoint point = data.DrawingLines[i].Points[j];
+                    point.Timestamp -= startingTimeStamp;
+                    data.DrawingLines[i].Points[j] = point;
+                }
+            }
 
             // Check if the file exists and has content
             if (File.Exists(filePath) && new FileInfo(filePath).Length > 0)
@@ -106,11 +116,11 @@ namespace InkMARCDeform.Utilities
             }
 
             // Add the new lines to the existing lines
-            foreach (var  advancedLine in lines)
+            foreach (var advancedLine in lines)
             {
-                if (advancedLine is InkMARCDrawingLine inkMARCLine && data is not null && data.DrawingLines is not null)
-                    data.DrawingLines.Add(inkMARCLine);
-            }            
+                if (advancedLine is InkMARCDrawingLine ocuInkLine && data is not null && data.DrawingLines is not null)
+                    data.DrawingLines.Add(ocuInkLine);
+            }
 
             // Serialize the combined list and write/overwrite the file
             string json = JsonSerializer.Serialize(data, jssOptions);
@@ -118,7 +128,7 @@ namespace InkMARCDeform.Utilities
         }
 
         private class ExerciseData
-        {            
+        {
             public List<InkMARCDrawingLine>? DrawingLines { get; set; }
         }
     }

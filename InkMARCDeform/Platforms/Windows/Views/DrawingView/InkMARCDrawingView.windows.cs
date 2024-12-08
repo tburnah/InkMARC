@@ -26,15 +26,13 @@ public partial class InkMARCDrawingView : PlatformTouchGraphicsView, IDisposable
     {
         if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 18362))
         {
-            ((Microsoft.Maui.Graphics.Win2D.W2DGraphicsView)Content).Drawable = new DrawingViewDrawable(this);            
+            ((Microsoft.Maui.Graphics.Win2D.W2DGraphicsView)Content).Drawable = new DrawingViewDrawable(this);
         }
         else
         {
             System.Diagnostics.Trace.WriteLine("DrawingView requires Windows 10.0.18362 or higher.");
         }
-        redrawTimer.AutoReset = false;
-        redrawTimer.Elapsed += (s, e) => Redraw();
-        
+
         Lines.CollectionChanged += OnLinesCollectionChanged;
     }
 
@@ -76,6 +74,37 @@ public partial class InkMARCDrawingView : PlatformTouchGraphicsView, IDisposable
             currentPoint.Timestamp
             );
         OnStart(inkMARCPoint);
+    }
+
+    protected override void OnPointerExited(PointerRoutedEventArgs e)
+    {
+        base.OnPointerExited(e);
+        OnFinish();
+    }
+
+    protected override void OnPointerEntered(PointerRoutedEventArgs e)
+    {
+        base.OnPointerEntered(e);
+        if (e.Pointer.IsInContact || (AllowFloatingLines && e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Pen))
+        {
+            var currentPoint = e.GetCurrentPoint(this);
+            var wPoint = currentPoint.Position;
+
+            var inkMARCPoint = new InkMARCPoint(
+                wPoint._x, wPoint._y,
+                currentPoint.Properties.Pressure,
+                currentPoint.Properties.XTilt,
+                currentPoint.Properties.YTilt,
+                currentPoint.Timestamp
+                );
+            OnStart(inkMARCPoint);
+        }
+    }
+
+    protected override void OnPointerCaptureLost(PointerRoutedEventArgs e)
+    {
+        base.OnPointerCaptureLost(e);
+        OnCancel();
     }
 
     /// <inheritdoc />
