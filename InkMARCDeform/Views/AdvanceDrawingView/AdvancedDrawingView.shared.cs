@@ -87,6 +87,12 @@ public class AdvancedDrawingView : View, IInkMARCDrawingView
         BindableProperty.Create(nameof(LineColor), typeof(Color), typeof(AdvancedDrawingView), DrawingViewDefaults.LineColor);
 
     /// <summary>
+    /// Backing BindableProperty for the <see cref="LineColor"/> property.
+    /// </summary>
+    public static readonly BindableProperty CursorColorProperty =
+        BindableProperty.Create(nameof(CursorColor), typeof(Color), typeof(AdvancedDrawingView), DrawingViewDefaults.LineColor);
+
+    /// <summary>
     /// Backing BindableProperty for the <see cref="LineWidth"/> property.
     /// </summary>
     public static readonly BindableProperty LineWidthProperty =
@@ -135,6 +141,12 @@ public class AdvancedDrawingView : View, IInkMARCDrawingView
     {
         get => (Color)GetValue(LineColorProperty);
         set => SetValue(LineColorProperty, value);
+    }
+
+    public Color CursorColor
+    {
+        get => (Color)GetValue(CursorColorProperty);
+        set => SetValue(CursorColorProperty, value);
     }
 
     /// <summary>

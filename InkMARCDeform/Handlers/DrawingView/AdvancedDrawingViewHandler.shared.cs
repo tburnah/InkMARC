@@ -20,7 +20,9 @@ public class AdvancedDrawingViewHandler : ViewHandler<IInkMARCDrawingView, InkMA
         [nameof(IInkMARCDrawingView.DrawAction)] = MapDrawAction,
         [nameof(IInkMARCDrawingView.ShouldClearOnFinish)] = MapShouldClearOnFinish,
         [nameof(IInkMARCDrawingView.IsMultiLineModeEnabled)] = MapIsMultiLineModeEnabled,
+        [nameof(IInkMARCDrawingView.AllowFloatingLines)] = MapAllowFloatingLine,
         [nameof(IInkMARCDrawingView.LineColor)] = MapLineColor,
+        [nameof(IInkMARCDrawingView.CursorColor)] = MapCursorColor,
         [nameof(IInkMARCDrawingView.LineWidth)] = MapLineWidth,
         [nameof(IInkMARCDrawingView.Background)] = MapDrawingViewBackground,
         [nameof(IInkMARCDrawingView.Lines)] = MapLines, // `IInkMARCDrawingView.Lines` must be mapped last
@@ -88,6 +90,11 @@ public class AdvancedDrawingViewHandler : ViewHandler<IInkMARCDrawingView, InkMA
         handler.PlatformView.SetLineColor(view.LineColor);
     }
 
+    public static void MapCursorColor(AdvancedDrawingViewHandler handler, IInkMARCDrawingView view)
+    {
+        handler.PlatformView.SetCursorColor(view.CursorColor);
+    }
+
     /// <summary>
     /// Action that's triggered when the DrawingView <see cref="IInkMARCDrawingView.LineWidth"/> property changes.
     /// </summary>
@@ -106,6 +113,16 @@ public class AdvancedDrawingViewHandler : ViewHandler<IInkMARCDrawingView, InkMA
     public static void MapIsMultiLineModeEnabled(AdvancedDrawingViewHandler handler, IInkMARCDrawingView view)
     {
         handler.PlatformView.SetIsMultiLineModeEnabled(view.IsMultiLineModeEnabled);
+    }
+
+    /// <summary>
+    /// Action that's triggered when the DrawingView <see cref="IInkMARCDrawingView.AllowFloatingLines"/> property changes.
+    /// </summary>
+    /// <param name="handler">An instance of <see cref="AdvancedDrawingViewHandler"/>.</param>
+    /// <param name="view">An instance of <see cref="IInkMARCDrawingView"/>.</param>
+    public static void MapAllowFloatingLine(AdvancedDrawingViewHandler handler, IInkMARCDrawingView view)
+    {
+        handler.PlatformView.SetAllowFloatingLines(view.AllowFloatingLines);
     }
 
     /// <summary>
@@ -138,6 +155,7 @@ public class AdvancedDrawingViewHandler : ViewHandler<IInkMARCDrawingView, InkMA
         platformView.DrawingCancelled += OnPlatformViewDrawingCancelled;
         platformView.Drawing += OnPlatformViewDrawing;
         platformView.DrawingLineCompleted += OnPlatformViewDrawingLineCompleted;
+        platformView.PressureChanged += OnPlatformViewPressureChanged;
         VirtualView.Lines.CollectionChanged += OnVirtualViewLinesCollectionChanged;
         platformView.Lines.CollectionChanged += OnPlatformViewLinesCollectionChanged;
     }
@@ -149,6 +167,7 @@ public class AdvancedDrawingViewHandler : ViewHandler<IInkMARCDrawingView, InkMA
         platformView.DrawingCancelled -= OnPlatformViewDrawingCancelled;
         platformView.Drawing -= OnPlatformViewDrawing;
         platformView.DrawingLineCompleted -= OnPlatformViewDrawingLineCompleted;
+        platformView.PressureChanged -= OnPlatformViewPressureChanged;
         VirtualView.Lines.CollectionChanged -= OnVirtualViewLinesCollectionChanged;
         platformView.Lines.CollectionChanged -= OnPlatformViewLinesCollectionChanged;
 
@@ -163,6 +182,17 @@ public class AdvancedDrawingViewHandler : ViewHandler<IInkMARCDrawingView, InkMA
 #else
     protected override InkMARCDrawingView CreatePlatformView() => new();
 #endif
+
+    /// <summary>
+    /// OnPlatformViewPressureChanged
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    /// <exception cref="NotImplementedException"></exception>
+    private void OnPlatformViewPressureChanged(object? sender, float e)
+    {
+        VirtualView.OnPressureChanged(e);
+    }
 
     void OnPlatformViewDrawingLineCompleted(object? sender, InkMARCDrawingLineCompletedEventArgs e)
     {

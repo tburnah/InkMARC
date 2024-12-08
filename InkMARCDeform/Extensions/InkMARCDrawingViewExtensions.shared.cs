@@ -109,6 +109,11 @@ public static class InkMARCDrawingViewExtensions
         inkMARCDrawingView.LineColor = lineColor;
 	}
 
+    public static void SetCursorColor(this InkMARCDrawingView inkMARCDrawingView, Color cursorColor)
+    {
+        inkMARCDrawingView.CursorColor = cursorColor;
+    }
+
     /// <summary>
     /// Set LineWidth
     /// </summary>

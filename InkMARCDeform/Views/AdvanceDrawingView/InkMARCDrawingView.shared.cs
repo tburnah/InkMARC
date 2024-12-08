@@ -21,6 +21,8 @@ public partial class InkMARCDrawingView
     InkMARCDrawingLine? currentLine;
     Paint paint = new SolidPaint(CommunityToolkit.Maui.Core.DrawingViewDefaults.BackgroundColor);
 
+    InkMARCPoint? currentCursorPoint;
+
     /// <summary>
     /// Event raised when drawing line completed 
     /// </summary>
@@ -98,6 +100,11 @@ public partial class InkMARCDrawingView
     public Color LineColor { get; set; } = CommunityToolkit.Maui.Core.DrawingViewDefaults.LineColor;
 
     /// <summary>
+    /// Cursor Color
+    /// </summary>
+    public Color CursorColor { get; set; } = CommunityToolkit.Maui.Core.DrawingViewDefaults.LineColor;
+
+    /// <summary>
     /// Line width
     /// </summary>
     public float LineWidth { get; set; } = CommunityToolkit.Maui.Core.DrawingViewDefaults.LineWidth;
@@ -169,6 +176,8 @@ public partial class InkMARCDrawingView
             return;
         }
 
+        currentCursorPoint = currentPoint; // Track the current point for the circle
+
         SetPressure(currentPoint.Pressure);
 
         currentCount++;
@@ -224,6 +233,7 @@ public partial class InkMARCDrawingView
         }
         SetPressure(0.0f);
         currentLine = null;
+        currentCursorPoint = null; // Clear the current point
         isDrawing = false;
     }
 
@@ -235,6 +245,7 @@ public partial class InkMARCDrawingView
         ClearPath();
         Redraw();
         isDrawing = false;
+        currentCursorPoint = null; // Clear the current point
         OnDrawingCancelled();
     }
 
@@ -278,6 +289,11 @@ public partial class InkMARCDrawingView
         currentPath = new PathF();
     }
 
+    internal void SetAllowFloatingLines(bool allowFloatingLines)
+    {
+        AllowFloatingLines = allowFloatingLines;
+    }
+
     class DrawingViewDrawable : IDrawable
     {
         readonly InkMARCDrawingView drawingView;
@@ -298,6 +314,16 @@ public partial class InkMARCDrawingView
 
             SetStroke(canvas, drawingView.LineWidth, drawingView.LineColor);
             canvas.DrawPath(drawingView.currentPath);
+
+            // Draw the circle at the current cursor point
+            if (drawingView.currentCursorPoint is not null)
+            {
+                var cursorPoint = drawingView.currentCursorPoint;
+                float circleRadius = 10.0f; // Adjust the size of the circle as needed
+                canvas.StrokeColor = drawingView.CursorColor; // Set the color of the circle
+                canvas.StrokeSize = 2; // Set the thickness of the circle outline
+                canvas.DrawCircle(cursorPoint?.X ?? 0, cursorPoint?.Y ?? 0, circleRadius);
+            }
         }
 
         static void SetStroke(in ICanvas canvas, in float lineWidth, in Color lineColor)

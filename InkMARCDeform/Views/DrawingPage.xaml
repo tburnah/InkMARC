@@ -4,7 +4,6 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:adv="clr-namespace:InkMARCDeform.Views.AdvanceDrawingView"
              xmlns:vm="clr-namespace:InkMARCDeform.ViewModel"
-             xmlns:cv="clr-namespace:Camera.MAUI;assembly=Camera.MAUI"
              x:Class="InkMARCDeform.Views.DrawingPage"
              NavigationPage.HasBackButton="False"
              NavigationPage.HasNavigationBar="False"
@@ -44,9 +43,12 @@
                        VerticalOptions="Center"
                        IsVisible="{Binding ShowTraceImage}" />
                 <adv:AdvancedDrawingView x:Name="MyDrawingView"
+                                         AllowFloatingLines="{Binding FloatingLinesAllowed}"
                                          BackgroundColor="Transparent"
                                          Lines="{Binding DrawingLines}"
-                                         IsMultiLineModeEnabled="True" />
+                                         Pressure="{Binding Pressure}"
+                                         IsMultiLineModeEnabled="True"
+                                         LineColor="LightGray"/>
             </Grid>
         </Frame>
         <toolkit:DockLayout Grid.Row="2"

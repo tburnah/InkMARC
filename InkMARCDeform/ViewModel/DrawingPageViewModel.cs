@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using InkMARC.Exercises;
 using InkMARC.Models.Interfaces;
@@ -45,16 +46,21 @@ namespace InkMARCDeform.ViewModel
             {
                 if (SetProperty(ref pressure, value))
                 {
-                    pressureCount++;
-                    averagePressure += (value - averagePressure) / pressureCount;
+                    //if (value == 0)
+                    //{
+                    //    pressureCount = 0;
+                    //}
+                    //pressureCount++;
+                    //averagePressure += (value - averagePressure) / pressureCount;
 
                     OnPropertyChanged(nameof(PressureBackground));
                     if (PressureBackground != prevColor && InkMARCDrawingView is not null)
                     {
                         prevColor = PressureBackground;
-                        InkMARCDrawingView.LineColor = prevColor;
+                        InkMARCDrawingView.CursorColor = prevColor;
+                        //InkMARCDrawingView.LineColor = prevColor;
                     }
-                    bool isCorrectPressure = !(Pressure < MinDesiredPressure) || (Pressure > MaxDesiredPressure);
+                    // bool isCorrectPressure = !(Pressure < MinDesiredPressure) || (Pressure > MaxDesiredPressure);
                     //tonePlayer.PlayTone(value, isCorrectPressure);
                 }
             }
@@ -222,7 +228,7 @@ namespace InkMARCDeform.ViewModel
         {
             get
             {
-                if ((Pressure < MinDesiredPressure) || (Pressure > MaxDesiredPressure))
+                if ((pressure < MinDesiredPressure) || (pressure > MaxDesiredPressure))
                 {
                     return Colors.Red;
                 }
@@ -321,7 +327,7 @@ namespace InkMARCDeform.ViewModel
             // Set the background to the new color
             BackgroundColor = color;
 
-            Task.Delay(300).ContinueWith(t => BackgroundColor = prevColor);
+            Task.Delay(500).ContinueWith(t => BackgroundColor = prevColor);
 
             long ticksSinceBoot = Stopwatch.GetTimestamp();
             long frequency = Stopwatch.Frequency;

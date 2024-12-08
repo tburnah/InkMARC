@@ -14,6 +14,8 @@ namespace InkMARCDeform.Interfaces
         /// </summary>
         Color LineColor { get; }
 
+        Color CursorColor { get; }
+
         /// <summary>
         /// The width that is used by default to draw a line on the CommunityToolkit.Maui.Core.IDrawingView.
         /// </summary>
