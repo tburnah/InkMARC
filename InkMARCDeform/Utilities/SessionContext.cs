@@ -30,5 +30,10 @@ namespace InkMARCDeform.Utilities
         /// Gets or sets the camera window.
         /// </summary>
         public static Window? CameraWin { get; set; }
+
+        /// <summary>
+        /// Gets or sets the marked flag.
+        /// </summary>
+        public static bool Marked { get; set; }
     }
 }

@@ -75,7 +75,7 @@
                     WidthRequest="100"
                     Margin="8"
                     Command="{Binding UndoCommand}" />
-            <Grid toolkit:DockLayout.DockPosition="Right">
+            <!--<Grid toolkit:DockLayout.DockPosition="Right">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="19" />
                     <RowDefinition Height="19" />
@@ -182,8 +182,8 @@
                         <TapGestureRecognizer Command="{Binding ChooseColorCommand}"
                                               CommandParameter="{StaticResource Brown}" />
                     </Rectangle.GestureRecognizers>
-                </Rectangle>
-            </Grid>
+                </Rectangle>-->
+            <!--</Grid>-->
             <HorizontalStackLayout toolkit:DockLayout.DockPosition="Top"
                                    HorizontalOptions="Center">
                 <Label Text="Exercise"

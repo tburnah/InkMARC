@@ -11,6 +11,7 @@ namespace InkMARC.Primatives
     /// </summary>
     public enum PressureType
     {
+        Undefined,
         None,
         Low,
         Medium,

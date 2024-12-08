@@ -41,7 +41,7 @@
                        FontSize="Medium">
                     <Label.FormattedText>
                         <FormattedString>
-                            <Span Text="You should be able to finish the app's exercises in about 15 minutes.&#xA;This app requires a smart tablet or phone, an additional device for video recording, and a stylus.&#xA;&#xA;" />
+                            <Span Text="You should be able to finish the app's exercises in about 15 minutes.&#xA;" />
                             <Span Text="By proceeding, you agree to the following:"
                                   FontAttributes="Bold" />
                             <Span Text="&#xA;• Consent to Data Collection: "
@@ -69,7 +69,18 @@
         </Frame>
         <toolkit:DockLayout Grid.Row="3">
             <Button toolkit:DockLayout.DockPosition="Right"
-                    Text="Continue"
+                    Text="Continue Unmarked"
+                    FontSize="Medium"
+                    TextColor="{StaticResource White}"
+                    BorderColor="{StaticResource ButtonColor}"
+                    BorderWidth="2"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    Clicked="Continue_Clicked"
+                    BackgroundColor="{StaticResource ButtonColor}"
+                    Margin="8" />
+            <Button toolkit:DockLayout.DockPosition="Right"
+                    Text="Continue Marked"
                     FontSize="Medium"
                     TextColor="{StaticResource White}"
                     BorderColor="{StaticResource ButtonColor}"

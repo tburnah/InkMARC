@@ -23,13 +23,15 @@ namespace InkMARC.Exercises
         /// <exception cref="ArgumentOutOfRangeException">Thrown when the pressure type is not recognized.</exception>
         public CustomizableExercise(string prompt, PressureType pressure)
         {
-            _prompt = prompt;            
+            _prompt = prompt;
+            _pressurePrompt = string.Empty;
             (_minPressure, _maxPressure, _allowFloatingLines, _pressurePrompt) = pressure switch
             {
+                PressureType.Undefined => (0.0f, 0.0f, false, String.Empty),
                 PressureType.None => (0.0f, 0.0f, true, " Hover just above the screen, not actually touching."),
                 PressureType.Low => (0.1f, 0.4f, false, " Use light pressure."),
                 PressureType.Medium => (0.3f, 0.7f, false, " Use medium pressure."),
-                PressureType.High => (0.5f, 1.0f, false, "Use heavy pressure."),
+                PressureType.High => (0.5f, 1.0f, false, " Use heavy pressure."),
                 _ => throw new ArgumentOutOfRangeException(nameof(pressure), pressure, null)
             };
         }

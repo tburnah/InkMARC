@@ -23,6 +23,10 @@ public partial class ConsentPage : ContentPage
     /// <param name="e">The event arguments.</param>
     private void Continue_Clicked(object sender, EventArgs e)
     {
+        if (sender is Button button)
+        {
+            SessionContext.Marked = button.Text == "Continue Marked";
+        }
         SessionContext.SessionID = SessionIDUtilities.GetUniqueSessionID();        
         Navigation.PushAsync(new DrawingPage(), false);
     }

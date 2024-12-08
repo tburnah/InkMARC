@@ -68,51 +68,44 @@ namespace InkMARCDeform.ViewModel
             Random random = new Random();
             List<string> shortPrompts = new List<string>
             {
-                "Write 5 abbreviations of country names, separated by commas.  I.e. USA, UK, etc.",
-                "Draw a starry sky using dots and asterisks.",
+                "Write 5 abbreviations of country names, separated by commas.  I.e. USA, UK, etc.",                
                 "Write frequently used acronyms, separated by commas.  I.e. LOL, OMG, FYI, etc."
             };
 
-            int index = random.Next(shortPrompts.Count);
+            int index = SessionContext.Marked ? 1 : 0;
             string selectedShortPrompt = shortPrompts[index];
 
             List<string> mediumStraightPrompts = new List<string>
             {
-                "Draw a city scape.",
-                "Draw a signpost with arrow signs pointing in different directions.",
-                "Draw a barn surrounded by a fence."
+                "Draw a city scape with straight lines.",
+                "Draw a signpost with arrow signs pointing in different directions.",                
             };
-
-            index = random.Next(mediumStraightPrompts.Count);
+            
             string selectedMediumStraightPrompt = mediumStraightPrompts[index];
 
             List<string> mediumCurvedPrompts = new List<string>
             {
                 "Draw planets circling a star.",
-                "Draw flower petals radiating outward from a central point.",
-                "Write a large, fancy, cursive signature with large loops and twirls."
+                "Draw flower petals radiating outward from a central point.",                
             };
-            index = random.Next(mediumCurvedPrompts.Count);
+            
             string selectedMediumCurvedPrompt = mediumCurvedPrompts[index];
 
             List<IExercise> longStraight = new List<IExercise>
-            {
-                new CustomizableExercise("Draw a railroad tracking disappearing into the horizon", PressureType.Low),
-                new CustomizableExercise("Draw a tic, tac, toe board", PressureType.Low),
+            {                
+                new CustomizableExercise("Draw a large tic, tac, toe board.", PressureType.Undefined),
                 new MazeExercise()
             };
-
-            index = random.Next(longStraight.Count);
+            
             IExercise selectedLongStraight = longStraight[index];
 
             List<IExercise> longCurved = new List<IExercise>
             {
-                new CustomizableExercise("Draw a large infinity symbol", PressureType.Medium),
-                new CustomizableExercise("Draw the waves of an ocean scene with large, rolling curves", PressureType.Medium),
+                new CustomizableExercise("Draw a large infinity symbol.", PressureType.Undefined),
+                new CustomizableExercise("Draw the waves of an ocean scene with large, rolling curves.", PressureType.Undefined),
                 new SpiralExercise()
             };
-
-            index = random.Next(longCurved.Count);
+            
             IExercise selectedLongCurved = longCurved[index];
 
             List<IExercise> allExercises = new List<IExercise>
