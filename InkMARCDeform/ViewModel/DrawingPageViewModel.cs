@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Maui.Core;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using InkMARC.Exercises;
 using InkMARC.Models.Interfaces;
@@ -11,6 +10,7 @@ using InkMARCDeform.Views;
 using InkMARCDeform.Views.AdvanceDrawingView;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace InkMARCDeform.ViewModel
 {
@@ -19,6 +19,25 @@ namespace InkMARCDeform.ViewModel
     /// </summary>
     internal partial class DrawingPageViewModel : ObservableObject
     {
+        private Color prevColor = Colors.Black;
+        private int currentExerciseIndex = 0;
+        private IExercise? currentExercise;
+        private float pressure;
+        private AdvancedDrawingView? inkMARCDrawingView;
+
+        private void ResetExerciseState()
+        {
+            ClearDrawing();
+            pressure = -1f;
+            Pressure = 0f;
+            OnPropertyChanged(nameof(Prompt));
+            OnPropertyChanged(nameof(ImageSource));
+            OnPropertyChanged(nameof(ShowTraceImage));
+            OnPropertyChanged(nameof(CurrentExerciseNumber));
+            OnPropertyChanged(nameof(FloatingLinesAllowed));
+            OnPropertyChanged(nameof(PressureBackground));
+        }
+
         /// <summary>
         /// Gets or sets the InkMARCDrawingView.
         /// </summary>
@@ -31,11 +50,13 @@ namespace InkMARCDeform.ViewModel
                 if (inkMARCDrawingView is not null)
                 {
                     FlashColor(Colors.Blue);
+                    long ticksSinceBoot = Stopwatch.GetTimestamp();
+                    long frequency = Stopwatch.Frequency;
+                    startingTimeStamp = (ulong)(ticksSinceBoot * 1_000_000 / frequency);
                 }
             }
         }
 
-        private Color prevColor = Colors.Black;
         /// <summary>
         /// Gets or sets the pressure.
         /// </summary>
@@ -46,23 +67,21 @@ namespace InkMARCDeform.ViewModel
             {
                 if (SetProperty(ref pressure, value))
                 {
-                    //if (value == 0)
-                    //{
-                    //    pressureCount = 0;
-                    //}
-                    //pressureCount++;
-                    //averagePressure += (value - averagePressure) / pressureCount;
-
-                    OnPropertyChanged(nameof(PressureBackground));
-                    if (PressureBackground != prevColor && InkMARCDrawingView is not null)
-                    {
-                        prevColor = PressureBackground;
-                        InkMARCDrawingView.CursorColor = prevColor;
-                        //InkMARCDrawingView.LineColor = prevColor;
-                    }
-                    // bool isCorrectPressure = !(Pressure < MinDesiredPressure) || (Pressure > MaxDesiredPressure);
-                    //tonePlayer.PlayTone(value, isCorrectPressure);
+                    UpdatePressureRelatedProperties();
                 }
+            }
+        }
+
+        /// <summary>
+        /// Updates the pressure related properties.
+        /// </summary>
+        private void UpdatePressureRelatedProperties()
+        {
+            OnPropertyChanged(nameof(PressureBackground));
+            if (PressureBackground != prevColor && InkMARCDrawingView != null)
+            {
+                prevColor = PressureBackground;
+                InkMARCDrawingView.CursorColor = prevColor;
             }
         }
 
@@ -71,84 +90,75 @@ namespace InkMARCDeform.ViewModel
         /// </summary>
         public DrawingPageViewModel()
         {
-            Random random = new Random();
-            List<string> shortPrompts = new List<string>
-            {
-                "Write 5 abbreviations of country names, separated by commas.  I.e. USA, UK, etc.",                
-                "Write frequently used acronyms, separated by commas.  I.e. LOL, OMG, FYI, etc."
-            };
+            List<string> shortPrompts =
+            [
+                "Write 3 abbreviations of country names, separated by commas.  I.e. USA, UK, etc.",
+                "Write 3 frequently used acronyms, separated by commas.  I.e. LOL, OMG, FYI, etc."
+            ];
 
             int index = SessionContext.Marked ? 1 : 0;
             string selectedShortPrompt = shortPrompts[index];
 
-            List<string> mediumStraightPrompts = new List<string>
-            {
+            List<string> mediumStraightPrompts =
+            [
                 "Draw a city scape with straight lines.",
                 "Draw a signpost with arrow signs pointing in different directions.",                
-            };
+            ];
             
             string selectedMediumStraightPrompt = mediumStraightPrompts[index];
 
-            List<string> mediumCurvedPrompts = new List<string>
-            {
+            List<string> mediumCurvedPrompts =
+            [
                 "Draw planets circling a star.",
                 "Draw flower petals radiating outward from a central point.",                
-            };
+            ];
             
             string selectedMediumCurvedPrompt = mediumCurvedPrompts[index];
 
-            List<IExercise> longStraight = new List<IExercise>
-            {                
+            List<IExercise> longStraight =
+            [
                 new CustomizableExercise("Draw a large tic, tac, toe board.", PressureType.Undefined),
                 new MazeExercise()
-            };
+            ];
             
             IExercise selectedLongStraight = longStraight[index];
 
-            List<IExercise> longCurved = new List<IExercise>
-            {
+            List<IExercise> longCurved =
+            [
                 new CustomizableExercise("Draw a large infinity symbol.", PressureType.Undefined),
                 new CustomizableExercise("Draw the waves of an ocean scene with large, rolling curves.", PressureType.Undefined),
                 new SpiralExercise()
-            };
+            ];
             
             IExercise selectedLongCurved = longCurved[index];
 
-            List<IExercise> allExercises = new List<IExercise>
-            {
+            List<IExercise> allExercises =
+            [
                 new CustomizableExercise(selectedShortPrompt, PressureType.None),
-                new CustomizableExercise(selectedShortPrompt, PressureType.Low),               
-                new CustomizableExercise(selectedShortPrompt, PressureType.High),
                 new CustomizableExercise(selectedMediumStraightPrompt, PressureType.None),
-                new CustomizableExercise(selectedMediumStraightPrompt, PressureType.Low),                
-                new CustomizableExercise(selectedMediumStraightPrompt, PressureType.High),
                 new CustomizableExercise(selectedMediumCurvedPrompt, PressureType.None),
-                new CustomizableExercise(selectedMediumCurvedPrompt, PressureType.Low),                
-                new CustomizableExercise(selectedMediumCurvedPrompt, PressureType.High),
                 new CustomizableExercise(selectedLongStraight, PressureType.None),
-                new CustomizableExercise(selectedLongStraight, PressureType.Low),                
-                new CustomizableExercise(selectedLongStraight, PressureType.High),
                 new CustomizableExercise(selectedLongCurved, PressureType.None),
-                new CustomizableExercise(selectedLongCurved, PressureType.Low),                
+
+                new CustomizableExercise(selectedShortPrompt, PressureType.Low),
+                new CustomizableExercise(selectedMediumStraightPrompt, PressureType.Low),
+                new CustomizableExercise(selectedMediumCurvedPrompt, PressureType.Low),
+                new CustomizableExercise(selectedLongStraight, PressureType.Low),
+                new CustomizableExercise(selectedLongCurved, PressureType.Low),
+
+                new CustomizableExercise(selectedShortPrompt, PressureType.High),                             
+                new CustomizableExercise(selectedMediumStraightPrompt, PressureType.High),                                
+                new CustomizableExercise(selectedMediumCurvedPrompt, PressureType.High),                
+                new CustomizableExercise(selectedLongStraight, PressureType.High),                                
                 new CustomizableExercise(selectedLongCurved, PressureType.High)
-            };
+            ];            
 
-            allExercises = allExercises.OrderBy(exercise => random.Next()).ToList();
-
-            this.DrawingLines = new ObservableCollection<IAdvancedDrawingLine>();
+            this.DrawingLines = [];
             Exercises = new ObservableCollection<IExercise>(allExercises);
             Exercises.Insert(0, new Instructions1Exercise());
             this.CurrentExercise = this.Exercises.First();
-            pressure = -1f;
-            Pressure = 0f;
-            averagePressure = 0;
-            pressureCount = 0;
-            OnPropertyChanged(nameof(Prompt));
-            OnPropertyChanged(nameof(ImageSource));
-            OnPropertyChanged(nameof(FloatingLinesAllowed));
-            OnPropertyChanged(nameof(ShowTraceImage));
-            OnPropertyChanged(nameof(CurrentExerciseNumber));
-            OnPropertyChanged(nameof(PressureBackground));
+
+            ResetExerciseState();
         }
 
         #region Exercises
@@ -171,14 +181,6 @@ namespace InkMARCDeform.ViewModel
             set => SetProperty(ref currentExercise, value);
         }
 
-        private int currentExerciseIndex = 0;
-        private IExercise? currentExercise;
-        private float pressure;
-        private float averagePressure = 0;
-        private int pressureCount = 0;
-        private Color backgroundColor = Colors.White;
-        private AdvancedDrawingView? inkMARCDrawingView;
-
         /// <summary>
         /// Gets the current exercise number.
         /// </summary>
@@ -199,27 +201,27 @@ namespace InkMARCDeform.ViewModel
         /// <summary>
         /// Gets the prompt for the current exercise.
         /// </summary>
-        public string Prompt => this.CurrentExercise?.Prompt ?? string.Empty;
+        public string Prompt => CurrentExercise?.Prompt ?? string.Empty;
 
         /// <summary>
         /// Gets the image source for the current exercise.
         /// </summary>
-        public string ImageSource => this.CurrentExercise?.TraceImage ?? string.Empty;
+        public string ImageSource => CurrentExercise?.TraceImage ?? string.Empty;
 
         /// <summary>
         /// Gets a value indicating whether to show the trace image.
         /// </summary>
-        public bool ShowTraceImage => !string.IsNullOrEmpty(this.ImageSource);
+        public bool ShowTraceImage => !string.IsNullOrEmpty(ImageSource);
 
         /// <summary>
         /// Gets the minimum desired pressure for the current exercise.
         /// </summary>
-        public float MinDesiredPressure => this.CurrentExercise?.MinDesiredPressure ?? 0.0f;
+        public float MinDesiredPressure => CurrentExercise?.MinDesiredPressure ?? 0.0f;
 
         /// <summary>
         /// Gets the maximum desired pressure for the current exercise.
         /// </summary>
-        public float MaxDesiredPressure => this.CurrentExercise?.MaxDesiredPressure ?? 1.0f;
+        public float MaxDesiredPressure => CurrentExercise?.MaxDesiredPressure ?? 1.0f;
 
         /// <summary>
         /// Gets the pressure background.
@@ -237,15 +239,6 @@ namespace InkMARCDeform.ViewModel
                     return Colors.Green;
                 }
             }
-        }
-
-        /// <summary>
-        /// Gets or sets the background color.
-        /// </summary>
-        public Color BackgroundColor
-        {
-            get => backgroundColor;
-            set => SetProperty(ref backgroundColor, value);
         }
 
         /// <summary>
@@ -280,26 +273,15 @@ namespace InkMARCDeform.ViewModel
                 DataUtilities.SaveAdvancedDrawingLines(DrawingLines.ToList(), startingTimeStamp, DataUtilities.GetDataFileName(currentExerciseIndex));
                 using var stream = await InkMARCDrawingView.GetImageStream(InkMARCDrawingView.Width, InkMARCDrawingView.Height);
                 string imagePath = DataUtilities.GetImageFileName(currentExerciseIndex);
-                using (var fileStream = new FileStream(imagePath, FileMode.Create, FileAccess.Write))
-                {
-                    await stream.CopyToAsync(fileStream);
-                }
+                using var fileStream = new FileStream(imagePath, FileMode.Create, FileAccess.Write);
+                await stream.CopyToAsync(fileStream);
             }
             if (currentExerciseIndex < TotalExercises - 1)
             {
                 ClearDrawing();
                 currentExerciseIndex++;
                 CurrentExercise = Exercises[currentExerciseIndex];
-                pressure = -1f;
-                Pressure = 0f;
-                averagePressure = 0;
-                pressureCount = 0;
-                OnPropertyChanged(nameof(Prompt));
-                OnPropertyChanged(nameof(ImageSource));
-                OnPropertyChanged(nameof(ShowTraceImage));
-                OnPropertyChanged(nameof(CurrentExerciseNumber));
-                OnPropertyChanged(nameof(FloatingLinesAllowed));
-                OnPropertyChanged(nameof(PressureBackground));
+                ResetExerciseState();
             }
             else
             {
@@ -320,18 +302,11 @@ namespace InkMARCDeform.ViewModel
         private ulong startingTimeStamp;
 
         private void FlashColor(Color color)
-        {
-            // Save the previous color
-            Color prevColor = BackgroundColor;
-
+        {           
             // Set the background to the new color
-            BackgroundColor = color;
+            inkMARCDrawingView.BackgroundColor = color;
 
-            Task.Delay(500).ContinueWith(t => BackgroundColor = prevColor);
-
-            long ticksSinceBoot = Stopwatch.GetTimestamp();
-            long frequency = Stopwatch.Frequency;
-            startingTimeStamp = (ulong)(ticksSinceBoot * 1_000_000 / frequency);
+            Task.Delay(500).ContinueWith(t => inkMARCDrawingView.BackgroundColor = Colors.Transparent);
         }
     }
 }
