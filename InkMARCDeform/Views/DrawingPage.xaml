@@ -37,7 +37,8 @@
                BackgroundColor="{StaticResource White}"
                Grid.Row="1" Grid.ColumnSpan="2">
             <Grid>
-                <Image Source="{Binding ImageSource}"
+                <Image x:Name="MyImage"
+                       Source="{Binding ImageSource}"
                        Margin="8,8,8,8"
                        HorizontalOptions="Center"
                        VerticalOptions="Center"
@@ -194,6 +195,17 @@
                 <Label Text="of"
                        Margin="5,0,5,0" />
                 <Label Text="{Binding TotalExercises}" />
+                <Label HorizontalOptions="Start"
+                       VerticalOptions="End">
+                    <Label.Text>
+                        <MultiBinding StringFormat="Width: {0:F1}, Height: {1:F1}">
+                            <Binding Source="{x:Reference MyImage}"
+                                     Path="Width" />
+                            <Binding Source="{x:Reference MyImage}"
+                                     Path="Height" />
+                        </MultiBinding>
+                    </Label.Text>
+                </Label>
             </HorizontalStackLayout>
         </toolkit:DockLayout>
     </Grid>

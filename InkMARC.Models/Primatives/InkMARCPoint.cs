@@ -45,11 +45,11 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="InkMARCPoint"/> struct with the specified parameters.
         /// </summary>
-        /// <param name="position">The position of the ink point.</param>
-        /// <param name="pressure">The pressure of the ink point.</param>
-        /// <param name="tiltX">The tilt along the X-axis of the ink point.</param>
-        /// <param name="tiltY">The tilt along the Y-axis of the ink point.</param>
-        /// <param name="timestamp">The timestamp of the ink point.</param>
+        /// <param name="position">The position of the ink point. </param>
+        /// <param name="pressure">The pressure of the ink point. Values are 0 to 1.</param>
+        /// <param name="tiltX">The tilt along the X-axis of the ink point. Between -90 and +90.</param>
+        /// <param name="tiltY">The tilt along the Y-axis of the ink point. Between -90 and +90.</param>
+        /// <param name="timestamp">The timestamp of the ink point. This is microseconds since last boot.</param>
         public InkMARCPoint(float x, float y, float pressure, float tiltX, float tiltY, ulong timestamp)
         {
             X = x;
