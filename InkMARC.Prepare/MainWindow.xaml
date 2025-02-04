@@ -126,6 +126,10 @@
                            Visibility="{Binding ShowCurrentIndex, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <StatusBarItem Content="{Binding PointCount}"
                            Visibility="{Binding ShowCurrentIndex, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <StatusBarItem Content="Predicted Pressure"
+                           Visibility="{Binding ShowCurrentIndex, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <StatusBarItem Content="{Binding PredictedPressure}"
+                           Visibility="{Binding ShowCurrentIndex, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <ProgressBar Style="{StaticResource MaterialDesignLinearProgressBar}" 
                          Width="300"
                          Height="10"
