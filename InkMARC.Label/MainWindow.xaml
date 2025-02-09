@@ -1,0 +1,181 @@
+﻿<Window x:Class="InkMARC.Label.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:InkMARC.Label"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="MainWindow"
+        Height="600"
+        Width="800">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <local:StringToFloatConverter x:Key="StringToFloatConverter" />
+    </Window.Resources>
+    <Window.DataContext>
+        <local:MainViewViewModel />
+    </Window.DataContext>
+    <Window.InputBindings>
+        <KeyBinding Key="Left"
+                    Command="{Binding MoveOffsetCommand}"
+                    CommandParameter="-1"
+                    Modifiers="" />
+        <KeyBinding Key="Left"
+                    Command="{Binding MoveOffsetCommand}"
+                    CommandParameter="-10"
+                    Modifiers="Shift" />
+        <KeyBinding Key="Left"
+                    Command="{Binding MoveOffsetCommand}"
+                    CommandParameter="-50"
+                    Modifiers="Control" />
+
+        <KeyBinding Key="Right"
+                    Command="{Binding MoveOffsetCommand}"
+                    CommandParameter="1"
+                    Modifiers="" />
+        <KeyBinding Key="Right"
+                    Command="{Binding MoveOffsetCommand}"
+                    CommandParameter="10"
+                    Modifiers="Shift" />
+        <KeyBinding Key="Right"
+                    Command="{Binding MoveOffsetCommand}"
+                    CommandParameter="50"
+                    Modifiers="Control" />
+
+        <KeyBinding Key="Space"
+                    Command="{Binding ToggleTouchedCommand}" />
+    </Window.InputBindings>
+    <DockPanel LastChildFill="True">
+        <!-- Toolbar beneath the menu -->
+        <ToolBar DockPanel.Dock="Top">
+            <Button Style="{StaticResource MaterialDesignToolButton}"
+                    Command="{Binding LoadVideoCommand}">
+                <materialDesign:PackIcon Kind="FolderOpen"
+                                         ToolTip="Open" />
+            </Button>
+            <Button Style="{StaticResource MaterialDesignToolButton}"
+                    Command="{Binding ExportData3Command}">
+                <materialDesign:PackIcon Kind="ContentSave"
+                                         ToolTip="Save" />
+            </Button>
+            <Button Style="{StaticResource MaterialDesignToolButton}">
+                <materialDesign:PackIcon Kind="ContentSaveEdit"
+                                         ToolTip="Save As..." />
+            </Button>
+            <Separator />
+            <Button Style="{StaticResource MaterialDesignToolButton}"
+                    ToolTip="Previous Frame"
+                    Command="{Binding MoveOffsetCommand}"
+                    CommandParameter="-1">
+                <materialDesign:PackIcon Kind="PreviousTitle" />
+            </Button>
+            <Button Style="{StaticResource MaterialDesignToolButton}"
+                    ToolTip="Next Frame"
+                    Command="{Binding MoveOffsetCommand}"
+                    CommandParameter="1">
+                <materialDesign:PackIcon Kind="NextTitle" />
+            </Button>
+            <Button Style="{StaticResource MaterialDesignToolButton}"
+                    ToolTip="Previous 15 Frame"
+                    Command="{Binding MoveOffsetCommand}"
+                    CommandParameter="-15">
+                <materialDesign:PackIcon Kind="StepBackward2" />
+            </Button>
+            <Button Style="{StaticResource MaterialDesignToolButton}"
+                    ToolTip="Next 15 Frame"
+                    Command="{Binding MoveOffsetCommand}"
+                    CommandParameter="15">
+                <materialDesign:PackIcon Kind="StepForward2" />
+            </Button>
+            <TextBox Style="{StaticResource MaterialDesignTextBox}"
+                     PreviewTextInput="TextBox_PreviewTextInput"
+                     Width="150"
+                     ToolTip="Frame Offset">
+                <TextBox.Text>
+                    <Binding Path="MillisecondOffsets"
+                             UpdateSourceTrigger="PropertyChanged"
+                             Mode="TwoWay"
+                             Converter="{StaticResource StringToFloatConverter}">
+                        <Binding.ValidationRules>
+                            <local:NumericValidationRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <Separator />
+            <Button Style="{StaticResource MaterialDesignToolButton}"
+                    ToolTip="Rotate Counter Clockwise"
+                    Command="{Binding IncreaseRotationCommand }">
+                <materialDesign:PackIcon Kind="RotateCounterClockwise" />
+            </Button>
+            <Button Style="{StaticResource MaterialDesignToolButton}"
+                    ToolTip="Rotate Clockwise"
+                    Command="{Binding DecreaseRotationCommand}">
+                <materialDesign:PackIcon Kind="RotateClockwise" />
+            </Button>
+            <Separator />
+            <Button Style="{StaticResource MaterialDesignToolButton}"
+                    ToolTip="Begin Touch"
+                    Command="{Binding ToggleTouchedCommand}">
+                <materialDesign:PackIcon Kind="GestureTouch"
+                                         Foreground="{Binding IsTouched}" />
+            </Button>
+            <Button Style="{StaticResource MaterialDesignToolButton}"
+                    ToolTip="Start Frame"
+                    Command="{Binding RecordStartCommand}"
+                    CommandParameter="15">
+                <materialDesign:PackIcon Kind="TimerStart" />
+            </Button>
+            <Button Style="{StaticResource MaterialDesignToolButton}"
+                    ToolTip="Stop Frame"
+                    Command="{Binding RecordStopCommand}"
+                    CommandParameter="15">
+                <materialDesign:PackIcon Kind="TimerStop" />
+            </Button>
+        </ToolBar>
+
+        <!-- Status Bar at the bottom -->
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem Content="{Binding FrameIndex}"
+                           Visibility="{Binding ShowCurrentIndex, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <StatusBarItem Content="/"
+                           Visibility="{Binding ShowCurrentIndex, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <StatusBarItem Content="{Binding FrameCount}"
+                           Visibility="{Binding ShowCurrentIndex, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <Separator />
+            <StatusBarItem Content="Start Frame:"
+                           Visibility="{Binding ShowCurrentIndex, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <StatusBarItem Content="{Binding StartFrame}"
+                           Visibility="{Binding ShowCurrentIndex, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <StatusBarItem Content=" Stop Frame:"
+                           Visibility="{Binding ShowCurrentIndex, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <StatusBarItem Content="{Binding StopFrame}"
+                           Visibility="{Binding ShowCurrentIndex, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <Separator />
+            <StatusBarItem Content="IsTouched:"
+                           Visibility="{Binding ShowCurrentIndex, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <StatusBarItem Content="{Binding CurrentState}"
+                           Visibility="{Binding ShowCurrentIndex, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <ProgressBar Style="{StaticResource MaterialDesignLinearProgressBar}"
+                         Width="300"
+                         Height="10"
+                         Minimum="0"
+                         Maximum="{Binding MaxProgress}"
+                         Value="{Binding PointIndex}"
+                         Visibility="{Binding ShowProgressBar, Converter={StaticResource BooleanToVisibilityConverter}}" />
+        </StatusBar>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="273*" />
+                <ColumnDefinition Width="127*" />
+            </Grid.ColumnDefinitions>
+
+            <Image Source="{Binding CurrentImage}"
+                   Stretch="Uniform"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2" />
+        </Grid>
+    </DockPanel>
+</Window>
