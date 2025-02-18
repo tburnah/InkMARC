@@ -50,7 +50,7 @@
         <!-- Toolbar beneath the menu -->
         <ToolBar DockPanel.Dock="Top">
             <Button Style="{StaticResource MaterialDesignToolButton}"
-                    Command="{Binding LoadVideoCommand}">
+                    Command="{Binding LoadFolderCommand}">
                 <materialDesign:PackIcon Kind="FolderOpen"
                                          ToolTip="Open" />
             </Button>
@@ -88,21 +88,9 @@
                     CommandParameter="15">
                 <materialDesign:PackIcon Kind="StepForward2" />
             </Button>
-            <TextBox Style="{StaticResource MaterialDesignTextBox}"
-                     PreviewTextInput="TextBox_PreviewTextInput"
-                     Width="150"
-                     ToolTip="Frame Offset">
-                <TextBox.Text>
-                    <Binding Path="MillisecondOffsets"
-                             UpdateSourceTrigger="PropertyChanged"
-                             Mode="TwoWay"
-                             Converter="{StaticResource StringToFloatConverter}">
-                        <Binding.ValidationRules>
-                            <local:NumericValidationRule />
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
+            <TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}"
+                       Width="150" Text="{Binding StartingPoint}" />
+
             <Separator />
             <Button Style="{StaticResource MaterialDesignToolButton}"
                     ToolTip="Rotate Counter Clockwise"
@@ -133,6 +121,19 @@
                     CommandParameter="15">
                 <materialDesign:PackIcon Kind="TimerStop" />
             </Button>
+            <Separator />
+            <Button Style="{StaticResource MaterialDesignToolButton}"
+                    ToolTip="Mark First Data"
+                    Command="{Binding MarkStartingPointCommand}"
+                    IsEnabled="{Binding HasData}">
+                <materialDesign:PackIcon Kind="ClockStart" />
+            </Button>
+            <Button Style="{StaticResource MaterialDesignToolButton}"
+                    ToolTip="Find Contact"
+                    Command="{Binding AnalyzeFramesForStateChangesAsyncCommand}"
+                    IsEnabled="{Binding HasData}">
+                <materialDesign:PackIcon Kind="GestureTouchButton" />
+            </Button>            
         </ToolBar>
 
         <!-- Status Bar at the bottom -->
@@ -162,20 +163,114 @@
                          Height="10"
                          Minimum="0"
                          Maximum="{Binding MaxProgress}"
-                         Value="{Binding PointIndex}"
+                         Value="{Binding FrameIndex}"
                          Visibility="{Binding ShowProgressBar, Converter={StaticResource BooleanToVisibilityConverter}}" />
         </StatusBar>
 
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="273*" />
-                <ColumnDefinition Width="127*" />
+                <ColumnDefinition Width="170" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="150" />
             </Grid.ColumnDefinitions>
+
+            <GridSplitter Grid.Column="1"
+                          Grid.RowSpan="3"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Stretch"
+                          Background="Gray"
+                          ShowsPreview="true"
+                          Width="3" />
+
+            <GridSplitter Grid.Column="2"
+                          Grid.RowSpan="3"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Stretch"
+                          Background="Gray"
+                          ShowsPreview="true"
+                          Width="3" />
+
+            <ListView Grid.Column="0"
+                      ItemsSource="{Binding Sessions}"
+                      SelectedItem="{Binding CurrentExercise}">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Background="LightGray" />
+                        <!-- Explicit background -->
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="60" />
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Session ID -->
+                            <TextBlock Grid.Column="0"
+                                       Text="{Binding SessionID}"
+                                       Foreground="Black"
+                                       VerticalAlignment="Center"
+                                       FontSize="12"
+                                       FontWeight="Bold"
+                                       Margin="1,0" />
+                            
+                            <!-- Session ID -->
+                            <TextBlock Grid.Column="1"
+                                       Text="{Binding Exercise}"
+                                       Foreground="Black"
+                                       VerticalAlignment="Center"
+                                       FontSize="12"                                       
+                                       Margin="1,0" />
+                            
+                            <!-- Video Icon (Always Visible) -->
+                            <materialDesign:PackIcon Grid.Column="2"
+                                                     Kind="Video"
+                                                     Width="20"
+                                                     Height="20"
+                                                     VerticalAlignment="Center"
+                                                     Margin="1,0"
+                                                     Foreground="DarkSlateBlue" />
+
+                            <!-- JSON Data Icon (Visible if HasData) -->
+                            <materialDesign:PackIcon Grid.Column="3"
+                                                     Kind="CodeJson"
+                                                     Width="20"
+                                                     Height="20"
+                                                     VerticalAlignment="Center"
+                                                     Margin="1,0"
+                                                     Foreground="DarkGreen"
+                                                     Visibility="{Binding HasData, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                            <!-- H5 Data Icon (Visible if HasH5) -->
+                            <materialDesign:PackIcon Grid.Column="4"
+                                                     Kind="Database"
+                                                     Width="20"
+                                                     Height="20"
+                                                     VerticalAlignment="Center"
+                                                     Margin="1,0"
+                                                     Foreground="DarkGoldenrod"
+                                                     Visibility="{Binding HasH5, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <ScrollViewer Grid.Column="2" Background="LightSlateGray" VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Auto">
+                <TextBlock Text="{Binding FormattedJson}"
+                           FontFamily="Consolas"
+                           TextWrapping="Wrap" />
+            </ScrollViewer>
 
             <Image Source="{Binding CurrentImage}"
                    Stretch="Uniform"
-                   Grid.Column="0"
-                   Grid.ColumnSpan="2" />
+                   Grid.Column="1" />
         </Grid>
     </DockPanel>
 </Window>
