@@ -13,8 +13,8 @@ namespace InkMARC.Label
         private static bool isFileOpen = false;
 
         // Our chunked dataset objects.
-        private static ChunkedDataset<float> imageChunked = null;
-        private static ChunkedDataset<int> attributeChunked = null;
+        private static ChunkedDataset<float>? imageChunked = null;
+        private static ChunkedDataset<int>? attributeChunked = null;
         private static bool datasetsInitialized = false;
 
         /// <summary>
@@ -97,8 +97,8 @@ namespace InkMARC.Label
             bool[,] attributeData = new bool[1, 1] { { touched } };
 
             // Append the flattened image and attribute to the chunked datasets.
-            imageChunked.AppendDataset(image2D);
-            attributeChunked.AppendDataset(attributeData);
+            imageChunked?.AppendDataset(image2D);
+            attributeChunked?.AppendDataset(attributeData);
 
             return true;
         }

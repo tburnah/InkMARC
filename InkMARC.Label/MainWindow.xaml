@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:InkMARC.Label"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
+        PreviewKeyDown="Window_PreviewKeyDown"
         Title="MainWindow"
         Height="600"
         Width="800">
@@ -42,9 +43,6 @@
                     Command="{Binding MoveOffsetCommand}"
                     CommandParameter="50"
                     Modifiers="Control" />
-
-        <KeyBinding Key="Space"
-                    Command="{Binding ToggleTouchedCommand}" />
     </Window.InputBindings>
     <DockPanel LastChildFill="True">
         <!-- Toolbar beneath the menu -->
@@ -130,7 +128,7 @@
             </Button>
             <Button Style="{StaticResource MaterialDesignToolButton}"
                     ToolTip="Find Contact"
-                    Command="{Binding AnalyzeFramesForStateChangesAsyncCommand}"
+                    Command="{Binding AnalyzeFramesForStateChangesCommand}"
                     IsEnabled="{Binding HasData}">
                 <materialDesign:PackIcon Kind="GestureTouchButton" />
             </Button>            

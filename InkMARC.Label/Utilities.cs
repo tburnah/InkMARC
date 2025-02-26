@@ -8,14 +8,15 @@ namespace InkMARC.Label
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
-            string input = value as string;
+            if (value is string input)
+            {
+                if (string.IsNullOrWhiteSpace(input))
+                    return new ValidationResult(false, "Value cannot be empty.");
 
-            if (string.IsNullOrWhiteSpace(input))
-                return new ValidationResult(false, "Value cannot be empty.");
+                if (float.TryParse(input, NumberStyles.Float, cultureInfo, out _))
+                    return ValidationResult.ValidResult;
 
-            if (float.TryParse(input, NumberStyles.Float, cultureInfo, out _))
-                return ValidationResult.ValidResult;
-
+            }
             return new ValidationResult(false, "Please enter a valid number.");
         }
     }
@@ -24,7 +25,7 @@ namespace InkMARC.Label
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value?.ToString();
+            return value?.ToString() ?? string.Empty;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
