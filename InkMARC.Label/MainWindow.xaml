@@ -165,6 +165,16 @@
                          Visibility="{Binding ShowProgressBar, Converter={StaticResource BooleanToVisibilityConverter}}" />
         </StatusBar>
 
+        <Slider DockPanel.Dock="Bottom"
+                Style="{StaticResource MaterialDesignSlider}"
+                Minimum="0"
+                Maximum="{Binding FrameCount}"
+                Value="{Binding SliderValue, Mode=TwoWay}"
+                TickFrequency="{Binding SliderTickFrequency}"
+                IsSnapToTickEnabled="True"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Bottom" />
+        
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="170" />

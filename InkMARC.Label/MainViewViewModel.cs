@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using System.IO;
+﻿using System.IO;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Windows.Media;
@@ -14,6 +13,9 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text.Json.Serialization;
 using Microsoft.VisualBasic.FileIO;
+using System.Windows.Threading;
+using System.Drawing;
+using OpenCvSharp.WpfExtensions;
 
 namespace InkMARC.Label
 {
@@ -176,19 +178,14 @@ namespace InkMARC.Label
         private ObservableCollection<SessionInfo> sessions = new();
         private SessionInfo? currentExercise;
         private string? formattedJson;
-        private int _frameWidth;
-        private int _frameHeight;
-        private int _squareSize;
-        private Mat _squareFrame = null!;
-        private Mat _rotatedFrame = null!;
-        private Rect _roi;
-        private Mat _rotationMatrix = null!;
         private bool isTouched = false;
         private int rotation;
-        private Bitmap? currentBitmap = null;
         private bool currentState = false;
         private ImageSource? _currentImage;
         private bool showProgressBar = false;
+        private int _sliderValue;
+        private DispatcherTimer? _debounceTimer;
+        private int lastFrameIndex = -1;
 
         #endregion
 
@@ -275,6 +272,20 @@ namespace InkMARC.Label
             get => formattedJson ?? string.Empty; 
             set => SetProperty(ref formattedJson, value);
         }
+
+        public int SliderValue
+        {
+            get => _sliderValue;
+            set
+            {
+                if (SetProperty(ref _sliderValue, value))
+                {
+                    StartDebounceTimer();
+                }
+            }
+        }
+
+        public int SliderTickFrequency => FrameCount > 100 ? FrameCount / 100 : 1;
 
         #endregion
 
@@ -759,11 +770,36 @@ namespace InkMARC.Label
                 frameCount = videoCapture is null ? 0 : (int)videoCapture.Get(VideoCaptureProperties.FrameCount);
                 OnPropertyChanged(nameof(FrameCount));
                 OnPropertyChanged(nameof(FrameIndex));
+                OnPropertyChanged(nameof(SliderTickFrequency));
                 UpdateImage();
             }
         }
 
         #endregion
+
+        private void StartDebounceTimer()
+        {
+            // Initialize the timer if it's not already created.
+            if (_debounceTimer == null)
+            {
+                _debounceTimer = new DispatcherTimer
+                {
+                    Interval = TimeSpan.FromSeconds(1) // Adjust the delay as needed.
+                };
+                _debounceTimer.Tick += DebounceTimer_Tick;
+            }
+            _debounceTimer.Stop(); // Restart the timer each time the value changes.
+            _debounceTimer.Start();
+        }
+
+        private void DebounceTimer_Tick(object sender, EventArgs e)
+        {
+            _debounceTimer?.Stop();
+
+            // Now update the video position using the debounced slider value.
+            FrameIndex = SliderValue;
+            UpdateImage();
+        }
 
         private bool GetStateAtFrame(int frame)
         {
@@ -794,74 +830,71 @@ namespace InkMARC.Label
             }
         }
 
-        private Bitmap? GetImage()
+        private BitmapSource? GetImage()
         {
             if (videoCapture is null)
                 return null;
 
-            // Set the desired frame.
-            if (!videoCapture.Set(VideoCaptureProperties.PosFrames, frameIndex))
-                return null;
+            // Create a new Mat to hold the frame.
+            Mat frame = new Mat();
 
-            using Mat frame = new();
-            if (!videoCapture.Read(frame) || frame.Empty())
+            // If we're moving sequentially forward, avoid repositioning.
+            if (frameIndex == lastFrameIndex + 1)
             {
-                Console.WriteLine($"Failed to read frame at index {frameIndex}");
-                return null;
+                if (!videoCapture.Read(frame) || frame.Empty())
+                {
+                    Console.WriteLine($"Failed to read sequential frame at index {frameIndex}");
+                    return null;
+                }
+            }
+            else
+            {
+                // For non-sequential jumps, set the position and read.
+                if (!videoCapture.Set(VideoCaptureProperties.PosFrames, frameIndex))
+                {
+                    Console.WriteLine($"Failed to set frame index {frameIndex}");
+                    return null;
+                }
+                if (!videoCapture.Read(frame) || frame.Empty())
+                {
+                    Console.WriteLine($"Failed to read frame at index {frameIndex}");
+                    return null;
+                }
             }
 
-            // Get frame dimensions.
+            lastFrameIndex = frameIndex;
+            BitmapSource processedImage = ProcessFrame(frame);
+            return processedImage;
+        }
+
+        private BitmapSource ProcessFrame(Mat frame)
+        {
             int width = frame.Width;
             int height = frame.Height;
             int squareSize = Math.Max(width, height);
 
-            // Create a black square Mat to hold the centered image.
+            // Create a black square Mat to center the frame
             using Mat squareFrame = new(new OpenCvSharp.Size(squareSize, squareSize), frame.Type(), Scalar.Black);
-
-            // Calculate offsets to center the frame.
             int xOffset = (squareSize - width) / 2;
             int yOffset = (squareSize - height) / 2;
             Rect roi = new(xOffset, yOffset, width, height);
-
-            // Copy the frame into the square's ROI.
             using (Mat roiMat = new Mat(squareFrame, roi))
             {
                 frame.CopyTo(roiMat);
             }
 
-            // Calculate the center of the square.
-            Point2f center = new Point2f(squareFrame.Width / 2f, squareFrame.Height / 2f);
-
-            // Get the rotation matrix for the given rotation (scale factor 1.0).
+            // Compute the rotation matrix for the given rotation angle
+            Point2f center = new Point2f(squareSize / 2f, squareSize / 2f);
             using Mat rotationMatrix = Cv2.GetRotationMatrix2D(center, rotation, 1.0);
 
-            // Apply the affine transformation (rotation).
+            // Apply the affine transformation (rotation)
             using Mat rotatedFrame = new();
-            Cv2.WarpAffine(squareFrame, rotatedFrame, rotationMatrix, new OpenCvSharp.Size(squareFrame.Width, squareFrame.Height));
+            Cv2.WarpAffine(squareFrame, rotatedFrame, rotationMatrix, new OpenCvSharp.Size(squareSize, squareSize));
 
-            // Convert the final rotated frame to a Bitmap.
-            return BitmapConverter.ToBitmap(rotatedFrame);
-        }
-
-        /// <summary>
-        /// Converts a Bitmap to a WPF ImageSource.
-        /// </summary>
-        private static BitmapImage ConvertMatToImageSource(Bitmap? bitmap)
-        {
-            if (bitmap is null)
-                return new BitmapImage();
-
-            using MemoryStream memoryStream = new();
-            bitmap.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
-            memoryStream.Seek(0, SeekOrigin.Begin);
-
-            BitmapImage bitmapImage = new();
-            bitmapImage.BeginInit();
-            bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-            bitmapImage.StreamSource = memoryStream;
-            bitmapImage.EndInit();
-            bitmapImage.Freeze(); // For thread safety if used across threads
-            return bitmapImage;
+            // Convert the final rotated Mat directly to a BitmapSource
+            BitmapSource bitmapSource = BitmapSourceConverter.ToBitmapSource(rotatedFrame);
+            bitmapSource.Freeze(); // Freeze for thread safety
+            return bitmapSource;
         }
 
         private static Tuple<string, int, DateTime?>? ExtractSessionIDAndIndex(string fileName)
@@ -879,7 +912,10 @@ namespace InkMARC.Label
                 @"^(?:data|video)_(?<sessionID>[a-zA-Z0-9]+)_(?<timestamp>\d+)_(?<index>\d+)\.\w+$",
     
                 // Pattern 4: type_sessionID_index.extension (no timestamp)
-                @"^(?:data|video)_(?<sessionID>[a-zA-Z0-9]+)_(?<index>\d+)\.\w+$"
+                @"^(?:data|video)_(?<sessionID>[a-zA-Z0-9]+)_(?<index>\d+)\.\w+$",
+
+                // Patter 5: type_sessionID_Participant_index_AppView.extension
+                @"^(?:data|video)_(?<sessionID>[a-zA-Z0-9]+)_Participant(?<index>\d+)_AppView\d+\.\w+$"
             };
 
             foreach (var pattern in patterns)
@@ -946,6 +982,7 @@ namespace InkMARC.Label
                     }
                     OnPropertyChanged(nameof(FrameCount));
                     OnPropertyChanged(nameof(FrameIndex));
+                    OnPropertyChanged(nameof(SliderTickFrequency));
                     UpdateImage();
                 }
             }
@@ -1077,13 +1114,14 @@ namespace InkMARC.Label
 
         private void UpdateImage()
         {
-            if (currentBitmap is not null)
-            {
-                currentBitmap.Dispose();
-                currentBitmap = null;
-            }
-            currentBitmap = GetImage();
-            CurrentImage = ConvertMatToImageSource(currentBitmap);
+            //if (currentBitmap is not null)
+            //{
+            //    currentBitmap.Dispose();
+            //    currentBitmap = null;
+            //}
+            CurrentImage = GetImage();
+            //currentBitmap = GetImage();
+            //CurrentImage = ConvertMatToImageSource(currentBitmap);
             OnPropertyChanged(nameof(CurrentImage));
         }
     }
