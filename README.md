@@ -1,45 +1,114 @@
-# InkMARC Label
+# InkMARC Suite
+
+InkMARC is a collection of applications designed for analyzing hand deformation, processing video frames, and labeling ink data for research in stylus-based interactions. This repository includes the following solutions:
+
+- **InkMARC.Deform**: Studies how the hand deforms when using a stylus with varying pressures.
+- **InkMARC.Prepare**: Processes and analyzes video frames and ink data.
+- **InkMARC.Label**: Provides tools for labeling and exporting ink-related data.
+
+All solutions are built using .NET 9 and leverage technologies such as OpenCV, HDF5, and the CommunityToolkit.Mvvm framework.
+
+## Features
+
+### InkMARC Deform
+- Analyze hand deformation under different stylus pressures.
+- Cross-platform support with .NET MAUI.
+- Customizable UI using the .NET MAUI Community Toolkit.
+
+### InkMARC Prepare
+- Extract frames from video files.
+- Predict pressure from video frames.
+- Sync data with HDF5 files.
+- Load and process ink points from JSON files.
+
+### InkMARC Label
+- Load and annotate video files.
+- Navigate frames and mark touch points.
+- Export data to an HDF5 file.
+- Material Design-based UI for an improved user experience.
 
 ## Prerequisites
+To build and run the solutions, ensure you have the following installed:
 
-To run this solution, ensure you have the following prerequisites installed:
+- **.NET 9 SDK**: [Download .NET 9](https://dotnet.microsoft.com/download/dotnet/9.0)
+- **Visual Studio 2022** (version 17.0 or later) with necessary workloads
+- **Additional Dependencies (NuGet Packages):**
+  - OpenCvSharp
+  - CommunityToolkit.Mvvm
+  - Microsoft.Maui.Graphics
+  - HDF5CSharp
+  - MaterialDesignInXamlToolkit (for InkMARC Label)
+  - Microsoft.Windows.Compatibility (for InkMARC Label)
+  - Microsoft.WindowsAPICodePack-Shell (for InkMARC Label)
 
-1. **.NET 9 SDK**: This project targets .NET 9. You can download the .NET 9 SDK from the [official .NET website](https://dotnet.microsoft.com/download/dotnet/9.0).
+## Installation
 
-2. **Visual Studio 2022**: It is recommended to use Visual Studio 2022 for development. Ensure you have the latest version installed. You can download it from the [Visual Studio website](https://visualstudio.microsoft.com/vs/).
+1. **Clone the repository:**
+   ```sh
+   git clone https://github.com/yourusername/inkmarc.git
+   cd inkmarch
+   ```
+2. **Restore project dependencies:**
+   ```sh
+   dotnet restore
+   ```
 
-3. **HDF5CSharp Library**: This project uses the HDF5CSharp library for handling HDF5 files. You can install it via NuGet:
-   
-4. **OpenCvSharp**: The project uses OpenCvSharp for image processing. Install it via NuGet:
-   
-5. **CommunityToolkit.Mvvm**: This project uses the CommunityToolkit.Mvvm library for MVVM support. Install it via NuGet:
-   
-6. **MaterialDesignInXamlToolkit**: The project uses Material Design in XAML Toolkit for UI components. Install it via NuGet:
-   
-7. **Microsoft.Windows.Compatibility**: This project uses some Windows-specific APIs. Install the compatibility pack via NuGet:
-   
-8. **Microsoft.WindowsAPICodePack-Shell**: This project uses the Windows API Code Pack for file dialogs. Install it via NuGet:
-   
-## Getting Started
+## Building and Running
 
-1. **Clone the repository**:
-   
-2. **Open the solution**: Open the `InkMARC.Label.sln` file in Visual Studio 2022.
+### InkMARC Deform
+1. Open the solution in Visual Studio 2022.
+2. Set the startup project to `InkMARC.Deform`.
+3. Select the target platform (Android, iOS, Windows, etc.).
+4. Press `F5` to build and run the application.
 
-3. **Restore NuGet packages**: Visual Studio should automatically restore the required NuGet packages. If not, you can restore them manually:
-   
-4. **Build the solution**: Build the solution to ensure all dependencies are correctly installed and there are no build errors.
+### InkMARC Prepare
+1. Open `InkMARC.sln` in Visual Studio 2022.
+2. Restore NuGet packages manually if needed.
+3. Build the solution (`Ctrl+Shift+B`).
+4. Start debugging (`F5`).
 
-5. **Run the application**: Start debugging (F5) or run the application without debugging (Ctrl+F5) from Visual Studio.
+### InkMARC Label
+1. Open `InkMARC.Label.sln` in Visual Studio 2022.
+2. Restore NuGet packages manually if needed.
+3. Build the solution.
+4. Start debugging (`F5`) or run without debugging (`Ctrl+F5`).
 
 ## Usage
 
-- **Load Folder**: Use the "Open" button to select a folder containing video files.
-- **Export Data**: Use the "Save" button to export data to an HDF5 file.
-- **Navigate Frames**: Use the arrow keys or toolbar buttons to navigate through video frames.
-- **Mark Touch Points**: Use the "Begin Touch" button to mark touch points in the video.
+### InkMARC Deform
+- Use the stylus to interact with the application and observe hand deformations under different pressures.
+
+### InkMARC Prepare
+- **Extract Frames:** Use the `ExtractFrames` method in `MainViewViewModel`.
+- **Predict Pressure:** Use `UpdateImageForTimestamp`.
+- **Sync Data:** Use `SyncData` to sync with an HDF5 file.
+- **Load Points:** Use `LoadPoints` to load ink points from JSON.
+
+### InkMARC Label
+- **Load Folder:** Open a folder containing video files.
+- **Export Data:** Save data to an HDF5 file.
+- **Navigate Frames:** Use arrow keys or toolbar buttons.
+- **Mark Touch Points:** Use "Begin Touch" to mark touch points in the video.
 
 ## Contributing
+To contribute to the project, follow these steps:
 
-Contributions are welcome! Please fork the repository and submit a pull request with your changes.
+1. Fork the repository.
+2. Create a new branch:
+   ```sh
+   git checkout -b feature-branch
+   ```
+3. Make your changes and commit them:
+   ```sh
+   git commit -m "Description of changes"
+   ```
+4. Push to the branch:
+   ```sh
+   git push origin feature-branch
+   ```
+5. Create a pull request.
+
+## License
+
+This project is licensed under the Apache 2.0 License. See the [LICENSE](LICENSE) file for details.
 
