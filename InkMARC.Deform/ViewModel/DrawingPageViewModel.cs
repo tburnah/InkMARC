@@ -134,11 +134,11 @@ namespace InkMARCDeform.ViewModel
 
             List<IExercise> allExercises =
             [
-                new CustomizableExercise(selectedShortPrompt, PressureType.None),
-                new CustomizableExercise(selectedMediumStraightPrompt, PressureType.None),
-                new CustomizableExercise(selectedMediumCurvedPrompt, PressureType.None),
-                new CustomizableExercise(selectedLongStraight, PressureType.None),
-                new CustomizableExercise(selectedLongCurved, PressureType.None),
+                //new CustomizableExercise(selectedShortPrompt, PressureType.None),
+                //new CustomizableExercise(selectedMediumStraightPrompt, PressureType.None),
+                //new CustomizableExercise(selectedMediumCurvedPrompt, PressureType.None),
+                //new CustomizableExercise(selectedLongStraight, PressureType.None),
+                //new CustomizableExercise(selectedLongCurved, PressureType.None),
 
                 new CustomizableExercise(selectedShortPrompt, PressureType.Low),
                 new CustomizableExercise(selectedMediumStraightPrompt, PressureType.Low),

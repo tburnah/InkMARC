@@ -31,7 +31,6 @@ namespace InkMARC.Prepare
         private int millisecondOffsets = 0;
         private string recordName = string.Empty;
         private const string IDPattern = @"_\d+_(\w+)_\d+\.json";
-        private ImagePredict imagePredict = new ImagePredict();
 
         private JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions
         {
@@ -121,7 +120,6 @@ namespace InkMARC.Prepare
             {
                 // Convert the frame to ImageSource
                 CurrentImage = ConvertMatToImageSource(frame);
-                predictedPressure = imagePredict.PredictPressure(GetImage(timestampInMicroseconds));
                 predictedPressure = predictedPressure > 0.85 ? 1 : 0;
                 OnPropertyChanged(nameof(predictedPressure));
             }

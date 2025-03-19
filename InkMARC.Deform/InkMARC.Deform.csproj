@@ -82,7 +82,7 @@
 
 	<PropertyGroup>
 	  <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>
-	  <AssemblyOriginatorKeyFile>C:\Users\tburnah\source\repos\InkMARCDeform\InkMARCDeform.snk</AssemblyOriginatorKeyFile>
+	  <AssemblyOriginatorKeyFile>C:\Users\tburnah\source\repos\InkMARCDeform\InkMARC.Deform.snk</AssemblyOriginatorKeyFile>
 	  <Title>InkMARC Deform</Title>
 	  <Authors>Tavish Burnah</Authors>
 	  <Company>Massey University</Company>
