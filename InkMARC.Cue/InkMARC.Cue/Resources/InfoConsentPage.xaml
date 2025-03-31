@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="InkMARC.Cue.Resources.InfoConsentPage"
+             Title="Consent Form">
+    <ScrollView>
+        <StackLayout Padding="20"
+                     Spacing="20">
+            <Label Text="Study Information and Consent"
+                   FontAttributes="Bold"
+                   FontSize="20" />
+            <Label Text="In this app, you'll draw on paper using a stylus while a camera records your movements. Anonymized videos of your hand and pen will be used for training a machine learning model." />
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="The exercises will take ~5 minutes.&#xA;" />
+                        <Span Text="By proceeding, you agree to the following:"
+                              FontAttributes="Bold" />
+                        <Span Text="&#xA;• You consent to data collection"
+                              FontAttributes="Bold" />
+                        <Span Text="&#xA;• You Verify you are 16 years of age or older."
+                              FontAttributes="Bold" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Label Text="This project has been evaluated by peer review and judged to be low risk. Consequently, it has not been reviewed by one of the University’s Human Ethics Committees. The researcher(s) named below are responsible for the ethical conduct of this research." />
+            <Label Text="If you have any concerns about the ethical conduct of this research that you want to raise with someone other than the researcher(s), please contact Massey University Human Ethics by email: humanethics@massey.ac.nz." />
+            <Label Text="Researcher: Tavish Burnah. Supervisors: Rachel Blagojevic, Athar Imtiaz, Hans Guesgen, George Rudolph." />
+
+            <Button Text="I Agree"
+                    Clicked="OnAgreeClicked" />
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

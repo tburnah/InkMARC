@@ -61,23 +61,42 @@ namespace InkMARC.Label
         /// Since the ChunkedDataset constructor only accepts a 2-D array, we must flatten our data.
         /// This method should be called with the very first frame.
         /// </summary>
-        public static bool InitializeChunkedDatasets(Bitmap firstBitmap, bool touched)
+        public static bool InitializeChunkedDatasets(Bitmap firstBitmap, bool touched, InkMARCPoint firstPoint)
         {
             if (!isFileOpen)
                 return false;
 
-            // Convert the first image into a 3-D array then flatten it.
             float[,,] firstImage3D = BitmapToFloatArray(firstBitmap);
             float[,] firstImage2D = FlattenImage(firstImage3D);
 
-            // For the boolean attribute, create a 2-D array with shape [1,1]
-            int[,] firstAttribute = new int[1, 1] { { touched ? 1 : 0 } };
+            int[,] firstAttributes = new int[1, 3]
+            {
+                { touched ? 1 : 0, (int)firstPoint.X, (int)firstPoint.Y }
+            };
 
-            // Create the chunked datasets using the available constructor that accepts a 2-D array.
             imageChunked = new ChunkedDataset<float>("/images", fileId, firstImage2D);
-            attributeChunked = new ChunkedDataset<int>("/attributes", fileId, firstAttribute);
+            attributeChunked = new ChunkedDataset<int>("/attributes", fileId, firstAttributes);
 
             datasetsInitialized = true;
+            return true;
+        }
+
+        public static bool WriteFrameEx(Bitmap bitmap, bool touched, InkMARCPoint point)
+        {
+            if (!isFileOpen || !datasetsInitialized)
+                return false;
+
+            float[,,] image3D = BitmapToFloatArray(bitmap);
+            float[,] image2D = FlattenImage(image3D);
+
+            int[,] attributeData = new int[1, 3]
+            {
+                { touched ? 1 : 0, (int)point.X, (int)point.Y }
+            };
+
+            imageChunked?.AppendDataset(image2D);
+            attributeChunked?.AppendDataset(attributeData);
+
             return true;
         }
 

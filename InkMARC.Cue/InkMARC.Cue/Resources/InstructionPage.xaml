@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="InkMARC.Cue.Resources.InstructionPage"
+             Title="Instructions">
+    <ScrollView>
+        <StackLayout Padding="20"
+                     Spacing="20">
+            <Label Text="Instructions"
+                   FontAttributes="Bold"
+                   FontSize="20" />
+            <Label Text="On the next page you will see a camera view through the phone.  You should use the phone as a viewport." />
+            <Label Text="1. Place a paper on the table before you." />
+            <Label Text="2. Hold the phone in front of you and look through it to see you hand and the paper." />
+            <Label Text="3. Hold a stylus, pen or pencil in your hand." />
+            <Label Text="4. Wait for the music to play." />
+            <Label Text="5. While the music is playing, draw or write with the stylus on the paper.  Do not lift the stylus!" />
+            <Label Text="6. When the music is not playing, keep the stylus in the air not touching the paper, but in view of the camera." />
+            <Label Text="When not touching, make the movement obvious, don't keep the pen close to the surface." />
+
+            <StackLayout>
+                <Label Text="Choose Study Music:" />
+                <Picker x:Name="musicPicker"
+                        SelectedIndexChanged="OnMusicSelected" />
+                <Button x:Name="playButton"
+                        Text="▶ Preview"
+                        Clicked="OnPlayClicked"
+                        IsEnabled="False" />
+            </StackLayout>
+
+            <Button Text="Begin"
+                    Clicked="OnBeginClicked" />
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

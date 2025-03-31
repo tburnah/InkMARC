@@ -57,10 +57,6 @@
                 <materialDesign:PackIcon Kind="ContentSave"
                                          ToolTip="Save" />
             </Button>
-            <Button Style="{StaticResource MaterialDesignToolButton}">
-                <materialDesign:PackIcon Kind="ContentSaveEdit"
-                                         ToolTip="Save As..." />
-            </Button>
             <Separator />
             <Button Style="{StaticResource MaterialDesignToolButton}"
                     ToolTip="Previous Frame"
@@ -131,7 +127,12 @@
                     Command="{Binding AnalyzeFramesForStateChangesCommand}"
                     IsEnabled="{Binding HasData}">
                 <materialDesign:PackIcon Kind="GestureTouchButton" />
-            </Button>            
+            </Button>
+            <Button Style="{StaticResource MaterialDesignToolButton}"
+                    ToolTip="Session Durations"
+                    Command="{Binding OrganizeSessionsByFolderCommand}">
+                <materialDesign:PackIcon Kind="TagSearch" />
+            </Button>
         </ToolBar>
 
         <!-- Status Bar at the bottom -->
@@ -177,20 +178,12 @@
         
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="170" />
+                <ColumnDefinition Width="Auto" MinWidth="170" />
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="Auto" MinWidth="100" />
             </Grid.ColumnDefinitions>
 
             <GridSplitter Grid.Column="1"
-                          Grid.RowSpan="3"
-                          HorizontalAlignment="Left"
-                          VerticalAlignment="Stretch"
-                          Background="Gray"
-                          ShowsPreview="true"
-                          Width="3" />
-
-            <GridSplitter Grid.Column="2"
                           Grid.RowSpan="3"
                           HorizontalAlignment="Left"
                           VerticalAlignment="Stretch"
@@ -275,6 +268,14 @@
                            FontFamily="Consolas"
                            TextWrapping="Wrap" />
             </ScrollViewer>
+
+            <GridSplitter Grid.Column="2"
+                          Grid.RowSpan="3"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Stretch"
+                          Background="Gray"
+                          ShowsPreview="true"
+                          Width="3" />
 
             <Image Source="{Binding CurrentImage}"
                    Stretch="Uniform"

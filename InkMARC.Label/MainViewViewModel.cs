@@ -16,6 +16,7 @@ using Microsoft.VisualBasic.FileIO;
 using System.Windows.Threading;
 using System.Drawing;
 using OpenCvSharp.WpfExtensions;
+using System.Diagnostics;
 
 namespace InkMARC.Label
 {
@@ -186,6 +187,7 @@ namespace InkMARC.Label
         private int _sliderValue;
         private DispatcherTimer? _debounceTimer;
         private int lastFrameIndex = -1;
+        private double thresholdUs = 0.0;
 
         #endregion
 
@@ -260,7 +262,7 @@ namespace InkMARC.Label
                     OnPropertyChanged(nameof(StartFrame));
                     OnPropertyChanged(nameof(StopFrame));
                     OnPropertyChanged(nameof(StartingPoint));
-                    
+
                     if (CurrentExercise is not null && CurrentExercise.StopFrame == 0)
                         CurrentExercise.StopFrame = FrameCount;
                 }
@@ -269,7 +271,7 @@ namespace InkMARC.Label
 
         public string FormattedJson
         {
-            get => formattedJson ?? string.Empty; 
+            get => formattedJson ?? string.Empty;
             set => SetProperty(ref formattedJson, value);
         }
 
@@ -388,7 +390,9 @@ namespace InkMARC.Label
 
                 using (Bitmap firstImage = BitmapConverter.ToBitmap(rotatedFrame))
                 {
-                    DataSave.InitializeChunkedDatasets(firstImage, GetStateAtFrame(StartFrame));
+                    var closestPoint = FindClosestDataPointOptimized(frameIndex, thresholdUs);
+                    closestPoint ??= new InkMARCPoint(float.NaN, float.NaN, 0, 0, 0, 0);
+                    DataSave.InitializeChunkedDatasets(firstImage, GetStateAtFrame(StartFrame), (InkMARCPoint)closestPoint);
                 }
                 progCounter++;
                 ((IProgress<int>)progress).Report(progCounter);
@@ -411,7 +415,9 @@ namespace InkMARC.Label
 
                     using (Bitmap image = BitmapConverter.ToBitmap(rotatedFrame))
                     {
-                        DataSave.WriteFrame(image, GetStateAtFrame(frameIndex));
+                        var closestPoint = FindClosestDataPointOptimized(frameIndex, thresholdUs);
+                        closestPoint ??= new InkMARCPoint(float.NaN, float.NaN, 0, 0, 0, 0);
+                        DataSave.WriteFrameEx(image, GetStateAtFrame(frameIndex), (InkMARCPoint)closestPoint);
                     }
 
                     progCounter++;
@@ -768,8 +774,15 @@ namespace InkMARC.Label
                 }
                 videoCapture = new VideoCapture(videoPath);
                 frameCount = videoCapture is null ? 0 : (int)videoCapture.Get(VideoCaptureProperties.FrameCount);
+                StartFrame = 0;
+                StopFrame = frameCount;
+                double frameDurationMs = 1000.0 / framesPerSecond;
+                double thresholdMs = frameDurationMs / 2.0;
+                thresholdUs = thresholdMs * 1000.0;
                 OnPropertyChanged(nameof(FrameCount));
                 OnPropertyChanged(nameof(FrameIndex));
+                OnPropertyChanged(nameof(StartFrame));
+                OnPropertyChanged(nameof(StopFrame));
                 OnPropertyChanged(nameof(SliderTickFrequency));
                 UpdateImage();
             }
@@ -820,7 +833,7 @@ namespace InkMARC.Label
             // If no state change has occurred before this frame, return default.
             return false;
         }
-        
+
         private void UpdateCurrentState()
         {
             if (SetProperty(ref currentState, GetStateAtFrame(frameIndex)))
@@ -911,11 +924,14 @@ namespace InkMARC.Label
                 // Pattern 3: type_sessionID_filetime_index.extension
                 @"^(?:data|video)_(?<sessionID>[a-zA-Z0-9]+)_(?<timestamp>\d+)_(?<index>\d+)\.\w+$",
     
-                // Pattern 4: type_sessionID_index.extension (no timestamp)
-                @"^(?:data|video)_(?<sessionID>[a-zA-Z0-9]+)_(?<index>\d+)\.\w+$",
+                // Pattern 4: type_sessionID_index.extension (index is 1–2 digits only)
+                @"^(?:data|video)_(?<sessionID>[a-zA-Z0-9]+)_(?<index>\d{1,2})\.\w+$",
 
                 // Patter 5: type_sessionID_Participant_index_AppView.extension
-                @"^(?:data|video)_(?<sessionID>[a-zA-Z0-9]+)_Participant(?<index>\d+)_AppView\d+\.\w+$"
+                @"^(?:data|video)_(?<sessionID>[a-zA-Z0-9]+)_Participant(?<index>\d+)_AppView\d+\.\w+$",
+
+                // Pattern 6: type_sessionID_timestamp.extension (no index) 
+                @"^(?:data|video)_(?<sessionID>[a-zA-Z0-9]+)_(?<timestamp>\d+)\.\w+$"
             };
 
             foreach (var pattern in patterns)
@@ -924,7 +940,13 @@ namespace InkMARC.Label
                 if (match.Success)
                 {
                     string sessionID = match.Groups["sessionID"].Value;
-                    int index = int.Parse(match.Groups["index"].Value);
+
+                    int index;
+                    
+                    if (!(match.Groups["timestamp"].Success && int.TryParse(match.Groups["index"].Value, out index)))
+                    {
+                        index = 0;
+                    }
 
                     DateTime? extractedDateTime = null;
                     if (match.Groups["timestamp"].Success)
@@ -949,6 +971,10 @@ namespace InkMARC.Label
             if (DateTimeOffset.TryParse(timestampStr, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out DateTimeOffset dto))
             {
                 return dto.UtcDateTime; // Convert to UTC DateTime
+            }
+            else if (DateTime.FromFileTimeUtc(long.Parse(timestampStr)) is DateTime dt)
+            {
+                return dt;
             }
 
             return null; // Invalid timestamp
@@ -975,17 +1001,329 @@ namespace InkMARC.Label
                     }
                     videoCapture = new VideoCapture(videoPath);
                     frameCount = videoCapture is null ? 0 : (int)videoCapture.Get(VideoCaptureProperties.FrameCount);
+                    StartFrame = 0;
+                    StopFrame = frameCount;
                     framesPerSecond = videoCapture is null ? 0 : videoCapture.Get(VideoCaptureProperties.Fps);
+                    double frameDurationMs = 1000.0 / framesPerSecond;
+                    double thresholdMs = frameDurationMs / 2.0;
+                    thresholdUs = thresholdMs * 1000.0;
+
                     if (framesPerSecond < 0)
                     {
                         throw new Exception("Invalid FPS Value");
                     }
                     OnPropertyChanged(nameof(FrameCount));
                     OnPropertyChanged(nameof(FrameIndex));
+                    OnPropertyChanged(nameof(StartFrame));
+                    OnPropertyChanged(nameof(StopFrame));
                     OnPropertyChanged(nameof(SliderTickFrequency));
                     UpdateImage();
                 }
             }
+        }
+
+        [RelayCommand]
+        private void ListSessionIdsFromFolder()
+        {
+            var folderDialog = new CommonOpenFileDialog
+            {
+                IsFolderPicker = true,
+                Title = "Select Folder Containing Session JSON Files"
+            };
+
+            if (folderDialog.ShowDialog() != CommonFileDialogResult.Ok || string.IsNullOrEmpty(folderDialog.FileName))
+                return;
+
+            string folderPath = folderDialog.FileName;
+            var jsonFiles = Directory.GetFiles(folderPath, "data_*.json");
+
+            var sessionIds = new HashSet<string>();
+
+            foreach (var file in jsonFiles)
+            {
+                var fileName = Path.GetFileName(file);
+                var parsed = ExtractSessionIDAndIndex(fileName);
+                if (parsed != null)
+                {
+                    sessionIds.Add(parsed.Item1);
+                }
+            }
+
+            if (sessionIds.Count == 0)
+            {
+                throw new Exception("No session IDs found in the selected folder.");
+            }
+            else
+            {
+                foreach (var sessionId in sessionIds)
+                {
+                    var TimeSpan = GetFullSessionDrawingDuration(folderPath, sessionId);
+                    Console.WriteLine($"Session ID: {sessionId}, Duration: {TimeSpan}");
+                }
+            }
+        }
+
+        private Dictionary<string, string> MatchSessionsToVideosWithinThreshold(Dictionary<string, TimeSpan> sessionDurations, Dictionary<string, TimeSpan> videoDurations, double maxAllowedDifferenceSeconds = 30.0)
+        {
+            var matched = new Dictionary<string, string>();
+            var remainingVideos = new Dictionary<string, TimeSpan>(videoDurations); // copy so we can remove matched videos
+
+            foreach (var session in sessionDurations.OrderBy(sd => sd.Value))
+            {
+                string sessionId = session.Key;
+                TimeSpan sessionTime = session.Value;
+
+                string? bestMatch = null;
+                double bestDiff = double.MaxValue;
+
+                foreach (var video in remainingVideos)
+                {
+                    var diff = (video.Value - sessionTime).TotalSeconds;
+
+                    if (diff >= 0 && diff <= maxAllowedDifferenceSeconds && diff < bestDiff)
+                    {
+                        bestDiff = diff;
+                        bestMatch = video.Key;
+                    }
+                }
+
+                if (bestMatch != null)
+                {
+                    matched[sessionId] = bestMatch;
+                    remainingVideos.Remove(bestMatch);
+                }
+                else
+                {
+                    Console.WriteLine($"No suitable video match found for session {sessionId} (duration: {sessionTime})");
+                }
+            }
+
+            return matched;
+        }
+
+        [RelayCommand]
+        private async Task OrganizeSessionsByFolder()
+        {
+            this.FormattedJson = string.Empty;
+            var folderDialog = new CommonOpenFileDialog
+            {
+                IsFolderPicker = true,
+                Title = "Select Folder Containing Session JSON & Video Files"
+            };
+
+            if (folderDialog.ShowDialog() != CommonFileDialogResult.Ok || string.IsNullOrEmpty(folderDialog.FileName))
+                return;
+
+            string folderPath = folderDialog.FileName;
+
+            var jsonFiles = Directory.GetFiles(folderPath, "data_*.json");
+            var videoFiles = Directory.GetFiles(folderPath)
+                .Where(f => IsVideoFile(f))
+                .ToList();
+
+            var sessionJsonGroups = jsonFiles
+                .Select(file => (file, parsed: ExtractSessionIDAndIndex(Path.GetFileName(file))))
+                .Where(x => x.parsed != null)
+                .GroupBy(x => x.parsed.Item1)
+                .ToDictionary(
+                    g => g.Key,
+                    g => g
+                        .OrderBy(x => x.parsed.Item2)
+                        .Select(x => x.file)
+                        .ToList()
+                );
+
+            // Video durations
+            var videoDurations = new Dictionary<string, TimeSpan>();
+            foreach (var videoPath in videoFiles)
+            {
+                try
+                {
+                    using var cap = new OpenCvSharp.VideoCapture(videoPath);
+                    double fps = cap.Get(VideoCaptureProperties.Fps);
+                    double frameCount = cap.Get(VideoCaptureProperties.FrameCount);
+                    double durationSeconds = frameCount / fps;
+                    videoDurations[videoPath] = TimeSpan.FromSeconds(durationSeconds);
+                }
+                catch
+                {
+                    Console.WriteLine($"Failed to read video duration for {videoPath}");
+                }
+            }
+
+            // Session durations
+            var sessionDurations = new Dictionary<string, TimeSpan>();
+            foreach (var session in sessionJsonGroups)
+            {
+                try
+                {
+                    sessionDurations[session.Key] = GetFullSessionDrawingDuration(folderPath, session.Key);
+                }
+                catch
+                {
+                    Console.WriteLine($"Failed to calculate session duration for {session.Key}");
+                }
+            }
+
+            var matches = MatchSessionsToVideosWithinThreshold(sessionDurations, videoDurations, 30.0);
+
+            // Set up progress bar
+            ShowProgressBar = true;
+            int total = sessionJsonGroups.Count;
+            int current = 0;
+
+            var progress = new Progress<int>(value =>
+            {
+                SliderValue = value;
+                OnPropertyChanged(nameof(SliderValue));
+            });
+
+            await Task.Run(() =>
+            {
+                foreach (var sessionId in sessionJsonGroups.Keys)
+                {
+                    if (!matches.TryGetValue(sessionId, out string? videoFile))
+                    {
+                        Console.WriteLine($"Skipping unmatched session: {sessionId}");
+                        current++;
+                        ((IProgress<int>)progress).Report(current * 100 / total);
+                        continue;
+                    }
+
+                    var dataFiles = sessionJsonGroups[sessionId];
+                    string sessionFolder = Path.Combine(folderPath, sessionId);
+                    Directory.CreateDirectory(sessionFolder);
+
+                    var creationTime = File.GetCreationTimeUtc(videoFile);
+                    string timestamp = creationTime.ToFileTime().ToString();
+                    string newVideoName = $"video_{sessionId}_{timestamp}{Path.GetExtension(videoFile)}";
+                    string videoDest = Path.Combine(sessionFolder, newVideoName);
+
+                    ResizeVideoWithFFmpeg(videoFile, videoDest, 448); // FFmpeg resizing
+
+                    // Merge JSON
+                    var allDrawingLines = new List<JsonElement>();
+                    foreach (var file in dataFiles)
+                    {
+                        string json = File.ReadAllText(file);
+                        using var doc = JsonDocument.Parse(json);
+                        if (doc.RootElement.TryGetProperty("DrawingLines", out JsonElement lines))
+                        {
+                            foreach (var line in lines.EnumerateArray())
+                            {
+                                allDrawingLines.Add(line.Clone());
+                            }
+                        }
+                    }
+
+                    // Extract timestamp from first file name
+                    var firstDataFile = Path.GetFileNameWithoutExtension(dataFiles.First());
+                    var nameParts = firstDataFile.Split('_');
+
+                    string dataTimestamp = nameParts.Length > 2 ? nameParts[1] : DateTime.UtcNow.ToFileTime().ToString();
+
+                    using var stream = File.Create(Path.Combine(sessionFolder, $"data_{sessionId}_{dataTimestamp}.json"));
+
+                    using var writer = new Utf8JsonWriter(stream, new JsonWriterOptions { Indented = true });
+                    writer.WriteStartObject();
+                    writer.WritePropertyName("DrawingLines");
+                    writer.WriteStartArray();
+                    foreach (var line in allDrawingLines)
+                    {
+                        line.WriteTo(writer);
+                    }
+                    writer.WriteEndArray();
+                    writer.WriteEndObject();
+
+                    Console.WriteLine($"Organized session {sessionId} → matched video: {Path.GetFileName(videoFile)}");
+
+                    current++;
+                    ((IProgress<int>)progress).Report(current * 100 / total);
+                }
+            });
+
+            ShowProgressBar = false;
+            System.Windows.MessageBox.Show("Sessions organized successfully.", "Done", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+        }
+
+        private void ResizeVideoWithFFmpeg(string inputPath, string outputPath, int maxDimension = 448)
+        {
+            string args = $"-hwaccel cuda -hwaccel_output_format cuda -i \"{inputPath}\" " +
+                          $"-vf \"scale_cuda={maxDimension}:-2\" " +
+                          "-c:v h264_nvenc -preset fast -crf 28 -an " +
+                          $"\"{outputPath}\"";
+
+            var startInfo = new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = "ffmpeg",
+                Arguments = args,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+
+            using var process = new Process { StartInfo = startInfo };
+
+            process.OutputDataReceived += (s, e) => { /* Rarely used for ffmpeg */ };
+            process.ErrorDataReceived += (s, e) =>
+            {
+                if (!string.IsNullOrWhiteSpace(e.Data))
+                {
+                    FormattedJson += e.Data + Environment.NewLine;
+                }
+            };
+
+            process.Start();
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+            process.WaitForExit();
+
+            if (process.ExitCode != 0)
+            {
+                string error = process.StandardError.ReadToEnd();
+                Console.WriteLine($"FFmpeg failed: {error}");
+            }
+            else
+            {
+                Console.WriteLine($"FFmpeg resized and saved to {outputPath}");
+            }
+        }
+
+        public static TimeSpan GetFullSessionDrawingDuration(string folderPath, string sessionId)
+        {
+            var files = Directory.GetFiles(folderPath, $"data_*_{sessionId}_*.json");
+
+            long? sessionStart = null;
+            long? sessionEnd = null;
+
+            foreach (var file in files)
+            {
+                var json = File.ReadAllText(file);
+                using var doc = JsonDocument.Parse(json);
+
+                if (!doc.RootElement.TryGetProperty("DrawingLines", out var linesArray)) continue;
+
+                foreach (var line in linesArray.EnumerateArray())
+                {
+                    if (!line.TryGetProperty("Points", out var pointsArray)) continue;
+
+                    foreach (var point in pointsArray.EnumerateArray())
+                    {
+                        if (point.TryGetProperty("Timestamp", out var tsProp) && tsProp.TryGetInt64(out var timestamp))
+                        {
+                            if (sessionStart == null || timestamp < sessionStart) sessionStart = timestamp;
+                            if (sessionEnd == null || timestamp > sessionEnd) sessionEnd = timestamp;
+                        }
+                    }
+                }
+            }
+
+            if (sessionStart == null || sessionEnd == null)
+                throw new Exception("No timestamps found across session files.");
+
+            long durationMicroseconds = sessionEnd.Value - sessionStart.Value;
+            return TimeSpan.FromMilliseconds(durationMicroseconds / 1000.0);
         }
 
         private void LoadSessionJson(object parameter)
@@ -1094,9 +1432,6 @@ namespace InkMARC.Label
                 InkMARCPoint? closestPoint = _drawingLine[0];
                 if (CurrentExercise.FirstPointOffset >= 0)
                 {
-                    double frameDurationMs = 1000.0 / framesPerSecond;
-                    double thresholdMs = frameDurationMs / 2.0;
-                    double thresholdUs = thresholdMs * 1000.0;
                     closestPoint = FindClosestDataPointOptimized(frameIndex, thresholdUs);
                 }
 
