@@ -26,30 +26,38 @@ public partial class InstructionPage : ContentPage
         {
             using var listStream = await FileSystem.OpenAppPackageFileAsync("Resources/Music/music_list.txt");
             using var reader = new StreamReader(listStream);
+            string music_list = reader.ReadToEnd();
+            string[] music_files = music_list.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
 
-            while (!reader.EndOfStream)
-            {
-                var fileName = reader.ReadLine()?.Trim();
+            foreach (string fileName in music_files)
+            {                            
                 if (string.IsNullOrWhiteSpace(fileName)) continue;
+                await Task.Delay(50); // just 50ms between loads
 
                 var musicPath = Path.Combine("Resources/Music", fileName);
 
                 try
                 {
-                    using var stream = await FileSystem.OpenAppPackageFileAsync(musicPath);
-                    using var memReadStream = new MemoryStream();
-                    await stream.CopyToAsync(memReadStream);
+                    // Load file into memory
+                    var assetStream = await FileSystem.OpenAppPackageFileAsync(musicPath);
+                    var memReadStream = new MemoryStream();
+                    await assetStream.CopyToAsync(memReadStream);
                     memReadStream.Position = 0;
 
-                    // Create a separate write stream
-                    using var memWriteStream = new MemoryStream();
+                    var memWriteStream = new MemoryStream();
 
-                    using (var tagFile = TagLib.File.Create(new StreamFileAbstraction(fileName, memReadStream, memWriteStream)))
-                    {
-                        var title = tagFile.Tag.Title ?? Path.GetFileNameWithoutExtension(fileName);
-                        musicList.Add((title, fileName));
-                        Console.WriteLine($"Loaded music: {title} ({fileName})");
-                    }
+                    // Don't wrap these in using blocks yet — handle manually
+                    var tagFile = File.Create(new StreamFileAbstraction(fileName, memReadStream, memWriteStream));
+                    var title = tagFile.Tag.Title ?? Path.GetFileNameWithoutExtension(fileName);
+                    musicList.Add((title, fileName));
+                    Console.WriteLine($"Loaded music: {title} ({fileName})");
+
+                    // Clean up AFTER usage
+                    tagFile.Dispose();
+                    memReadStream.Dispose();
+                    memWriteStream.Dispose();
+                    assetStream.Dispose();
+                    await Task.Delay(50); // just 50ms between loads
                 }
                 catch (Exception fileEx)
                 {

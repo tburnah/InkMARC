@@ -32,16 +32,12 @@ namespace InkMARC.Cue.Platforms.Android
         private MediaRecorder? mediaRecorder;
         private bool isRecording = false;
         private string? videoFilePath;
-        private int recordingWidth = DefaultRecordingWidth;
-        private int recordingHeight = DefaultRecordingHeight;
+        private Surface? previewSurface;
 
         /// <summary>
         /// Property mapper for CameraPreviewHandler.
         /// </summary>
-        public static PropertyMapper<CameraPreview, CameraPreviewHandler> Mapper = new(ViewHandler.ViewMapper)
-        {
-            // You can add mappings here later
-        };
+        public static PropertyMapper<CameraPreview, CameraPreviewHandler> Mapper = new(ViewHandler.ViewMapper);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CameraPreviewHandler"/> class.
@@ -65,7 +61,7 @@ namespace InkMARC.Cue.Platforms.Android
         /// <summary>
         /// Initializes the camera.
         /// </summary>
-        void InitializeCamera()
+        private void InitializeCamera()
         {
             if (previewView == null)
                 return;
@@ -83,15 +79,17 @@ namespace InkMARC.Cue.Platforms.Android
         /// <summary>
         /// Opens the camera.
         /// </summary>
-        void OpenCamera()
+        private void OpenCamera()
         {
             System.Diagnostics.Debug.WriteLine("Opening camera...");
-            CameraManager cameraManager = (CameraManager)Context.GetSystemService(Context.CameraService);
+            var cameraManager = (CameraManager)Context.GetSystemService(Context.CameraService);
             try
             {
-                string[] cameraIds = cameraManager.GetCameraIdList();
-                string cameraId = cameraIds[0];
-                cameraManager.OpenCamera(cameraId, new CameraStateCallback(this), null);
+                var cameraId = cameraManager.GetCameraIdList().FirstOrDefault();
+                if (cameraId != null)
+                {
+                    cameraManager.OpenCamera(cameraId, new CameraStateCallback(this), null);
+                }
             }
             catch (Exception ex)
             {
@@ -102,23 +100,27 @@ namespace InkMARC.Cue.Platforms.Android
         /// <summary>
         /// Starts the camera preview session.
         /// </summary>
-        void StartPreviewSession()
+        private void StartPreviewSession()
         {
             if (cameraDevice == null || previewView == null || !previewView.IsAvailable)
                 return;
 
-            SurfaceTexture surfaceTexture = previewView.SurfaceTexture;
+            var surfaceTexture = previewView.SurfaceTexture;
             surfaceTexture.SetDefaultBufferSize(previewView.Width, previewView.Height);
-            Surface surface = new Surface(surfaceTexture);
+            previewSurface ??= new Surface(surfaceTexture);
 
             try
             {
-                CaptureRequest.Builder builder = cameraDevice.CreateCaptureRequest(CameraTemplate.Preview);
-                builder.AddTarget(surface);
+                var builder = cameraDevice.CreateCaptureRequest(CameraTemplate.Preview);
+                builder.AddTarget(previewSurface);
 
-                List<Surface> surfaces = new List<Surface> { surface };
+                var surfaces = new List<Surface> { previewSurface };
 
-                cameraDevice.CreateCaptureSession(surfaces, new CameraCaptureStateCallback(this, builder, surface), null);
+                cameraSession?.Close();
+                cameraSession?.Dispose();
+                cameraSession = null;
+
+                cameraDevice.CreateCaptureSession(surfaces, new CameraCaptureStateCallback(this, builder, previewSurface), null);
             }
             catch (Exception ex)
             {
@@ -130,13 +132,15 @@ namespace InkMARC.Cue.Platforms.Android
         /// Prepares the media recorder for recording.
         /// </summary>
         /// <param name="filePath">The file path to save the recorded video.</param>
-        void PrepareMediaRecorder(string filePath)
+        private void PrepareMediaRecorder(string filePath)
         {
             var (nativeSize, _, _) = GetOptimalVideoSize();
             var (scaledWidth, scaledHeight) = ScaleToMax(nativeSize, MaxDimension);
             var (size, w, h) = GetSafeVideoSize();
 
-            mediaRecorder = new MediaRecorder();
+            mediaRecorder ??= new MediaRecorder(Context);
+            mediaRecorder.Reset();
+
             mediaRecorder.SetVideoSource(VideoSource.Surface);
             mediaRecorder.SetOutputFormat(OutputFormat.Mpeg4);
             mediaRecorder.SetOutputFile(filePath);
@@ -166,9 +170,8 @@ namespace InkMARC.Cue.Platforms.Android
                 PrepareMediaRecorder(filePath);
 
                 var surfaceTexture = previewView.SurfaceTexture;
-                surfaceTexture.SetDefaultBufferSize(recordingWidth, recordingHeight);
-                Surface previewSurface = new Surface(surfaceTexture);
-                Surface recorderSurface = mediaRecorder.Surface;
+                previewSurface ??= new Surface(surfaceTexture);
+                var recorderSurface = mediaRecorder.Surface;
 
                 var surfaces = new List<Surface> { previewSurface, recorderSurface };
 
@@ -176,11 +179,11 @@ namespace InkMARC.Cue.Platforms.Android
                 builder.AddTarget(previewSurface);
                 builder.AddTarget(recorderSurface);
 
-                cameraDevice.CreateCaptureSession(
-                    surfaces,
-                    new RecordingCaptureSessionCallback(this, builder),
-                    null
-                );
+                cameraSession?.Close();
+                cameraSession?.Dispose();
+                cameraSession = null;
+
+                cameraDevice.CreateCaptureSession(surfaces, new RecordingCaptureSessionCallback(this, builder), null);
 
                 isRecording = true;
                 videoFilePath = filePath;
@@ -203,11 +206,19 @@ namespace InkMARC.Cue.Platforms.Android
             {
                 mediaRecorder.Stop();
                 mediaRecorder.Reset();
-                mediaRecorder.Release();
                 mediaRecorder = null;
                 isRecording = false;
 
                 System.Diagnostics.Debug.WriteLine($"Video saved to {videoFilePath}");
+
+                // Ensure clean transition back to preview
+                cameraSession?.Close();
+                cameraSession?.Dispose();
+                cameraSession = null;
+
+                Task.Delay(200).Wait(); // small buffer time helps stability
+
+                StartPreviewSession();
             }
             catch (Exception ex)
             {
@@ -219,22 +230,22 @@ namespace InkMARC.Cue.Platforms.Android
         /// Gets the optimal video size for recording.
         /// </summary>
         /// <returns>A tuple containing the optimal size and its width and height.</returns>
-        (ASize size, int width, int height) GetOptimalVideoSize()
+        private (ASize size, int width, int height) GetOptimalVideoSize()
         {
-            CameraManager cameraManager = (CameraManager)Context.GetSystemService(Context.CameraService);
+            var cameraManager = (CameraManager)Context.GetSystemService(Context.CameraService);
             var cameraId = cameraManager.GetCameraIdList()[0];
             var characteristics = cameraManager.GetCameraCharacteristics(cameraId);
             var map = (StreamConfigurationMap)characteristics.Get(CameraCharacteristics.ScalerStreamConfigurationMap);
             var sizes = map.GetOutputSizes(Java.Lang.Class.FromType(typeof(MediaRecorder)));
 
-            ASize best = sizes[0];
+            var best = sizes[0];
             foreach (var size in sizes)
             {
-                float aspectRatio = (float)size.Width / size.Height;
-                float bestAspectRatio = (float)best.Width / best.Height;
+                var aspectRatio = (float)size.Width / size.Height;
+                var bestAspectRatio = (float)best.Width / best.Height;
 
-                if (System.Math.Abs(size.Height - MaxDimension) < System.Math.Abs(best.Height - MaxDimension) &&
-                    System.Math.Abs(aspectRatio - bestAspectRatio) < 0.01f)
+                if (Math.Abs(size.Height - MaxDimension) < Math.Abs(best.Height - MaxDimension) &&
+                    Math.Abs(aspectRatio - bestAspectRatio) < 0.01f)
                 {
                     best = size;
                 }
@@ -247,7 +258,7 @@ namespace InkMARC.Cue.Platforms.Android
         /// Gets a safe video size for recording.
         /// </summary>
         /// <returns>A tuple containing the safe size and its width and height.</returns>
-        (ASize widthHeight, int w, int h) GetSafeVideoSize()
+        private (ASize widthHeight, int w, int h) GetSafeVideoSize()
         {
             var manager = (CameraManager)Context.GetSystemService(Context.CameraService);
             var cameraId = manager.GetCameraIdList()[0];
@@ -255,8 +266,7 @@ namespace InkMARC.Cue.Platforms.Android
             var map = (StreamConfigurationMap)characteristics.Get(CameraCharacteristics.ScalerStreamConfigurationMap);
             var sizes = map.GetOutputSizes((int)ImageFormatType.Private);
 
-            var safeSize = sizes.FirstOrDefault(s => s.Width == 640 && s.Height == 480);
-            if (safeSize == null) safeSize = sizes.Last();
+            var safeSize = sizes.FirstOrDefault(s => s.Width == 640 && s.Height == 480) ?? sizes.Last();
 
             return (safeSize, safeSize.Width, safeSize.Height);
         }
@@ -267,20 +277,20 @@ namespace InkMARC.Cue.Platforms.Android
         /// <param name="originalSize">The original size.</param>
         /// <param name="maxDimension">The maximum dimension.</param>
         /// <returns>A tuple containing the scaled width and height.</returns>
-        (int scaledWidth, int scaledHeight) ScaleToMax(ASize originalSize, int maxDimension)
+        private (int scaledWidth, int scaledHeight) ScaleToMax(ASize originalSize, int maxDimension)
         {
-            int originalWidth = originalSize.Width;
-            int originalHeight = originalSize.Height;
+            var originalWidth = originalSize.Width;
+            var originalHeight = originalSize.Height;
 
-            float aspect = (float)originalWidth / originalHeight;
+            var aspect = (float)originalWidth / originalHeight;
 
             if (originalWidth >= originalHeight)
             {
                 if (originalWidth <= maxDimension)
                     return (originalWidth, originalHeight);
 
-                int newWidth = maxDimension;
-                int newHeight = (int)(newWidth / aspect);
+                var newWidth = maxDimension;
+                var newHeight = (int)(newWidth / aspect);
                 return (newWidth, newHeight);
             }
             else
@@ -288,8 +298,8 @@ namespace InkMARC.Cue.Platforms.Android
                 if (originalHeight <= maxDimension)
                     return (originalWidth, originalHeight);
 
-                int newHeight = maxDimension;
-                int newWidth = (int)(newHeight * aspect);
+                var newHeight = maxDimension;
+                var newWidth = (int)(newHeight * aspect);
                 return (newWidth, newHeight);
             }
         }
@@ -326,6 +336,8 @@ namespace InkMARC.Cue.Platforms.Android
                 cameraDevice = null;
                 previewView?.Dispose();
                 previewView = null;
+                previewSurface?.Release();
+                previewSurface = null;
             }
             catch (Exception ex)
             {

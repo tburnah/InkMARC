@@ -54,6 +54,7 @@ namespace InkMARC.Cue
                     await Task.Delay(RecordingDelay); // Wait 2s before recording
                     await StartRecording($"Touched_{i + 1}");
                     await Task.Delay(touchDuration - InitialWait); // Remaining duration - 1s before stop
+
                     await StopRecording();
 
                     await ShowCountdown("Pen not touching in", "Pen not touching");
@@ -82,17 +83,20 @@ namespace InkMARC.Cue
             string fullPath = Path.Combine(FileSystem.AppDataDirectory, fileName);
 
 #if ANDROID
-                try
+            try
+            {
+                var publicMovies = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryMovies);
+                fullPath = Path.Combine(publicMovies.AbsolutePath, fileName);
+                var handler = cameraPreview.Handler as InkMARC.Cue.Platforms.Android.CameraPreviewHandler;
+                await MainThread.InvokeOnMainThreadAsync(() =>
                 {
-                    var publicMovies = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryMovies);
-                    fullPath = Path.Combine(publicMovies.AbsolutePath, fileName);
-                    var handler = cameraPreview.Handler as InkMARC.Cue.Platforms.Android.CameraPreviewHandler;
                     handler?.StartRecording(fullPath);
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine($"StartRecording Exception: {ex.Message}");
-                }
+                });
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"StartRecording Exception: {ex.Message}");
+            }
 #endif
 
             await Task.CompletedTask;
@@ -101,29 +105,49 @@ namespace InkMARC.Cue
         private async Task StopRecording()
         {
 #if ANDROID
-                try
+            try
+            {
+                var handler = cameraPreview.Handler as InkMARC.Cue.Platforms.Android.CameraPreviewHandler;
+                await MainThread.InvokeOnMainThreadAsync(() =>
                 {
-                    var handler = cameraPreview.Handler as InkMARC.Cue.Platforms.Android.CameraPreviewHandler;
                     handler?.StopRecording();
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine($"StopRecording Exception: {ex.Message}");
-                }
+                });
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"StopRecording Exception: {ex.Message}");
+            }
 #endif
 
             await Task.CompletedTask;
         }
 
+        private Task ShowCountdown2(string messagePrefix, string finalMessage)
+        {
+            var tcs = new TaskCompletionSource();
+
+            int counter = CountdownStart;
+            Dispatcher.StartTimer(TimeSpan.FromMilliseconds(CountdownDuration), () =>
+            {
+                if (counter > 0)
+                {
+                    screenPrompt.Text = $"{messagePrefix} {counter--}";
+                    return true; // Continue timer
+                }
+                else
+                {
+                    screenPrompt.Text = finalMessage;
+                    tcs.SetResult();
+                    return false; // Stop timer
+                }
+            });
+
+            return tcs.Task;
+        }
+
         private async Task ShowCountdown(string messagePrefix, string finalMessage)
         {
-            for (int i = CountdownStart; i >= 1; i--)
-            {
-                screenPrompt.Text = $"{messagePrefix} {i}";
-                await Task.Delay(CountdownDuration);
-            }
-
-            screenPrompt.Text = finalMessage;
+            await ShowCountdown2(messagePrefix, finalMessage);
         }
     }
 

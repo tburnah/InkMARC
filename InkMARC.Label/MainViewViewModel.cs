@@ -1248,14 +1248,67 @@ namespace InkMARC.Label
 
         private void ResizeVideoWithFFmpeg(string inputPath, string outputPath, int maxDimension = 448)
         {
+            string ffmpegPath = "ffmpeg";
+
+            // Try running ffmpeg -version to check availability
+            bool ffmpegAvailable = true;
+            try
+            {
+                var checkProcess = new Process
+                {
+                    StartInfo = new ProcessStartInfo
+                    {
+                        FileName = ffmpegPath,
+                        Arguments = "-version",
+                        RedirectStandardOutput = true,
+                        RedirectStandardError = true,
+                        UseShellExecute = false,
+                        CreateNoWindow = true
+                    }
+                };
+                checkProcess.Start();
+                checkProcess.WaitForExit();
+
+                if (checkProcess.ExitCode != 0)
+                    ffmpegAvailable = false;
+            }
+            catch
+            {
+                ffmpegAvailable = false;
+            }
+
+            // Prompt for ffmpeg.exe if not available
+            if (!ffmpegAvailable)
+            {
+                System.Windows.MessageBox.Show("FFmpeg was not found in the system path. Please select ffmpeg.exe manually.",
+                    "FFmpeg Not Found", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+
+                var openDialog = new Microsoft.WindowsAPICodePack.Dialogs.CommonOpenFileDialog
+                {
+                    Title = "Locate ffmpeg.exe",
+                    Filters = { new CommonFileDialogFilter("FFmpeg Executable", "exe") }
+                };
+
+                if (openDialog.ShowDialog() == CommonFileDialogResult.Ok && File.Exists(openDialog.FileName))
+                {
+                    ffmpegPath = openDialog.FileName;
+                }
+                else
+                {
+                    System.Windows.MessageBox.Show("FFmpeg path not provided. Aborting operation.",
+                        "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                    return;
+                }
+            }
+
             string args = $"-hwaccel cuda -hwaccel_output_format cuda -i \"{inputPath}\" " +
                           $"-vf \"scale_cuda={maxDimension}:-2\" " +
                           "-c:v h264_nvenc -preset fast -crf 28 -an " +
                           $"\"{outputPath}\"";
 
-            var startInfo = new System.Diagnostics.ProcessStartInfo
+            var startInfo = new ProcessStartInfo
             {
-                FileName = "ffmpeg",
+                FileName = ffmpegPath,
                 Arguments = args,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
@@ -1265,7 +1318,7 @@ namespace InkMARC.Label
 
             using var process = new Process { StartInfo = startInfo };
 
-            process.OutputDataReceived += (s, e) => { /* Rarely used for ffmpeg */ };
+            process.OutputDataReceived += (s, e) => { /* rarely needed for ffmpeg */ };
             process.ErrorDataReceived += (s, e) =>
             {
                 if (!string.IsNullOrWhiteSpace(e.Data))
@@ -1282,7 +1335,8 @@ namespace InkMARC.Label
             if (process.ExitCode != 0)
             {
                 string error = process.StandardError.ReadToEnd();
-                Console.WriteLine($"FFmpeg failed: {error}");
+                System.Windows.MessageBox.Show($"FFmpeg failed:\n{error}", "FFmpeg Error",
+                    System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
             }
             else
             {
