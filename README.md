@@ -32,6 +32,11 @@ To build and run the solutions, ensure you have the following installed:
 
 - **.NET 9 SDK**: [Download .NET 9](https://dotnet.microsoft.com/download/dotnet/9.0)
 - **Visual Studio 2022** (version 17.0 or later) with necessary workloads
+- **FFmpeg**: Required for video frame extraction and processing in `InkMARC.Prepare` and `InkMARC.Label`.
+  - [Download FFmpeg](https://ffmpeg.org/download.html) and install it.
+  - Make sure the `ffmpeg` executable is accessible via your system `PATH`.
+    - On **Windows**, you can do this by adding the FFmpeg `bin` folder to the system environment variable `PATH`.
+    - On **macOS/Linux**, install via a package manager (`brew install ffmpeg`, `apt install ffmpeg`, etc.) or add it to your `PATH` manually.
 - **Additional Dependencies (NuGet Packages):**
   - OpenCvSharp
   - CommunityToolkit.Mvvm
