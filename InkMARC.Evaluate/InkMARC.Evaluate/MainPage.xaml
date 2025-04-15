@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:InkMARC.Evaluate"
+             x:Class="InkMARC.Evaluate.MainPage">
+
+    <Grid>
+        <!-- Camera Preview occupies the entire window -->
+        <!-- Fill the screen -->
+        <local:CameraPreview x:Name="cameraPreview"
+                             Grid.Row="0"
+                             Grid.Column="0"
+                             HorizontalOptions="FillAndExpand"
+                             VerticalOptions="FillAndExpand" />
+
+        <Label x:Name="screenPrompt"
+               Text="prompt"
+               FontSize="Medium"
+               HorizontalOptions="Center"
+               VerticalOptions="End"
+               Margin="20" />
+
+    </Grid>
+
+</ContentPage>
