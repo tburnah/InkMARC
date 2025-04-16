@@ -18,6 +18,7 @@ namespace InkMARC.Cue
         private IAudioPlayer _audioPlayer;
         private readonly Random _random = new();
         private int videoIndex = 1;
+        private string sessionID = SessionIDUtilities.GetUniqueSessionID();
 
         public MainPage(string selectedMusic)
         {
@@ -79,7 +80,7 @@ namespace InkMARC.Cue
 
         private async Task StartRecording(string baseName)
         {
-            string fileName = $"{baseName}_{videoIndex++}.mp4";
+            string fileName = $"{baseName}_{sessionID}_{videoIndex++}.mp4";
             string fullPath = Path.Combine(FileSystem.AppDataDirectory, fileName);
 
 #if ANDROID

@@ -19,10 +19,8 @@ namespace InkMARC.Cue.Platforms.Android
     /// </summary>
     public class CameraPreviewHandler : ViewHandler<CameraPreview, TextureView>, IDisposable
     {
-        private const int DefaultRecordingWidth = 1280;
-        private const int DefaultRecordingHeight = 720;
         private const int MaxDimension = 448;
-        private const int VideoBitRate = 1000000;
+        private const int VideoBitRate = 500000;
         private const int VideoFrameRate = 15;
         private const int OrientationHint = 90; // Portrait, change to 0 if landscape
 
@@ -97,6 +95,15 @@ namespace InkMARC.Cue.Platforms.Android
             }
         }
 
+        private void ApplyStableSettings(CaptureRequest.Builder builder)
+        {
+            builder.Set(CaptureRequest.ControlAfMode, (int)ControlAFMode.Edof);
+            builder.Set(CaptureRequest.ControlAeMode, (int)ControlAEMode.On);
+            builder.Set(CaptureRequest.ControlAeLock, true);
+            builder.Set(CaptureRequest.ControlAwbMode, (int)ControlAwbMode.Auto);
+            builder.Set(CaptureRequest.ControlAwbLock, true);
+        }
+
         /// <summary>
         /// Starts the camera preview session.
         /// </summary>
@@ -112,6 +119,7 @@ namespace InkMARC.Cue.Platforms.Android
             try
             {
                 var builder = cameraDevice.CreateCaptureRequest(CameraTemplate.Preview);
+                ApplyStableSettings(builder);
                 builder.AddTarget(previewSurface);
 
                 var surfaces = new List<Surface> { previewSurface };
@@ -149,9 +157,6 @@ namespace InkMARC.Cue.Platforms.Android
             mediaRecorder.SetVideoSize(w, h);
             mediaRecorder.SetVideoEncoder(VideoEncoder.H264);
 
-            recordingWidth = w;
-            recordingHeight = h;
-
             mediaRecorder.SetOrientationHint(OrientationHint);
             mediaRecorder.Prepare();
         }
@@ -176,6 +181,7 @@ namespace InkMARC.Cue.Platforms.Android
                 var surfaces = new List<Surface> { previewSurface, recorderSurface };
 
                 var builder = cameraDevice.CreateCaptureRequest(CameraTemplate.Record);
+                ApplyStableSettings(builder);
                 builder.AddTarget(previewSurface);
                 builder.AddTarget(recorderSurface);
 
@@ -197,7 +203,7 @@ namespace InkMARC.Cue.Platforms.Android
         /// <summary>
         /// Stops recording video.
         /// </summary>
-        public void StopRecording()
+        public async Task StopRecording()
         {
             if (!isRecording || mediaRecorder == null)
                 return;
@@ -216,7 +222,7 @@ namespace InkMARC.Cue.Platforms.Android
                 cameraSession?.Dispose();
                 cameraSession = null;
 
-                Task.Delay(200).Wait(); // small buffer time helps stability
+                await Task.Delay(200); // small buffer time helps stability
 
                 StartPreviewSession();
             }

@@ -14,15 +14,26 @@ namespace InkMARC.Evaluate.Platforms.Android
     {
         private readonly InferenceSession session;
 
+        // Reusable buffers
+        private DenseTensor<float> inputTensor;
+        private ByteBuffer? buffer;
+        private Bitmap? reusableBitmap;
+
+        private const int TargetSize = 448;
+
         public OnnxModelRunner(Context context)
         {
             Debug.WriteLine("Loading model...");
             try
             {
-                using var assetStream = context.Assets.Open("resnet18_pytorch.onnx");
+                using var assetStream = context.Assets.Open("resnet18_pytorch_20250416_111521.onnx");
                 using var ms = new MemoryStream();
                 assetStream.CopyTo(ms);
                 session = new InferenceSession(ms.ToArray());
+
+                // Initialize reusable tensor and buffer
+                inputTensor = new DenseTensor<float>(new[] { 1, 3, TargetSize, TargetSize });
+                buffer = ByteBuffer.AllocateDirect(TargetSize * TargetSize * 4);
             }
             catch (Exception ex)
             {
@@ -42,13 +53,16 @@ namespace InkMARC.Evaluate.Platforms.Android
             int width = original.Width;
             int height = original.Height;
 
-            int size = Math.Max(width, height); // square size
+            if (width == height)
+                return original;
+
+            int size = Math.Max(width, height);
             int padX = (size - width) / 2;
             int padY = (size - height) / 2;
 
             var paddedBitmap = Bitmap.CreateBitmap(size, size, Bitmap.Config.Argb8888);
             var canvas = new Canvas(paddedBitmap);
-            canvas.DrawColor(Color.Black); // Black padding background
+            canvas.DrawColor(Color.Black);
             canvas.DrawBitmap(original, padX, padY, null);
 
             return paddedBitmap;
@@ -58,61 +72,65 @@ namespace InkMARC.Evaluate.Platforms.Android
         {
             var stopwatch = Stopwatch.StartNew();
 
-            const int targetSize = 448;
-
             var platformImage = image.ToPlatformImage() as PlatformImage;
-            var bitmap = platformImage?.AsBitmap();
+            var bitmap = platformImage?.AsBitmap() ?? throw new InvalidOperationException("Failed to get bitmap.");
 
-            var padded = PadToSquare(bitmap);
-            var resized = Bitmap.CreateScaledBitmap(padded, 448, 448, true);
+            Bitmap padded = PadToSquare(bitmap);
 
-            if (resized == null)
-                throw new InvalidOperationException("Failed to convert IImage to Bitmap.");
+            // Only create the resized bitmap once
+            if (reusableBitmap == null || reusableBitmap.Width != TargetSize || reusableBitmap.Height != TargetSize)
+            {
+                reusableBitmap?.Recycle();
+                reusableBitmap = Bitmap.CreateBitmap(TargetSize, TargetSize, Bitmap.Config.Argb8888);
+            }
 
-            var input = new DenseTensor<float>(new[] { 1, 3, targetSize, targetSize });
+            // Resize onto reusableBitmap
+            var canvas = new Canvas(reusableBitmap);
+            var srcRect = new Rect(0, 0, padded.Width, padded.Height);
+            var dstRect = new Rect(0, 0, TargetSize, TargetSize);
+            canvas.DrawBitmap(padded, srcRect, dstRect, null);
 
-            // Lock the pixels
-            var rect = new Rect(0, 0, targetSize, targetSize);
-            var config = Bitmap.Config.Argb8888;
-
-            using var lockedBitmap = resized.Copy(config, false);
-            var buffer = ByteBuffer.AllocateDirect(targetSize * targetSize * 4);
-            lockedBitmap.CopyPixelsToBuffer(buffer);
+            // Use preallocated buffer
+            buffer!.Rewind();
+            reusableBitmap.CopyPixelsToBuffer(buffer);
             buffer.Rewind();
 
             byte* pixelPtr = (byte*)buffer.GetDirectBufferAddress().ToPointer();
 
-            for (int y = 0; y < targetSize; y++)
+            for (int y = 0; y < TargetSize; y++)
             {
-                for (int x = 0; x < targetSize; x++)
+                for (int x = 0; x < TargetSize; x++)
                 {
-                    int offset = (y * targetSize + x) * 4;
-                    byte a = pixelPtr[offset + 0]; // alpha, usually ignored
+                    int offset = (y * TargetSize + x) * 4;
+                    byte a = pixelPtr[offset + 0];
                     byte r = pixelPtr[offset + 1];
                     byte g = pixelPtr[offset + 2];
                     byte b = pixelPtr[offset + 3];
 
-                    input[0, 0, y, x] = r / 255f;
-                    input[0, 1, y, x] = g / 255f;
-                    input[0, 2, y, x] = b / 255f;
+                    inputTensor[0, 0, y, x] = r / 255f;
+                    inputTensor[0, 1, y, x] = g / 255f;
+                    inputTensor[0, 2, y, x] = b / 255f;
                 }
             }
-
-            var inputs = new List<NamedOnnxValue>
-            {
-                NamedOnnxValue.CreateFromTensor("input", input)
-            };
 
             stopwatch.Stop();
             Debug.WriteLine($"Time taken to prepare input: {stopwatch.ElapsedMilliseconds} ms");
             stopwatch.Restart();
 
-            using var results = session.Run(inputs);
+            using var results = session.Run(new[] {
+                NamedOnnxValue.CreateFromTensor("input", inputTensor)
+            });
+
             stopwatch.Stop();
             Debug.WriteLine($"Time taken for inference: {stopwatch.ElapsedMilliseconds} ms");
+
             return results.First().AsEnumerable<float>().First();
         }
 
-        public void Dispose() => session.Dispose();
+        public void Dispose()
+        {
+            session.Dispose();
+            reusableBitmap?.Recycle();
+        }
     }
 }
