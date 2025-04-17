@@ -16,6 +16,7 @@ Global
 		{23DA8EE1-5332-42C0-98D8-58120F203AC8}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{23DA8EE1-5332-42C0-98D8-58120F203AC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23DA8EE1-5332-42C0-98D8-58120F203AC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23DA8EE1-5332-42C0-98D8-58120F203AC8}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

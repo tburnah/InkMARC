@@ -20,19 +20,10 @@ namespace InkMARC.Evaluate.Platforms.Android
     /// </summary>
     public class CameraPreviewHandler : ViewHandler<CameraPreview, TextureView>, IDisposable
     {
-        private const int DefaultRecordingWidth = 1280;
-        private const int DefaultRecordingHeight = 720;
-        private const int MaxDimension = 448;
-        private const int VideoBitRate = 1000000;
-        private const int VideoFrameRate = 15;
-        private const int OrientationHint = 90; // Portrait, change to 0 if landscape
-
         private CameraDevice? cameraDevice;
         private CameraCaptureSession? cameraSession;
         private TextureView? previewView;
         private MediaRecorder? mediaRecorder;
-        private bool isRecording = false;
-        private string? videoFilePath;
         private Surface? previewSurface;
 
         /// <summary>
@@ -136,7 +127,6 @@ namespace InkMARC.Evaluate.Platforms.Android
         protected override void ConnectHandler(TextureView nativeView)
         {
             base.ConnectHandler(nativeView);
-            StartInferenceLoop(); // Start inference loop
         }
 
         /// <summary>
@@ -156,7 +146,7 @@ namespace InkMARC.Evaluate.Platforms.Android
             inferenceLoop = new CancellationTokenSource();
             Task.Run(async () =>
             {
-                var runner = new OnnxModelRunner(Context);
+                var runner = new OnnxModelRunner(Context, previewView.Width, previewView.Height);
 
                 while (!inferenceLoop.IsCancellationRequested)
                 {
@@ -321,6 +311,9 @@ namespace InkMARC.Evaluate.Platforms.Android
             public void OnSurfaceTextureAvailable(SurfaceTexture surface, int width, int height)
             {
                 handler.OpenCamera();
+
+                if (width > 0 && height > 0)
+                    handler.StartInferenceLoop(); // Start inference loop
             }
 
             public bool OnSurfaceTextureDestroyed(SurfaceTexture surface)
