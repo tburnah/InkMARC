@@ -27,6 +27,11 @@ All solutions are built using .NET 9 and leverage technologies such as OpenCV, H
 - Export data to an HDF5 file.
 - Material Design-based UI for an improved user experience.
 
+## License
+This software is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0).
+You may use, share, and modify this code for non-commercial purposes only, as long as proper attribution is given.
+See the [LICENSE](LICENSE) file for the full legal text, or visit the [Creative Commons site](https://creativecommons.org/licenses/by-nc/4.0/) for a human-readable summary.
+
 ## Prerequisites
 To build and run the solutions, ensure you have the following installed:
 
