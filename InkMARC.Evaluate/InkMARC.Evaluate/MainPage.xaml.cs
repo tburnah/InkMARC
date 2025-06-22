@@ -12,7 +12,23 @@ namespace InkMARC.Evaluate
         public MainPage()
         {
             InitializeComponent();
-            StartCalibrationAsync();
+            //StartCalibrationAsync();
+            ProceedWithoutCalibration();
+        }
+
+        private void ProceedWithoutCalibration()
+        {
+            threshold = 0.1f;
+            isCalibrated = true;
+            // Normal inference after calibration
+            cameraPreview.OnInferenceResult = (result) =>
+            {
+                string status = result > threshold ? "Pen Down" : "Pen Up";
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    screenPrompt.Text = $"{status}";
+                });
+            };
         }
 
         private async void StartCalibrationAsync()

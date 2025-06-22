@@ -39,10 +39,45 @@ namespace InkMARC.Evaluate.Platforms.Android
             //Debug.WriteLine("Loading model...");
             try
             {
-                using var assetStream = context.Assets.Open("resnet18_pytorch_20250416_111521.onnx");
+                //using var assetStream = context.Assets.Open("resnet18_pytorch_20250416_111521.onnx");
+                using var assetStream = context.Assets.Open("resnet18_pytorch_20250416_111521_fp16_fixed.onnx");
                 using var ms = new MemoryStream();
                 assetStream.CopyTo(ms);
-                session = new InferenceSession(ms.ToArray());
+
+                Debug.WriteLine($"Model size in memory: {ms.Length} bytes");
+                if (ms.Length == 0)
+                {
+                    Debug.WriteLine("WARNING: Model file is empty!");
+                }
+
+                var options = new SessionOptions();
+                options.AppendExecutionProvider_Nnapi(
+                    nnapiFlags: NnapiFlags.NNAPI_FLAG_USE_FP16 | NnapiFlags.NNAPI_FLAG_CPU_DISABLED
+                );
+                //options.AppendExecutionProvider_CPU();
+                try
+                {
+                    var modelBytes = ms.ToArray();
+                    Debug.WriteLine($"Attempting to create InferenceSession with {modelBytes.Length} bytes...");
+
+                    session = new InferenceSession(modelBytes, options);
+
+                    Debug.WriteLine("InferenceSession created successfully.");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Error setting NNAPI flags: {ex.Message}");
+                    Debug.WriteLine($"StackTrace: {ex.StackTrace}");
+                    throw;
+                }
+
+
+                
+                var providers = Microsoft.ML.OnnxRuntime.OrtEnv.Instance().GetAvailableProviders();
+                foreach (var provider in providers)
+                {
+                    Debug.WriteLine($"Execution provider: {provider}");
+                }
 
                 // Initialize reusable tensor and buffer
                 inputTensor = new DenseTensor<float>(new[] { 1, 3, TargetSize, TargetSize });
@@ -75,7 +110,7 @@ namespace InkMARC.Evaluate.Platforms.Android
 
         public float Predict(Microsoft.Maui.Graphics.IImage image)
         {
-            //Debug.WriteLine("Predicting...");
+            Debug.WriteLine("Predicting...");
             return DoPredict(image);
         }
 
@@ -91,8 +126,37 @@ namespace InkMARC.Evaluate.Platforms.Android
                 return paddedBitmap;
         }
 
+        private static long GetCpuTimeMillis()
+        {
+            try
+            {
+                var stat = System.IO.File.ReadAllText("/proc/self/stat");
+                var parts = stat.Split(' ');
+
+                // According to procfs:
+                // parts[13] = utime (user mode jiffies)
+                // parts[14] = stime (kernel mode jiffies)
+                long utime = long.Parse(parts[13]);
+                long stime = long.Parse(parts[14]);
+
+                // Jiffies to milliseconds
+                long jiffies = utime + stime;
+
+                // Most Android systems use 100Hz clock, so:
+                long milliseconds = (jiffies * 1000) / 100;
+
+                return milliseconds;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Failed to get CPU time: {ex.Message}");
+                return 0;
+            }
+        }
+
         public float DoPredict(Microsoft.Maui.Graphics.IImage image)
         {
+            Debug.WriteLine("Predicting Start");
             var platformImage = image.ToPlatformImage() as PlatformImage;
             var bitmap = platformImage?.AsBitmap() ?? throw new InvalidOperationException("Failed to get bitmap.");
 
@@ -130,18 +194,40 @@ namespace InkMARC.Evaluate.Platforms.Android
                 }
             });
 
-            var stopwatch = Stopwatch.StartNew();
+            Debug.WriteLine("Image Prepared");
 
+            var activityManager = (ActivityManager)AndroidApp.Context.GetSystemService(Context.ActivityService);
+            var memoryInfoBefore = new ActivityManager.MemoryInfo();
+            activityManager.GetMemoryInfo(memoryInfoBefore);
+            long memoryBeforeMB = memoryInfoBefore.AvailMem / 1048576L;
+
+            var stopwatch = Stopwatch.StartNew();
+            long cpuTimeBefore = GetCpuTimeMillis();
+
+            Debug.WriteLine("Session will Run");
             //tensorFromFlat = new DenseTensor<float>(inputTensorFlat, new int[] { 1, 3, TargetSize, TargetSize });
             //var tensorFromFlat = new DenseTensor<float>(inputTensorFlat, new int[] { 1, 3, TargetSize, TargetSize });
             using var results = session.Run(new[] {NamedOnnxValue.CreateFromTensor("input", tensorFromFlat)});
 
+            Debug.WriteLine("Session Ran");
+
             stopwatch.Stop();
-            Debug.WriteLine($"Time taken for inference: {stopwatch.ElapsedMilliseconds} ms");
+            long cpuTimeAfter = GetCpuTimeMillis();
+
+            var memoryInfoAfter = new ActivityManager.MemoryInfo();
+            activityManager.GetMemoryInfo(memoryInfoAfter);
+            long memoryAfterMB = memoryInfoAfter.AvailMem / 1048576L;
+
+            long memoryUsedMB = memoryBeforeMB - memoryAfterMB;
+            long cpuTimeUsedMs = cpuTimeAfter - cpuTimeBefore;
+            long wallClockTimeMs = stopwatch.ElapsedMilliseconds;
+
+            Debug.WriteLine($"Time taken for inference (wall-clock): {wallClockTimeMs} ms");
+            Debug.WriteLine($"CPU time used for inference: {cpuTimeUsedMs} ms");
+            Debug.WriteLine($"Memory change during inference: {memoryUsedMB} MB");
 
             return results.First().AsEnumerable<float>().First();
         }
-
 
         public void Dispose()
         {
