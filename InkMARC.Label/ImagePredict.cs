@@ -9,13 +9,13 @@ using System.Drawing.Drawing2D;
 
 namespace InkMARC.Label
 {
-    public class ImagePredict
+    public class ImagePredict : IDisposable
     {
         private readonly InferenceSession _session;
 
         public ImagePredict()
         {
-            string modelPath = "C:\\Users\\tburnah\\OneDrive - Massey University\\Desktop\\model2.onnx"; 
+            string modelPath = "resnet18_pytorch_20250416_111521.onnx"; 
             _session = new InferenceSession(modelPath);
         }
         public float PredictPressure(Bitmap image)
@@ -24,7 +24,7 @@ namespace InkMARC.Label
 
             var inputs = new List<NamedOnnxValue>
             {
-                NamedOnnxValue.CreateFromTensor("args_0", imageTensor) // Adjust input name based on your model
+                NamedOnnxValue.CreateFromTensor("input", imageTensor)
             };
 
             using IDisposableReadOnlyCollection<DisposableNamedOnnxValue> results = _session.Run(inputs);
@@ -41,10 +41,9 @@ namespace InkMARC.Label
             int width = bitmap.Width;
             int height = bitmap.Height;
 
-            int targetWidth = 224;
-            int targetHeight = 224;
+            int targetWidth = 448;
+            int targetHeight = 448;
 
-            // Resize the image to 224x224
             using Bitmap resizedBitmap = new Bitmap(targetWidth, targetHeight);
             using (Graphics graphics = Graphics.FromImage(resizedBitmap))
             {
@@ -52,21 +51,20 @@ namespace InkMARC.Label
                 graphics.DrawImage(bitmap, 0, 0, targetWidth, targetHeight);
             }
 
-            var tensorData = new float[1 * targetHeight * targetWidth * 3]; // Flattened array
+            var tensor = new DenseTensor<float>(new[] { 1, 3, targetHeight, targetWidth });
 
-            int index = 0;
             for (int y = 0; y < targetHeight; y++)
             {
                 for (int x = 0; x < targetWidth; x++)
                 {
                     Color pixel = resizedBitmap.GetPixel(x, y);
-                    tensorData[index++] = pixel.R / 255f; // Red
-                    tensorData[index++] = pixel.G / 255f; // Green
-                    tensorData[index++] = pixel.B / 255f; // Blue
+                    tensor[0, 0, y, x] = pixel.R / 255f; // Red channel
+                    tensor[0, 1, y, x] = pixel.G / 255f; // Green channel
+                    tensor[0, 2, y, x] = pixel.B / 255f; // Blue channel
                 }
             }
 
-            return new DenseTensor<float>(tensorData, new[] { 1, targetHeight, targetWidth, 3 });
+            return tensor;
         }
     }
 }

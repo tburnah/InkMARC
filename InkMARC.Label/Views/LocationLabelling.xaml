@@ -1,0 +1,326 @@
+﻿<UserControl x:Class="InkMARC.Label.LocationLabelling"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:InkMARC.Label"
+             xmlns:views="clr-namespace:InkMARC.Label.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             MinHeight="300"
+             HorizontalAlignment="Stretch"
+             VerticalAlignment="Stretch">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <local:StringToFloatConverter x:Key="StringToFloatConverter" />
+    </UserControl.Resources>
+    <UserControl.DataContext>
+        <local:LocationLabellingViewModel />
+    </UserControl.DataContext>
+    <DockPanel LastChildFill="True">
+        <ToolBarTray DockPanel.Dock="Top"
+                     IsLocked="True">
+            <ToolBar>
+                <Button Style="{StaticResource MaterialDesignToolButton}"
+                        Command="{Binding LoadFolderCommand}">
+                    <materialDesign:PackIcon Kind="FolderOpen"
+                                             ToolTip="Open" />
+                </Button>
+                <Button Style="{StaticResource MaterialDesignToolButton}"
+                        Command="{Binding ExportData3Command}">
+                    <materialDesign:PackIcon Kind="ContentSave"
+                                             ToolTip="Save" />
+                </Button>
+
+                <Separator />
+                <Button Style="{StaticResource MaterialDesignToolButton}"
+                        ToolTip="Set Data Offset"
+                        Command="{Binding MarkStartingPointCommand}">
+                    <materialDesign:PackIcon Kind="ClockStart" />
+                </Button>
+                <Separator />
+                <Button Style="{StaticResource MaterialDesignToolButton}"
+                        ToolTip="Move Sync Backward"
+                        Command="{Binding DecrementStartingPointCommand}">
+                    <materialDesign:PackIcon Kind="Backburger" />
+                </Button>
+                <Button Style="{StaticResource MaterialDesignToolButton}"
+                        ToolTip="Move Sync Forward"
+                        Command="{Binding IncrementStartingPointCommand}">
+                    <materialDesign:PackIcon Kind="Forwardburger" />
+                </Button>
+                <Separator />
+                <Button Style="{StaticResource MaterialDesignToolButton}"
+                        ToolTip="Rotate Counter Clockwise"
+                        Command="{Binding IncreaseRotationCommand }">
+                    <materialDesign:PackIcon Kind="RotateLeftVariant" />
+                </Button>
+                <Button Style="{StaticResource MaterialDesignToolButton}"
+                        ToolTip="Rotate Clockwise"
+                        Command="{Binding DecreaseRotationCommand}">
+                    <materialDesign:PackIcon Kind="RotateRightVariant" />
+                </Button>
+                <Separator />
+                <Button Style="{StaticResource MaterialDesignToolButton}"
+                        ToolTip="Start Frame"
+                        Command="{Binding RecordStartCommand}"
+                        CommandParameter="15">
+                    <materialDesign:PackIcon Kind="RayStart" />
+                </Button>
+                <Button Style="{StaticResource MaterialDesignToolButton}"
+                        ToolTip="Stop Frame"
+                        Command="{Binding RecordStopCommand}"
+                        CommandParameter="15">
+                    <materialDesign:PackIcon Kind="RayEnd" />
+                </Button>
+                <Separator />
+                <Button Style="{StaticResource MaterialDesignToolButton}"
+                        ToolTip="Toggle Included"
+                        Command="{Binding ToggleIgnoredCommand}">
+                    <materialDesign:PackIcon Kind="{Binding IsIgnored}" />
+                </Button>
+                <Separator />
+                <Button Style="{StaticResource MaterialDesignToolButton}"
+                        Command="{Binding PredictTouchForAllFramesCommand}">
+                    <materialDesign:PackIcon Kind="Atom" />
+                </Button>
+                <TextBlock Style="{StaticResource MaterialDesignCaptionTextBlock}"
+                           VerticalAlignment="Center"
+                           Text="Touch Threshold:" />
+                <TextBlock Style="{StaticResource MaterialDesignCaptionTextBlock}"
+                           VerticalAlignment="Center"
+                           Text="{Binding TouchThreshold}" />
+                <StackPanel Orientation="Vertical">
+                    <Button Style="{StaticResource MaterialDesignToolButton}"
+                            Padding="0"
+                            Margin="0"
+                            Width="16"
+                            Height="16"
+                            Command="{Binding IncrementTouchThresholdCommand}">
+                        <materialDesign:PackIcon Kind="MenuUp"
+                                                 Width="16"
+                                                 Height="16" />
+                    </Button>
+                    <Button Style="{StaticResource MaterialDesignToolButton}"
+                            Padding="0"
+                            Margin="0"
+                            Width="16"
+                            Height="16"
+                            Command="{Binding DecrementTouchThresholdCommand}">
+                        <materialDesign:PackIcon Kind="MenuDown"
+                                                 Width="16"
+                                                 Height="16" />
+                    </Button>
+                </StackPanel>
+                <Rectangle x:Name="FocusCatcher"
+                           Focusable="True"
+                           IsHitTestVisible="False"
+                           Visibility="Collapsed" />
+            </ToolBar>
+        </ToolBarTray>
+
+        <!-- Status Bar at the bottom -->
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem Content="{Binding CurrentSessionName}" />
+            <StatusBarItem Visibility="{Binding HasExercise, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <materialDesign:PackIcon Kind="Video"
+                                         Foreground="Blue" />
+            </StatusBarItem>
+            <StatusBarItem Visibility="{Binding HasData, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <materialDesign:PackIcon Kind="CodeJson"
+                                         Foreground="Green" />
+            </StatusBarItem>
+            <StatusBarItem Visibility="{Binding HasH5, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <materialDesign:PackIcon Kind="Database"
+                                         Foreground="Goldenrod" />
+            </StatusBarItem>
+            <StatusBarItem Visibility="{Binding HasBounds, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <materialDesign:PackIcon Kind="VectorRectangle"
+                                         Foreground="Purple" />
+            </StatusBarItem>
+            <Separator />
+            <StatusBarItem Content="{Binding FrameIndex}" />
+            <StatusBarItem Content="/" />
+            <StatusBarItem Content="{Binding FrameCount}" />
+            <Separator />
+            <StatusBarItem Content="Start Frame:" />
+            <StatusBarItem Content="{Binding StartFrame}" />
+            <StatusBarItem Content=" Stop Frame:" />
+            <StatusBarItem Content="{Binding StopFrame}" />
+            <Separator />
+            <StatusBarItem Content="IsTouched:" />
+            <StatusBarItem Content="{Binding CurrentState}" />
+            <Separator />
+            <StatusBarItem Content="IsIgnored:" />
+            <StatusBarItem Content="{Binding CurrentIgnored}" />
+        </StatusBar>
+
+        <local:TimelineControl DockPanel.Dock="Bottom"
+                               FrameCount="{Binding FrameCount}"
+                               CurrentFrame="{Binding SliderValue, Mode=TwoWay}"
+                               StateChanges="{Binding StateChanges}"
+                               DataStateChanges="{Binding DataStateValues}"
+                               IgnoredStateChanges="{Binding IgnoredFrames}"
+                               TouchPredictions="{Binding TouchPredictions}"
+                               TouchThreshold="{Binding TouchThreshold}"
+                               IgnoredVersion="{Binding IgnoredVersion}"
+                               HorizontalAlignment="Stretch"
+                               Height="20" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"
+                                  MinWidth="50" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto"
+                                  MinWidth="100" />
+            </Grid.ColumnDefinitions>
+
+            <ToolBarTray Orientation="Vertical"
+                         Grid.Column="0"
+                         IsLocked="True">
+                <ToolBar>
+                    <Button Style="{StaticResource MaterialDesignToolButton}"
+                            Command="{Binding StartPointSelectionCommand}">
+                        <materialDesign:PackIcon Kind="VectorSquareAdd"
+                                                 ToolTip="Mark Tracking Points" />
+                    </Button>
+                    <Button Style="{StaticResource MaterialDesignToolButton}"
+                            Command="{Binding RunTemplateMatchingOnAllFramesAsyncOldCommand}">
+                        <materialDesign:PackIcon Kind="VectorSquareEdit"
+                                                 ToolTip="Tempate Match Marks" />
+                    </Button>
+                    <Button Style="{StaticResource MaterialDesignToolButton}"
+                            Command="{Binding SmoothPointsCommandCommand}">
+                        <materialDesign:PackIcon Kind="SmoothingIron"
+                                                 ToolTip="Smooth Center Points" />
+                    </Button>
+                    <Separator />
+                    <Button Style="{StaticResource MaterialDesignToolButton}"
+                            ToolTip="Begin Touch"
+                            Command="{Binding ToggleTouchedCommand}">
+                        <materialDesign:PackIcon Kind="DrawPen"
+                                                 Foreground="{Binding IsTouched}" />
+                    </Button>
+                    <Button Style="{StaticResource MaterialDesignToolButton}"
+                            ToolTip="Find Contact"
+                            Command="{Binding AnalyzeFramesForStateChangesCommand}"
+                            IsEnabled="{Binding HasData}">
+                        <materialDesign:PackIcon Kind="Abacus" />
+                    </Button>
+                </ToolBar>
+                <ToolBar>
+                    <views:BoundControl UpCommand="{Binding IncrementYOffsetCommand}"
+                                        DownCommand="{Binding DecrementYOffsetCommand}"
+                                        LeftCommand="{Binding DecrementXOffsetCommand}"
+                                        RightCommand="{Binding IncrementXOffsetCommand}"
+                                        RotateRightCommand="{Binding RotateCounterclockwiseCommand}"
+                                        RotateLeftCommand="{Binding RotateClockwiseCommand}"
+                                        ExpandCommand="{Binding IncreaseScaleCommand}"
+                                        CollapseCommand="{Binding DecreaseScaleCommand}" />
+                    <Separator></Separator>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Row="0"
+                                Grid.Column="0"
+                                Style="{StaticResource MaterialDesignToolButton}"
+                                Command="{Binding SelectCornerCommand}"
+                                CommandParameter="1">
+                            <materialDesign:PackIcon Kind="NumericOneCircle" 
+                                                     Foreground="{Binding OneSelectedBrush}"/>
+                        </Button>
+                        <Button Grid.Row="0"
+                                Grid.Column="1"
+                                Style="{StaticResource MaterialDesignToolButton}"
+                                Command="{Binding SelectCornerCommand}"
+                                CommandParameter="2">
+                            <materialDesign:PackIcon Kind="NumericTwoCircle" 
+                                                     Foreground="{Binding TwoSelectedBrush}"/>
+                        </Button>
+                        <Button Grid.Row="1"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="2"
+                                Style="{StaticResource MaterialDesignToolButton}"
+                                Command="{Binding SelectCornerCommand}"
+                                CommandParameter="0">
+                            <materialDesign:PackIcon Kind="AlphaACircle" 
+                                                     Foreground="{Binding ZeroSelectedBrush}"/>
+                        </Button>
+                        <Button Grid.Row="2"
+                                Grid.Column="1"
+                                Style="{StaticResource MaterialDesignToolButton}"
+                                Command="{Binding SelectCornerCommand}"
+                                CommandParameter="3">
+                            <materialDesign:PackIcon Kind="NumericThreeCircle" 
+                                                     Foreground="{Binding ThreeSelectedBrush}"/>
+                        </Button>
+                        <Button Grid.Row="2"
+                                Grid.Column="0"
+                                Style="{StaticResource MaterialDesignToolButton}"
+                                Command="{Binding SelectCornerCommand}"
+                                CommandParameter="4">
+                            <materialDesign:PackIcon Kind="NumericFourCircle" 
+                                                     Foreground="{Binding FourSelectedBrush}"/>
+                        </Button>
+                    </Grid>
+                </ToolBar>
+            </ToolBarTray>
+
+            <ScrollViewer Grid.Column="2"
+                          Background="LightSlateGray"
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Auto">
+                <TextBlock Text="{Binding FormattedJson}"
+                           FontFamily="Consolas"
+                           TextWrapping="Wrap" />
+            </ScrollViewer>
+
+            <GridSplitter Grid.Column="2"
+                          Grid.RowSpan="3"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Stretch"
+                          Background="Gray"
+                          ShowsPreview="true"
+                          Width="3" />
+
+            <Grid Grid.Column="1"
+                  x:Name="ImageContainer">
+                <Viewbox x:Name="ImageViewbox"
+                         Stretch="Uniform"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center">
+                    <Grid x:Name="RenderGrid">
+                        <Image x:Name="VideoImage"
+                               Source="{Binding CurrentImage}"
+                               MouseLeftButtonDown="Image_MouseLeftButtonDown"
+                               Stretch="None" />
+                        <Canvas x:Name="OverlayCanvas"
+                                IsHitTestVisible="False"
+                                Background="Transparent" />
+                        <!-- Circular progress overlaid on top -->
+                        <ProgressBar x:Name="CircularProgress"
+                                     Width="60"
+                                     Height="60"
+                                     Style="{StaticResource MaterialDesignCircularProgressBar}"
+                                     IsIndeterminate="False"
+                                     Minimum="0"
+                                     Maximum="{Binding MaxProgress}"
+                                     Value="{Binding TrackingProgress}"
+                                     Visibility="{Binding IsTrackingInProgress, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Center"
+                                     Opacity="0.8" />
+                    </Grid>
+                </Viewbox>
+            </Grid>
+
+        </Grid>
+    </DockPanel>
+</UserControl>

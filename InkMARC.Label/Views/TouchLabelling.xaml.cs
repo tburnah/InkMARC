@@ -12,15 +12,15 @@ using System.Windows.Shapes;
 namespace InkMARC.Label
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for TouchLabelling.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class TouchLabelling : UserControl
     {
-        private MainViewViewModel viewModel;
-        public MainWindow()
+        private TouchLabellingViewModel viewModel;
+        public TouchLabelling()
         {
             InitializeComponent();
-            viewModel = DataContext as MainViewViewModel;
+            viewModel = DataContext as TouchLabellingViewModel;
         }
 
         private void TextBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)

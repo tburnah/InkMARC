@@ -1,0 +1,51 @@
+﻿<Window x:Class="InkMARC.Label.Views.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:InkMARC.Label.Views"
+        mc:Ignorable="d"
+        Title="MainView"
+        Height="600"
+        Width="900"
+        PreviewKeyDown="Window_PreviewKeyDown">
+
+    <materialDesign:DrawerHost>
+        <!-- Left Drawer Content -->
+        <materialDesign:DrawerHost.LeftDrawerContent>
+            <StackPanel>
+                <ListBox SelectionChanged="NavList_SelectionChanged">
+                    <ListBoxItem Tag="main"
+                                 Content="Location Labelling" />
+                    <ListBoxItem Tag="second"
+                                 Content="Touch Labelling" />
+                </ListBox>
+            </StackPanel>
+        </materialDesign:DrawerHost.LeftDrawerContent>
+
+        <!-- Main Content -->
+        <Grid>
+            <DockPanel>
+                <!-- Top App Bar -->
+                <ToolBarTray Orientation="Vertical"
+                             Background="white">
+                    <ToolBar DockPanel.Dock="Left"
+                             Background="{DynamicResource PrimaryHueMidBrush}">
+                        <Button Style="{StaticResource MaterialDesignToolButton}"
+                                Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
+                                CommandParameter="Left">
+                            <materialDesign:PackIcon Kind="Menu" />
+                        </Button>
+                    </ToolBar>
+                </ToolBarTray>
+                <!-- Dynamic Content Area -->
+                <materialDesign:Card Margin="8"                                     
+                                     VerticalAlignment="Stretch"
+                                     HorizontalAlignment="Stretch">
+                    <ContentControl x:Name="MainContent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                </materialDesign:Card>
+            </DockPanel>
+        </Grid>
+    </materialDesign:DrawerHost>
+</Window>

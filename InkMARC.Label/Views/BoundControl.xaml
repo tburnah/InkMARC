@@ -1,0 +1,138 @@
+﻿<UserControl x:Class="InkMARC.Label.Views.BoundControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:InkMARC.Label.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             Loaded="UserControl_Loaded"
+             d:DesignHeight="100"
+             d:DesignWidth="100"
+             x:Name="Root">
+    <UserControl.Resources>
+        <!-- Implicit style for all Buttons in this control -->
+        <Style TargetType="Button">
+            <Setter Property="Margin"
+                    Value="0" />
+            <Setter Property="Padding"
+                    Value="0" />
+            <Setter Property="HorizontalContentAlignment"
+                    Value="Stretch" />
+            <Setter Property="VerticalContentAlignment"
+                    Value="Stretch" />
+            <Setter Property="Background"
+                    Value="Transparent" />
+            <Setter Property="BorderThickness"
+                    Value="0" />
+        </Style>
+
+        <!-- Implicit style for all PackIcons in this control -->
+        <Style TargetType="materialDesign:PackIcon">
+            <Setter Property="HorizontalAlignment"
+                    Value="Stretch" />
+            <Setter Property="VerticalAlignment"
+                    Value="Stretch" />
+            <Setter Property="Margin"
+                    Value="0" />
+            <Setter Property="Padding"
+                    Value="0" />
+            <Setter Property="Height"
+                    Value="33" />
+            <Setter Property="Width"
+                    Value="33" />
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Button x:Name="UpButton"
+                Grid.Row="0"
+                Grid.Column="1"
+                ToolTip="Move Bounds Up"
+                Command="{Binding UpCommand, ElementName=Root}"
+                Click="OnButtonClick">
+            <materialDesign:PackIcon Kind="ArrowUpBold"                                     
+                                     Foreground="Black" />
+        </Button>
+        <Button x:Name="DownButton"
+                Grid.Row="2"
+                Grid.Column="1"
+                ToolTip="Move Bounds Down"
+                Command="{Binding DownCommand, ElementName=Root}"
+                Click="OnButtonClick">
+            <materialDesign:PackIcon Kind="ArrowDownBold"
+                                     Foreground="Black" />
+        </Button>
+        <Button x:Name="LeftButton"
+                Grid.Row="1"
+                Grid.Column="0"
+                ToolTip="Move Bounds Left"
+                Command="{Binding LeftCommand, ElementName=Root}"
+                Click="OnButtonClick">
+            <materialDesign:PackIcon Kind="ArrowLeftBold"
+                                     Foreground="Black" />
+        </Button>
+        <Button x:Name="RightButton"
+                Grid.Row="1"
+                Grid.Column="2"
+                ToolTip="Move Bounds Right"
+                Command="{Binding RightCommand, ElementName=Root}"
+                Click="OnButtonClick">
+            <materialDesign:PackIcon Kind="ArrowRightBold"
+                                     Foreground="Black" />
+        </Button>
+        <Button x:Name="RotateLeftButton"
+                Grid.Row="0"
+                Grid.Column="0"
+                ToolTip="Rotate Bounds Left"
+                Command="{Binding RotateLeftCommand, ElementName=Root}"
+                Click="OnButtonClick">
+            <materialDesign:PackIcon Kind="RotateLeft"
+                                     Foreground="Blue" />
+        </Button>
+        <Button x:Name="RotateRightButton"
+                Grid.Row="0"
+                Grid.Column="2"
+                ToolTip="Rotate Bounds Right"
+                Command="{Binding RotateRightCommand, ElementName=Root}"
+                Click="OnButtonClick">
+            <materialDesign:PackIcon Kind="RotateRight"
+                                     Foreground="Blue" />
+        </Button>
+        <Button x:Name="ExpandButton"
+                Grid.Row="2"
+                Grid.Column="0"
+                ToolTip="Grow Bounds Larger"
+                Command="{Binding ExpandCommand, ElementName=Root}"
+                Click="OnButtonClick">
+            <materialDesign:PackIcon Kind="ArrowExpand"
+                                     Foreground="Green" />
+        </Button>
+        <Button x:Name="CollapseButton"
+                Grid.Row="2"
+                Grid.Column="2"
+                ToolTip="Shrink Bounds Smaller"
+                Command="{Binding CollapseCommand, ElementName=Root}"
+                Click="OnButtonClick">
+            <materialDesign:PackIcon Kind="ArrowCollapse"
+                                     Foreground="Green" />
+        </Button>
+        <Button x:Name="ModeButton"
+                Grid.Row="1"
+                Grid.Column="1"
+                ToolTip="Clear Changes"
+                Click="ModeButton_Click">
+            <materialDesign:PackIcon Kind="{Binding IconKind, ElementName=Root}"
+                                     Foreground="Red" />
+        </Button>
+    </Grid>
+</UserControl>

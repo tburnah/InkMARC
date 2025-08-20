@@ -6,7 +6,7 @@ using System.Drawing.Imaging;
 
 namespace InkMARC.Label
 {
-    public class DataSave
+    public class TouchDataSave
     {
         private static string fileName = "dataset.h5";
         private static long fileId = 0;

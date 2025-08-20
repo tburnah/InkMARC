@@ -1,0 +1,44 @@
+﻿<Window x:Class="InkMARC.Label.Views.ExportOptionsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:InkMARC.Label.Views"
+        mc:Ignorable="d"
+        Title="Export Options"
+        Height="220"
+        Width="300"
+        Style="{StaticResource MaterialDesignWindow}"
+        WindowStartupLocation="CenterOwner">
+    <StackPanel Margin="20">
+        <TextBlock Style="{StaticResource MaterialDesignCaptionTextBlock}"
+                   Text="Choose what to export:"
+                   FontWeight="Bold"
+                   Margin="0,0,0,10" />
+        <CheckBox x:Name="ExportSessionCheckBox"
+                  Style="{StaticResource MaterialDesignCheckBox}"                   
+                  Content="Export Session Data"
+                  Margin="0 0 0 5"/>
+        <CheckBox x:Name="ExportLocationCheckBox"
+                  Style="{StaticResource MaterialDesignCheckBox}"
+                  Content="Export Location Data"
+                  Margin="0 0 0 5"/>
+
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Margin="0,15,0,0">
+            <Button Style="{StaticResource MaterialDesignFlatButton}" 
+                    Content="OK"
+                    Width="75"
+                    Margin="5,0"
+                    IsDefault="True"
+                    Click="Ok_Click" />
+            <Button Style="{StaticResource MaterialDesignFlatButton}"
+                    Content="Cancel"
+                    Width="75"
+                    Margin="5,0"
+                    IsCancel="True" />
+        </StackPanel>
+    </StackPanel>
+</Window>

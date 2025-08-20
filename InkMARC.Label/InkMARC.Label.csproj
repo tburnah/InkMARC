@@ -17,21 +17,32 @@
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="HDF5-CSharp" Version="1.19.1" />
-    <PackageReference Include="MaterialDesignThemes" Version="5.1.0" />
-    <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.20.1" />
-    <PackageReference Include="Microsoft.ML.OnnxRuntime.Managed" Version="1.20.1" />
-    <PackageReference Include="OpenCvSharp4" Version="4.10.0.20241108" />
-    <PackageReference Include="OpenCvSharp4.Extensions" Version="4.10.0.20241108" />
-    <PackageReference Include="OpenCvSharp4.Windows" Version="4.10.0.20241108" />
-    <PackageReference Include="OpenCvSharp4.WpfExtensions" Version="4.10.0.20241108" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.6" />
-    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="2.1.5" />
-    <PackageReference Include="System.Drawing.Common" Version="9.0.0" />
+    <PackageReference Include="MaterialDesignThemes" Version="5.2.1" />
+    <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.22.1" />
+    <PackageReference Include="Microsoft.ML.OnnxRuntime.Managed" Version="1.22.1" />
+    <PackageReference Include="OpenCvSharp4" Version="4.11.0.20250507" />
+    <PackageReference Include="OpenCvSharp4.Extensions" Version="4.11.0.20250507" />
+    <PackageReference Include="OpenCvSharp4.runtime.win" Version="4.11.0.20250507" />
+    <PackageReference Include="OpenCvSharp4.Windows" Version="4.11.0.20250507" />
+    <PackageReference Include="OpenCvSharp4.WpfExtensions" Version="4.11.0.20250507" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.6" />
     <PackageReference Include="WindowsAPICodePack" Version="8.0.6" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\InkMARC.Models\InkMARC.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="resnet18_pytorch_20250416_111521.onnx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\LocationLabelling.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 
 </Project>

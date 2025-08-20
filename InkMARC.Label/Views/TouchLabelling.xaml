@@ -1,23 +1,22 @@
-﻿<Window x:Class="InkMARC.Label.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:InkMARC.Label"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        mc:Ignorable="d"
-        PreviewKeyDown="Window_PreviewKeyDown"
-        Title="MainWindow"
-        Height="600"
-        Width="800">
-    <Window.Resources>
+﻿<UserControl x:Class="InkMARC.Label.TouchLabelling"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:InkMARC.Label"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             PreviewKeyDown="Window_PreviewKeyDown"
+             HorizontalAlignment="Stretch"
+             VerticalAlignment="Stretch">
+    <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <local:StringToFloatConverter x:Key="StringToFloatConverter" />
-    </Window.Resources>
-    <Window.DataContext>
-        <local:MainViewViewModel />
-    </Window.DataContext>
-    <Window.InputBindings>
+    </UserControl.Resources>
+    <UserControl.DataContext>
+        <local:TouchLabellingViewModel />
+    </UserControl.DataContext>
+    <UserControl.InputBindings>
         <KeyBinding Key="Left"
                     Command="{Binding MoveOffsetCommand}"
                     CommandParameter="-1"
@@ -43,8 +42,8 @@
                     Command="{Binding MoveOffsetCommand}"
                     CommandParameter="50"
                     Modifiers="Control" />
-    </Window.InputBindings>
-    <DockPanel LastChildFill="True">
+    </UserControl.InputBindings>
+    <DockPanel LastChildFill="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <!-- Toolbar beneath the menu -->
         <ToolBar DockPanel.Dock="Top">
             <Button Style="{StaticResource MaterialDesignToolButton}"
@@ -83,7 +82,8 @@
                 <materialDesign:PackIcon Kind="StepForward2" />
             </Button>
             <TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}"
-                       Width="150" Text="{Binding StartingPoint}" />
+                       Width="150"
+                       Text="{Binding StartingPoint}" />
 
             <Separator />
             <Button Style="{StaticResource MaterialDesignToolButton}"
@@ -175,12 +175,14 @@
                 IsSnapToTickEnabled="True"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Bottom" />
-        
+
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" MinWidth="170" />
+                <ColumnDefinition Width="Auto"
+                                  MinWidth="170" />
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" MinWidth="100" />
+                <ColumnDefinition Width="Auto"
+                                  MinWidth="100" />
             </Grid.ColumnDefinitions>
 
             <GridSplitter Grid.Column="1"
@@ -220,15 +222,15 @@
                                        FontSize="12"
                                        FontWeight="Bold"
                                        Margin="1,0" />
-                            
+
                             <!-- Session ID -->
                             <TextBlock Grid.Column="1"
                                        Text="{Binding Exercise}"
                                        Foreground="Black"
                                        VerticalAlignment="Center"
-                                       FontSize="12"                                       
+                                       FontSize="12"
                                        Margin="1,0" />
-                            
+
                             <!-- Video Icon (Always Visible) -->
                             <materialDesign:PackIcon Grid.Column="2"
                                                      Kind="Video"
@@ -262,7 +264,9 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <ScrollViewer Grid.Column="2" Background="LightSlateGray" VerticalScrollBarVisibility="Auto"
+            <ScrollViewer Grid.Column="2"
+                          Background="LightSlateGray"
+                          VerticalScrollBarVisibility="Auto"
                           HorizontalScrollBarVisibility="Auto">
                 <TextBlock Text="{Binding FormattedJson}"
                            FontFamily="Consolas"
@@ -282,4 +286,4 @@
                    Grid.Column="1" />
         </Grid>
     </DockPanel>
-</Window>
+</UserControl>
