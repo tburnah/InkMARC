@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:InkMARC.Label"
              xmlns:views="clr-namespace:InkMARC.Label.Views"
+             xmlns:primitives="clr-namespace:System.Windows.Controls.Primitives;assembly=PresentationFramework"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
              MinHeight="300"
@@ -13,6 +14,7 @@
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <local:StringToFloatConverter x:Key="StringToFloatConverter" />
+        <materialDesign:InvertBooleanConverter x:Key="InverseBooleanConverter" />
     </UserControl.Resources>
     <UserControl.DataContext>
         <local:LocationLabellingViewModel />
@@ -112,6 +114,60 @@
                                                  Height="16" />
                     </Button>
                 </StackPanel>
+                <Button Command="{Binding ToggleGuideVisibleCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button"
+                               BasedOn="{StaticResource MaterialDesignToolButton}">
+                            <Style.Triggers>
+                                <!-- When IsGridVisible is true -->
+                                <DataTrigger Binding="{Binding IsGuideVisible}"
+                                             Value="True">
+                                    <Setter Property="Background"
+                                            Value="LightGreen" />
+                                    <Setter Property="Foreground"
+                                            Value="Black" />
+                                </DataTrigger>
+
+                                <!-- When IsGridVisible is false -->
+                                <DataTrigger Binding="{Binding IsGuideVisible}"
+                                             Value="False">
+                                    <Setter Property="Background"
+                                            Value="LightGray" />
+                                    <Setter Property="Foreground"
+                                            Value="DarkGray" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                    <materialDesign:PackIcon Kind="Grid" />
+                </Button>
+                <Button Command="{Binding ToggleAutoModeCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button"
+                               BasedOn="{StaticResource MaterialDesignToolButton}">
+                            <Style.Triggers>
+                                <!-- When IsGridVisible is true -->
+                                <DataTrigger Binding="{Binding IsAutoModeInProgress}"
+                                             Value="True">
+                                    <Setter Property="Background"
+                                            Value="LightGreen" />
+                                    <Setter Property="Foreground"
+                                            Value="Black" />
+                                </DataTrigger>
+
+                                <!-- When IsGridVisible is false -->
+                                <DataTrigger Binding="{Binding IsAutoModeInProgress}"
+                                             Value="False">
+                                    <Setter Property="Background"
+                                            Value="LightGray" />
+                                    <Setter Property="Foreground"
+                                            Value="DarkGray" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                    <materialDesign:PackIcon Kind="CursorDefaultClick" />
+                </Button>
                 <Rectangle x:Name="FocusCatcher"
                            Focusable="True"
                            IsHitTestVisible="False"
@@ -164,6 +220,7 @@
                                TouchPredictions="{Binding TouchPredictions}"
                                TouchThreshold="{Binding TouchThreshold}"
                                IgnoredVersion="{Binding IgnoredVersion}"
+                               StateChangeNotifier="{Binding StateChangeNotifier}"
                                HorizontalAlignment="Stretch"
                                Height="20" />
         <Grid>
@@ -301,9 +358,18 @@
                                Source="{Binding CurrentImage}"
                                MouseLeftButtonDown="Image_MouseLeftButtonDown"
                                Stretch="None" />
-                        <Canvas x:Name="OverlayCanvas"
-                                IsHitTestVisible="False"
-                                Background="Transparent" />
+                        
+                        <Grid IsHitTestVisible="True"
+                              Panel.ZIndex="10"
+                              Width="{Binding ElementName=VideoImage, Path=ActualWidth}"
+                              Height="{Binding ElementName=VideoImage, Path=ActualHeight}">
+                    
+                            <!-- Drag handles layer -->
+                            <Canvas x:Name="OverlayCanvas"
+                                    Background="Transparent"
+                                    IsHitTestVisible="False">
+                            </Canvas>
+                        </Grid>
                         <!-- Circular progress overlaid on top -->
                         <ProgressBar x:Name="CircularProgress"
                                      Width="60"
@@ -319,8 +385,106 @@
                                      Opacity="0.8" />
                     </Grid>
                 </Viewbox>
-            </Grid>
+                <!-- OVERLAY: now layered at container level -->
+                <Grid x:Name="OverlayRoot"
+                      Panel.ZIndex="10"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch"
+                      Visibility="{Binding IsGuideVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Viewport3D x:Name="Viewport"
+                                IsHitTestVisible="{Binding IsSelectingPoints, Converter={StaticResource InverseBooleanConverter}}"
+                                ClipToBounds="False">
+                        <Viewport3D.Camera>
+                            <OrthographicCamera x:Name="Camera"
+                                                Position="0,0,1"
+                                                LookDirection="0,0,-1"
+                                                UpDirection="0,1,0"
+                                                Width="1000" />
+                        </Viewport3D.Camera>
 
+                        <ModelVisual3D>
+                            <ModelVisual3D.Content>
+                                <DirectionalLight Color="White"
+                                                  Direction="0,0,-1" />
+                            </ModelVisual3D.Content>
+                        </ModelVisual3D>
+
+                        <ModelVisual3D x:Name="QuadModel">
+                            <ModelVisual3D.Content>
+                                <GeometryModel3D x:Name="QuadGeometryModel">
+                                    <GeometryModel3D.Geometry>
+                                        <MeshGeometry3D x:Name="QuadMesh"
+                                                        Positions="-200,-150,0  200,-150,0  200,150,0  -200,150,0"
+                                                        TextureCoordinates="0,0  1,0  1,1  0,1"
+                                                        TriangleIndices="0 3 2  0 2 1" />
+                                    </GeometryModel3D.Geometry>
+                                    <GeometryModel3D.Material>
+                                        <DiffuseMaterial>
+                                            <DiffuseMaterial.Brush>
+                                                <ImageBrush x:Name="ImgBrush"
+                                                            Stretch="Fill"
+                                                            ImageSource="pack://application:,,,/InkMARC.Label;component/Resources/Overlay.png" />
+                                            </DiffuseMaterial.Brush>
+                                        </DiffuseMaterial>
+                                    </GeometryModel3D.Material>
+                                    <!-- Optional safety: render even if winding flips -->
+                                    <GeometryModel3D.BackMaterial>
+                                        <DiffuseMaterial>
+                                            <DiffuseMaterial.Brush>
+                                                <ImageBrush Stretch="Fill"
+                                                            ImageSource="pack://application:,,,/InkMARC.Label;component/Resources/Overlay.png" />
+                                            </DiffuseMaterial.Brush>
+                                        </DiffuseMaterial>
+                                    </GeometryModel3D.BackMaterial>
+                                </GeometryModel3D>
+                            </ModelVisual3D.Content>
+                        </ModelVisual3D>
+                    </Viewport3D>
+                    <!-- Drag handles layer -->
+                    <Canvas x:Name="OverlayCanvas2"
+                            Background="Transparent"
+                            IsHitTestVisible="{Binding IsSelectingPoints, Converter={StaticResource InverseBooleanConverter}}"
+                            Visibility="{Binding IsGuideVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <!-- 4 draggable corners -->
+                        <primitives:Thumb x:Name="TL"
+                                          Width="14"
+                                          Height="14"
+                                          Background="#AA2196F3"
+                                          BorderBrush="White"
+                                          BorderThickness="1"
+                                          DragDelta="Corner_DragDelta"
+                                          DragStarted="Corner_DragStarted"
+                                          DragCompleted="Corner_DragCompleted" />
+                        <primitives:Thumb x:Name="TR"
+                                          Width="14"
+                                          Height="14"
+                                          Background="#AA2196F3"
+                                          BorderBrush="White"
+                                          BorderThickness="1"
+                                          DragDelta="Corner_DragDelta"
+                                          DragStarted="Corner_DragStarted"
+                                          DragCompleted="Corner_DragCompleted" />
+                        <primitives:Thumb x:Name="BR"
+                                          Width="14"
+                                          Height="14"
+                                          Background="#AA2196F3"
+                                          BorderBrush="White"
+                                          BorderThickness="1"
+                                          DragDelta="Corner_DragDelta"
+                                          DragStarted="Corner_DragStarted"
+                                          DragCompleted="Corner_DragCompleted" />
+                        <primitives:Thumb x:Name="BL"
+                                          Width="14"
+                                          Height="14"
+                                          Background="#AA2196F3"
+                                          BorderBrush="White"
+                                          BorderThickness="1"
+                                          DragDelta="Corner_DragDelta"
+                                          DragStarted="Corner_DragStarted"
+                                          DragCompleted="Corner_DragCompleted" />
+                    </Canvas>
+                </Grid>
+            </Grid>
         </Grid>
     </DockPanel>
 </UserControl>

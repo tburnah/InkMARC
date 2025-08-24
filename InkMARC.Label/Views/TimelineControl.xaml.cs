@@ -47,6 +47,16 @@ namespace InkMARC.Label
             DependencyProperty.Register(nameof(IgnoredVersion), typeof(int), typeof(TimelineControl),
                 new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsRender, OnIgnoredVersionChanged));
 
+        public static readonly DependencyProperty StateChangeNotifierProperty =
+            DependencyProperty.Register(nameof(StateChangeNotifier), typeof(int), typeof(TimelineControl),
+                new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsRender, OnStateChangeNotifierChanged));
+
+        public int StateChangeNotifier
+        {
+            get => (int)GetValue(StateChangeNotifierProperty); 
+            set => SetValue(StateChangeNotifierProperty, value);
+        }
+
         public List<float> TouchPredictions
         {
             get => (List<float>)GetValue(TouchPredictionsProperty);
@@ -163,6 +173,15 @@ namespace InkMARC.Label
             if (d is TimelineControl control)
             {
                 control._dirtyIgnored = true; 
+                control.DrawTimeline();
+            }
+        }
+
+        private static void OnStateChangeNotifierChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is TimelineControl control)
+            {
+                control._dirtyState = true;
                 control.DrawTimeline();
             }
         }

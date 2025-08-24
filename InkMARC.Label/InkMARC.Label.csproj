@@ -11,6 +11,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Overlay.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="InkMARCLabel.ico" />
   </ItemGroup>
 
@@ -43,6 +47,12 @@
     <Page Update="Views\LocationLabelling.xaml">
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Overlay.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

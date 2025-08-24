@@ -47,6 +47,9 @@ namespace InkMARC.Label
         private int selectedCorner = 0;
 
         [ObservableProperty]
+        private bool isGuideVisible = false;
+
+        [ObservableProperty]
         private ObservableCollection<SessionInfo> sessions = [];
 
         private string recordName = string.Empty;
@@ -63,6 +66,8 @@ namespace InkMARC.Label
         private int _sliderValue;
 
         private DispatcherTimer? _debounceTimer;
+        private DispatcherTimer? _autoCornerTimer;
+
         private int lastFrameIndex = -1;
         private readonly Dictionary<int, Point2f[]> frameData = [];
         private Mat[] templates = new Mat[3];
@@ -91,6 +96,9 @@ namespace InkMARC.Label
 
         private readonly int[] _xOffsets = new int[5];
         private readonly int[] _yOffsets = new int[5];
+
+        [ObservableProperty]
+        private bool _isAutoModeInProgress = false;
 
         #endregion
 
@@ -320,11 +328,10 @@ namespace InkMARC.Label
                     FrameIndex = 0;
 
                     LoadSessionVideo(value);
-                    LoadSessionJson(value);
-                    LoadSessionBounds(value);
-
                     if (CurrentExercise is not null && CurrentExercise.StopFrame == 0)
                         CurrentExercise.StopFrame = _videoService.FrameCount;
+                    LoadSessionJson(value);
+                    LoadSessionBounds(value);
 
                     RefreshBindings();
                 }
@@ -332,6 +339,8 @@ namespace InkMARC.Label
         }
 
         public int IgnoredVersion { get; private set; }
+
+        public int StateChangeNotifier { get; private set; }
 
         public SortedList<int, bool> IgnoredFrames => CurrentExercise?.IgnoredFrames ?? [];
 
@@ -535,8 +544,10 @@ namespace InkMARC.Label
                 CurrentExercise?.StateChanges.Remove(FrameIndex);
             }
             CurrentExercise?.StateChanges.Add(FrameIndex, isTouched);
+            StateChangeNotifier++;
             UpdateCurrentState();
             OnPropertyChanged(nameof(StateChanges));
+            OnPropertyChanged(nameof(StateChangeNotifier));
         }
 
         [RelayCommand]
@@ -550,6 +561,12 @@ namespace InkMARC.Label
             CurrentExercise.IgnoredFrames.Add(FrameIndex, isIgnored);
             IgnoredVersion++;
             UpdateIgnoredState();
+        }
+
+        [RelayCommand]
+        public void ToggleGuideVisible()
+        {
+            IsGuideVisible = !IsGuideVisible;            
         }
 
         [RelayCommand]
@@ -809,6 +826,11 @@ namespace InkMARC.Label
             OnPropertyChanged(nameof(TwoSelectedBrush));
             OnPropertyChanged(nameof(ThreeSelectedBrush));
             OnPropertyChanged(nameof(FourSelectedBrush));
+        }
+
+        [RelayCommand] void ToggleAutoMode()
+        {
+            IsAutoModeInProgress = !IsAutoModeInProgress;
         }
 
         [RelayCommand]
@@ -1387,6 +1409,20 @@ namespace InkMARC.Label
         #endregion
 
         #region Helpers
+        public void ToggleAutoModePlaying()
+        {
+            if (IsAutoModeInProgress)
+            {
+                if (_autoCornerTimer is null || !_autoCornerTimer.IsEnabled)
+                {
+                    StartAutoCornerTimer();
+                }
+                else
+                {
+                    _autoCornerTimer.Stop();
+                }
+            }
+        }
 
         private void UpdateBounds()
         {
@@ -1773,6 +1809,28 @@ namespace InkMARC.Label
             {
                 CurrentExercise.UpdateH5Path(recordName);
             }
+        }
+
+        private void StartAutoCornerTimer()
+        {
+            if (SelectedCorner > 0)
+            {
+                if (_autoCornerTimer == null)
+                {
+                    _autoCornerTimer = new DispatcherTimer
+                    {
+                        Interval = TimeSpan.FromMilliseconds(200)
+                    };
+                    _autoCornerTimer.Tick += _autoCornerTimer_Tick;
+                }
+                _autoCornerTimer?.Stop();
+                _autoCornerTimer?.Start();
+            }
+        }
+
+        private void _autoCornerTimer_Tick(object? sender, EventArgs e)
+        {
+            MoveOffset("1");
         }
 
         private void StartDebounceTimer()
