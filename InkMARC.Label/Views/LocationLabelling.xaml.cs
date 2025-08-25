@@ -19,18 +19,17 @@ namespace InkMARC.Label
     public partial class LocationLabelling : UserControl
     {
         private LocationLabellingViewModel viewModel;
-        private readonly List<Ellipse> overlayCircles = new();
+        private readonly List<Path> overlayPluses = new();
         private readonly List<Rectangle> cornerRects = new();
 
         // Shared brushes and pens
-        private static readonly Brush OverlayCircleFill = Brushes.Transparent;
         private static readonly Brush OverlayCircleStroke = Brushes.Blue.Clone();
-        private static readonly Brush OverlayCircleStrokeInactive = Brushes.Blue.Clone();
-        private static readonly Brush OverlayCircleStrokeSelected = Brushes.Yellow.Clone();
-        private static readonly Brush OverlayCircleStrokeSelectedInactive = Brushes.Yellow.Clone();
+        private static readonly Brush OverlayCircleStrokeInactive = Brushes.Transparent.Clone();
         private static readonly Pen OverlayCirclePen = new Pen(OverlayCircleStroke, 1);
         private static readonly Brush CornerFill = Brushes.Transparent;
         private static readonly Pen GreenCornerPen = new Pen(Brushes.Green, 1);
+        private const double OverlayPlusRadius = 4;
+        private static readonly Geometry OverlayPlusGeometry;
 
         private System.Windows.Point _pTL, _pTR, _pBR, _pBL;
         private System.Windows.Point _dragStartCanvas;
@@ -44,14 +43,18 @@ namespace InkMARC.Label
 
         static LocationLabelling()
         {
-            if (OverlayCircleStroke.CanFreeze) OverlayCircleStroke.Freeze();
-            if (OverlayCircleStrokeSelected.CanFreeze) OverlayCircleStrokeSelected.Freeze();
+            if (OverlayCircleStroke.CanFreeze) OverlayCircleStroke.Freeze();            
             if (OverlayCirclePen.CanFreeze) OverlayCirclePen.Freeze();
-            if (GreenCornerPen.CanFreeze) GreenCornerPen.Freeze();
-            OverlayCircleStrokeInactive.Opacity = 0.2;
+            if (GreenCornerPen.CanFreeze) GreenCornerPen.Freeze();            
             if (OverlayCircleStrokeInactive.CanFreeze) OverlayCircleStrokeInactive.Freeze();
-            OverlayCircleStrokeSelectedInactive.Opacity = 0.2;
-            if (OverlayCircleStrokeSelectedInactive.CanFreeze) OverlayCircleStrokeSelectedInactive.Freeze();
+
+            var g = new GeometryGroup();
+            g.Children.Add(new LineGeometry(new System.Windows.Point(-OverlayPlusRadius, 0),
+                                            new System.Windows.Point(OverlayPlusRadius, 0)));
+            g.Children.Add(new LineGeometry(new System.Windows.Point(0, -OverlayPlusRadius),
+                                            new System.Windows.Point(0, OverlayPlusRadius)));
+            g.Freeze();
+            OverlayPlusGeometry = g;
         }
 
         public LocationLabelling()
@@ -248,41 +251,32 @@ namespace InkMARC.Label
         {
             int needed = viewModel.RotatedPoints.Count;
 
-            // Add new ellipses if needed
-            while (overlayCircles.Count < needed)
+            // Add new plus if needed
+            while (overlayPluses.Count < needed)
             {
-                var ellipse = CreateOverlayCircle();
-                overlayCircles.Add(ellipse);
-                OverlayCanvas.Children.Add(ellipse);
+                var plus = CreateOverlayPlus();
+                overlayPluses.Add(plus);
+                OverlayCanvas.Children.Add(plus);
             }
 
-            // Remove extra ellipses if needed
-            while (overlayCircles.Count > needed)
+            // Remove extra plusses if needed
+            while (overlayPluses.Count > needed)
             {
-                var ellipse = overlayCircles[^1];
-                OverlayCanvas.Children.Remove(ellipse);
-                overlayCircles.RemoveAt(overlayCircles.Count - 1);
+                var last = overlayPluses[^1];
+                OverlayCanvas.Children.Remove(last);
+                overlayPluses.RemoveAt(overlayPluses.Count - 1);
             }
 
             // Update positions
             for (int i = 0; i < needed; i++)
             {
-                //if (i != 2)
-                //{
                 var pt = viewModel.ScaledPoints[i];
-                overlayCircles[i].Stroke = viewModel.CurrentState ? OverlayCircleStroke : OverlayCircleStrokeInactive;
-                MoveOverlayCircle(overlayCircles[i], pt.X + viewModel.XOffset + viewModel.XOffsets[i + 1], pt.Y + viewModel.YOffset + viewModel.YOffsets[i + 1]);
-                //}
+                var x = pt.X + viewModel.XOffset + viewModel.XOffsets[i + 1];
+                var y = pt.Y + viewModel.YOffset + viewModel.YOffsets[i + 1];
+
+                overlayPluses[i].Stroke = viewModel.CurrentState ? OverlayCircleStroke : OverlayCircleStrokeInactive;
+                MoveOverlayPlus(overlayPluses[i], x, y);
             }
-            //if (viewModel.ScaledPoints.Count == 4)
-            //{
-            //    var tl = new OpenCvSharp.Point(this.viewModel.ScaledPoints[0].X + this.viewModel.XOffset + this.viewModel.XOffsets[1], this.viewModel.ScaledPoints[0].Y + this.viewModel.YOffset + this.viewModel.YOffsets[1]);
-            //    var tr = new OpenCvSharp.Point(this.viewModel.ScaledPoints[1].X + this.viewModel.XOffset + this.viewModel.XOffsets[2], this.viewModel.ScaledPoints[1].Y + this.viewModel.YOffset + this.viewModel.YOffsets[2]);
-            //    var bl = new OpenCvSharp.Point(this.viewModel.ScaledPoints[3].X + this.viewModel.XOffset + this.viewModel.XOffsets[4], this.viewModel.ScaledPoints[3].Y + this.viewModel.YOffset + this.viewModel.YOffsets[4]);
-            //    var br = new OpenCvSharp.Point(tr.X - tl.X + bl.X, tr.Y-tl.Y+bl.Y);
-            //    overlayCircles[2].Stroke = viewModel.CurrentState ? OverlayCircleStroke : OverlayCircleStrokeInactive;
-            //    MoveOverlayCircle(overlayCircles[2], br.X, br.Y);
-            //}
         }
 
         private void UpdateCornerRects()
@@ -312,27 +306,22 @@ namespace InkMARC.Label
             }
         }
 
-        private Ellipse CreateOverlayCircle()
+        private Path CreateOverlayPlus()
         {
-            const double radius = 4;
-            var ellipse = new Ellipse
+            var path = new Path
             {
-                Width = radius * 2,
-                Height = radius * 2,
-                Fill = OverlayCircleFill,
-                Stroke = OverlayCircleStroke,
+                Data = OverlayPlusGeometry,
+                Stroke = OverlayCircleStroke,   // reusing your existing brush
                 StrokeThickness = 1,
                 SnapsToDevicePixels = true
             };
-            RenderOptions.SetEdgeMode(ellipse, EdgeMode.Aliased);
-            return ellipse;
+            RenderOptions.SetEdgeMode(path, EdgeMode.Aliased);
+            return path;
         }
 
-        private void MoveOverlayCircle(Ellipse ellipse, double x, double y)
+        private void MoveOverlayPlus(Path plus, double x, double y)
         {
-            const double radius = 4;
-            Canvas.SetLeft(ellipse, x - radius);
-            Canvas.SetTop(ellipse, y - radius);
+            plus.RenderTransform = new TranslateTransform(x, y);
         }
 
         private Rectangle CreateCornerRect(Brush color)
@@ -446,7 +435,7 @@ namespace InkMARC.Label
                     // Save in bitmap pixel coordinates
                     viewModel.SelectedPoints.Add(new System.Windows.Point(pos.X, pos.Y));
                     // Draw on overlay canvas (same scale and origin as image now)
-                    DrawOverlayCircle(pos.X, pos.Y); // Optional: Keep this for immediate feedback
+                    DrawOverlayPlus(pos.X, pos.Y); // Optional: Keep this for immediate feedback
                 }
 
                 if (viewModel.SelectedPoints.Count == 4)
@@ -463,22 +452,11 @@ namespace InkMARC.Label
         }
 
         // Optionally keep for ad-hoc drawing (e.g. point selection visual feedback)
-        private void DrawOverlayCircle(double x, double y)
+        private void DrawOverlayPlus(double x, double y)
         {
-            const double radius = 4;
-            var ellipse = new Ellipse
-            {
-                Width = radius * 2,
-                Height = radius * 2,
-                Fill = OverlayCircleFill,
-                Stroke = OverlayCircleStroke,
-                StrokeThickness = 1,
-                SnapsToDevicePixels = true
-            };
-            RenderOptions.SetEdgeMode(ellipse, EdgeMode.Aliased);
-            Canvas.SetLeft(ellipse, x - radius);
-            Canvas.SetTop(ellipse, y - radius);
-            OverlayCanvas.Children.Add(ellipse);
+            var plus = CreateOverlayPlus();
+            MoveOverlayPlus(plus, x, y);
+            OverlayCanvas.Children.Add(plus);
         }
 
     }
