@@ -40,7 +40,7 @@ namespace InkMARC.Label.Services
         /// <param name="input">Input frame from VideoService.</param>
         /// <param name="rotation">Rotation in degrees.</param>
         /// <returns>A new Mat with the processed image, or null if input is invalid.</returns>
-        public static Mat? ProcessToMat(Mat input, double rotation)
+        public static Mat? ProcessToMat(Mat? input, double rotation)
         {
             return ProcessToMatInternal(input, rotation);
         }
@@ -48,7 +48,7 @@ namespace InkMARC.Label.Services
         /// <summary>
         /// Shared internal logic for processing the frame.
         /// </summary>
-        private static Mat? ProcessToMatInternal(Mat input, double rotation)
+        private static Mat? ProcessToMatInternal(Mat? input, double rotation)
         {
             if (input == null || input.Empty())
                 return null;
