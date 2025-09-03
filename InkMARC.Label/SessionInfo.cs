@@ -121,7 +121,11 @@ namespace InkMARC.Label
 
         [JsonConverter(typeof(Point2fDictionaryConverter))]
         [JsonInclude]
-        public Dictionary<int, Point2f[]> CenterPoints { get; private set; } = new();       
+        public Dictionary<int, Point2f[]> CenterPoints { get; private set; } = new();
+
+        [JsonConverter(typeof(Point2fDictionaryConverter))]
+        [JsonInclude]
+        public SortedList<int, Point2f[]> InferredBounds { get; private set; } = new();
 
         public float TouchThreshold { get; set; } = 0.5f;
 

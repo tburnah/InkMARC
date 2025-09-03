@@ -168,10 +168,34 @@
                     </Button.Style>
                     <materialDesign:PackIcon Kind="CursorDefaultClick" />
                 </Button>
-                <Rectangle x:Name="FocusCatcher"
-                           Focusable="True"
-                           IsHitTestVisible="False"
-                           Visibility="Collapsed" />
+                <Separator />
+                <Button Command="{Binding ToggleBoundsInferenceCommand}">
+                    <materialDesign:PackIcon Kind="Brain"/>
+                    <Button.Style>
+                        <Style TargetType="Button"
+                               BasedOn="{StaticResource MaterialDesignToolButton}">
+                            <Style.Triggers>
+                                <!-- When IsGridVisible is true -->
+                                <DataTrigger Binding="{Binding UseBoundsInference}"
+                                             Value="True">
+                                    <Setter Property="Background"
+                                            Value="LightGreen" />
+                                    <Setter Property="Foreground"
+                                            Value="Black" />
+                                </DataTrigger>
+
+                                <!-- When IsGridVisible is false -->
+                                <DataTrigger Binding="{Binding UseBoundsInference}"
+                                             Value="False">
+                                    <Setter Property="Background"
+                                            Value="LightGray" />
+                                    <Setter Property="Foreground"
+                                            Value="DarkGray" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
             </ToolBar>
         </ToolBarTray>
 
@@ -209,6 +233,9 @@
             <Separator />
             <StatusBarItem Content="IsIgnored:" />
             <StatusBarItem Content="{Binding CurrentIgnored}" />
+            <Separator />
+            <StatusBarItem Content="Bounds:" />
+            <StatusBarItem Content="{Binding CurrentBoundsString}" />
         </StatusBar>
 
         <local:TimelineControl DockPanel.Dock="Bottom"

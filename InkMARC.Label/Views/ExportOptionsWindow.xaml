@@ -24,7 +24,11 @@
                   Style="{StaticResource MaterialDesignCheckBox}"
                   Content="Export Location Data"
                   Margin="0 0 0 5"/>
-
+        <CheckBox x:Name="ExportImageCheckBox"
+                  Style="{StaticResource MaterialDesignCheckBox}"
+                  Content="Export Current Image"
+                  Margin="0 0 0 5" />
+        
         <StackPanel Orientation="Horizontal"
                     HorizontalAlignment="Right"
                     Margin="0,15,0,0">

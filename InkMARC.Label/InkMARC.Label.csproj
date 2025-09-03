@@ -11,11 +11,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\bounds_resnet18_448.onnx" />
     <None Remove="Resources\Overlay.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="InkMARCLabel.ico" />
+    <Content Include="Resources\bounds_resnet18_448.onnx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

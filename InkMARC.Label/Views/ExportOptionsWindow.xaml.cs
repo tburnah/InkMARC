@@ -21,6 +21,7 @@ namespace InkMARC.Label.Views
     {
         public bool ExportSession => ExportSessionCheckBox.IsChecked == true;
         public bool ExportLocation => ExportLocationCheckBox.IsChecked == true;
+        public bool ExportImage => ExportImageCheckBox.IsChecked == true;
 
         public ExportOptionsWindow()
         {

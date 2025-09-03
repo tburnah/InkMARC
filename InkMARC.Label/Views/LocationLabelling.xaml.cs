@@ -1,4 +1,5 @@
-﻿using OpenCvSharp;
+﻿using MaterialDesignColors.Recommended;
+using OpenCvSharp;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Text;
@@ -20,7 +21,9 @@ namespace InkMARC.Label
     {
         private LocationLabellingViewModel viewModel;
         private readonly List<Path> overlayPluses = new();
-        private readonly List<Rectangle> cornerRects = new();
+        private readonly List<Path> inferredPluses = new();
+        private readonly List<Rectangle> cornerRects = new();        
+        private readonly List<Rectangle> prevPoints = new();
 
         // Shared brushes and pens
         private static readonly Brush OverlayCircleStroke = Brushes.Blue.Clone();
@@ -225,15 +228,25 @@ namespace InkMARC.Label
 
         private void ViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(LocationLabellingViewModel.ScaledPoints) ||
-                e.PropertyName == nameof(LocationLabellingViewModel.XOffset) ||
+            if (e.PropertyName == nameof(LocationLabellingViewModel.XOffset) ||
                 e.PropertyName == nameof(LocationLabellingViewModel.YOffset) ||
                 e.PropertyName == nameof(LocationLabellingViewModel.XOffsets) ||
                 e.PropertyName == nameof(LocationLabellingViewModel.YOffsets))
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    UpdateOverlayCircles();
+                    UpdateInferredPluses();
+                    UpdateOverlayCircles(false);
+                    UpdateCornerRects();
+                });
+            }
+            else if (e.PropertyName == nameof(LocationLabellingViewModel.ScaledPoints) ||
+                e.PropertyName == nameof(LocationLabellingViewModel.InferredCorners))
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    UpdateInferredPluses();
+                    UpdateOverlayCircles(true);
                     UpdateCornerRects();
                 });
             }
@@ -247,7 +260,35 @@ namespace InkMARC.Label
             }
         }
 
-        private void UpdateOverlayCircles()
+        private void UpdateInferredPluses()
+        {
+            int needed = viewModel.InferredCorners.Length;
+
+            while (inferredPluses.Count < needed)
+            {
+                var plus = CreateOverlayPlus();
+                inferredPluses.Add(plus);
+                OverlayCanvas.Children.Add(plus);
+            }
+
+            while (inferredPluses.Count > needed)
+            {
+                var last = inferredPluses[^1];
+                OverlayCanvas.Children.Remove(last);
+                inferredPluses.RemoveAt(inferredPluses.Count - 1);
+            }
+
+            for (int i = 0; i < needed; i++)
+            {
+                var pt = viewModel.InferredCorners[i];
+                var x = pt.X;
+                var y = pt.Y;
+                inferredPluses[i].Stroke = Brushes.Red;
+                MoveElement(inferredPluses[i], x, y);
+            }
+        }
+
+        private void UpdateOverlayCircles(bool movePrev = false)
         {
             int needed = viewModel.RotatedPoints.Count;
 
@@ -259,6 +300,13 @@ namespace InkMARC.Label
                 OverlayCanvas.Children.Add(plus);
             }
 
+            //while (prevPoints.Count < needed)
+            //{
+            //    var rect = CreateCornerRect(Brushes.Yellow);
+            //    prevPoints.Add(rect);
+            //    OverlayCanvas.Children.Add(rect);
+            //}
+
             // Remove extra plusses if needed
             while (overlayPluses.Count > needed)
             {
@@ -267,21 +315,32 @@ namespace InkMARC.Label
                 overlayPluses.RemoveAt(overlayPluses.Count - 1);
             }
 
+            //while (prevPoints.Count > needed)
+            //{
+            //    var rect = prevPoints[^1];
+            //    OverlayCanvas.Children.Remove(rect);
+            //    prevPoints.RemoveAt(prevPoints.Count - 1);
+            //}
+
             // Update positions
             for (int i = 0; i < needed; i++)
-            {
+            {                
+                //var (oldX, oldY) = GetTranslate(overlayPluses[i]);
+
                 var pt = viewModel.ScaledPoints[i];
                 var x = pt.X + viewModel.XOffset + viewModel.XOffsets[i + 1];
                 var y = pt.Y + viewModel.YOffset + viewModel.YOffsets[i + 1];
 
+                //if (movePrev) MoveCornerRect(prevPoints[i], oldX, oldY);
+
                 overlayPluses[i].Stroke = viewModel.CurrentState ? OverlayCircleStroke : OverlayCircleStrokeInactive;
-                MoveOverlayPlus(overlayPluses[i], x, y);
+                MoveElement(overlayPluses[i], x, y);
             }
         }
 
         private void UpdateCornerRects()
         {
-            int needed = viewModel.CenterPoints is not null ? 3 : 0;
+            int needed = viewModel.CenterPoints is not null ? viewModel.CenterPoints.Length : 0;
 
             while (cornerRects.Count < needed)
             {
@@ -299,7 +358,7 @@ namespace InkMARC.Label
 
             if (viewModel.CenterPoints is not null)
             {
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < cornerRects.Count; i++)
                 {
                     MoveCornerRect(cornerRects[i], viewModel.CenterPoints[i].X, viewModel.CenterPoints[i].Y);
                 }
@@ -319,21 +378,40 @@ namespace InkMARC.Label
             return path;
         }
 
-        private void MoveOverlayPlus(Path plus, double x, double y)
+        private static (double x, double y) GetTranslate(UIElement el)
         {
-            plus.RenderTransform = new TranslateTransform(x, y);
+            if (el.RenderTransform is TranslateTransform tt)
+                return (tt.X, tt.Y);
+
+            // Fallback if something else set positions
+            double left = Canvas.GetLeft(el);
+            double top = Canvas.GetTop(el);
+            return (double.IsNaN(left) ? 0 : left, double.IsNaN(top) ? 0 : top);
+        }
+
+        private static void MoveElement(UIElement el, double x, double y)
+        {
+            if (el.RenderTransform is TranslateTransform tt)
+            {
+                tt.X = x;
+                tt.Y = y;
+            }
+            else
+            {
+                el.RenderTransform = new TranslateTransform(x, y);
+            }
         }
 
         private Rectangle CreateCornerRect(Brush color)
         {
-            const double size = 2;
+            const double size = 1;
             var rectangle = new Rectangle
             {
                 Width = size,
                 Height = size,
                 Fill = CornerFill,
                 Stroke = color,
-                StrokeThickness = 1,
+                StrokeThickness = 0.5,
                 SnapsToDevicePixels = true
             };
             RenderOptions.SetEdgeMode(rectangle, EdgeMode.Aliased);
@@ -403,6 +481,9 @@ namespace InkMARC.Label
                 case Key.C:
                     viewModel.DecreaseScaleCommand.Execute(null);
                     break;
+                case Key.G:
+                    viewModel.PullToTemplateMatchCommand.Execute(null);
+                    break;
                 case Key.D1:
                     viewModel.SelectCorner("1");
                     break;
@@ -455,7 +536,7 @@ namespace InkMARC.Label
         private void DrawOverlayPlus(double x, double y)
         {
             var plus = CreateOverlayPlus();
-            MoveOverlayPlus(plus, x, y);
+            MoveElement(plus, x, y);
             OverlayCanvas.Children.Add(plus);
         }
 
