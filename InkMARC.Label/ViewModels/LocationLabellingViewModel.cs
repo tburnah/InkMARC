@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using InkMARC.Label.Services;
+using InkMARC.Label.Services.Interfaces;
 using InkMARC.Label.Views;
 using InkMARC.Models.Primatives;
-using InkMARC.Services.Video;
 using MaterialDesignThemes.Wpf;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using OpenCvSharp;
@@ -28,8 +28,10 @@ namespace InkMARC.Label
 
         private static readonly JsonSerializerOptions IndentedOptions = new() { WriteIndented = true };
 
+        private enum Axis { X, Y }
+
         #region Private Data
-        private readonly VideoService _videoService;
+        private readonly IVideoService _videoService;
 
         [ObservableProperty]
         private bool useBoundsInference = false;
@@ -73,7 +75,6 @@ namespace InkMARC.Label
 
         private int lastFrameIndex = -1;
         private readonly Dictionary<int, Point2f[]> frameData = [];
-        private readonly Mat?[] templates = new Mat?[4];
         private Point2f[] centerPoints = new Point2f[4];
 
         [ObservableProperty]
@@ -117,15 +118,10 @@ namespace InkMARC.Label
             if (InactiveBrush.CanFreeze) InactiveBrush.Freeze();
         }
 
-        public LocationLabellingViewModel()
+        public LocationLabellingViewModel(IVideoService videoService)
         {
-            _videoService = new VideoService();
+            _videoService = videoService;
             _videoService.FrameCountChanged += (s, e) => OnPropertyChanged(nameof(FrameCount));
-            // Initialize templates to empty Mat objects
-            for (int i = 0; i < templates.Length; i++)
-            {
-                templates[i] = new Mat();
-            }
         }
 
         #region Public Properties
@@ -203,7 +199,7 @@ namespace InkMARC.Label
                     var y = pt.Y + YOffset + YOffsets[i + 1];
                     point2Fs[i] = new Point2f(x, y);
                 }
-                EnsureTLTRBRBL(point2Fs);
+                BoundsUtilities.EnsureTLTRBRBL(point2Fs);
                 return $"TL({point2Fs[0].X:F1}, {point2Fs[0].Y:F1}), TR({point2Fs[1].X:F1}, {point2Fs[1].Y:F1}), BR({point2Fs[2].X:F1}, {point2Fs[2].Y:F1}), BL({point2Fs[3].X:F1}, {point2Fs[3].Y:F1})";                
             }
         }
@@ -235,7 +231,7 @@ namespace InkMARC.Label
         {
             get
             {
-                var result = GetXOffsets(FrameIndex);
+                var result = BoundsUtilities.GetXOffsets(CurrentExercise, FrameIndex);
 
                 _xOffsets[0] = result[0];
                 _xOffsets[1] = result[1];
@@ -251,7 +247,7 @@ namespace InkMARC.Label
         {
             get
             {
-                var result = GetYOffsets(FrameIndex);
+                var result = BoundsUtilities.GetYOffsets(CurrentExercise, FrameIndex);
                 _yOffsets[0] = result[0];
                 _yOffsets[1] = result[1];
                 _yOffsets[2] = result[2];
@@ -270,7 +266,7 @@ namespace InkMARC.Label
             }
             set
             {
-                UpdateList(CurrentExercise.BoundOffsets, value, true);
+                CurrentExercise.BoundOffsets.UpsertAt(FrameIndex, x: value);                
                 OnPropertyChanged(nameof(XOffset));
             }
         }
@@ -284,7 +280,7 @@ namespace InkMARC.Label
             }
             set
             {
-                UpdateList(CurrentExercise.BoundOffsets, value, false);
+                CurrentExercise.BoundOffsets.UpsertAt(FrameIndex, y: value);                
                 OnPropertyChanged(nameof(YOffset));
             }
         }
@@ -465,8 +461,7 @@ namespace InkMARC.Label
             bool? result = dialog.ShowDialog();
             if (result == true)
             {
-                MaxProgress = StopFrame - StartFrame;
-                OnPropertyChanged(nameof(MaxProgress));
+                MaxProgress = StopFrame - StartFrame;                
                 IsTrackingInProgress = true;
 
                 if (string.IsNullOrEmpty(recordName))
@@ -542,7 +537,7 @@ namespace InkMARC.Label
         private void IncreaseRotation()
         {
             Rotation = (Rotation + 90) % 360;
-            UpdateImage();
+            CurrentImage = GetImage();
         }
 
         [RelayCommand]
@@ -552,7 +547,7 @@ namespace InkMARC.Label
                 Rotation -= 90;
             else
                 Rotation = 270;
-            UpdateImage();
+            CurrentImage = GetImage();
         }
 
         [RelayCommand]
@@ -667,8 +662,7 @@ namespace InkMARC.Label
         {
             if (CurrentExercise == null)
                 return;
-
-            OnPropertyChanged(nameof(MaxProgress));
+            
             IsTrackingInProgress = true;
 
             var map = new SortedList<int, bool>();
@@ -726,7 +720,7 @@ namespace InkMARC.Label
             FrameIndex = newIndex;
             SliderValue = newIndex;
 
-            UpdateImage();
+            CurrentImage = GetImage();
             UpdateCurrentState();
             UpdateIgnoredState();
 
@@ -891,144 +885,29 @@ namespace InkMARC.Label
             OnPropertyChanged(nameof(DataStateValues));
         }
 
-        //[RelayCommand]
-        //public void LoadVideo(object parameter)
-        //{
-        //    // Open a folder selection dialog
-        //    CommonOpenFileDialog folderDialog = new CommonOpenFileDialog
-        //    {
-        //        IsFolderPicker = true,
-        //        Title = "Select Folder Containing Video Files"
-        //    };
-
-        //    if (folderDialog.ShowDialog() != CommonFileDialogResult.Ok || string.IsNullOrEmpty(folderDialog.FileName))
-        //    {
-        //        return; // User canceled
-        //    }
-
-        //    string directory = folderDialog.FileName;
-
-        //    // Get all .h5 files and extract their base names
-        //    HashSet<string> h5BaseNames = new HashSet<string>(
-        //        Directory.GetFiles(directory, "*.h5")
-        //        .Select(file => Path.GetFileNameWithoutExtension(file))
-        //    );
-
-        //    // Get all video files and filter out those with an associated .h5 file
-        //    List<string> availableVideos = Directory.GetFiles(directory, "*.mp4")
-        //        .Concat(Directory.GetFiles(directory, "*.avi"))
-        //        .Concat(Directory.GetFiles(directory, "*.mov"))
-        //        .Where(file => !h5BaseNames.Contains(Path.GetFileNameWithoutExtension(file)))
-        //        .ToList();
-
-        //    // If no videos are available, notify the user and exit
-        //    if (availableVideos.Count == 0)
-        //    {
-        //        System.Windows.MessageBox.Show("No available video files found without an associated .h5 file.",
-        //            "No Videos Found", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
-        //        return;
-        //    }
-
-        //    // Select the first available video
-        //    string videoPath = availableVideos.First();
-        //    recordName = Path.ChangeExtension(videoPath, ".h5");
-
-        //    // Load the video
-        //    if (!string.IsNullOrEmpty(videoPath))
-        //    {
-        //        if (videoCapture != null)
-        //        {
-        //            videoCapture.Dispose();
-        //        }
-        //        videoCapture = new VideoCapture(videoPath);
-        //        frameCount = videoCapture is null ? 0 : (int)videoCapture.Get(VideoCaptureProperties.FrameCount);
-        //        StartFrame = 0;
-        //        StopFrame = frameCount;
-        //        double frameDurationMs = 1000.0 / framesPerSecond;
-        //        double thresholdMs = frameDurationMs / 2.0;
-        //        thresholdUs = thresholdMs * 1000.0;
-        //        OnPropertyChanged(nameof(FrameCount));
-        //        OnPropertyChanged(nameof(FrameIndex));
-        //        OnPropertyChanged(nameof(StartFrame));
-        //        OnPropertyChanged(nameof(StopFrame));
-        //        OnPropertyChanged(nameof(SliderTickFrequency));
-        //        UpdateImage();
-        //    }
-        //}
-
         [RelayCommand]
-        public async Task RunTemplateMatchingOnAllFramesAsyncOld()
+        public async Task RunTemplateMatchingOnAllFramesAsync()
         {
             if (!_videoService.IsOpen || CurrentExercise is null) return;
 
-            // Progress setup (headless: no message boxes or image updates)
             MaxProgress = StopFrame - StartFrame + 1;
-            TrackingProgress = 0;              // reset bar
+            TrackingProgress = 0;
             IsTrackingInProgress = true;
 
-            // ~1% progress updates to avoid UI thrash
-            int reportEvery = Math.Max(1, MaxProgress / 100);
-            var progress = new Progress<int>(v => TrackingProgress = v);
-
-            await Task.Run(() =>
+            try
             {
-                // Init templates using the corrected centers at StartFrame
-                using var first = _videoService.GetFrameAt(StartFrame);
-                using var processedFirst = FrameProcessor.ProcessToMat(first, Rotation);
-                if (processedFirst is null) return;
-
-                var corr0 = GetCorrectedBoundsForFrame(StartFrame);
-
-                for (int k = 0; k < 4; ++k)
-                {
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-                    bool ok = templates[k] != null && !templates[k].Empty();
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
-                    if (!ok && !float.IsNaN(corr0[k].X))
-                    {
-                        Mat? tpl = null!;
-                        // Template window smaller than search window is fine
-                        CapturePointTemplates(processedFirst, 6, corr0[k], ref tpl);                       
-                        ok = tpl is not null && !tpl.Empty();
-                        if (ok) templates[k] = tpl;
-                    }
-                    if (!ok) return; // bail if we can’t initialize templates
-                }
-
-                // Main loop (headless; progress only)
-                for (int i = StartFrame; i <= StopFrame; ++i)
-                {
-                    using var frame = _videoService.GetFrameAt(i);
-                    using var processed = FrameProcessor.ProcessToMat(frame, Rotation);
-                    if (processed is null || processed.Empty()) continue;
-
-                    var corrected = GetCorrectedBoundsForFrame(i);
-
-                    // Match only the three measured corners as before
-                    for (int j = 0; j < 3; j++)
-                    {
-                        if (!float.IsNaN(corrected[j].X))
-                            ExtractCornerAtCorrectedPoint(j, processed, corrected[j]);
-                    }
-
-                    // Commit without touching UI-bound image props
-                    var copy = (Point2f[])centerPoints.Clone();
-                    if (!CurrentExercise.CenterPoints.TryAdd(i, copy))
-                        CurrentExercise.CenterPoints[i] = copy;
-
-                    // Throttled progress
-                    int done = i - StartFrame + 1;
-                    if (done % reportEvery == 0 || done == MaxProgress)
-                        ((IProgress<int>)progress).Report(done);
-                }
-
-                // Persist once at the end
-                CurrentExercise.SaveToFile();
-            });
-
-            // Finalize progress; still no popups
-            TrackingProgress = MaxProgress;
-            IsTrackingInProgress = false;
+                var prog = new Progress<int>(v => TrackingProgress = v);
+                await ChamferTemplateMatcher.RunTemplateMatchingOnAllFramesAsync(
+                    _videoService,
+                    CurrentExercise,
+                    frameData,
+                    prog);
+            }
+            finally
+            {
+                TrackingProgress = MaxProgress;
+                IsTrackingInProgress = false;
+            }
         }
 
         [RelayCommand]
@@ -1390,8 +1269,8 @@ namespace InkMARC.Label
                                     bounds = QuadScalerCv.ScaleQuadAboutTopLeft(bounds, resize);
                                 }
 
-                                var xOffsets = GetXOffsets(i);
-                                var yOffsets = GetYOffsets(i);
+                                var xOffsets = BoundsUtilities.GetXOffsets(CurrentExercise, i);
+                                var yOffsets = BoundsUtilities.GetYOffsets(CurrentExercise, i);
                                 for (j = 0; j < bounds.Length; j++)
                                 {
                                     bounds[j].X = bounds[j].X + xOffsets[0] + xOffsets[j + 1];
@@ -1405,7 +1284,7 @@ namespace InkMARC.Label
                             SetNaN(bounds);
                         }
 
-                        EnsureTLTRBRBL(bounds);
+                        BoundsUtilities.EnsureTLTRBRBL(bounds);
 
                         if (!initialized)
                         {
@@ -1520,7 +1399,7 @@ namespace InkMARC.Label
         [RelayCommand]
         private async Task OrganizeSessionsByFolder()
         {
-            this.FormattedJson = string.Empty;
+            FormattedJson = string.Empty;
             var folderDialog = new CommonOpenFileDialog
             {
                 IsFolderPicker = true,
@@ -1905,66 +1784,7 @@ namespace InkMARC.Label
             }
         }
 
-        private Point2f[] GetCorrectedBoundsForFrame(int i)
-        {
-            // Default: NaNs if we have no points for this frame
-            var nan = new Point2f(float.NaN, float.NaN);
-            if (!frameData.TryGetValue(i, out var raw) || raw is null || raw.Length < 4)
-                return [nan, nan, nan, nan];
 
-            // Start from raw points
-            var pts = raw.ToList();
-
-            // 1) rotate about centroid (if any)
-            float deg = CurrentExercise.BoundRotations.TryGetPredecessorValue(i, out var rot) ? rot : 0f;
-            if (Math.Abs(deg) > float.Epsilon)
-                GeometryHelper.RotateAroundCentroidInPlace(pts, deg);
-
-            // 2) scale about TL (if any)
-            var bounds = pts.ToArray(); // TL,TR,BR,BL order expected elsewhere
-            float scl = CurrentExercise.BoundScales.TryGetPredecessorValue(i, out var s) ? s : 1f;
-            if (Math.Abs(scl - 1f) > 1e-6f)
-                bounds = QuadScalerCv.ScaleQuadAboutTopLeft(bounds, scl);
-
-            // 3) add general + per-corner offsets
-            var xOffs = GetXOffsets(i); // [general, TL, TR, BL, BR]
-            var yOffs = GetYOffsets(i);
-            for (int j = 0; j < 4; j++)
-            {
-                bounds[j].X += xOffs[0] + xOffs[j + 1];
-                bounds[j].Y += yOffs[0] + yOffs[j + 1];
-            }
-
-            EnsureTLTRBRBL(bounds);
-            return bounds;
-        }
-
-        private void ExtractCornerAtCorrectedPoint(int cornerIndex, Mat image, Point2f finalCenter)
-        {
-            // 12×12 search window around the fully corrected center
-            if (!TryCaptureWindow(image, 12, finalCenter, out Mat currentPos, out Point2f roiTopLeft))
-                return;
-
-            if (templates[cornerIndex] is null || (templates[cornerIndex]?.Empty() ?? false))
-                return;
-
-            var result = MatchWithChamfer(currentPos, templates?[cornerIndex] ?? new Mat());
-            if (result is null) { currentPos.Dispose(); return; }
-
-            // The four matched points are in ROI-local coords; translate by actual ROI top-left:
-            var c1 = new Point2f(roiTopLeft.X + result.Item1.X, roiTopLeft.Y + result.Item1.Y);
-            var c2 = new Point2f(roiTopLeft.X + result.Item2.X, roiTopLeft.Y + result.Item2.Y);
-            var c3 = new Point2f(roiTopLeft.X + result.Item3.X, roiTopLeft.Y + result.Item3.Y);
-            var c4 = new Point2f(roiTopLeft.X + result.Item4.X, roiTopLeft.Y + result.Item4.Y);
-
-            // Average to center; update silently (no UI invalidation here)
-            centerPoints[cornerIndex] = new Point2f(
-                (c1.X + c2.X + c3.X + c4.X) / 4f,
-                (c1.Y + c2.Y + c3.Y + c4.Y) / 4f
-            );
-
-            currentPos.Dispose();
-        }
 
         private void StartAutoCornerTimer()
         {
@@ -2009,7 +1829,7 @@ namespace InkMARC.Label
 
             // Now update the video position using the debounced slider value.
             FrameIndex = SliderValue;
-            UpdateImage();
+            CurrentImage = GetImage();
         }
 
         private bool GetStateAtFrame(int frame)
@@ -2032,15 +1852,13 @@ namespace InkMARC.Label
 
         private void UpdateCurrentState()
         {
-            CurrentState = GetStateAtFrame(FrameIndex);
-            OnPropertyChanged(nameof(CurrentState));
+            CurrentState = GetStateAtFrame(FrameIndex);            
             OnPropertyChanged(nameof(IsTouched));
         }
 
         private void UpdateIgnoredState()
         {
-            CurrentIgnored = GetIgnoredStateAtFrame(FrameIndex);
-            OnPropertyChanged(nameof(IsIgnored));
+            CurrentIgnored = GetIgnoredStateAtFrame(FrameIndex);            
             OnPropertyChanged(nameof(IgnoredFrames));
             OnPropertyChanged(nameof(IgnoredVersion));
         }
@@ -2172,12 +1990,12 @@ namespace InkMARC.Label
                         return;
                     }
 
-                    //OnPropertyChanged(nameof(FrameCount));
-                    OnPropertyChanged(nameof(FrameIndex));
+                    FrameIndex = 0;
+                    CurrentImage = GetImage();
+
                     OnPropertyChanged(nameof(StartFrame));
                     OnPropertyChanged(nameof(StopFrame));
-                    OnPropertyChanged(nameof(SliderTickFrequency));
-                    UpdateImage();
+                    OnPropertyChanged(nameof(SliderTickFrequency));                    
                 }
             }
         }
@@ -2479,62 +2297,6 @@ namespace InkMARC.Label
             }
         }
 
-        private int[] GetXOffsets(int index)
-        {
-            var general = CurrentExercise.BoundOffsets;
-            var TL = CurrentExercise.CornerOffsetTL;
-            var TR = CurrentExercise.CornerOffsetTR;
-            var BL = CurrentExercise.CornerOffsetBL;
-            var BR = CurrentExercise.CornerOffsetBR;
-
-            var result = new int[5];
-            result[0] = general.TryGetPredecessorValue(index, out var g) ? g.x : 0;
-            result[1] = TL.TryGetPredecessorValue(index, out var tl) ? tl.x : 0;
-            result[2] = TR.TryGetPredecessorValue(index, out var tr) ? tr.x : 0;
-            result[3] = BL.TryGetPredecessorValue(index, out var bl) ? bl.x : 0;
-            result[4] = BR.TryGetPredecessorValue(index, out var br) ? br.x : 0;
-
-            return result;
-        }
-
-        private int[] GetYOffsets(int index)
-        {
-            var general = CurrentExercise.BoundOffsets;
-            var TL = CurrentExercise.CornerOffsetTL;
-            var TR = CurrentExercise.CornerOffsetTR;
-            var BL = CurrentExercise.CornerOffsetBL;
-            var BR = CurrentExercise.CornerOffsetBR;
-
-            var result = new int[5];
-            result[0] = general.TryGetPredecessorValue(index, out var g) ? g.y : 0;
-            result[1] = TL.TryGetPredecessorValue(index, out var tl) ? tl.y : 0;
-            result[2] = TR.TryGetPredecessorValue(index, out var tr) ? tr.y : 0;
-            result[3] = BL.TryGetPredecessorValue(index, out var bl) ? bl.y : 0;
-            result[4] = BR.TryGetPredecessorValue(index, out var br) ? br.y : 0;
-            return result;
-        }
-
-        private static bool TryCaptureWindow(Mat image, int size, Point2f center, out Mat roi, out Point2f roiTopLeft)
-        {
-            roi = null!;
-            roiTopLeft = default;
-
-            int half = size / 2;
-            int cx = (int)center.X;
-            int cy = (int)center.Y;
-
-            int x = Math.Max(0, cx - half);
-            int y = Math.Max(0, cy - half);
-            int w = Math.Min(image.Width - x, size);
-            int h = Math.Min(image.Height - y, size);
-
-            if (w <= 0 || h <= 0) return false;
-
-            roiTopLeft = new Point2f(x, y);
-            roi = new Mat(image, new OpenCvSharp.Rect(x, y, w, h)).Clone();
-            return true;
-        }
-
         /// <summary>
         /// Optimized version of FindClosestDataPoint. If _drawingLine is sorted by timestamp,
         /// you could further optimize this with a binary search.
@@ -2605,57 +2367,6 @@ namespace InkMARC.Label
             PrepareFrame448(src, (int)(CurrentExercise.Rotation))?.SaveImage(Path.Combine(Path.GetDirectoryName(CurrentExercise?.VideoPath) ?? "", fileName));
         }
 
-        private static void CapturePointTemplates(Mat image, int size, Point2f point, ref Mat output)
-        {
-            int xCenter = (int)point.X;
-            int yCenter = (int)point.Y;
-
-            int halfSize = (int)(size / 2);
-            int x = Math.Max(0, xCenter - halfSize);
-            int y = Math.Max(0, yCenter - halfSize);
-            int width = Math.Min(image.Width - x, size);
-            int height = Math.Min(image.Height - y, size);
-
-            if (width > 0 && height > 0)
-            {
-                OpenCvSharp.Rect roi = new(x, y, width, height);
-                output = new Mat(image, roi).Clone();  // Clone to decouple from original
-                Cv2.ImWrite("template.png", output); // Save for debugging
-            }
-        }
-
-        private static double CalculateChamferScore(Mat sceneDist, Mat templateEdges, int offsetX, int offsetY)
-        {
-            // Ensure the ROI is fully within the bounds of sceneDist
-            if (offsetX < 0 || offsetY < 0 ||
-                offsetX + templateEdges.Cols > sceneDist.Cols ||
-                offsetY + templateEdges.Rows > sceneDist.Rows)
-            {
-                return double.MaxValue; // Invalid region
-            }
-
-            // Extract region of interest
-            OpenCvSharp.Rect roi = new(offsetX, offsetY, templateEdges.Cols, templateEdges.Rows);
-            Mat distRoi = new(sceneDist, roi);
-
-            // Sum distances where templateEdges > 0
-            double sum = 0;
-            double count = 0;
-
-            for (int j = 0; j < templateEdges.Rows; ++j)
-            {
-                for (int i = 0; i < templateEdges.Cols; ++i)
-                {
-                    if (templateEdges.At<byte>(j, i) > 0) // Edge pixel
-                    {
-                        sum += distRoi.At<float>(j, i);
-                        count++;
-                    }
-                }
-            }
-
-            return count > 0 ? sum / count : double.MaxValue; // Avoid division by zero
-        }
         private void ScaleSelected()
         {
             var pts = RotatedPoints.ToArray();
@@ -2671,267 +2382,37 @@ namespace InkMARC.Label
             OnPropertyChanged(nameof(CurrentBoundsString));
         }
 
-        static void EnsureTLTRBRBL(Point2f[] pts)
+        private void SetXOffset(int value, int corner) => SetOffset(Axis.X, value, corner);
+        private void SetYOffset(int value, int corner) => SetOffset(Axis.Y, value, corner);
+
+        private void SetOffset(Axis axis, int value, int corner)
         {
-            if (pts == null || pts.Length != 4) return;
-            if (pts.Any(p => float.IsNaN(p.X) || float.IsNaN(p.Y))) return;
+            // corner 0 = global offset on the VM
+            if (corner == 0)
+            {
+                if (axis == Axis.X) XOffset = value;
+                else YOffset = value;
+                return;
+            }
 
-            // Top two: smallest Y; Bottom two: largest Y
-            var byY = pts.OrderBy(p => p.Y).ToArray();
-            var top = byY.Take(2).OrderBy(p => p.X).ToArray();   // left->right
-            var bottom = byY.Skip(2).OrderBy(p => p.X).ToArray();   // left->right
+            // 1..4 map to per-corner offset lists
+            var list = GetCornerOffsets(corner);
+            if (list is null) throw new ArgumentOutOfRangeException(nameof(corner));
 
-            var TL = top[0];
-            var TR = top[1];
-            var BL = bottom[0];
-            var BR = bottom[1];
+            if (axis == Axis.X) list.UpsertAt(FrameIndex, x: value);
+            else list.UpsertAt(FrameIndex, y: value);
 
-            // Write back in TL,TR,BR,BL order
-            pts[0] = TL;
-            pts[1] = TR;
-            pts[2] = BR;
-            pts[3] = BL;
+            OnPropertyChanged(axis == Axis.X ? nameof(XOffsets) : nameof(YOffsets));
         }
 
-        private static Tuple<Point2f, Point2f, Point2f, Point2f>? MatchWithChamfer(Mat imgScene, Mat imgTemplate)
+        private SortedList<int, (int x, int y)>? GetCornerOffsets(int corner) => corner switch
         {
-            try
-            {
-                // Get Edges
-                Mat sceneGray = imgScene.CvtColor(ColorConversionCodes.BGR2GRAY);
-                Mat templateGray = imgTemplate.CvtColor(ColorConversionCodes.BGR2GRAY);
-
-                //Cv2.ImWrite("template_gray.png", templateGray);
-
-                Mat sceneEdges = new();
-                Mat templateEdges = new();
-
-                Cv2.Canny(sceneGray, sceneEdges, 12, 150);
-                Cv2.Canny(templateGray, templateEdges, 12, 150);
-
-                Mat invertedSceneEdges = new();
-                Cv2.BitwiseNot(sceneEdges, invertedSceneEdges);
-
-                //Cv2.ImWrite("template_edges.png", templateEdges);
-
-                Mat sceneDist = new();
-                Cv2.DistanceTransform(invertedSceneEdges, sceneDist, DistanceTypes.L2, DistanceTransformMasks.Mask3);
-
-                Mat distVis = new();
-                Cv2.Normalize(sceneDist, distVis, 0, 255, NormTypes.MinMax);
-                distVis.ConvertTo(distVis, MatType.CV_8U); // Convert to 8-bit for saving
-
-                // Optional: Apply colormap to visualize depth more clearly
-                Mat distColor = new();
-                Cv2.ApplyColorMap(distVis, distColor, ColormapTypes.Jet);
-
-                // Save both grayscale and color visualizations
-                //Cv2.ImWrite("scene_distance_gray.png", distVis);
-                //Cv2.ImWrite("scene_distance_color.png", distColor);
-
-                // Slide template over scene to find best match
-                double bestScore = double.MaxValue;
-                Point2f bestPoint = new();
-
-                int heatmapRows = sceneDist.Rows - templateEdges.Rows + 1;
-                int heatmapCols = sceneDist.Cols - templateEdges.Cols + 1;
-
-                Mat chamferScoreMap = new(heatmapRows, heatmapCols, MatType.CV_32F, Scalar.All(0));
-
-                for (int y = 0; y <= sceneDist.Rows - templateEdges.Rows; ++y)
-                {
-                    for (int x = 0; x <= sceneDist.Cols - templateEdges.Cols; ++x)
-                    {
-                        // Calculate Chamfer score
-                        double score = CalculateChamferScore(sceneDist, templateEdges, x, y);
-
-                        chamferScoreMap.Set(y, x, (float)score); // Record the score
-
-                        if (score < bestScore)
-                        {
-                            bestScore = score;
-                            bestPoint = new Point2f(x, y);
-                        }
-                    }
-                }
-
-                // Normalize to 0–255 for display
-                Mat scoreVis = new();
-                Cv2.Normalize(chamferScoreMap, scoreVis, 0, 255, NormTypes.MinMax);
-                scoreVis.ConvertTo(scoreVis, MatType.CV_8U);
-
-                // Optional: apply colormap for heatmap-style visualization
-                Mat heatmapColor = new();
-                Cv2.ApplyColorMap(scoreVis, heatmapColor, ColormapTypes.Jet);
-
-                // Save both
-                //Cv2.ImWrite("chamfer_score_gray.png", scoreVis);
-                //Cv2.ImWrite("chamfer_score_heatmap.png", heatmapColor);
-
-                // Return matching rectangle corners
-                if (bestScore < double.MaxValue)
-                {
-                    Point2f topLeft = new(bestPoint.X, bestPoint.Y);
-                    Point2f topRight = new(bestPoint.X + imgTemplate.Cols, bestPoint.Y);
-                    Point2f bottomRight = new(bestPoint.X + imgTemplate.Cols, bestPoint.Y + imgTemplate.Rows);
-                    Point2f bottomLeft = new(bestPoint.X, bestPoint.Y + imgTemplate.Rows);
-                    return Tuple.Create(topLeft, topRight, bottomRight, bottomLeft);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error during Chamfer matching: {ex.Message}");
-            }
-
-            return null;
-        }
-
-        private void SetXOffset(int value, int corner)
-        {
-            switch (corner)
-            {
-                case 0:
-                    XOffset = value;
-                    break;
-                case 1:
-                    UpdateList(CurrentExercise.CornerOffsetTL, value, true);
-                    OnPropertyChanged(nameof(XOffsets));
-                    break;
-                case 2:
-                    UpdateList(CurrentExercise.CornerOffsetTR, value, true);
-                    OnPropertyChanged(nameof(XOffsets));
-                    break;
-                case 3:
-                    UpdateList(CurrentExercise.CornerOffsetBL, value, true);
-                    OnPropertyChanged(nameof(XOffsets));
-                    break;
-                case 4:
-                    UpdateList(CurrentExercise.CornerOffsetBR, value, true);
-                    OnPropertyChanged(nameof(XOffsets));
-                    break;
-            }
-        }
-
-        private void SetYOffset(int value, int corner)
-        {
-            switch (corner)
-            {
-                case 0:
-                    YOffset = value;
-                    break;
-                case 1:
-                    UpdateList(CurrentExercise.CornerOffsetTL, value, false);
-                    OnPropertyChanged(nameof(YOffsets));
-                    break;
-                case 2:
-                    UpdateList(CurrentExercise.CornerOffsetTR, value, false);
-                    OnPropertyChanged(nameof(YOffsets));
-                    break;
-                case 3:
-                    UpdateList(CurrentExercise.CornerOffsetBL, value, false);
-                    OnPropertyChanged(nameof(YOffsets));
-                    break;
-                case 4:
-                    UpdateList(CurrentExercise.CornerOffsetBR, value, false);
-                    OnPropertyChanged(nameof(YOffsets));
-                    break;
-            }
-        }
-
-        private void UpdateList(SortedList<int, (int x, int y)> list, int value, bool isX)
-        {
-            if (isX)
-            {
-                int tempYOffset = list.TryGetPredecessorValue(FrameIndex, out var pt) ? pt.y : 0;
-                list[FrameIndex] = (value, tempYOffset);
-            }
-            else
-            {
-                int tempXOffset = list.TryGetPredecessorValue(FrameIndex, out var pt) ? pt.x : 0;
-                list[FrameIndex] = (tempXOffset, value);
-            }
-        }
-
-        //private Tuple<Point2f, Point2f, Point2f, Point2f>? MatchWithOrb(Mat imgScene, Mat imgTemplate)
-        //{
-        //    if (imgScene.Empty() || imgTemplate.Empty())
-        //    {
-        //        return null;
-        //    }
-
-
-        //    Cv2.ImWrite("scene_debug_c.png", imgScene);
-        //    Cv2.ImWrite("template_debug_c.png", imgTemplate);
-
-        //    // Convert to grayscale if not already
-        //    if (imgScene.Channels() > 1) imgScene = imgScene.CvtColor(ColorConversionCodes.BGR2GRAY);
-        //    if (imgTemplate.Channels() > 1) imgTemplate = imgTemplate.CvtColor(ColorConversionCodes.BGR2GRAY);
-
-        //    Cv2.ImWrite("scene_debug.png", imgScene);
-        //    Cv2.ImWrite("template_debug.png", imgTemplate);
-
-        //    var orb = AKAZE.Create();
-
-        //    Mat des1 = new Mat();
-        //    Mat des2 = new Mat();
-        //    // Detect keypoints and descriptors
-        //    orb.DetectAndCompute(imgTemplate, null, out KeyPoint[] kp1, des1);
-        //    orb.DetectAndCompute(imgScene, null, out KeyPoint[] kp2, des2);
-
-        //    if (des1.Empty() || des2.Empty())
-        //    {
-        //        Console.WriteLine("No descriptors found.");
-        //        return null;
-        //    }
-
-        //    // Use BFMatcher with Hamming distance for ORB
-        //    var bf = new BFMatcher(NormTypes.Hamming, crossCheck: true);
-        //    var matches = bf.Match(des1, des2);
-
-        //    // Sort matches and keep the best
-        //    var goodMatches = matches.OrderBy(m => m.Distance).Take(50).ToArray();
-
-        //    // Optional debug draw
-        //    using (var matchImg = new Mat())
-        //    {
-        //        Cv2.DrawMatches(imgTemplate, kp1, imgScene, kp2, goodMatches, matchImg);
-        //        Cv2.ImWrite("match_debug.png", matchImg);
-        //    }
-
-        //    // Compute Homography
-        //    if (goodMatches.Length >= 4)
-        //    {
-        //        var srcPoints = goodMatches.Select(m => kp1[m.QueryIdx].Pt).ToArray();
-        //        var dstPoints = goodMatches.Select(m => kp2[m.TrainIdx].Pt).ToArray();
-
-        //        var H = Cv2.FindHomography(InputArray.Create(srcPoints), InputArray.Create(dstPoints), HomographyMethods.Ransac, 5.0);
-
-        //        if (!H.Empty())
-        //        {
-        //            // Map template corners to scene
-        //            var corners = new[]
-        //            {
-        //                new Point2f(0, 0),
-        //                new Point2f(imgTemplate.Cols, 0),
-        //                new Point2f(imgTemplate.Cols, imgTemplate.Rows),
-        //                new Point2f(0, imgTemplate.Rows)
-        //            };
-        //            var transformedCorners = Cv2.PerspectiveTransform(corners, H);
-
-        //            return Tuple.Create(
-        //                transformedCorners[0],
-        //                transformedCorners[1],
-        //                transformedCorners[2],
-        //                transformedCorners[3]
-        //            );
-        //        }
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("Not enough good matches found.");
-        //    }
-        //    return null;
-        //}
+            1 => CurrentExercise.CornerOffsetTL,
+            2 => CurrentExercise.CornerOffsetTR,
+            3 => CurrentExercise.CornerOffsetBL,
+            4 => CurrentExercise.CornerOffsetBR,
+            _ => null
+        };
 
         private void RefreshBindings()
         {
@@ -2945,17 +2426,9 @@ namespace InkMARC.Label
             OnPropertyChanged(nameof(DataStateValues));
             OnPropertyChanged(nameof(StartFrame));
             OnPropertyChanged(nameof(StopFrame));
-            OnPropertyChanged(nameof(StartingPoint));
-            OnPropertyChanged(nameof(FrameIndex));
-            OnPropertyChanged(nameof(CurrentImage));
+            OnPropertyChanged(nameof(StartingPoint));                        
             OnPropertyChanged(nameof(TouchPredictions));
             OnPropertyChanged(nameof(TouchThreshold));
-        }
-
-        private void UpdateImage()
-        {
-            CurrentImage = GetImage();
-            OnPropertyChanged(nameof(CurrentImage));
         }
 
         #endregion

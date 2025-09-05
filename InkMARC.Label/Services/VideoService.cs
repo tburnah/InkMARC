@@ -2,13 +2,14 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using InkMARC.Label.Services.Interfaces;
 
-namespace InkMARC.Services.Video
+namespace InkMARC.Label.Services
 {
     /// <summary>
     /// Provides video file access and frame extraction using OpenCV.
     /// </summary>
-    public class VideoService : IDisposable
+    public class VideoService : IVideoService, IDisposable
     {
         private VideoCapture? _videoCapture;
         private int _lastFrameIndex = -1;
@@ -88,7 +89,7 @@ namespace InkMARC.Services.Video
         /// </summary>
         /// <param name="originalPath">Original video path.</param>
         /// <returns>Path to converted file, or null if conversion failed.</returns>
-        private string? ConvertToMp4(string originalPath)
+        private static string? ConvertToMp4(string originalPath)
         {
             string tempMp4Path = Path.Combine(Path.GetTempPath(), Path.GetFileNameWithoutExtension(originalPath) + $".{Guid.NewGuid()}.converted.mp4");
             var ffmpegArgs = $"-i \"{originalPath}\" -c:v libx264 -preset fast -crf 23 \"{tempMp4Path}\"";

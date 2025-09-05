@@ -16,9 +16,6 @@
         <local:StringToFloatConverter x:Key="StringToFloatConverter" />
         <materialDesign:InvertBooleanConverter x:Key="InverseBooleanConverter" />
     </UserControl.Resources>
-    <UserControl.DataContext>
-        <local:LocationLabellingViewModel />
-    </UserControl.DataContext>
     <DockPanel LastChildFill="True">
         <ToolBarTray DockPanel.Dock="Top"
                      IsLocked="True">
@@ -269,7 +266,7 @@
                                                  ToolTip="Mark Tracking Points" />
                     </Button>
                     <Button Style="{StaticResource MaterialDesignToolButton}"
-                            Command="{Binding RunTemplateMatchingOnAllFramesAsyncOldCommand}">
+                            Command="{Binding RunTemplateMatchingOnAllFramesAsyncCommand}">
                         <materialDesign:PackIcon Kind="VectorSquareEdit"
                                                  ToolTip="Tempate Match Marks" />
                     </Button>

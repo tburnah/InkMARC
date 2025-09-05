@@ -19,11 +19,10 @@ namespace InkMARC.Label
 {
     public partial class LocationLabelling : UserControl
     {
-        private LocationLabellingViewModel viewModel;
+        private LocationLabellingViewModel? viewModel;
         private readonly List<Path> overlayPluses = new();
         private readonly List<Path> inferredPluses = new();
-        private readonly List<Rectangle> cornerRects = new();        
-        private readonly List<Rectangle> prevPoints = new();
+        private readonly List<Rectangle> cornerRects = new();                
 
         // Shared brushes and pens
         private static readonly Brush OverlayCircleStroke = Brushes.Blue.Clone();
@@ -40,9 +39,6 @@ namespace InkMARC.Label
         // Drag state
         private Thumb? _activeThumb;
         private bool _overlayInitDone;
-
-        // Initial “image rect” we’ll place in the overlay (pixels)
-        private double _imgW, _imgH;
 
         static LocationLabelling()
         {
@@ -63,16 +59,40 @@ namespace InkMARC.Label
         public LocationLabelling()
         {
             InitializeComponent();
-            viewModel = DataContext as LocationLabellingViewModel;
 
-            if (viewModel != null)
-            {
-                viewModel.PropertyChanged += ViewModel_PropertyChanged;
-            }
-
+            DataContextChanged += OnDataContextChanged;
+            Unloaded += LocationLabelling_Unloaded;
             Loaded += OnLoaded;
             SizeChanged += OnSizeChanged;  // keep camera in sync with overlay size
             LayoutUpdated += OnLayoutUpdated; // <-- added
+        }
+
+        private void LocationLabelling_Unloaded(object sender, RoutedEventArgs e)
+        {
+            if (viewModel != null)
+                viewModel.PropertyChanged -= ViewModel_PropertyChanged;
+        }
+
+        private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.OldValue is LocationLabellingViewModel oldVm)
+                oldVm.PropertyChanged -= ViewModel_PropertyChanged;
+
+            viewModel = e.NewValue as LocationLabellingViewModel;
+
+            if (viewModel != null)
+                viewModel.PropertyChanged += ViewModel_PropertyChanged;
+
+            // If the overlay depends on VM data and the control is already loaded, refresh
+            if (IsLoaded)
+            {
+                _overlayInitDone = false;
+                TryInitOverlay();
+                // any immediate redraws that need VM data:
+                UpdateInferredPluses();
+                UpdateOverlayCircles(movePrev: false);
+                UpdateCornerRects();
+            }
         }
 
         private void OnLoaded(object? sender, RoutedEventArgs e)
@@ -340,7 +360,7 @@ namespace InkMARC.Label
 
         private void UpdateCornerRects()
         {
-            int needed = viewModel.CenterPoints is not null ? viewModel.CenterPoints.Length : 0;
+            int needed = viewModel?.CenterPoints is not null ? viewModel.CenterPoints.Length : 0;
 
             while (cornerRects.Count < needed)
             {
@@ -356,7 +376,7 @@ namespace InkMARC.Label
                 cornerRects.RemoveAt(cornerRects.Count - 1);
             }
 
-            if (viewModel.CenterPoints is not null)
+            if (viewModel?.CenterPoints is not null)
             {
                 for (int i = 0; i < cornerRects.Count; i++)
                 {

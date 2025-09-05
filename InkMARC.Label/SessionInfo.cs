@@ -11,7 +11,7 @@ namespace InkMARC.Label
     /// <summary>
     /// Represents session information for a video exercise.
     /// </summary>
-    internal partial class SessionInfo : ObservableObject
+    public partial class SessionInfo : ObservableObject
     {
         /// <summary>
         /// Gets or sets the path to the video file.
@@ -125,7 +125,7 @@ namespace InkMARC.Label
 
         [JsonConverter(typeof(Point2fDictionaryConverter))]
         [JsonInclude]
-        public SortedList<int, Point2f[]> InferredBounds { get; private set; } = new();
+        public Dictionary<int, Point2f[]> InferredBounds { get; private set; } = new();
 
         public float TouchThreshold { get; set; } = 0.5f;
 

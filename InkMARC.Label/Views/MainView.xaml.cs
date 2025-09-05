@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,7 +23,15 @@ namespace InkMARC.Label.Views
         public MainView()
         {
             InitializeComponent();
-            MainContent.Content = new LocationLabelling(); // Default view
+
+            MainContent.Content = CreateLocationControl();
+        }
+
+        private LocationLabelling CreateLocationControl()
+        {
+            LocationLabelling control = new();
+            control.DataContext = App.AppHost.Services.GetRequiredService<LocationLabellingViewModel>();
+            return control;
         }
 
         private void NavList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -34,7 +43,7 @@ namespace InkMARC.Label.Views
             switch (selected)
             {
                 case "main":
-                    MainContent.Content = new LocationLabelling();
+                    MainContent.Content = CreateLocationControl();
                     break;
                 case "second":
                     MainContent.Content = new TouchLabelling();

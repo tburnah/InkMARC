@@ -26,6 +26,9 @@
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="HDF5-CSharp" Version="1.19.1" />
     <PackageReference Include="MaterialDesignThemes" Version="5.2.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.8" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.8" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.8" />
     <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.22.1" />
     <PackageReference Include="Microsoft.ML.OnnxRuntime.Managed" Version="1.22.1" />
     <PackageReference Include="OpenCvSharp4" Version="4.11.0.20250507" />
@@ -39,12 +42,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\InkMARC.Models\InkMARC.Models.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="resnet18_pytorch_20250416_111521.onnx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
   <ItemGroup>

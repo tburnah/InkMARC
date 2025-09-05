@@ -9,6 +9,7 @@ public static class SortedListExtensions
     public static int FindPredecessorIndex<TKey, TValue>(
         this SortedList<TKey, TValue> list,
         TKey target)
+        where TKey : notnull
     {
         if (list == null || list.Count == 0) return -1;
 
@@ -37,6 +38,7 @@ public static class SortedListExtensions
         this SortedList<TKey, TValue> list,
         TKey target,
         out TValue value)
+        where TKey : notnull
     {
         int idx = list.FindPredecessorIndex(target);
         if (idx >= 0)
@@ -46,5 +48,24 @@ public static class SortedListExtensions
         }
         value = default!;
         return false;
+    }
+
+    /// <summary>
+    /// Upserts an entry at <paramref name="frameIndex"/>, taking the missing component
+    /// (x or y) from the predecessor (largest key ≤ frameIndex), defaulting to 0.
+    /// Use named args: list.UpsertAt(frameIndex, x: newX) or list.UpsertAt(frameIndex, y: newY).
+    /// </summary>
+    public static void UpsertAt(this SortedList<int, (int x, int y)> list,
+                                int frameIndex,
+                                int? x = null,
+                                int? y = null)
+    {
+        ArgumentNullException.ThrowIfNull(list);
+
+        var prev = list.TryGetPredecessorValue(frameIndex, out var pt) ? pt : (x:0,y:0);
+        var newX = x ?? prev.x;
+        var newY = y ?? prev.y;
+
+        list[frameIndex] = (newX, newY);
     }
 }
