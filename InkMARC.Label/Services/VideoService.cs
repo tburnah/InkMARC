@@ -184,5 +184,15 @@ namespace InkMARC.Label.Services
             _videoCapture = null;
             _lastFrameIndex = -1;
         }
+
+
+        /// <summary>
+        /// Checks if the file extension indicates a video file.
+        /// </summary>
+        public static bool IsVideoFile(string file)
+        {
+            string ext = Path.GetExtension(file).ToLowerInvariant();
+            return ext == ".mp4" || ext == ".avi" || ext == ".mov";
+        }
     }
 }

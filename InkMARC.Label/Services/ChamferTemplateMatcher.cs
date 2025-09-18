@@ -65,7 +65,7 @@ namespace InkMARC.Label.Services
         }
 
         private static Point2f[] GetCorrectedBoundsForFrame(Dictionary<int, Point2f[]> frameData,
-                                                     SessionInfo exercise,
+                                                     ProjectInfo exercise,
                                                      int i)
         {
             // Default: NaNs if we have no points for this frame
@@ -101,7 +101,7 @@ namespace InkMARC.Label.Services
         }
 
         public static async Task RunTemplateMatchingOnAllFramesAsync(IVideoService videoService,
-                                                                     SessionInfo exercise,
+                                                                     ProjectInfo exercise,
                                                                      Dictionary<int, Point2f[]> frameData,                                                                 
                                                                      IProgress<int>? progress = null)
         {
@@ -174,10 +174,9 @@ namespace InkMARC.Label.Services
             });
         }
 
-        private static Point2f[] GetCenterPoints(SessionInfo exercise)
+        private static Point2f[] GetCenterPoints(ProjectInfo exercise)
         {
-            Point2f[]? centerPoints = null;
-
+            Point2f[]? centerPoints;
             if (exercise.CenterPoints.TryGetValue(0, out Point2f[]? value))
             {
                 // If length < 4, create a new array of length 4 and copy the old values
@@ -201,13 +200,13 @@ namespace InkMARC.Label.Services
             else
             {
                 // No entry found: start fresh with a 4-element array
-                centerPoints = new Point2f[4]
-                {
+                centerPoints =
+                [
                     new Point2f(float.NaN, float.NaN),
                     new Point2f(float.NaN, float.NaN),
                     new Point2f(float.NaN, float.NaN),
                     new Point2f(float.NaN, float.NaN)
-                };
+                ];
             }
             return centerPoints;
         }

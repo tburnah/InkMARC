@@ -29,8 +29,8 @@ namespace InkMARC.Label
         private List<InkMARCPoint>? _drawingLine;
         private double framesPerSecond = 0;
         private ulong firstDataTimeStamp = 0;
-        private ObservableCollection<SessionInfo> sessions = new();
-        private SessionInfo? currentExercise;
+        private ObservableCollection<ProjectInfo> sessions = new();
+        private ProjectInfo? currentExercise;
         private string? formattedJson;
         private bool isTouched = false;
         private int rotation;
@@ -77,7 +77,7 @@ namespace InkMARC.Label
                 OnPropertyChanged(nameof(CurrentImage));
             }
         }
-        public ObservableCollection<SessionInfo> Sessions => sessions;
+        public ObservableCollection<ProjectInfo> Sessions => sessions;
         public System.Windows.Media.Brush IsTouched => isTouched ? System.Windows.Media.Brushes.Red : System.Windows.Media.Brushes.Gray;
 
         public int MaxProgress => StopFrame - StartFrame;
@@ -99,9 +99,9 @@ namespace InkMARC.Label
         public bool HasData => CurrentExercise is not null && CurrentExercise.HasData;
         public long StartingPoint => CurrentExercise?.FirstPointOffset ?? -1;
 
-        public SessionInfo CurrentExercise
+        public ProjectInfo CurrentExercise
         {
-            get => currentExercise ?? new SessionInfo();
+            get => currentExercise ?? new ProjectInfo();
             set
             {
                 if (SetProperty(ref currentExercise, value))
@@ -478,8 +478,8 @@ namespace InkMARC.Label
                     if (sessionData.TryGetValue(sessionId, out var sessionDict) &&
                         sessionDict.TryGetValue(exercise, out var sessionFile))
                     {
-                        var newSessionInfo = SessionInfo.LoadFromFile(sessionFile)
-                                             ?? new SessionInfo(sessionId, videoFile, exercise, dataFile, h5File, string.Empty, videoDate, dataDate);
+                        var newSessionInfo = ProjectInfo.LoadFromFile(sessionFile)
+                                             ?? new ProjectInfo(sessionId, videoFile, exercise, dataFile, h5File, string.Empty, videoDate, dataDate);
                         // Update paths if needed.
                         newSessionInfo.DataPath = dataFile;
                         newSessionInfo.H5Path = h5File;
@@ -487,7 +487,7 @@ namespace InkMARC.Label
                     }
                     else
                     {
-                        Sessions.Add(new SessionInfo(sessionId, videoFile, exercise, dataFile, h5File, string.Empty, videoDate, dataDate));
+                        Sessions.Add(new ProjectInfo(sessionId, videoFile, exercise, dataFile, h5File, string.Empty, videoDate, dataDate));
                     }
                 }
             }
@@ -835,7 +835,7 @@ namespace InkMARC.Label
 
         private void LoadSessionVideo(object parameter)
         {
-            if ((parameter is not null) && (parameter is SessionInfo sessionInfo))
+            if ((parameter is not null) && (parameter is ProjectInfo sessionInfo))
             {
                 // Select the first available video
                 string videoPath = sessionInfo.VideoPath;
@@ -1235,7 +1235,7 @@ namespace InkMARC.Label
 
         private void LoadSessionJson(object parameter)
         {
-            if ((parameter is not null) && (parameter is SessionInfo sessionInfo))
+            if ((parameter is not null) && (parameter is ProjectInfo sessionInfo))
             {
                 string? jsonPath = sessionInfo.DataPath;
 

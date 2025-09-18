@@ -8,6 +8,7 @@
              NavigationPage.HasBackButton="False"
              NavigationPage.HasNavigationBar="False"
              x:DataType="vm:DrawingPageViewModel"
+             x:Name="RootPage"
              Title="DrawingView"
              Background="{StaticResource White}">
     <ContentPage.BindingContext>
@@ -32,6 +33,7 @@
                TextType="Text"
                FontAutoScalingEnabled="True" />
         <Frame CornerRadius="10"
+               x:Name="MyFrame"
                Margin="8"
                Padding="8"
                BackgroundColor="{StaticResource White}"
@@ -198,11 +200,19 @@
                 <Label HorizontalOptions="Start"
                        VerticalOptions="End">
                     <Label.Text>
-                        <MultiBinding StringFormat="Width: {0:F1}, Height: {1:F1}">
+                        <MultiBinding StringFormat="Image Width: {0:F1}, Image Height: {1:F1}, Control Width: {2:F1}, Control Height: {3:F1}, Window Width: {4:F1}, Window Height: {5:F1}">
                             <Binding Source="{x:Reference MyImage}"
                                      Path="Width" />
                             <Binding Source="{x:Reference MyImage}"
                                      Path="Height" />
+                            <Binding Source="{x:Reference RootPage}"
+                                     Path="Width" />
+                            <Binding Source="{x:Reference RootPage}"
+                                     Path="Height" />
+                            <Binding Source="{x:Reference RootPage}"
+                                     Path="WindowWidth" />
+                            <Binding Source="{x:Reference RootPage}"
+                                     Path="WindowHeight" />
                         </MultiBinding>
                     </Label.Text>
                 </Label>

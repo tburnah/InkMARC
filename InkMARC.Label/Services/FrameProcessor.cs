@@ -74,5 +74,44 @@ namespace InkMARC.Label.Services
             squareFrame.Dispose();
             return rotatedFrame;
         }
+
+        /// <summary>
+        /// Convert src frame to a square 448x448 Mat with current Rotation.
+        /// Strategy:
+        /// - paste src into a square black canvas,
+        /// - scale that square to 448,
+        /// - rotate via warpAffine, keeping 448x448 output.
+        /// </summary>
+        public static Mat PrepareFrame448(Mat srcBgr, int rotationDegrees)
+        {
+            // Square-pad
+            int w = srcBgr.Width, h = srcBgr.Height;
+            int side = Math.Max(w, h);
+
+            var square = new Mat(new OpenCvSharp.Size(side, side), srcBgr.Type(), Scalar.Black);
+            var roi = new OpenCvSharp.Rect((side - w) / 2, (side - h) / 2, w, h);
+            using (var target = new Mat(square, roi))
+            {
+                srcBgr.CopyTo(target);
+            }
+
+            // Scale to 448
+            var scaled = new Mat();
+            Cv2.Resize(square, scaled, new OpenCvSharp.Size(448, 448), 0, 0, InterpolationFlags.Area);
+            square.Dispose();
+
+            // Rotate about center (deg clockwise is negative for OpenCV)
+            if ((rotationDegrees % 360) != 0)
+            {
+                var center = new OpenCvSharp.Point2f(224, 224);
+                using var M = Cv2.GetRotationMatrix2D(center, rotationDegrees, 1.0);
+                var rotated = new Mat(new OpenCvSharp.Size(448, 448), srcBgr.Type());
+                Cv2.WarpAffine(scaled, rotated, M, rotated.Size(), InterpolationFlags.Linear, BorderTypes.Constant, Scalar.Black);
+                scaled.Dispose();
+                return rotated; // BGR
+            }
+
+            return scaled; // already 448x448 BGR
+        }
     }
 }

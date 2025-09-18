@@ -9,10 +9,8 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 using OpenCvSharp;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Text.Json;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -26,89 +24,95 @@ namespace InkMARC.Label
 
         private static readonly Brush InactiveBrush = Brushes.DimGray.Clone();
 
-        private static readonly JsonSerializerOptions IndentedOptions = new() { WriteIndented = true };
-
         private enum Axis { X, Y }
 
         #region Private Data
-        private readonly IVideoService _videoService;
+        readonly IVideoService _videoService;
 
         [ObservableProperty]
-        private bool useBoundsInference = false;
+        bool _useBoundsInference = false;
 
         [ObservableProperty]
-        private int frameIndex = 0;
+        int _frameIndex = 0;
 
         [ObservableProperty]
-        private ImageSource? currentImage;
+        ImageSource? _currentImage;
 
         [ObservableProperty]
-        private bool currentState = false;
+        bool _currentState = false;
 
         [ObservableProperty]
-        private bool currentIgnored = false;
+        bool _currentIgnored = false;
 
         [ObservableProperty]
-        private int selectedCorner = 0;
+        int _selectedCorner = 0;
 
         [ObservableProperty]
-        private bool isGuideVisible = false;
+        bool _isGuideVisible = false;
 
         [ObservableProperty]
-        private ObservableCollection<SessionInfo> sessions = [];
-
-        private string recordName = string.Empty;
-        private List<InkMARCPoint>? _drawingLine;
-        private ulong firstDataTimeStamp = 0;
-
-        private SessionInfo? currentExercise;
-        [ObservableProperty]
-        private string? formattedJson;
-        private bool isTouched = false;
-        private bool isIgnored = false;
+        ObservableCollection<ProjectInfo> _projects = [];
 
         [ObservableProperty]
-        private int _sliderValue;
-
-        private DispatcherTimer? _debounceTimer;
-        private DispatcherTimer? _autoCornerTimer;
-
-        private int lastFrameIndex = -1;
-        private readonly Dictionary<int, Point2f[]> frameData = [];
-        private Point2f[] centerPoints = new Point2f[4];
+        string? _formattedJson;
 
         [ObservableProperty]
-        Point2f[] inferredCorners = new Point2f[4];
-
-        private bool _isBulkProcessing = false;
+        int _sliderValue;
 
         [ObservableProperty]
-        private int maxProgress = 0;
+        Point2f[] _inferredCorners = new Point2f[4];
 
         [ObservableProperty]
-        private bool isSelectingPoints = false;
-        private List<Point2f> _framePoints = [];
-        private List<Point2f> _rotatedPoints = [];
-        private List<Point2f> _scaledPoints = [];
+        int _maxProgress = 0;
 
         [ObservableProperty]
-        private bool _isTrackingInProgress;
+        bool _isSelectingPoints = false;
 
         [ObservableProperty]
-        private double trackingProgress;
+        bool _isTrackingInProgress;
 
         [ObservableProperty]
-        private double smoothingProgress;
-
-        public int FrameCount => _videoService.FrameCount;
-
-        private readonly int[] _xOffsets = new int[5];
-        private readonly int[] _yOffsets = new int[5];
+        double _trackingProgress;
 
         [ObservableProperty]
-        private bool _isAutoModeInProgress = false;
+        double _smoothingProgress;
 
-        private readonly BoundsPredictor predictor = new("Resources/bounds_resnet18_448.onnx", useCuda: false);
+        [ObservableProperty]
+        bool _isAutoModeInProgress = false;
+
+        [ObservableProperty]
+        Point2f? _closestPoint = null;
+
+        [ObservableProperty]
+        float _canvasWidth = 1620;
+
+        [ObservableProperty]
+        float _canvasHeight = 830;
+
+        string recordName = string.Empty;        
+
+        ProjectInfo? currentProject;
+
+        bool isTouched = false;
+        bool isIgnored = false;
+
+        DispatcherTimer? _debounceTimer;
+        DispatcherTimer? _autoCornerTimer;
+
+        int lastFrameIndex = -1;
+        readonly Dictionary<int, Point2f[]> frameData = [];
+        Point2f[] centerPoints = new Point2f[4];
+
+        bool _isBulkProcessing = false;
+
+        List<Point2f> _framePoints = [];
+        List<Point2f> _rotatedPoints = [];
+        List<Point2f> _scaledPoints = [];
+
+        readonly int[] _xOffsets = new int[5];
+        readonly int[] _yOffsets = new int[5];
+
+        readonly BoundsPredictor predictor = new("Resources/bounds_resnet18_448.onnx", useCuda: false);
 
         #endregion
 
@@ -125,8 +129,9 @@ namespace InkMARC.Label
         }
 
         #region Public Properties
+        public int FrameCount => _videoService.FrameCount;
 
-        public string CurrentSessionName => currentExercise?.SessionID ?? "No Session";
+        public string CurrentProjectName => currentProject?.SessionID ?? "No Project";
 
         public bool IsBulkProcessing
         {
@@ -134,33 +139,30 @@ namespace InkMARC.Label
             set => SetProperty(ref _isBulkProcessing, value);
         }
 
-        public Point2f[] CenterPoints
-        {
-            get => centerPoints;
-        }
+        public Point2f[] CenterPoints => centerPoints;
 
         public int StartFrame
         {
-            get => CurrentExercise?.StartFrame ?? 0;
-            set => CurrentExercise.StartFrame = value;
+            get => CurrentProject?.StartFrame ?? 0;
+            set => CurrentProject.StartFrame = value;
         }
 
         public int StopFrame
         {
-            get => CurrentExercise?.StopFrame ?? 0;
-            set => CurrentExercise.StopFrame = value;
+            get => CurrentProject?.StopFrame ?? 0;
+            set => CurrentProject.StopFrame = value;
         }
 
         public float BoundRotation
         {
             get
             {
-                var list = CurrentExercise.BoundRotations;
+                var list = CurrentProject.BoundRotations;
                 return list.TryGetPredecessorValue(FrameIndex, out var rot) ? rot : 0f;
             }
             set
             {
-                var list = CurrentExercise.BoundRotations;
+                var list = CurrentProject.BoundRotations;
                 int frameIndex = FrameIndex;
 
                 // Optional remove-on-zero:
@@ -177,15 +179,15 @@ namespace InkMARC.Label
             }
         }
 
-        public System.Windows.Media.Brush ZeroSelectedBrush => SelectedCorner == 0 && FramePoints.Count > 0 ? ActiveBrush : InactiveBrush;
+        public Brush ZeroSelectedBrush => SelectedCorner == 0 && FramePoints.Count > 0 ? ActiveBrush : InactiveBrush;
 
-        public System.Windows.Media.Brush OneSelectedBrush => SelectedCorner == 1 && FramePoints.Count > 0 ? ActiveBrush : InactiveBrush;
+        public Brush OneSelectedBrush => SelectedCorner == 1 && FramePoints.Count > 0 ? ActiveBrush : InactiveBrush;
 
-        public System.Windows.Media.Brush TwoSelectedBrush => SelectedCorner == 2 && FramePoints.Count > 0 ? ActiveBrush : InactiveBrush;
+        public Brush TwoSelectedBrush => SelectedCorner == 2 && FramePoints.Count > 0 ? ActiveBrush : InactiveBrush;
 
-        public System.Windows.Media.Brush ThreeSelectedBrush => SelectedCorner == 3 && FramePoints.Count > 0 ? ActiveBrush : InactiveBrush;
+        public Brush ThreeSelectedBrush => SelectedCorner == 3 && FramePoints.Count > 0 ? ActiveBrush : InactiveBrush;
 
-        public System.Windows.Media.Brush FourSelectedBrush => SelectedCorner == 4 && FramePoints.Count > 0 ? ActiveBrush : InactiveBrush;
+        public Brush FourSelectedBrush => SelectedCorner == 4 && FramePoints.Count > 0 ? ActiveBrush : InactiveBrush;
 
         public string CurrentBoundsString
         {
@@ -208,12 +210,12 @@ namespace InkMARC.Label
         {
             get
             {
-                var list = CurrentExercise.BoundScales;
+                var list = CurrentProject.BoundScales;
                 return list.TryGetPredecessorValue(FrameIndex, out var scale) ? scale : 1f;
             }
             set
             {
-                var list = CurrentExercise.BoundScales;
+                var list = CurrentProject.BoundScales;
                 int frameIndex = FrameIndex;
                 if (value == 1 && FrameIndex > 0 && list.TryGetPredecessorValue(FrameIndex - 1, out var prev) && prev == 1)
                 {
@@ -231,7 +233,7 @@ namespace InkMARC.Label
         {
             get
             {
-                var result = BoundsUtilities.GetXOffsets(CurrentExercise, FrameIndex);
+                var result = BoundsUtilities.GetXOffsets(CurrentProject, FrameIndex);
 
                 _xOffsets[0] = result[0];
                 _xOffsets[1] = result[1];
@@ -247,7 +249,7 @@ namespace InkMARC.Label
         {
             get
             {
-                var result = BoundsUtilities.GetYOffsets(CurrentExercise, FrameIndex);
+                var result = BoundsUtilities.GetYOffsets(CurrentProject, FrameIndex);
                 _yOffsets[0] = result[0];
                 _yOffsets[1] = result[1];
                 _yOffsets[2] = result[2];
@@ -261,12 +263,12 @@ namespace InkMARC.Label
         {
             get
             {
-                var list = CurrentExercise.BoundOffsets; 
+                var list = CurrentProject.BoundOffsets; 
                 return list.TryGetPredecessorValue(FrameIndex, out var tup) ? tup.x : 0;
             }
             set
             {
-                CurrentExercise.BoundOffsets.UpsertAt(FrameIndex, x: value);                
+                CurrentProject.BoundOffsets.UpsertAt(FrameIndex, x: value);                
                 OnPropertyChanged(nameof(XOffset));
             }
         }
@@ -275,43 +277,43 @@ namespace InkMARC.Label
         {
             get
             {
-                var list = CurrentExercise.BoundOffsets;
+                var list = CurrentProject.BoundOffsets;
                 return list.TryGetPredecessorValue(FrameIndex, out var tup) ? tup.y : 0;
             }
             set
             {
-                CurrentExercise.BoundOffsets.UpsertAt(FrameIndex, y: value);                
+                CurrentProject.BoundOffsets.UpsertAt(FrameIndex, y: value);                
                 OnPropertyChanged(nameof(YOffset));
             }
         }
 
-        public List<float> TouchPredictions => CurrentExercise?.TouchPredition ?? [];
+        public List<float> TouchPredictions => CurrentProject?.TouchPredition ?? [];
 
         public float TouchThreshold
         {
-            get => CurrentExercise?.TouchThreshold ?? 0.5f;
+            get => CurrentProject?.TouchThreshold ?? 0.5f;
             set
             {
-                if (CurrentExercise != null)
+                if (CurrentProject != null)
                 {
-                    CurrentExercise.TouchThreshold = value;
+                    CurrentProject.TouchThreshold = value;
                     OnPropertyChanged(nameof(TouchThreshold));
                 }
             }
         }
 
-        public System.Windows.Media.Brush IsTouched => isTouched ? ActiveBrush : InactiveBrush;
+        public Brush IsTouched => isTouched ? ActiveBrush : InactiveBrush;
 
         public PackIconKind IsIgnored => isIgnored ? PackIconKind.EyeOff : PackIconKind.Eye;
 
         public int Rotation
         {
-            get => CurrentExercise?.Rotation ?? 0;
+            get => CurrentProject?.Rotation ?? 0;
             set
             {
-                if (CurrentExercise != null)
+                if (CurrentProject != null)
                 {
-                    CurrentExercise.Rotation = value;
+                    CurrentProject.Rotation = value;
                     OnPropertyChanged(nameof(Rotation));
                 }
             }
@@ -319,30 +321,30 @@ namespace InkMARC.Label
 
         public ObservableCollection<System.Windows.Point> SelectedPoints { get; } = [];
 
-        public bool HasExercise => CurrentExercise is not null && !string.IsNullOrEmpty(CurrentExercise.VideoPath);
+        public bool HasExercise => CurrentProject is not null && !string.IsNullOrEmpty(CurrentProject.VideoPath);
 
-        public bool HasData => CurrentExercise is not null && CurrentExercise.HasData;
+        public bool HasData => CurrentProject is not null && CurrentProject.HasData;
 
-        public bool HasH5 => CurrentExercise is not null && CurrentExercise.HasH5;
+        public bool HasH5 => CurrentProject is not null && CurrentProject.HasH5;
 
-        public bool HasBounds => CurrentExercise is not null && CurrentExercise.HasBounds;
+        public bool HasBounds => CurrentProject is not null && CurrentProject.HasBounds;
 
-        public long StartingPoint => CurrentExercise?.FirstPointOffset ?? -1;
+        public long StartingPoint => CurrentProject?.FirstPointOffset ?? -1;
 
-        public SessionInfo CurrentExercise
+        public ProjectInfo CurrentProject
         {
-            get => currentExercise ?? new SessionInfo();
+            get => currentProject ?? new ProjectInfo();
             set
             {
-                if (SetProperty(ref currentExercise, value))
+                if (SetProperty(ref currentProject, value))
                 {
-                    if (currentExercise.BoundOffsets.Count == 0)
-                        CurrentExercise.BoundOffsets.Add(0, (0, 0));
+                    if (currentProject.BoundOffsets.Count == 0)
+                        CurrentProject.BoundOffsets.Add(0, (0, 0));
                     FrameIndex = 0;
 
                     LoadSessionVideo(value);
-                    if (CurrentExercise is not null && CurrentExercise.StopFrame == 0)
-                        CurrentExercise.StopFrame = _videoService.FrameCount;
+                    if (CurrentProject is not null && CurrentProject.StopFrame == 0)
+                        CurrentProject.StopFrame = _videoService.FrameCount;
                     LoadSessionJson(value);
                     LoadSessionBounds(value);
 
@@ -355,20 +357,15 @@ namespace InkMARC.Label
 
         public int StateChangeNotifier { get; private set; }
 
-        public SortedList<int, bool> IgnoredFrames => CurrentExercise?.IgnoredFrames ?? [];
+        public SortedList<int, bool> IgnoredFrames => CurrentProject?.IgnoredFrames ?? [];
 
 
         /// <summary>
         /// Stores state changes for the session.
         /// </summary>
-        public SortedList<int, bool> StateChanges => CurrentExercise?.StateChanges ?? [];
+        public SortedList<int, bool> StateChanges => CurrentProject?.StateChanges ?? [];
 
         public SortedList<int, bool> DataStateValues { get; set; } = [];
-
-        partial void OnSliderValueChanged(int value)
-        {
-            StartDebounceTimer();
-        }
 
         public int SliderTickFrequency => _videoService.FrameCount > 100 ? _videoService.FrameCount / 100 : 1;
 
@@ -427,7 +424,7 @@ namespace InkMARC.Label
         [RelayCommand]
         private void ClearData()
         {
-            CurrentExercise?.StateChanges.Clear();
+            CurrentProject?.StateChanges.Clear();
             UpdateCurrentState();
         }
 
@@ -465,11 +462,11 @@ namespace InkMARC.Label
                 IsTrackingInProgress = true;
 
                 if (string.IsNullOrEmpty(recordName))
-                    recordName = Path.GetFileNameWithoutExtension(CurrentExercise?.VideoPath) + ".h5";
+                    recordName = Path.GetFileNameWithoutExtension(CurrentProject?.VideoPath) + ".h5";
                 if (dialog.ExportSession)
                 {
                     // Export session data
-                    currentExercise?.SaveToFile();
+                    currentProject?.SaveToFile();
                 }
                 if (dialog.ExportLocation)
                 {
@@ -492,7 +489,7 @@ namespace InkMARC.Label
         [RelayCommand]
         private void IncrementTouchThreshold()
         {
-            if (currentExercise is not null)
+            if (currentProject is not null)
             {
                 if (TouchThreshold < 0.99f)
                     TouchThreshold += 0.01f;
@@ -502,7 +499,7 @@ namespace InkMARC.Label
         [RelayCommand]
         private void DecrementTouchThreshold()
         {
-            if (currentExercise is not null)
+            if (currentProject is not null)
             {
                 if (TouchThreshold > 0.01f)
                     TouchThreshold -= 0.01f;
@@ -555,11 +552,11 @@ namespace InkMARC.Label
         {
             isTouched = !isTouched;
             OnPropertyChanged(nameof(IsTouched));
-            if (CurrentExercise?.StateChanges.ContainsKey(FrameIndex) ?? false)
+            if (CurrentProject?.StateChanges.ContainsKey(FrameIndex) ?? false)
             {
-                CurrentExercise?.StateChanges.Remove(FrameIndex);
+                CurrentProject?.StateChanges.Remove(FrameIndex);
             }
-            CurrentExercise?.StateChanges.Add(FrameIndex, isTouched);
+            CurrentProject?.StateChanges.Add(FrameIndex, isTouched);
             StateChangeNotifier++;
             UpdateCurrentState();
             OnPropertyChanged(nameof(StateChanges));
@@ -576,11 +573,11 @@ namespace InkMARC.Label
         public void ToggleIgnored()
         {
             isIgnored = !isIgnored;
-            if (CurrentExercise.IgnoredFrames.ContainsKey(FrameIndex))
+            if (CurrentProject.IgnoredFrames.ContainsKey(FrameIndex))
             {
-                CurrentExercise.IgnoredFrames.Remove(FrameIndex);
+                CurrentProject.IgnoredFrames.Remove(FrameIndex);
             }
-            CurrentExercise.IgnoredFrames.Add(FrameIndex, isIgnored);
+            CurrentProject.IgnoredFrames.Add(FrameIndex, isIgnored);
             IgnoredVersion++;
             UpdateIgnoredState();
         }
@@ -594,115 +591,37 @@ namespace InkMARC.Label
         [RelayCommand]
         public async Task AnalyzeFramesForStateChangesAsync()
         {
-            if (CurrentExercise == null)
+            if (CurrentProject == null)
                 return;
-
-            MaxProgress = StopFrame - StartFrame;            
-            IsTrackingInProgress = true;
-
-            // Optionally clear any existing state changes
-            CurrentExercise.StateChanges.Clear();
-
-            bool sequenceActive = false; // Tracks if we are inside a sequence of frames with a datapoint
-            int startFrame = CurrentExercise.StartFrame;
-            int stopFrame = CurrentExercise.StopFrame;
-            int originalFrameIndex = FrameIndex;
-
-            const int progressUpdateFrequency = 10;
+            
+            IsTrackingInProgress = true;                      
 
             var progress = new Progress<int>(value =>
             {
                 TrackingProgress = value;
             });
 
-            // Run the analysis on a background thread.
-            await Task.Run(() =>
-            {
-                // Loop through each frame between start and stop
-                for (int i = startFrame; i <= stopFrame; i++)
-                {
-                    // Check if there is a datapoint for this frame.
-                    bool hasDataPoint = FindClosestDataPointOptimized(i) != null;
-
-                    if (!sequenceActive && hasDataPoint)
-                    {
-                        // We just entered a sequence where frames have a datapoint.
-                        CurrentExercise.StateChanges[i] = true;
-                        sequenceActive = true;
-                    }
-                    else if (sequenceActive && !hasDataPoint)
-                    {
-                        // We just left a sequence: record the first frame where no datapoint is available.
-                        CurrentExercise.StateChanges[i] = false;
-                        sequenceActive = false;
-                    }
-
-                    // Report progress as the number of frames processed.
-                    // Report progress only every 'progressUpdateFrequency' frames.
-                    if ((i - startFrame) % progressUpdateFrequency == 0)
-                    {
-                        ((IProgress<int>)progress).Report(i - startFrame + 1);
-                    }
-                }
-            });
-
-            if (sequenceActive && stopFrame >= startFrame)
-            {
-                CurrentExercise.StateChanges[stopFrame] = false;
-            }
+            await SessionDataService.AssignStateChangesFromData(CurrentProject, progress, _videoService);
 
             IsTrackingInProgress = false;
-
-            // Restore the original frame index, if desired.
-            FrameIndex = originalFrameIndex;
         }
 
         [RelayCommand]
         public async Task ExtractFramesForStateChangesAsync()
         {
-            if (CurrentExercise == null)
+            if (CurrentProject == null)
                 return;
             
             IsTrackingInProgress = true;
-
-            var map = new SortedList<int, bool>();
-
-            int startFrame = CurrentExercise.StartFrame;
-            int stopFrame = CurrentExercise.StopFrame;
-            int originalFrameIndex = FrameIndex;
-
-            const int progressUpdateFrequency = 10;
-
+     
             var progress = new Progress<int>(value =>
             {
                 TrackingProgress = value;
             });
 
-            await Task.Run(() =>
-            {
-                bool? previousState = null;
-
-                for (int i = startFrame; i <= stopFrame; i++)
-                {
-                    bool hasDataPoint = FindClosestDataPointOptimized(i) != null;
-
-                    // Record a change only if the state differs from the previous state
-                    if (previousState == null || previousState.Value != hasDataPoint)
-                    {
-                        map[i] = hasDataPoint;
-                        previousState = hasDataPoint;
-                    }
-
-                    if ((i - startFrame) % progressUpdateFrequency == 0)
-                    {
-                        ((IProgress<int>)progress).Report(i - startFrame + 1);
-                    }
-                }
-            });
-
-            IsTrackingInProgress = false;
-            FrameIndex = originalFrameIndex;
-            DataStateValues = map;
+            DataStateValues = await SessionDataService.ExtractFramesForStateChangesAsync(CurrentProject, _videoService, progress);
+            IsTrackingInProgress = false;            
+            
             OnPropertyChanged(nameof(DataStateValues));
         }
 
@@ -724,13 +643,20 @@ namespace InkMARC.Label
             UpdateCurrentState();
             UpdateIgnoredState();
 
-            if (CurrentExercise.FirstPointOffset >= 0)
-                UpdateFormattedJson();
+            if (CurrentProject.FirstPointOffset >= 0)
+            {
+                FormattedJson = SessionDataService.UpdateFormattedJson(CurrentProject, FrameIndex, _videoService);
+                var tempPoint = SessionDataService.FindClosestDataPointOptimized(FrameIndex, CurrentProject, _videoService);
+                if (!tempPoint.HasValue)
+                    ClosestPoint = null;
+                else
+                    ClosestPoint = new Point2f(tempPoint?.X ?? 0, tempPoint?.Y ?? 0);
+            }
 
             if (frameData.TryGetValue(FrameIndex, out var points))
             {
                 FramePoints = [.. points.Select(p => new Point2f(p.X, p.Y))];
-                if (CurrentExercise.CenterPoints.TryGetValue(FrameIndex, out Point2f[]? value))
+                if (CurrentProject.CenterPoints.TryGetValue(FrameIndex, out Point2f[]? value))
                 {
                     centerPoints = value;
                     OnPropertyChanged(nameof(CenterPoints));
@@ -747,9 +673,9 @@ namespace InkMARC.Label
         [RelayCommand]
         private void SmoothPointsCommand()
         {
-            if (CurrentExercise is not null && CurrentExercise.CenterPoints.Count > 0)
+            if (CurrentProject is not null && CurrentProject.CenterPoints.Count > 0)
             {
-                SmoothPointTriplets(CurrentExercise.CenterPoints, 5.0f);
+                BoundsUtilities.SmoothPointTriplets(CurrentProject.CenterPoints, 5.0f);
             }
         }
 
@@ -772,7 +698,7 @@ namespace InkMARC.Label
 
             // Retrieve files using file extensions.
             var availableVideos = Directory.EnumerateFiles(directory)
-                .Where(file => IsVideoFile(file))
+                .Where(file => VideoService.IsVideoFile(file))
                 .ToList();
 
             var availableJson = Directory
@@ -784,11 +710,11 @@ namespace InkMARC.Label
             var availableBounds = Directory.GetFiles(directory, "*_smoothed.json").ToList();
 
             // Build dictionaries for quick lookup.
-            var videoSessionIds = BuildSessionIdDictionary(availableVideos);
-            var dataSessionIds = BuildSessionIdDictionary(availableJson);
-            var h5SessionIds = BuildSessionIdDictionarySimple(availableH5);
-            var sessionData = BuildSessionDataDictionary(availableData);
-            var boundsData = BuildSessionIdDictionary(availableBounds);
+            var videoSessionIds = SessionManager.BuildSessionIdDictionary(availableVideos);
+            var dataSessionIds = SessionManager.BuildSessionIdDictionary(availableJson);
+            var h5SessionIds = SessionManager.BuildSessionIdDictionarySimple(availableH5);
+            var sessionData = SessionManager.BuildSessionDataDictionary(availableData);
+            var boundsData = SessionManager.BuildSessionIdDictionary(availableBounds);
 
             // Combine the data from video, JSON, H5, and session files.
             foreach (var sessionEntry in videoSessionIds)
@@ -826,21 +752,21 @@ namespace InkMARC.Label
                     if (sessionData.TryGetValue(sessionId, out var sessionDict) &&
                         sessionDict.TryGetValue(exercise, out var sessionFile))
                     {
-                        var newSessionInfo = SessionInfo.LoadFromFile(sessionFile)
-                                             ?? new SessionInfo(sessionId, videoFile, exercise, dataFile, h5File, boundsFile, videoDate, dataDate);
+                        var newSessionInfo = ProjectInfo.LoadFromFile(sessionFile)
+                                             ?? new ProjectInfo(sessionId, videoFile, exercise, dataFile, h5File, boundsFile, videoDate, dataDate);
                         newSessionInfo.VideoPath = videoFile;
                         newSessionInfo.DataPath = dataFile;
                         newSessionInfo.H5Path = h5File;
                         newSessionInfo.BoundsPath = boundsFile;
-                        Sessions.Add(newSessionInfo);
+                        Projects.Add(newSessionInfo);
                     }
                     else
                     {
-                        Sessions.Add(new SessionInfo(sessionId, videoFile, exercise, dataFile, h5File, boundsFile, videoDate, dataDate));
+                        Projects.Add(new ProjectInfo(sessionId, videoFile, exercise, dataFile, h5File, boundsFile, videoDate, dataDate));
                     }
                 }
             }
-            CurrentExercise = Sessions.First();
+            CurrentProject = Projects.First();
             MoveOffset("0");
             OnPropertyChanged(nameof(ZeroSelectedBrush));
             OnPropertyChanged(nameof(OneSelectedBrush));
@@ -859,7 +785,7 @@ namespace InkMARC.Label
         private async Task MarkStartingPoint()
         {
             double currentFrameTime = FrameIndex * 1000.0 / _videoService.FramesPerSecond;
-            CurrentExercise.FirstPointOffset = (long)currentFrameTime;
+            CurrentProject.FirstPointOffset = (long)currentFrameTime;
             OnPropertyChanged(nameof(StartingPoint));
             await ExtractFramesForStateChangesAsync();
             OnPropertyChanged(nameof(DataStateValues));
@@ -869,7 +795,7 @@ namespace InkMARC.Label
         private async Task IncrementStartingPoint()
         {
             double frameTime = 1000.0 / _videoService.FramesPerSecond;
-            CurrentExercise.FirstPointOffset += (long)frameTime;
+            CurrentProject.FirstPointOffset += (long)frameTime;
             OnPropertyChanged(nameof(StartingPoint));
             await ExtractFramesForStateChangesAsync();
             OnPropertyChanged(nameof(DataStateValues));
@@ -879,7 +805,7 @@ namespace InkMARC.Label
         private async Task DecrementStartingPoint()
         {
             double frameTime = 1000.0 / _videoService.FramesPerSecond;
-            CurrentExercise.FirstPointOffset -= (long)frameTime;
+            CurrentProject.FirstPointOffset -= (long)frameTime;
             OnPropertyChanged(nameof(StartingPoint));
             await ExtractFramesForStateChangesAsync();
             OnPropertyChanged(nameof(DataStateValues));
@@ -888,7 +814,7 @@ namespace InkMARC.Label
         [RelayCommand]
         public async Task RunTemplateMatchingOnAllFramesAsync()
         {
-            if (!_videoService.IsOpen || CurrentExercise is null) return;
+            if (!_videoService.IsOpen || CurrentProject is null) return;
 
             MaxProgress = StopFrame - StartFrame + 1;
             TrackingProgress = 0;
@@ -899,7 +825,7 @@ namespace InkMARC.Label
                 var prog = new Progress<int>(v => TrackingProgress = v);
                 await ChamferTemplateMatcher.RunTemplateMatchingOnAllFramesAsync(
                     _videoService,
-                    CurrentExercise,
+                    CurrentProject,
                     frameData,
                     prog);
             }
@@ -913,7 +839,7 @@ namespace InkMARC.Label
         [RelayCommand]
         public void RunPythonTrackingFromSelectedPoints()
         {
-            string videoPath = CurrentExercise?.VideoPath ?? "";
+            string videoPath = CurrentProject?.VideoPath ?? "";
             if (!File.Exists(videoPath))
             {
                 MessageBox.Show("Video path is missing or invalid.");
@@ -1017,50 +943,9 @@ namespace InkMARC.Label
         }
 
         [RelayCommand]
-        private static void ListSessionIdsFromFolder()
-        {
-            var folderDialog = new CommonOpenFileDialog
-            {
-                IsFolderPicker = true,
-                Title = "Select Folder Containing Session JSON Files"
-            };
-
-            if (folderDialog.ShowDialog() != CommonFileDialogResult.Ok || string.IsNullOrEmpty(folderDialog.FileName))
-                return;
-
-            string folderPath = folderDialog.FileName;
-            var jsonFiles = Directory.GetFiles(folderPath, "data_*.json");
-
-            var sessionIds = new HashSet<string>();
-
-            foreach (var file in jsonFiles)
-            {
-                var fileName = Path.GetFileName(file);
-                var parsed = ExtractSessionIDAndIndex(fileName);
-                if (parsed != null)
-                {
-                    sessionIds.Add(parsed.Item1);
-                }
-            }
-
-            if (sessionIds.Count == 0)
-            {
-                throw new Exception("No session IDs found in the selected folder.");
-            }
-            else
-            {
-                foreach (var sessionId in sessionIds)
-                {
-                    var TimeSpan = GetFullSessionDrawingDuration(folderPath, sessionId);
-                    Console.WriteLine($"Session ID: {sessionId}, Duration: {TimeSpan}");
-                }
-            }
-        }
-
-        [RelayCommand]
         public async Task PredictTouchForAllFramesAsync()
         {
-            if (!_videoService.IsOpen || CurrentExercise is null)
+            if (!_videoService.IsOpen || CurrentProject is null)
             {
                 MessageBox.Show("Video or session not loaded.");
                 return;
@@ -1072,10 +957,10 @@ namespace InkMARC.Label
             int originalFrameIndex = FrameIndex;
 
             // Ensure the list is long enough
-            if (CurrentExercise.TouchPredition.Count < _videoService.FrameCount)
+            if (CurrentProject.TouchPredition.Count < _videoService.FrameCount)
             {
-                for (int i = CurrentExercise.TouchPredition.Count; i < _videoService.FrameCount; i++)
-                    CurrentExercise.TouchPredition.Add(0.0f);
+                for (int i = CurrentProject.TouchPredition.Count; i < _videoService.FrameCount; i++)
+                    CurrentProject.TouchPredition.Add(0.0f);
             }
 
             var progress = new Progress<int>(value =>
@@ -1101,7 +986,7 @@ namespace InkMARC.Label
                     using var bitmap = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(mat);
                     float pressure = predictor.PredictPressure(bitmap);
 
-                    CurrentExercise.TouchPredition[i] = pressure;
+                    CurrentProject.TouchPredition[i] = pressure;
 
                     if ((i - StartFrame) % 10 == 0)
                         ((IProgress<int>)progress).Report(i);
@@ -1110,12 +995,12 @@ namespace InkMARC.Label
                 }
             });
 
-            CurrentExercise.SaveToFile();
+            CurrentProject.SaveToFile();
 
             IsTrackingInProgress = false;
 
             FrameIndex = originalFrameIndex;
-            OnPropertyChanged(nameof(CurrentExercise.TouchPredition));
+            OnPropertyChanged(nameof(CurrentProject.TouchPredition));
             MessageBox.Show("Touch prediction complete.", "Done", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
@@ -1184,16 +1069,16 @@ namespace InkMARC.Label
         [RelayCommand]
         private async Task ExportSessionToHdf5Async()
         {
-            if (CurrentExercise is null || string.IsNullOrWhiteSpace(CurrentExercise.VideoPath))
+            if (CurrentProject is null || string.IsNullOrWhiteSpace(CurrentProject.VideoPath))
             {
                 System.Windows.MessageBox.Show("No session/video loaded.");
                 return;
             }
 
             // Decide output path
-            var h5Path = !string.IsNullOrWhiteSpace(CurrentExercise.H5Path)
-                ? CurrentExercise.H5Path!
-                : System.IO.Path.ChangeExtension(CurrentExercise.VideoPath, ".h5");
+            var h5Path = !string.IsNullOrWhiteSpace(CurrentProject.H5Path)
+                ? CurrentProject.H5Path!
+                : System.IO.Path.ChangeExtension(CurrentProject.VideoPath, ".h5");
 
             IsTrackingInProgress = true;
             TrackingProgress = 0;
@@ -1221,8 +1106,8 @@ namespace InkMARC.Label
                     for (int i = start; i <= stop; i++)
                     {
                         // respect ignored frames if present
-                        if (CurrentExercise.IgnoredFrames != null &&
-                            CurrentExercise.IgnoredFrames.TryGetValue(i, out bool ig) && ig)
+                        if (CurrentProject.IgnoredFrames != null &&
+                            CurrentProject.IgnoredFrames.TryGetValue(i, out bool ig) && ig)
                         {
                             continue; // skip ignored frames
                         }
@@ -1231,11 +1116,11 @@ namespace InkMARC.Label
                         if (src is null || src.Empty()) continue;
 
                         // Make a 448x448, correctly-rotated RGB/BGR Mat for saving
-                        using var frame448 = PrepareFrame448(src, Rotation);
+                        using var frame448 = FrameProcessor.PrepareFrame448(src, Rotation);
 
                         // Per-frame attributes
                         // xy: best-effort from your data-points
-                        var pen = FindClosestDataPointOptimized(i);    // returns null if none
+                        var pen = SessionDataService.FindClosestDataPointOptimized(i, CurrentProject, _videoService);    // returns null if none
                         var xy = pen is null ? (float.NaN, float.NaN) : ((float)pen.Value.X, (float)pen.Value.Y);
                         var tilt = pen is null ? (0f, 0f) : ((float)pen.Value.TiltX, (float)pen.Value.TiltY);
 
@@ -1254,7 +1139,7 @@ namespace InkMARC.Label
                             {
 
                                 var pts = new List<Point2f>(points);
-                                var degrees = CurrentExercise.BoundRotations.TryGetPredecessorValue(i, out var rot) ? rot : 0f;
+                                var degrees = CurrentProject.BoundRotations.TryGetPredecessorValue(i, out var rot) ? rot : 0f;
                                 if (degrees != 0f)
                                 {
                                     GeometryHelper.RotateAroundCentroidInPlace(pts, degrees);
@@ -1263,14 +1148,14 @@ namespace InkMARC.Label
                                 for (j = 0; j < pts.Count; j++)
                                     bounds[j] = pts[j];
 
-                                var resize = CurrentExercise.BoundScales.TryGetPredecessorValue(i, out var scale) ? scale : 1f;
+                                var resize = CurrentProject.BoundScales.TryGetPredecessorValue(i, out var scale) ? scale : 1f;
                                 if (resize != 1.0f)
                                 {
                                     bounds = QuadScalerCv.ScaleQuadAboutTopLeft(bounds, resize);
                                 }
 
-                                var xOffsets = BoundsUtilities.GetXOffsets(CurrentExercise, i);
-                                var yOffsets = BoundsUtilities.GetYOffsets(CurrentExercise, i);
+                                var xOffsets = BoundsUtilities.GetXOffsets(CurrentProject, i);
+                                var yOffsets = BoundsUtilities.GetYOffsets(CurrentProject, i);
                                 for (j = 0; j < bounds.Length; j++)
                                 {
                                     bounds[j].X = bounds[j].X + xOffsets[0] + xOffsets[j + 1];
@@ -1335,7 +1220,7 @@ namespace InkMARC.Label
                     LocationDataSave.Close();
 
                     // Update the session so UI reflects the new file
-                    CurrentExercise.UpdateH5Path(h5Path);
+                    CurrentProject.UpdateH5Path(h5Path);
                 }
                 catch (Exception ex)
                 {
@@ -1357,43 +1242,22 @@ namespace InkMARC.Label
             TrackingProgress = 1.0;
         }
 
-        /// <summary>
-        /// Convert src frame to a square 448x448 Mat with current Rotation.
-        /// Strategy:
-        /// - paste src into a square black canvas,
-        /// - scale that square to 448,
-        /// - rotate via warpAffine, keeping 448x448 output.
-        /// </summary>
-        private static Mat PrepareFrame448(Mat srcBgr, int rotationDegrees)
+        [RelayCommand]
+        private void ChangeWidth(object parameter)
         {
-            // Square-pad
-            int w = srcBgr.Width, h = srcBgr.Height;
-            int side = Math.Max(w, h);
-
-            var square = new Mat(new OpenCvSharp.Size(side, side), srcBgr.Type(), Scalar.Black);
-            var roi = new OpenCvSharp.Rect((side - w) / 2, (side - h) / 2, w, h);
-            using (var target = new Mat(square, roi))
+            if (parameter is string dir && int.TryParse(dir, out int change))
             {
-                srcBgr.CopyTo(target);
+                CanvasWidth += change;
             }
+        }
 
-            // Scale to 448
-            var scaled = new Mat();
-            Cv2.Resize(square, scaled, new OpenCvSharp.Size(448, 448), 0, 0, InterpolationFlags.Area);
-            square.Dispose();
-
-            // Rotate about center (deg clockwise is negative for OpenCV)
-            if ((rotationDegrees % 360) != 0)
+        [RelayCommand]
+        private void ChangeHeight(object parameter)
+        {
+            if (parameter is string dir && int.TryParse(dir, out int change))
             {
-                var center = new OpenCvSharp.Point2f(224, 224);
-                using var M = Cv2.GetRotationMatrix2D(center, rotationDegrees, 1.0);
-                var rotated = new Mat(new OpenCvSharp.Size(448, 448), srcBgr.Type());
-                Cv2.WarpAffine(scaled, rotated, M, rotated.Size(), InterpolationFlags.Linear, BorderTypes.Constant, Scalar.Black);
-                scaled.Dispose();
-                return rotated; // BGR
+                CanvasHeight += change;
             }
-
-            return scaled; // already 448x448 BGR
         }
 
         [RelayCommand]
@@ -1413,12 +1277,12 @@ namespace InkMARC.Label
 
             var jsonFiles = Directory.GetFiles(folderPath, "data_*.json");
             var videoFiles = Directory.GetFiles(folderPath)
-                .Where(f => IsVideoFile(f))
+                .Where(f => VideoService.IsVideoFile(f))
                 .ToList();
 
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
             var sessionJsonGroups = jsonFiles
-                .Select(file => (file, parsed: ExtractSessionIDAndIndex(Path.GetFileName(file))))
+                .Select(file => (file, parsed: SessionManager.ExtractSessionIDAndIndex(Path.GetFileName(file))))
                 .Where(x => x.parsed != null)
                 .GroupBy(x => x.parsed.Item1)
                 .ToDictionary(
@@ -1454,7 +1318,7 @@ namespace InkMARC.Label
             {
                 try
                 {
-                    sessionDurations[session.Key] = GetFullSessionDrawingDuration(folderPath, session.Key);
+                    sessionDurations[session.Key] = SessionManager.GetFullSessionDrawingDuration(folderPath, session.Key);
                 }
                 catch
                 {
@@ -1462,7 +1326,7 @@ namespace InkMARC.Label
                 }
             }
 
-            var matches = MatchSessionsToVideosWithinThreshold(sessionDurations, videoDurations, 30.0);
+            var matches = SessionManager.MatchSessionsToVideosWithinThreshold(sessionDurations, videoDurations, 30.0);
 
             // Set up progress bar
             IsTrackingInProgress = true;
@@ -1584,208 +1448,6 @@ namespace InkMARC.Label
             OnPropertyChanged(nameof(RotatedPoints));
         }
 
-        private static void SmoothPointTriplets(Dictionary<int, Point2f[]> points, float threshold = 5.0f)
-        {
-            if (points.Count < 5)
-                return; // Not enough data to smooth
-
-            var sortedKeys = points.Keys.OrderBy(k => k).ToList();
-
-            for (int i = 0; i < sortedKeys.Count; i++)
-            {
-                var currentKey = sortedKeys[i];
-                var currentValue = points[currentKey];
-
-                // Get previous 2 keys/values if available
-                var prev1 = i > 0 ? points[sortedKeys[i - 1]] : default;
-                var prev2 = i > 1 ? points[sortedKeys[i - 2]] : default;
-
-                // Get next 2 keys/values if available
-                var next1 = i < sortedKeys.Count - 1 ? points[sortedKeys[i + 1]] : default;
-                var next2 = i < sortedKeys.Count - 2 ? points[sortedKeys[i + 2]] : default;
-
-                if (prev1 is null || prev2 is null || next1 is null || next2 is null)
-                    continue; // Not enough data to smooth
-
-                // Use currentValue, prev1, prev2, next1, next2 as needed
-                var prevAvg = AveragePoints(prev2, prev1);
-                var nextAvg = AveragePoints(next1, next2);
-
-                if (prevAvg.Length != 3 || nextAvg.Length != 3)
-                    continue; // Skip if averages are not valid
-
-                Point2f newA = SmoothIfNeeded(points[i][0], prevAvg[0], nextAvg[0], threshold);
-                Point2f newB = SmoothIfNeeded(points[i][1], prevAvg[1], nextAvg[1], threshold);
-                Point2f newC = SmoothIfNeeded(points[i][2], prevAvg[2], nextAvg[2], threshold);
-
-                points[i] = [newA, newB, newC];
-            }
-        }
-
-        private static Point2f[] AveragePoints(Point2f[] p1, Point2f[] p2)
-        {
-            if (p1.Length != 3 || p2.Length != 3)
-                return [];
-            return [
-                Average(p1[0], p2[0]),
-                Average(p1[1], p2[1]),
-                Average(p1[2], p2[2])
-            ];
-        }
-
-        private static Point2f Average(Point2f p1, Point2f p2)
-        {
-            return new Point2f(
-                (p1.X + p2.X) / 2.0f,
-                (p1.Y + p2.Y) / 2.0f
-            );
-        }
-
-        private static Point2f SmoothIfNeeded(Point2f current, Point2f prevAvg, Point2f nextAvg, float threshold)
-        {
-            var avgX = (prevAvg.X + nextAvg.X) / 2.0f;
-            var avgY = (prevAvg.Y + nextAvg.Y) / 2.0f;
-            var distance = MathF.Sqrt((current.X - avgX) * (current.X - avgX) + (current.Y - avgY) * (current.Y - avgY));
-
-            if (distance > threshold)
-                return new Point2f(avgX, avgY);
-
-            return current;
-        }
-
-        /// <summary>
-        /// Checks if the file extension indicates a video file.
-        /// </summary>
-        private static bool IsVideoFile(string file)
-        {
-            string ext = Path.GetExtension(file).ToLowerInvariant();
-            return ext == ".mp4" || ext == ".avi" || ext == ".mov";
-        }
-
-        /// <summary>
-        /// Builds a dictionary from session ID to a dictionary mapping exercise number to a tuple (file path, date).
-        /// Used for video and JSON files.
-        /// </summary>
-        private static Dictionary<string, Dictionary<int, Tuple<string, DateTime?>>> BuildSessionIdDictionary(IEnumerable<string> files)
-        {
-            var dict = new Dictionary<string, Dictionary<int, Tuple<string, DateTime?>>>();
-
-            foreach (var file in files)
-            {
-                var parsed = ExtractSessionIDAndIndex(Path.GetFileName(file));
-                if (parsed != null)
-                {
-                    if (!dict.TryGetValue(parsed.Item1, out Dictionary<int, Tuple<string, DateTime?>>? value))
-                    {
-                        value = [];
-                        dict[parsed.Item1] = value;
-                    }
-
-                    value[parsed.Item2] = Tuple.Create(file, parsed.Item3);
-                }
-            }
-            return dict;
-        }
-
-        /// <summary>
-        /// Builds a dictionary for session data (.session files) mapping session ID and exercise number to the file path.
-        /// </summary>
-        private static Dictionary<string, Dictionary<int, string>> BuildSessionDataDictionary(IEnumerable<string> files)
-        {
-            var dict = new Dictionary<string, Dictionary<int, string>>();
-            foreach (var file in files)
-            {
-                var name = Path.GetFileNameWithoutExtension(file);
-                var parts = name.Split('_');
-                if (parts.Length == 2 && int.TryParse(parts[1], out int exercise))
-                {
-                    if (!dict.TryGetValue(parts[0], out Dictionary<int, string>? value))
-                    {
-                        value = [];
-                        dict[parts[0]] = value;
-                    }
-
-                    value[exercise] = file;
-                }
-            }
-            return dict;
-        }
-
-        /// <summary>
-        /// Builds a dictionary for H5 files mapping session ID and exercise number to the file path.
-        /// </summary>
-        private static Dictionary<string, Dictionary<int, string>> BuildSessionIdDictionarySimple(IEnumerable<string> files)
-        {
-            var dict = new Dictionary<string, Dictionary<int, string>>();
-            foreach (var file in files)
-            {
-                var parsed = ExtractSessionIDAndIndex(Path.GetFileName(file));
-                if (parsed != null)
-                {
-                    if (!dict.TryGetValue(parsed.Item1, out Dictionary<int, string>? value))
-                    {
-                        value = [];
-                        dict[parsed.Item1] = value;
-                    }
-
-                    value[parsed.Item2] = file;
-                }
-            }
-            return dict;
-        }
-
-        public static void OrderClockwise(Point2f[] points, Point2f[] result)
-        {
-            if (points.Length != 4)
-                throw new ArgumentException("Exactly 4 points required.");
-            if (result.Length != 4)
-                throw new ArgumentException("Result array must have length 4.");
-
-            // Step 1: Compute the centroid of the 4 points
-            double centerX = 0, centerY = 0;
-            foreach (var pt in points)
-            {
-                centerX += pt.X;
-                centerY += pt.Y;
-            }
-            centerX /= 4;
-            centerY /= 4;
-
-            // Step 2: Sort points by angle from centroid to get clockwise order
-            var sorted = points
-                .Select(p => new
-                {
-                    Point = p,
-                    Angle = Math.Atan2(p.Y - centerY, p.X - centerX)
-                })
-                .OrderBy(p => p.Angle)
-                .ToArray();
-
-            // Find the point with smallest Y (topmost), break ties by X (leftmost)
-            int startIndex = 0;
-            double minY = sorted[0].Point.Y;
-            double minX = sorted[0].Point.X;
-
-            for (int i = 1; i < 4; i++)
-            {
-                var p = sorted[i].Point;
-                if (p.Y < minY || (Math.Abs(p.Y - minY) < 1e-3 && p.X < minX))
-                {
-                    minY = p.Y;
-                    minX = p.X;
-                    startIndex = i;
-                }
-            }
-
-            // Rotate the array so that top-left is first
-            for (int i = 0; i < 4; i++)
-            {
-                result[i] = sorted[(startIndex + i) % 4].Point;
-            }
-        }
-
-
-
         private void StartAutoCornerTimer()
         {
             if (SelectedCorner > 0)
@@ -1834,7 +1496,7 @@ namespace InkMARC.Label
 
         private bool GetStateAtFrame(int frame)
         {
-            if (CurrentExercise?.StateChanges is not SortedList<int, bool> list || list.Count == 0)
+            if (CurrentProject?.StateChanges is not SortedList<int, bool> list || list.Count == 0)
                 return false;
 
             list.TryGetPredecessorValue(frame, out bool result);
@@ -1843,7 +1505,7 @@ namespace InkMARC.Label
 
         private bool GetIgnoredStateAtFrame(int frame)
         {
-            if (CurrentExercise?.IgnoredFrames is not SortedList<int, bool> list || list.Count == 0)
+            if (CurrentProject?.IgnoredFrames is not SortedList<int, bool> list || list.Count == 0)
                 return false;
 
             list.TryGetPredecessorValue(frame, out bool result);
@@ -1896,80 +1558,9 @@ namespace InkMARC.Label
             return processedImage;
         }
 
-        private static Tuple<string, int, DateTime?>? ExtractSessionIDAndIndex(string fileName)
-        {
-            // Regex patterns for different filename variations
-            string[] patterns =
-            [
-                // Pattern 1: type_sessionID_timestamp_smoothed.json
-                @"^(?:data|video)_(?<sessionID>[a-zA-Z0-9]+)_(?<timestamp>\d+)_smoothed\.json$",
-
-                // Pattern 2: type_sessionID_timestamp_index.extension
-                @"^(?:data|video)_(?<sessionID>[a-zA-Z0-9]+)_(?<timestamp>[0-9T:\-.Z]+)_(?<index>\d+)\.\w+$",
-    
-                // Pattern 3: type_filetime_sessionID_index.extension (sessionID after timestamp)
-                @"^(?:data|video)_(?<timestamp>\d+)_(?<sessionID>[a-zA-Z0-9]+)_(?<index>\d+)\.\w+$",
-
-                // Pattern 4: type_sessionID_filetime_index.extension
-                @"^(?:data|video)_(?<sessionID>[a-zA-Z0-9]+)_(?<timestamp>\d+)_(?<index>\d+)\.\w+$",
-    
-                // Pattern 5: type_sessionID_index.extension (index is 1–2 digits only)
-                @"^(?:data|video)_(?<sessionID>[a-zA-Z0-9]+)_(?<index>\d{1,2})\.\w+$",
-
-                // Pattern 7: type_sessionID_Participant_index_AppView.extension
-                @"^(?:data|video)_(?<sessionID>[a-zA-Z0-9]+)_Participant(?<index>\d+)_AppView\d+\.\w+$",
-
-                // Pattern 7: type_sessionID_timestamp.extension (no index) 
-                @"^(?:data|video)_(?<sessionID>[a-zA-Z0-9]+)_(?<timestamp>\d+)\.\w+$"
-            ];
-
-            foreach (var pattern in patterns)
-            {
-                var match = Regex.Match(fileName, pattern, RegexOptions.IgnoreCase);
-                if (match.Success)
-                {
-                    string sessionID = match.Groups["sessionID"].Value;
-
-                    if (!(match.Groups["timestamp"].Success && int.TryParse(match.Groups["index"].Value, out int index)))
-                    {
-                        index = 0;
-                    }
-
-                    DateTime? extractedDateTime = null;
-                    if (match.Groups["timestamp"].Success)
-                    {
-                        string timestampStr = match.Groups["timestamp"].Value;
-                        extractedDateTime = ParseTimestamp(timestampStr);
-                    }
-
-                    return Tuple.Create(sessionID, index, extractedDateTime);
-                }
-            }
-
-            // Return null if no pattern matches
-            return null;
-        }
-
-        /// <summary>
-        /// Parses a timestamp from the filename into a DateTime object.
-        /// </summary>
-        private static DateTime? ParseTimestamp(string timestampStr)
-        {
-            if (DateTimeOffset.TryParse(timestampStr, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out DateTimeOffset dto))
-            {
-                return dto.UtcDateTime; // Convert to UTC DateTime
-            }
-            else if (DateTime.FromFileTimeUtc(long.Parse(timestampStr)) is DateTime dt)
-            {
-                return dt;
-            }
-
-            return null; // Invalid timestamp
-        }
-
         private void LoadSessionVideo(object parameter)
         {
-            if ((parameter is not null) && (parameter is SessionInfo sessionInfo))
+            if ((parameter is not null) && (parameter is ProjectInfo sessionInfo))
             {
                 // Select the first available video
                 string videoPath = sessionInfo.VideoPath;
@@ -1998,44 +1589,6 @@ namespace InkMARC.Label
                     OnPropertyChanged(nameof(SliderTickFrequency));                    
                 }
             }
-        }
-
-        private static Dictionary<string, string> MatchSessionsToVideosWithinThreshold(Dictionary<string, TimeSpan> sessionDurations, Dictionary<string, TimeSpan> videoDurations, double maxAllowedDifferenceSeconds = 30.0)
-        {
-            var matched = new Dictionary<string, string>();
-            var remainingVideos = new Dictionary<string, TimeSpan>(videoDurations); // copy so we can remove matched videos
-
-            foreach (var session in sessionDurations.OrderBy(sd => sd.Value))
-            {
-                string sessionId = session.Key;
-                TimeSpan sessionTime = session.Value;
-
-                string? bestMatch = null;
-                double bestDiff = double.MaxValue;
-
-                foreach (var video in remainingVideos)
-                {
-                    var diff = (video.Value - sessionTime).TotalSeconds;
-
-                    if (diff >= 0 && diff <= maxAllowedDifferenceSeconds && diff < bestDiff)
-                    {
-                        bestDiff = diff;
-                        bestMatch = video.Key;
-                    }
-                }
-
-                if (bestMatch != null)
-                {
-                    matched[sessionId] = bestMatch;
-                    remainingVideos.Remove(bestMatch);
-                }
-                else
-                {
-                    Console.WriteLine($"No suitable video match found for session {sessionId} (duration: {sessionTime})");
-                }
-            }
-
-            return matched;
         }
 
         private void ResizeVideoWithFFmpeg(string inputPath, string outputPath, int maxDimension = 448)
@@ -2136,84 +1689,49 @@ namespace InkMARC.Label
             }
         }
 
-        public static TimeSpan GetFullSessionDrawingDuration(string folderPath, string sessionId)
-        {
-            var files = Directory.GetFiles(folderPath, $"data_*_{sessionId}_*.json");
-
-            long? sessionStart = null;
-            long? sessionEnd = null;
-
-            foreach (var file in files)
-            {
-                var json = File.ReadAllText(file);
-                using var doc = JsonDocument.Parse(json);
-
-                if (!doc.RootElement.TryGetProperty("DrawingLines", out var linesArray)) continue;
-
-                foreach (var line in linesArray.EnumerateArray())
-                {
-                    if (!line.TryGetProperty("Points", out var pointsArray)) continue;
-
-                    foreach (var point in pointsArray.EnumerateArray())
-                    {
-                        if (point.TryGetProperty("Timestamp", out var tsProp) && tsProp.TryGetInt64(out var timestamp))
-                        {
-                            if (sessionStart == null || timestamp < sessionStart) sessionStart = timestamp;
-                            if (sessionEnd == null || timestamp > sessionEnd) sessionEnd = timestamp;
-                        }
-                    }
-                }
-            }
-
-            if (sessionStart == null || sessionEnd == null)
-                throw new Exception("No timestamps found across session files.");
-
-            long durationMicroseconds = sessionEnd.Value - sessionStart.Value;
-            return TimeSpan.FromMilliseconds(durationMicroseconds / 1000.0);
-        }
-
         private void UpdateInferredBounds()
         {
             if (UseBoundsInference)
             {
                 using var src = _videoService.GetFrameAt(FrameIndex);
                 if (src is null || src.Empty()) return;
-                var image = PrepareFrame448(src, (int)(CurrentExercise.Rotation));
+                var image = FrameProcessor.PrepareFrame448(src, (int)(CurrentProject.Rotation));
 
                 InferredCorners = predictor.Predict(image);
             }
         }
 
-        private void LoadSessionJson(object parameter)
+        partial void OnSliderValueChanged(int value)
         {
-            if ((parameter is not null) && (parameter is SessionInfo sessionInfo))
-            {
-                string? jsonPath = sessionInfo.DataPath;
+            StartDebounceTimer();
+        }
 
-                if (!string.IsNullOrEmpty(jsonPath))
+        private void LoadSessionJson(ProjectInfo sessionInfo)
+        {
+            string? jsonPath = sessionInfo.DataPath;
+
+            if (!string.IsNullOrEmpty(jsonPath))
+            {
+                try
                 {
-                    try
+                    if (File.Exists(jsonPath))
                     {
-                        if (File.Exists(jsonPath))
-                        {
-                            string jsonContent = File.ReadAllText(jsonPath);
-                            ParseJson(jsonContent);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        // Handle errors (e.pt., file not found, permission issues)
-                        FormattedJson = $"Error loading JSON: {ex.Message}";
+                        string jsonContent = File.ReadAllText(jsonPath);
+                        ParseJson(jsonContent);
                     }
                 }
-
-                _ = ExtractFramesForStateChangesAsync();
+                catch (Exception ex)
+                {
+                    FormattedJson = $"Error loading JSON: {ex.Message}";
+                }
             }
+
+            _ = ExtractFramesForStateChangesAsync();
         }
 
         private void LoadSessionBounds(object parameter)
         {
-            if ((parameter is not null) && (parameter is SessionInfo sessionInfo))
+            if ((parameter is not null) && (parameter is ProjectInfo sessionInfo))
             {
                 string? jsonPath = sessionInfo.BoundsPath;
 
@@ -2272,7 +1790,7 @@ namespace InkMARC.Label
                 if (root.TryGetProperty("DrawingLines", out JsonElement drawingLinesElement))
                 {
                     var allDrawingLines = JsonSerializer.Deserialize<List<InkMARCDrawingLine>>(drawingLinesElement.GetRawText());
-                    _drawingLine = [];
+                    CurrentProject.DrawingLine = [];
                     if (allDrawingLines is not null)
                     {
                         foreach (var line in allDrawingLines)
@@ -2281,15 +1799,14 @@ namespace InkMARC.Label
                             {
                                 foreach (var point in line.Points)
                                 {
-                                    _drawingLine.Add(point);
+                                    CurrentProject.DrawingLine.Add(point);
                                 }
                             }
                         }
-                    }
-                    firstDataTimeStamp = _drawingLine[0].Timestamp;
+                    }                    
                 }
 
-                UpdateFormattedJson();
+                FormattedJson = SessionDataService.UpdateFormattedJson(CurrentProject, FrameIndex, _videoService);
             }
             catch (JsonException)
             {
@@ -2297,74 +1814,13 @@ namespace InkMARC.Label
             }
         }
 
-        /// <summary>
-        /// Optimized version of FindClosestDataPoint. If _drawingLine is sorted by timestamp,
-        /// you could further optimize this with a binary search.
-        /// </summary>
-        private InkMARCPoint? FindClosestDataPointOptimized(int currentFrameIndex)
-        {
-            // Compute the video time for the frame.
-            double frameVideoTimeMs = currentFrameIndex * 1000.0 / _videoService.FramesPerSecond;
-            double expectedDataTimestamp = firstDataTimeStamp + (frameVideoTimeMs - StartingPoint) * 1000.0;
-
-            InkMARCPoint? closestPoint = null;
-            double smallestDiff = double.MaxValue;
-
-            if (_drawingLine is not null)
-            {
-                // Linear search: Consider binary search if _drawingLine is sorted.
-                foreach (var point in _drawingLine)
-                {
-                    double diff = Math.Abs(point.Timestamp - expectedDataTimestamp);
-                    if (diff < smallestDiff)
-                    {
-                        smallestDiff = diff;
-                        closestPoint = point;
-                    }
-                }
-            }
-
-            return (smallestDiff <= _videoService.ThresholdMicroseconds) ? closestPoint : null;
-        }
-
-        /// <summary>
-        /// Updates FormattedJson with the point that matches the current frame timestamp.
-        /// </summary>
-        private void UpdateFormattedJson()
-        {
-            if (_drawingLine is not null)
-            {
-                if (_drawingLine.Count == 0)
-                {
-                    FormattedJson = "No DrawingLines available.";
-                    return;
-                }
-
-                InkMARCPoint? closestPoint = _drawingLine[0];
-                if (CurrentExercise.FirstPointOffset >= 0)
-                {
-                    closestPoint = FindClosestDataPointOptimized(FrameIndex);
-                }
-
-                if (closestPoint != null)
-                {
-                    FormattedJson = JsonSerializer.Serialize(closestPoint, IndentedOptions);
-                }
-                else
-                {
-                    FormattedJson = "No matching point found.";
-
-                }
-            }
-        }
-
         private void ExportImage(int frame)
         {
-            var fileName = Path.GetFileNameWithoutExtension(CurrentExercise?.VideoPath) + $"frame_{frame:D5}.png";
+            var fileName = Path.GetFileNameWithoutExtension(CurrentProject?.VideoPath) + $"frame_{frame:D5}.png";
             using var src = _videoService.GetFrameAt(frame);
-            if (CurrentExercise is null || src is null || src.Empty()) return;
+            if (CurrentProject is null || src is null || src.Empty()) return;
 
-            PrepareFrame448(src, (int)(CurrentExercise.Rotation))?.SaveImage(Path.Combine(Path.GetDirectoryName(CurrentExercise?.VideoPath) ?? "", fileName));
+            FrameProcessor.PrepareFrame448(src, (int)(CurrentProject.Rotation))?.SaveImage(Path.Combine(Path.GetDirectoryName(CurrentProject?.VideoPath) ?? "", fileName));
         }
 
         private void ScaleSelected()
@@ -2396,9 +1852,7 @@ namespace InkMARC.Label
             }
 
             // 1..4 map to per-corner offset lists
-            var list = GetCornerOffsets(corner);
-            if (list is null) throw new ArgumentOutOfRangeException(nameof(corner));
-
+            var list = GetCornerOffsets(corner) ?? throw new ArgumentOutOfRangeException(nameof(corner));
             if (axis == Axis.X) list.UpsertAt(FrameIndex, x: value);
             else list.UpsertAt(FrameIndex, y: value);
 
@@ -2407,21 +1861,21 @@ namespace InkMARC.Label
 
         private SortedList<int, (int x, int y)>? GetCornerOffsets(int corner) => corner switch
         {
-            1 => CurrentExercise.CornerOffsetTL,
-            2 => CurrentExercise.CornerOffsetTR,
-            3 => CurrentExercise.CornerOffsetBL,
-            4 => CurrentExercise.CornerOffsetBR,
+            1 => CurrentProject.CornerOffsetTL,
+            2 => CurrentProject.CornerOffsetTR,
+            3 => CurrentProject.CornerOffsetBL,
+            4 => CurrentProject.CornerOffsetBR,
             _ => null
         };
 
         private void RefreshBindings()
         {
-            OnPropertyChanged(nameof(CurrentSessionName));
+            OnPropertyChanged(nameof(CurrentProjectName));
             OnPropertyChanged(nameof(HasExercise));
             OnPropertyChanged(nameof(HasData));
             OnPropertyChanged(nameof(HasH5));
             OnPropertyChanged(nameof(HasBounds));
-            OnPropertyChanged(nameof(CurrentExercise));
+            OnPropertyChanged(nameof(CurrentProject));
             OnPropertyChanged(nameof(StateChanges));
             OnPropertyChanged(nameof(DataStateValues));
             OnPropertyChanged(nameof(StartFrame));

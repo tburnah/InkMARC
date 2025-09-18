@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using InkMARC.Label.Services;
+using InkMARC.Models.Primatives;
 using Microsoft.VisualBasic.FileIO;
 using OpenCvSharp;
 using System.IO;
@@ -11,7 +12,7 @@ namespace InkMARC.Label
     /// <summary>
     /// Represents session information for a video exercise.
     /// </summary>
-    public partial class SessionInfo : ObservableObject
+    public partial class ProjectInfo : ObservableObject
     {
         /// <summary>
         /// Gets or sets the path to the video file.
@@ -127,6 +128,9 @@ namespace InkMARC.Label
         [JsonInclude]
         public Dictionary<int, Point2f[]> InferredBounds { get; private set; } = new();
 
+        [JsonIgnore]
+        public List<InkMARCPoint>? DrawingLine;
+
         public float TouchThreshold { get; set; } = 0.5f;
 
         /// <summary>
@@ -147,16 +151,16 @@ namespace InkMARC.Label
         public SortedList<int, bool> StateChanges { get; set; } = [];
 
         /// <summary>
-        /// Creates a blank instance of SessionInfo
+        /// Creates a blank instance of ProjectInfo
         /// </summary>
-        public SessionInfo()
+        public ProjectInfo()
         {
             VideoPath = string.Empty;
             SessionID = string.Empty;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SessionInfo"/> class.
+        /// Initializes a new instance of the <see cref="ProjectInfo"/> class.
         /// </summary>
         /// <param name="sessionID">The session ID.</param>
         /// <param name="videoPath">The path to the video file.</param>
@@ -165,7 +169,7 @@ namespace InkMARC.Label
         /// <param name="h5Path">The path to the H5 file.</param>
         /// <param name="videoDateTime">The date and time of the video.</param>
         /// <param name="dataDataTime">The date and time of the data.</param>
-        public SessionInfo(string sessionID, string videoPath, int exercise, string? dataPath, string? h5Path, string? boundsPath, DateTime? videoDateTime, DateTime? dataDataTime)
+        public ProjectInfo(string sessionID, string videoPath, int exercise, string? dataPath, string? h5Path, string? boundsPath, DateTime? videoDateTime, DateTime? dataDataTime)
         {
             SessionID = sessionID;
             VideoPath = videoPath;
@@ -204,7 +208,7 @@ namespace InkMARC.Label
         /// </summary>
         /// <param name="filePath">The path to the session file.</param>
         /// <returns>The loaded session information, or null if the file does not exist.</returns>
-        public static SessionInfo? LoadFromFile(string filePath)
+        public static ProjectInfo? LoadFromFile(string filePath)
         {
             if (!File.Exists(filePath))
                 return null;
@@ -216,7 +220,7 @@ namespace InkMARC.Label
             options.Converters.Add(new Point2fDictionaryConverter());      
             options.Converters.Add(new IntPairValueTupleConverter());
 
-            return JsonSerializer.Deserialize<SessionInfo>(json, options);
+            return JsonSerializer.Deserialize<ProjectInfo>(json, options);
         }
     }
 }

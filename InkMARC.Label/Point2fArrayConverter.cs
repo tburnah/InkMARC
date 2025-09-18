@@ -58,9 +58,12 @@ namespace InkMARC.Label
 
             foreach (var pt in value)
             {
+                var x = float.IsFinite(pt.X) ? pt.X : 0f;
+                var y = float.IsFinite(pt.Y) ? pt.Y : 0f;
+
                 writer.WriteStartObject();
-                writer.WriteNumber("X", pt.X);
-                writer.WriteNumber("Y", pt.Y);
+                writer.WriteNumber("X", x);
+                writer.WriteNumber("Y", y);
                 writer.WriteEndObject();
             }
 

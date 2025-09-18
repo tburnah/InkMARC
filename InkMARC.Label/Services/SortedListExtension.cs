@@ -52,8 +52,8 @@ public static class SortedListExtensions
 
     /// <summary>
     /// Upserts an entry at <paramref name="frameIndex"/>, taking the missing component
-    /// (x or y) from the predecessor (largest key ≤ frameIndex), defaulting to 0.
-    /// Use named args: list.UpsertAt(frameIndex, x: newX) or list.UpsertAt(frameIndex, y: newY).
+    /// (x or y) from the predecessor (largest key ≤ _frameIndex), defaulting to 0.
+    /// Use named args: list.UpsertAt(_frameIndex, x: newX) or list.UpsertAt(_frameIndex, y: newY).
     /// </summary>
     public static void UpsertAt(this SortedList<int, (int x, int y)> list,
                                 int frameIndex,

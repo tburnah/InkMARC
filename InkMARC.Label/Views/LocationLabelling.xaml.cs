@@ -1,4 +1,5 @@
-﻿using MaterialDesignColors.Recommended;
+﻿using InkMARC.Label.Services;
+using MaterialDesignColors.Recommended;
 using OpenCvSharp;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -20,16 +21,17 @@ namespace InkMARC.Label
     public partial class LocationLabelling : UserControl
     {
         private LocationLabellingViewModel? viewModel;
-        private readonly List<Path> overlayPluses = new();
-        private readonly List<Path> inferredPluses = new();
-        private readonly List<Rectangle> cornerRects = new();                
+        private readonly List<Path> overlayPluses = [];
+        private readonly List<Path> inferredPluses = [];
+        private readonly List<Rectangle> cornerRects = [];
+        private readonly Ellipse drawingPoint;
 
         // Shared brushes and pens
         private static readonly Brush OverlayCircleStroke = Brushes.Blue.Clone();
         private static readonly Brush OverlayCircleStrokeInactive = Brushes.Transparent.Clone();
-        private static readonly Pen OverlayCirclePen = new Pen(OverlayCircleStroke, 1);
+        private static readonly Pen OverlayCirclePen = new(OverlayCircleStroke, 1);
         private static readonly Brush CornerFill = Brushes.Transparent;
-        private static readonly Pen GreenCornerPen = new Pen(Brushes.Green, 1);
+        private static readonly Pen GreenCornerPen = new(Brushes.Green, 1);
         private const double OverlayPlusRadius = 4;
         private static readonly Geometry OverlayPlusGeometry;
 
@@ -42,9 +44,9 @@ namespace InkMARC.Label
 
         static LocationLabelling()
         {
-            if (OverlayCircleStroke.CanFreeze) OverlayCircleStroke.Freeze();            
+            if (OverlayCircleStroke.CanFreeze) OverlayCircleStroke.Freeze();
             if (OverlayCirclePen.CanFreeze) OverlayCirclePen.Freeze();
-            if (GreenCornerPen.CanFreeze) GreenCornerPen.Freeze();            
+            if (GreenCornerPen.CanFreeze) GreenCornerPen.Freeze();
             if (OverlayCircleStrokeInactive.CanFreeze) OverlayCircleStrokeInactive.Freeze();
 
             var g = new GeometryGroup();
@@ -59,6 +61,17 @@ namespace InkMARC.Label
         public LocationLabelling()
         {
             InitializeComponent();
+
+            drawingPoint = new Ellipse
+            {
+                Width = 1,
+                Height = 1,
+                Fill = CornerFill,
+                Stroke = Brushes.White,
+                StrokeThickness = 0.5,
+                SnapsToDevicePixels = true
+            };
+            OverlayCanvas.Children.Add(drawingPoint);
 
             DataContextChanged += OnDataContextChanged;
             Unloaded += LocationLabelling_Unloaded;
@@ -268,6 +281,7 @@ namespace InkMARC.Label
                     UpdateInferredPluses();
                     UpdateOverlayCircles(true);
                     UpdateCornerRects();
+                    UpdateLocation();
                 });
             }
 
@@ -278,6 +292,68 @@ namespace InkMARC.Label
                     this.Cursor = viewModel.IsSelectingPoints ? Cursors.Cross : Cursors.Arrow;
                 });
             }
+        }
+
+        private void UpdateLocation()
+        {
+            // 113 from top, 15 from each side
+            if (viewModel?.RotatedPoints is null || viewModel.ClosestPoint is null)
+                return;
+
+            Point2f[] ordered = new Point2f[4];
+            Point2f[] scaledPoints = viewModel.ScaledPoints.ToArray();
+            for (int i = 0; i < ordered.Length; i++)
+            {
+                var pt = scaledPoints[i];
+                var x = pt.X + viewModel.XOffset + viewModel.XOffsets[i + 1];
+                var y = pt.Y + viewModel.YOffset + viewModel.YOffsets[i + 1];
+                scaledPoints[i] = new Point2f(x, y);
+            }
+            BoundsUtilities.OrderClockwise(scaledPoints, ordered);
+            var tl = ordered[0];
+            var tr = ordered[1];
+            var br = ordered[2];
+            var bl = ordered[3];
+            var point = WorldToPixel((float)(viewModel?.ClosestPoint?.X + 16), (float)(viewModel?.ClosestPoint?.Y + 76), viewModel.CanvasWidth, viewModel.CanvasHeight, tl, tr, br, bl);
+            MoveElement(drawingPoint, point.X, point.Y);
+
+        }
+
+        public static Point2d WorldToPixel(
+            float x, float y,             // world point inside the rectangle
+            float W, float H,             // rectangle width/height in world units
+            Point2f tlPx, Point2f trPx, Point2f brPx, Point2f blPx) // image quad
+        {
+            // 1) source (world) corners
+            var src = new[]
+            {
+                new Point2f(0f, 0f),         // TL
+                new Point2f((float)W, 0f),   // TR
+                new Point2f((float)W, (float)H), // BR
+                new Point2f(0f, (float)H)    // BL
+            };
+
+            float xr = x - 16;
+            float yr = y - 76;
+
+            // 2) destination (pixel) corners in matching order
+            var dst = new[]
+            {
+                new Point2f((float)tlPx.X, (float)tlPx.Y),
+                new Point2f((float)trPx.X, (float)trPx.Y),
+                new Point2f((float)brPx.X, (float)brPx.Y),
+                new Point2f((float)blPx.X, (float)blPx.Y)
+            };
+
+            // 3) homography: world -> pixel
+            using var homography = Cv2.GetPerspectiveTransform(src, dst);
+
+            // 4) apply H to [x, y, 1]^T
+            var X = homography.Get<double>(0, 0) * xr + homography.Get<double>(0, 1) * yr + homography.Get<double>(0, 2);
+            var Y = homography.Get<double>(1, 0) * xr + homography.Get<double>(1, 1) * yr + homography.Get<double>(1, 2);
+            var Wp = homography.Get<double>(2, 0) * xr + homography.Get<double>(2, 1) * yr + homography.Get<double>(2, 2);
+
+            return new Point2d(X / Wp, Y / Wp);
         }
 
         private void UpdateInferredPluses()
@@ -344,7 +420,7 @@ namespace InkMARC.Label
 
             // Update positions
             for (int i = 0; i < needed; i++)
-            {                
+            {
                 //var (oldX, oldY) = GetTranslate(overlayPluses[i]);
 
                 var pt = viewModel.ScaledPoints[i];
