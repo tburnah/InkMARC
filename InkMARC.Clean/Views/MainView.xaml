@@ -1,0 +1,552 @@
+﻿<Window x:Class="InkMARC.Clean.Views.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:InkMARC.Clean.Views"
+        xmlns:services="clr-namespace:InkMARC.Clean.Services"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        Title="MainView"
+        Height="650"
+        Width="900"
+        Style="{StaticResource MaterialDesignWindow}"
+        Background="{DynamicResource MaterialDesignPaper}">
+    <Window.Resources>
+        <ResourceDictionary>
+            <Style x:Key="TimelineIconButtonStyle"
+                   TargetType="Button"
+                   BasedOn="{StaticResource MaterialDesignIconButton}">
+                <Setter Property="Foreground"
+                        Value="{DynamicResource MaterialDesign.Brush.Primary.Foreground}" />
+                <Setter Property="Margin"
+                        Value="0,0,4,0" />
+            </Style>
+            <BooleanToVisibilityConverter x:Key="BoolToVis" />
+            <services:InverseBooleanToVisibilityConverter x:Key="InvBoolToVis" />
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <!-- Grid rows: Top App Bar / Main content / Timeline -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- =============== TOP APP BAR (M3-style) =============== -->
+        <materialDesign:ColorZone Grid.Row="0"
+                                  Mode="PrimaryDark"
+                                  Padding="8,4">
+            <DockPanel LastChildFill="False">
+                <!-- App title / context -->
+                <TextBlock Text="InkMARC Clean"
+                           VerticalAlignment="Center"
+                           Margin="4,0,16,0"
+                           Style="{StaticResource MaterialDesignTitleMediumTextBlock}" />
+                <TextBlock Text="{Binding CurrentFilePath}"
+                           FontStyle="Italic"
+                           Style="{StaticResource MaterialDesignTitleSmallTextBlock}" 
+                           VerticalAlignment="Center"
+                           Margin="32,0,0,0"
+                           DockPanel.Dock="Left"/>
+                <ToolBar DockPanel.Dock="Right" Style="{StaticResource MaterialDesignToolBar}"
+                         Background="{StaticResource MaterialDesign.Brush.Primary}"
+                         Foreground="{StaticResource MaterialDesign.Brush.Primary.Foreground}">
+                    <TextBlock Text="Open:" VerticalAlignment="Center" 
+                               Style="{StaticResource MaterialDesignButtonTextBlock}" />
+                    <Button Style="{StaticResource MaterialDesignToolButton}"
+                            Command="{Binding OpenVideoCommand}"
+                            ToolTip="Open Video">
+                        <materialDesign:PackIcon Kind="MovieOpen"
+                                                 Foreground="{StaticResource MaterialDesign.Brush.Primary.Foreground}" />
+                    </Button>
+                    <Button Style="{StaticResource MaterialDesignToolButton}"
+                            Command="{Binding OpenDatasetCommand}"
+                            ToolTip="Open Dataset">
+                        <materialDesign:PackIcon Kind="Database"
+                                                 Foreground="{StaticResource MaterialDesign.Brush.Primary.Foreground}" />
+                    </Button>
+                    <Button Style="{StaticResource MaterialDesignToolButton}"
+                            Command="{Binding OpenPictureCommand}"
+                            ToolTip="Open Image">
+                        <materialDesign:PackIcon Kind="Image"
+                                                 Foreground="{StaticResource MaterialDesign.Brush.Primary.Foreground}" />
+                    </Button>
+                    <Separator />
+                    <TextBlock Text="Export:"
+                               VerticalAlignment="Center"
+                               Style="{StaticResource MaterialDesignButtonTextBlock}" />
+                    <Button Style="{StaticResource MaterialDesignToolButton}"
+                            Command="{Binding ExportDatasetCommand}">
+                        <materialDesign:PackIcon Kind="DatabaseAdd"
+                                                 Foreground="{StaticResource MaterialDesign.Brush.Primary.Foreground}"/>
+                    </Button>
+                    <Button Style="{StaticResource MaterialDesignToolButton}"
+                            Command="{Binding ExportMultipleDatasetsCommand}">
+                        <materialDesign:PackIcon Kind="DatabaseExport"
+                                                 Foreground="{StaticResource MaterialDesign.Brush.Primary.Foreground}" />
+                    </Button>
+                    <Button Style="{StaticResource MaterialDesignToolButton}">
+                        <materialDesign:PackIcon Kind="ImageAdd"
+                                                 Foreground="{StaticResource MaterialDesign.Brush.Primary.Foreground}" />
+                    </Button>
+                </ToolBar>
+            </DockPanel>
+        </materialDesign:ColorZone>
+
+        <!-- ================= MAIN CONTENT ================= -->
+        <Grid Grid.Row="1"
+              Margin="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- ========== LEFT: FRAME VIEW + TEXT STRIP ========== -->
+            <Grid Grid.Column="0"
+                  Margin="0,0,8,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!-- Main frame viewport in a card -->
+                <materialDesign:Card Grid.Row="0"
+                                     Margin="0,0,0,8"
+                                     Padding="4"
+                                     materialDesign:ElevationAssist.Elevation="Dp2">
+                    <Grid>
+                        <Image x:Name="FrameImage"
+                               Stretch="Uniform"
+                               Source="{Binding CurrentFrameImage}" />
+
+                        <!-- Overlay toggles as Material checkboxes -->
+                        <StackPanel Orientation="Vertical"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Margin="8">
+
+                        </StackPanel>
+                    </Grid>
+                </materialDesign:Card>
+
+                <!-- Text-strip preview and OCR -->
+                <DockPanel Grid.Row="1">
+                    <!-- Cropped text-bar image in a small card -->
+                    <materialDesign:Card Width="250"
+                                         Height="80"
+                                         Margin="0,0,8,0"
+                                         materialDesign:ElevationAssist.Elevation="Dp1">
+                        <Image Stretch="Uniform"
+                               Source="{Binding CurrentTextStripImage}" />
+                    </materialDesign:Card>
+
+                    <materialDesign:Card>
+                        <!-- OCR / parsed values -->
+                        <StackPanel VerticalAlignment="top"
+                                    Margin="4">
+                            <TextBlock Text="Raw OCR"
+                                       Style="{StaticResource MaterialDesignLabelMediumTextBlock}" />
+                            <TextBlock Text="{Binding CurrentRawOcr}"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,4"
+                                       Style="{StaticResource MaterialDesignBodySmallTextBlock}" />
+                        </StackPanel>
+                    </materialDesign:Card>
+
+
+                </DockPanel>
+            </Grid>
+
+            <!-- ========== RIGHT: ATTRIBUTE INSPECTOR ========== -->
+            <ScrollViewer Grid.Column="1">
+                <StackPanel>
+
+                    <!-- Frame Info Card -->
+                    <materialDesign:Card Margin="0,0,0,8"
+                                         Padding="8"
+                                         materialDesign:ElevationAssist.Elevation="Dp1">
+                        <StackPanel>
+                            <TextBlock Text="Frame Info"
+                                       Margin="0,0,0,4"
+                                       Style="{StaticResource MaterialDesignTitleSmallTextBlock}" />
+                            <Grid Margin="0,4,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Text="Frame #"
+                                           Grid.Row="0"
+                                           Grid.Column="0"
+                                           Margin="0,0,8,0" />
+                                <TextBlock Text="{Binding CurrentFrameIndex}"
+                                           Grid.Row="0"
+                                           Grid.Column="1" />
+
+                                <TextBlock Text="Timestamp"
+                                           Grid.Row="1"
+                                           Grid.Column="0"
+                                           Margin="0,0,8,0" />
+                                <TextBlock Text="{Binding CurrentTimestamp}"
+                                           Grid.Row="1"
+                                           Grid.Column="1" />
+
+                                <TextBlock Text="Has Text Bar"
+                                           VerticalAlignment="Center"
+                                           Grid.Row="2"
+                                           Grid.Column="0"
+                                           Margin="0,0,8,0" />
+                                <TextBlock Text="{Binding HasTextBar}"
+                                           Grid.Row="2"
+                                           Grid.Column="1" />
+                            </Grid>
+                        </StackPanel>
+                    </materialDesign:Card>
+
+                    <!-- Corners Card -->
+                    <materialDesign:Card Margin="0,0,0,8"
+                                         Padding="8"
+                                         materialDesign:ElevationAssist.Elevation="Dp1">
+                        <StackPanel>
+                            <TextBlock Text="Corners"
+                                       Margin="0,0,0,4"
+                                       Style="{StaticResource MaterialDesignTitleSmallTextBlock}" />
+                            <Grid Margin="0,4,0,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- C0 -->
+                                <TextBlock Text="TL"
+                                           Grid.Row="0"
+                                           Grid.Column="0"
+                                           Margin="0,0,8,0" />
+                                <TextBlock Text="{Binding TopLeftX}"
+                                           Grid.Row="0"
+                                           Grid.Column="1"
+                                           Margin="0,0,4,4"
+                                           Style="{StaticResource MaterialDesignBodySmallTextBlock }" />
+                                <TextBlock Text="{Binding TopLeftY}"
+                                           Grid.Row="0"
+                                           Grid.Column="2"
+                                           Margin="0,0,0,4"
+                                           Style="{StaticResource MaterialDesignBodySmallTextBlock}" />
+
+                                <!-- C1 -->
+                                <TextBlock Text="TR"
+                                           Grid.Row="1"
+                                           Grid.Column="0"
+                                           Margin="0,0,8,0" />
+                                <TextBlock Text="{Binding TopRightX}"
+                                           Grid.Row="1"
+                                           Grid.Column="1"
+                                           Margin="0,0,4,4"
+                                           Style="{StaticResource MaterialDesignBodySmallTextBlock}"
+                                           materialDesign:TextFieldAssist.DecorationVisibility="Hidden" />
+                                <TextBlock Text="{Binding TopRightY}"
+                                           Grid.Row="1"
+                                           Grid.Column="2"
+                                           Margin="0,0,0,4"
+                                           Style="{StaticResource MaterialDesignBodySmallTextBlock}"
+                                           materialDesign:TextFieldAssist.DecorationVisibility="Hidden" />
+
+                                <!-- C2 -->
+                                <TextBlock Text="BR"
+                                           Grid.Row="2"
+                                           Grid.Column="0"
+                                           Margin="0,0,8,0" />
+                                <TextBlock Text="{Binding BottomRightX}"
+                                           Grid.Row="2"
+                                           Grid.Column="1"
+                                           Margin="0,0,4,4"
+                                           Style="{StaticResource MaterialDesignBodySmallTextBlock}"
+                                           materialDesign:TextFieldAssist.DecorationVisibility="Hidden" />
+                                <TextBlock Text="{Binding BottomRightY}"
+                                           Grid.Row="2"
+                                           Grid.Column="2"
+                                           Margin="0,0,0,4"
+                                           Style="{StaticResource MaterialDesignBodySmallTextBlock}"
+                                           materialDesign:TextFieldAssist.DecorationVisibility="Hidden" />
+
+                                <!-- C3 -->
+                                <TextBlock Text="BL"
+                                           Grid.Row="3"
+                                           Grid.Column="0"
+                                           Margin="0,0,8,0" />
+                                <TextBlock Text="{Binding BottomLeftX}"
+                                           Grid.Row="3"
+                                           Grid.Column="1"
+                                           Margin="0,0,4,0"
+                                           Style="{StaticResource MaterialDesignBodySmallTextBlock}"
+                                           materialDesign:TextFieldAssist.DecorationVisibility="Hidden" />
+                                <TextBlock Text="{Binding BottomLeftY}"
+                                           Grid.Row="3"
+                                           Grid.Column="2"
+                                           Margin="0,0,0,0"
+                                           Style="{StaticResource MaterialDesignBodySmallTextBlock}"
+                                           materialDesign:TextFieldAssist.DecorationVisibility="Hidden" />
+                            </Grid>
+                        </StackPanel>
+                    </materialDesign:Card>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <!-- Stylus Card -->
+                        <materialDesign:Card Margin="0,0,0,8"
+                                             Padding="8"
+                                             materialDesign:ElevationAssist.Elevation="Dp1">
+                            <StackPanel>
+                                <TextBlock Text="Stylus"
+                                           Margin="0,0,0,4"
+                                           Style="{StaticResource MaterialDesignTitleSmallTextBlock}" />
+                                <Grid Margin="0,4,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Text="X"
+                                               Grid.Row="0"
+                                               Grid.Column="0"
+                                               Margin="0,0,8,0" />
+                                    <TextBlock Text="{Binding StylusX}"
+                                               Grid.Row="0"
+                                               Grid.Column="1"
+                                               Margin="0,0,0,4"
+                                               Style="{StaticResource MaterialDesignBodySmallTextBlock}"
+                                               materialDesign:TextFieldAssist.DecorationVisibility="Hidden" />
+
+                                    <TextBlock Text="Y"
+                                               Grid.Row="1"
+                                               Grid.Column="0"
+                                               Margin="0,0,8,0" />
+                                    <TextBlock Text="{Binding StylusY}"
+                                               Grid.Row="1"
+                                               Grid.Column="1"
+                                               Margin="0,0,0,4"
+                                               Style="{StaticResource MaterialDesignBodySmallTextBlock}"
+                                               materialDesign:TextFieldAssist.DecorationVisibility="Hidden" />
+
+                                    <TextBlock Text="Pressure"
+                                               Grid.Row="2"
+                                               Grid.Column="0"
+                                               Margin="0,0,8,0" />
+                                    <TextBlock Text="{Binding StylusPressure}"
+                                               Grid.Row="2"
+                                               Grid.Column="1"
+                                               Margin="0,0,0,4"
+                                               Style="{StaticResource MaterialDesignBodySmallTextBlock}"
+                                               materialDesign:TextFieldAssist.DecorationVisibility="Hidden" />
+
+                                    <TextBlock Text="Tilt (X)"
+                                               Grid.Row="3"
+                                               Grid.Column="0"
+                                               Margin="0,0,8,0" />
+                                    <TextBlock Text="{Binding StylusTiltX}"
+                                               Grid.Row="3"
+                                               Grid.Column="1"
+                                               Margin="0,0,0,0"
+                                               Style="{StaticResource MaterialDesignBodySmallTextBlock}"
+                                               materialDesign:TextFieldAssist.DecorationVisibility="Hidden" />
+                                </Grid>
+                            </StackPanel>
+                        </materialDesign:Card>
+                        <!-- Stylus Card -->
+                        <materialDesign:Card Grid.Column="1"
+                                             Margin="8,0,0,8"
+                                             Padding="8"
+                                             materialDesign:ElevationAssist.Elevation="Dp1">
+                            <StackPanel>
+                                <TextBlock Text="View"
+                                           Margin="0,0,0,4"
+                                           Style="{StaticResource MaterialDesignTitleSmallTextBlock}" />
+                                <Grid Margin="0,4,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Text="Width"
+                                               Grid.Row="0"
+                                               Grid.Column="0"
+                                               Margin="0,0,8,0" />
+                                    <TextBox Text="{Binding ViewW, Mode=TwoWay}"
+                                             Grid.Row="0"
+                                             Grid.Column="1"
+                                             Margin="0,0,0,4"
+                                             Style="{StaticResource MaterialDesignTextBox}"
+                                             materialDesign:TextFieldAssist.DecorationVisibility="Hidden" />
+                                    <TextBlock Text="Height"
+                                               Grid.Row="1"
+                                               Grid.Column="0"
+                                               Margin="0,0,8,0" />
+                                    <TextBox Text="{Binding ViewH, Mode=TwoWay}"
+                                             Grid.Row="1"
+                                             Grid.Column="1"
+                                             Margin="0,0,0,4"
+                                             Style="{StaticResource MaterialDesignTextBox}"
+                                             materialDesign:TextFieldAssist.DecorationVisibility="Hidden" />
+                                </Grid>
+                                <Button Style="{StaticResource MaterialDesignToolButton}"
+                                        Command="{Binding CycleResolutionCommand}">
+                                    <materialDesign:PackIcon Kind="MoveResize" />
+                                </Button>
+                            </StackPanel>
+                        </materialDesign:Card>
+                    </Grid>
+
+                    <materialDesign:Card Margin="0,0,0,8"
+                                         Padding="8"
+                                         materialDesign:ElevationAssist.Elevation="Dp1">
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Left">
+                            <CheckBox Content="Show Surface Mask"
+                                      IsChecked="{Binding ShowSurfaceMask}"
+                                      Style="{StaticResource MaterialDesignCheckBox}" />
+                            <CheckBox Content="Yellow Tape"
+                                      Margin="15 0 0 0"
+                                      IsChecked="{Binding HasYellowBackground}"
+                                      Style="{StaticResource MaterialDesignCheckBox}" />
+                        </StackPanel>
+                    </materialDesign:Card>
+
+                    <!-- Frame Actions Card -->
+                    <materialDesign:Card Margin="0,0,0,8"
+                                         Padding="8"
+                                         materialDesign:ElevationAssist.Elevation="Dp1">
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Right">
+                            <Button Content="Cycle"
+                                    Command="{Binding CycleColorsCommand}"
+                                    Foreground="{Binding ForegroundColor}"
+                                    Background="{Binding BackgroundColor}"
+                                    Margin="0,0,8,0">
+                            </Button>
+                            <Button Content="Mark Invalid"
+                                    Command="{Binding MarkInvalidCommand}"
+                                    Margin="0,0,8,0"
+                                    Style="{StaticResource MaterialDesignOutlinedButton}" />
+                            <Button Content="Reprocess"
+                                    Command="{Binding ReprocessFrameCommand}"
+                                    Style="{StaticResource MaterialDesignRaisedButton}" />
+                        </StackPanel>
+                    </materialDesign:Card>
+
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+
+        <!-- ================= TIMELINE ================= -->
+        <materialDesign:ColorZone Grid.Row="2"
+                                  Mode="PrimaryMid"
+                                  Padding="8,4">
+            <Grid>
+                <!-- ===== Normal timeline (slider) ===== -->
+                <DockPanel LastChildFill="True"
+                           Visibility="{Binding IsExporting, Converter={StaticResource InvBoolToVis}}">
+                    <StackPanel Orientation="Horizontal"
+                                DockPanel.Dock="Left"
+                                Margin="0,0,8,0">
+                        <Button Command="{Binding MoveFrameCommand}"
+                                Style="{StaticResource TimelineIconButtonStyle}">
+                            <Button.CommandParameter>
+                                <sys:Int32>-10</sys:Int32>
+                            </Button.CommandParameter>
+                            <materialDesign:PackIcon Kind="SkipPrevious" />
+                        </Button>
+                        <Button Command="{Binding MoveFrameCommand}"
+                                Style="{StaticResource TimelineIconButtonStyle}">
+                            <Button.CommandParameter>
+                                <sys:Int32>-1</sys:Int32>
+                            </Button.CommandParameter>
+                            <materialDesign:PackIcon Kind="ChevronLeft" />
+                        </Button>
+                        <Button Command="{Binding TogglePlayCommand}"
+                                Style="{StaticResource TimelineIconButtonStyle}">
+                            <materialDesign:PackIcon Kind="PlayPause" />
+                        </Button>
+                        <Button Command="{Binding MoveFrameCommand}"
+                                Style="{StaticResource TimelineIconButtonStyle}">
+                            <Button.CommandParameter>
+                                <sys:Int32>1</sys:Int32>
+                            </Button.CommandParameter>
+                            <materialDesign:PackIcon Kind="ChevronRight" />
+                        </Button>
+                        <Button Command="{Binding MoveFrameCommand}"
+                                Style="{StaticResource TimelineIconButtonStyle}">
+                            <Button.CommandParameter>
+                                <sys:Int32>10</sys:Int32>
+                            </Button.CommandParameter>
+                            <materialDesign:PackIcon Kind="SkipNext" />
+                        </Button>
+                    </StackPanel>
+
+                    <Slider Minimum="0"
+                            Foreground="White"
+                            Style="{StaticResource MaterialDesign3.MaterialDesignDiscreteHorizontalSlider}"
+                            Maximum="{Binding FrameCount}"
+                            Value="{Binding CurrentFrameIndex, Mode=TwoWay}"
+                            TickFrequency="1"
+                            IsSnapToTickEnabled="True"
+                            VerticalAlignment="Center"
+                            Margin="0,0,4,0" />
+                </DockPanel>
+
+                <!-- ===== Export progress (replaces slider) ===== -->
+                <DockPanel LastChildFill="True"
+                           Visibility="{Binding IsExporting, Converter={StaticResource BoolToVis}}">
+                    <Button Content="Cancel"
+                            DockPanel.Dock="Right"
+                            Margin="8,0,0,0"
+                            Style="{StaticResource MaterialDesignOutlinedButton}"
+                            Command="{Binding CancelExportCommand}" />
+
+                    <StackPanel>
+                        <TextBlock Text="{Binding ExportStatus}"
+                                   Style="{StaticResource MaterialDesignBodySmallTextBlock}"
+                                   Margin="0,0,0,4" />
+
+                        <ProgressBar Minimum="0"
+                                     Maximum="100"
+                                     Value="{Binding ExportProgress}"
+                                     Height="10"
+                                     Style="{StaticResource MaterialDesignLinearProgressBar}" />
+                    </StackPanel>
+                </DockPanel>
+            </Grid>
+        </materialDesign:ColorZone>
+    </Grid>
+</Window>
