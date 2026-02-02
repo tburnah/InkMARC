@@ -54,7 +54,7 @@ namespace InkMARC.Clean.Services
 
         public int FrameCount => frameCount;
 
-        public double FramesPerSecond => throw new NotImplementedException();
+        public double FramesPerSecond => _videoService.FramesPerSecond;
 
         public event EventHandler<int>? FrameCountChanged;
 
@@ -178,7 +178,6 @@ namespace InkMARC.Clean.Services
                 bool hasStylusInfo = (textBmp != null);
 
                 // If we can’t proceed with databar logic, preserve existing behaviour: return null
-                // (Your original code returned null unless hasStylusInfo && borderHeight.HasValue)
                 if (!hasStylusInfo)
                     return null;
 
@@ -506,8 +505,8 @@ namespace InkMARC.Clean.Services
             // ---- Line 3 (optional) ----
             if (count >= 3 && TryParseInts(line2!, 2, out var v2))
             {
-                ViewH = v2[0] ?? 0;
-                ViewW = v2[1] ?? 0;
+                ViewH = v2[1] ?? 0;
+                ViewW = v2[0] ?? 0;
             }
 
             return;

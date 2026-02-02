@@ -1,25 +1,34 @@
 ﻿using HDF.PInvoke;
+using OpenCvSharp;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Security.Cryptography;
+using System.Text;
 
 namespace InkMARC.Clean.Services
 {
     public sealed class SessionManager : IDisposable
     {
-        // Dataset names
-        private const string ImagesName = "images";
-        private const string CornersName = "corners";
-        private const string LabelsName = "labels";
-        private const string LabelMaskName = "label_mask";
+        // Dataset names (metadata only)
+        private const string CornersName = "corners";         // [T,4,2] float32
+        private const string LabelsName = "labels";           // [T,A] float32
+        private const string LabelMaskName = "label_mask";    // [T,A] uint8
+        private const string TimestampsName = "timestamps_ns";// [T] uint64
+
+        // File attributes (recommended)
+        private const string AttrWidth = "width";
+        private const string AttrHeight = "height";
+        private const string AttrChannels = "channels";
+        private const string AttrFrameCount = "frame_count";
+        private const string AttrAttrCount = "attr_count";
+        private const string AttrFps = "fps";        
 
         // HDF5 handles
         private long _fileId = -1;
-        private long _imagesId = -1;
         private long _cornersId = -1;
         private long _labelsId = -1;
         private long _labelMaskId = -1;
+        private long _timestampsId = -1;
 
         // Metadata
         public ulong FrameCount { get; private set; }
@@ -27,17 +36,9 @@ namespace InkMARC.Clean.Services
         public int Width { get; private set; }
         public int Channels { get; private set; } = 3;
         public int AttrCount { get; private set; }
+        public int Fps { get; private set; }
 
-        private bool _disposed;
-
-        // Cached dataspaces (keep open for the life of the session)
-        private long _imgFileSpace = -1;
-        private ulong[] _imgStart = new ulong[4];
-        private ulong[] _imgCountSingle;
-        private long _imgMemSpaceSingle = -1;        // [1,H,W,C]
-        private long _imgMemSpaceBatch = -1;    // [batch,H,W,C]
-
-
+        // Cached dataspaces (keep open for session life)
         private long _cornFileSpace = -1;
         private long _cornMemSpace = -1;
         private readonly ulong[] _cornStart = new ulong[3];
@@ -46,325 +47,156 @@ namespace InkMARC.Clean.Services
         private long _labFileSpace = -1;
         private long _labMemSpace = -1;
         private readonly ulong[] _labStart = new ulong[2];
-        private ulong[] _labCount;
+        private ulong[] _labCount = Array.Empty<ulong>();
 
         private long _maskFileSpace = -1;
         private long _maskMemSpace = -1;
         private readonly ulong[] _maskStart = new ulong[2];
-        private ulong[] _maskCount;
+        private ulong[] _maskCount = Array.Empty<ulong>();
 
-        private ulong[] _imgMemDims;
-        private static readonly ulong[] _cornMemDims = { 1, 4, 2 };
-        private ulong[] _labMemDims;
-        private ulong[] _maskMemDims;
+        private long _tsFileSpace = -1;
+        private long _tsMemSpace = -1;
+        private readonly ulong[] _tsStart = new ulong[1];
+        private static readonly ulong[] _tsCount = { 1 };
 
-        // --- Buffered image write state ---
-        private int _imgBatchFrames = 16;          // write N frames at a time (set to your chunkFrames)
-        private int _imgFrameBytes;               // H*W*C
-        private byte[]? _imgBatchBuffer;          // N * frameBytes
-        private int _imgBatchFill;                // how many frames currently buffered
-        private ulong _imgBatchStartFrame;            // first frame index in the current batch
-        private bool _imgBatchHasStart;
+        private long _dxpl = H5P.DEFAULT;
 
-
-        private long _dxpl = H5P.DEFAULT; // optional: DXPL handle if you want a custom transfer plist
+        private bool _disposed;
 
         private SessionManager() { }
 
         // -------------------------------
-        // Factory: create new file
+        // Factory: create new paired session (H5 + AVI)
+        // Note: Video export/import responsibilities have been moved to VideoService.
+        // SessionManager now only creates HDF5 metadata datasets and stores the video path as an attribute.
         // -------------------------------
         public static SessionManager CreateNew(
-            string path,
+            string h5Path,            
             ulong frameCount,
             int height,
             int width,
             int attrCount,
-            int chunkFrames = 16)
+            int fps,
+            int chunkFrames = 256)
         {
-            var mgr = new SessionManager();
-            mgr.FrameCount = frameCount;
-            mgr.Height = height;
-            mgr.Width = width;
-            mgr.AttrCount = attrCount;
+            if (frameCount == 0) throw new ArgumentOutOfRangeException(nameof(frameCount));
+            if (height <= 0) throw new ArgumentOutOfRangeException(nameof(height));
+            if (width <= 0) throw new ArgumentOutOfRangeException(nameof(width));
+            if (attrCount <= 0) throw new ArgumentOutOfRangeException(nameof(attrCount));
+            if (fps <= 0) throw new ArgumentOutOfRangeException(nameof(fps));
 
-            mgr._imgBatchFrames = Math.Max(1, chunkFrames);
-            mgr.CreateFileInternal(path, chunkFrames);
-            mgr.InitIoCaches();
-
-            return mgr;
-        }
-
-        private void InitIoCaches()
-        {
-            // /images
-            // ---------- /images ----------
-            _imgFileSpace = H5D.get_space(_imagesId);
-            if (_imgFileSpace < 0)
-                throw new Exception("InitIoCaches: H5D.get_space(/images) failed.");
-
-            _imgFrameBytes = Height * Width * Channels;
-
-            // ---- SINGLE FRAME (READ + fallback WRITE) ----
-            _imgCountSingle = new ulong[] { 1, (ulong)Height, (ulong)Width, (ulong)Channels };
-            var memDimsSingle = new ulong[] { 1, (ulong)Height, (ulong)Width, (ulong)Channels };
-
-            _imgMemSpaceSingle = H5S.create_simple(4, memDimsSingle, memDimsSingle);
-            if (_imgMemSpaceSingle < 0)
-                throw new Exception("InitIoCaches: create single-frame memspace failed.");
-
-            // ---- BATCH (WRITE ONLY) ----
-            if (_imgBatchFrames <= 0)
-                throw new Exception("_imgBatchFrames must be > 0.");
-
-            var memDimsBatch = new ulong[]
+            var mgr = new SessionManager
             {
-                (ulong)_imgBatchFrames,
-                (ulong)Height,
-                (ulong)Width,
-                (ulong)Channels
+                FrameCount = frameCount,
+                Height = height,
+                Width = width,
+                Channels = 3,
+                AttrCount = attrCount,
+                Fps = fps                
             };
 
-            _imgMemSpaceBatch = H5S.create_simple(4, memDimsBatch, memDimsBatch);
-            if (_imgMemSpaceBatch < 0)
-                throw new Exception("InitIoCaches: create batch memspace failed.");
-
-            _imgBatchBuffer = new byte[_imgBatchFrames * _imgFrameBytes];
-            _imgBatchFill = 0;
-
-            // /corners
-            _cornFileSpace = H5D.get_space(_cornersId);
-            if (_cornFileSpace < 0) throw new Exception("InitIoCaches: failed to get /corners dataspace.");
-
-            _cornMemSpace = H5S.create_simple(3, _cornMemDims, _cornMemDims);
-            if (_cornMemSpace < 0) throw new Exception("InitIoCaches: failed to create /corners memspace.");
-
-            // /labels
-            _labFileSpace = H5D.get_space(_labelsId);
-            if (_labFileSpace < 0) throw new Exception("InitIoCaches: failed to get /labels dataspace.");
-
-            _labCount = new ulong[] { 1, (ulong)AttrCount };
-            _labMemDims = new ulong[] { 1, (ulong)AttrCount };
-            _labMemSpace = H5S.create_simple(2, _labMemDims, _labMemDims);
-            if (_labMemSpace < 0) throw new Exception("InitIoCaches: failed to create /labels memspace.");
-
-            // /label_mask
-            _maskFileSpace = H5D.get_space(_labelMaskId);
-            if (_maskFileSpace < 0) throw new Exception("InitIoCaches: failed to get /label_mask dataspace.");
-
-            _maskCount = new ulong[] { 1, (ulong)AttrCount };
-            _maskMemDims = new ulong[] { 1, (ulong)AttrCount };
-            _maskMemSpace = H5S.create_simple(2, _maskMemDims, _maskMemDims);
-            if (_maskMemSpace < 0) throw new Exception("InitIoCaches: failed to create /label_mask memspace.");
-        }
-
-        // -------------------------------
-        // Factory: open existing file
-        // -------------------------------
-        public static SessionManager OpenExisting(
-            string path,
-            bool writeable = false)
-        {
-            var mgr = new SessionManager();
-            mgr.OpenFileInternal(path, writeable);
+            mgr.CreateFileInternal(h5Path, chunkFrames);
             mgr.InitIoCaches();
+
+            // Note: Video writer is no longer opened here. Use VideoService to create/write the AVI.
+
             return mgr;
         }
 
         // -------------------------------
-        // Public API: Write one frame
+        // Factory: open existing session
+        // -------------------------------
+        public static SessionManager OpenExisting(string h5Path, string? aviPathOverride = null, bool writeable = false)
+        {
+            var mgr = new SessionManager();
+            mgr.OpenFileInternal(h5Path, writeable);
+
+            mgr.InitIoCaches();
+
+            return mgr;
+        }
+
+        // -------------------------------
+        // Public API: write one frame (metadata only)
         // -------------------------------
         public void WriteFrame(
-            ulong frameIndex,
-            byte[] imageRgb,        // length = H * W * 3
-            float[] corners,        // length = 4 * 2
-            float[] labels,         // length = AttrCount
-            byte[] labelMask)       // length = AttrCount            
+            ulong frameIndex,            
+            ulong timestampNs,        // monotonic timestamp (or wallclock)
+            float[] corners,          // length = 8
+            float[] labels,           // length = AttrCount
+            byte[] labelMask)         // length = AttrCount
         {
             EnsureNotDisposed();
-            if (frameIndex < 0 || frameIndex >= FrameCount)
-                throw new ArgumentOutOfRangeException(nameof(frameIndex));
 
-            if (imageRgb?.Length != Height * Width * Channels)
-                throw new ArgumentException("Unexpected image buffer length.", nameof(imageRgb));
-            if (corners?.Length != 4 * 2)
-                throw new ArgumentException("corners must be length 8 (4 points x 2 coords).", nameof(corners));
-            if (labels?.Length != AttrCount)
+            if (frameIndex >= FrameCount)
+                throw new ArgumentOutOfRangeException(nameof(frameIndex));
+            if (corners == null || corners.Length != 8)
+                throw new ArgumentException("corners must be length 8.", nameof(corners));
+            if (labels == null || labels.Length != AttrCount)
                 throw new ArgumentException("labels length must equal AttrCount.", nameof(labels));
-            if (labelMask?.Length != AttrCount)
+            if (labelMask == null || labelMask.Length != AttrCount)
                 throw new ArgumentException("labelMask length must equal AttrCount.", nameof(labelMask));
 
-            //WriteImageFrame(frameIndex, imageRgb);
-            WriteImageFrameBuffered(frameIndex, imageRgb);
+            // 1) Write metadata to HDF5 at the given frame index
+            WriteTimestamp(frameIndex, timestampNs);
             WriteCorners(frameIndex, corners);
             WriteLabels(frameIndex, labels);
             WriteLabelMask(frameIndex, labelMask);
         }
 
         // -------------------------------
-        // Public API: Read one frame
+        // Public API: read metadata row
         // -------------------------------
-        public void ReadFrame(
+        public void ReadMetadata(
             ulong frameIndex,
-            byte[]? imageRgb,        // may be null if you don't need it
+            out ulong timestampNs,
             float[]? corners,
             float[]? labels,
             byte[]? labelMask)
         {
             EnsureNotDisposed();
-            if (frameIndex < 0 || frameIndex >= FrameCount)
+
+            if (frameIndex >= FrameCount)
                 throw new ArgumentOutOfRangeException(nameof(frameIndex));
 
-            if (_imgBatchFill > 0)
-                FlushImageBatch();
+            timestampNs = ReadTimestamp(frameIndex);
 
-            if (imageRgb != null && imageRgb.Length != Height * Width * Channels)
-                throw new ArgumentException("Unexpected image buffer length.", nameof(imageRgb));
-            if (corners != null && corners.Length != 4 * 2)
-                throw new ArgumentException("corners must be length 8 (4 points x 2 coords).", nameof(corners));
-            if (labels != null && labels.Length != AttrCount)
-                throw new ArgumentException("labels length must equal AttrCount.", nameof(labels));
-            if (labelMask != null && labelMask.Length != AttrCount)
-                throw new ArgumentException("labelMask length must equal AttrCount.", nameof(labelMask));
-
-            if (imageRgb != null)
-                ReadImageFrame(frameIndex, imageRgb);
             if (corners != null)
+            {
+                if (corners.Length != 8) throw new ArgumentException("corners must be length 8.", nameof(corners));
                 ReadCorners(frameIndex, corners);
+            }
+
             if (labels != null)
+            {
+                if (labels.Length != AttrCount) throw new ArgumentException("labels length must equal AttrCount.", nameof(labels));
                 ReadLabels(frameIndex, labels);
+            }
+
             if (labelMask != null)
+            {
+                if (labelMask.Length != AttrCount) throw new ArgumentException("labelMask length must equal AttrCount.", nameof(labelMask));
                 ReadLabelMask(frameIndex, labelMask);
+            }
         }
 
         // -------------------------------
-        // Internal: create file + datasets
+        // HDF5 write helpers
         // -------------------------------
-        private void CreateFileInternal(string path, int chunkFrames)
+        private unsafe void WriteTimestamp(ulong t, ulong timestampNs)
         {
-            // Create file
-            _fileId = H5F.create(path, H5F.ACC_TRUNC, H5P.DEFAULT, H5P.DEFAULT);
-            if (_fileId < 0) throw new Exception("Failed to create HDF5 file.");
+            _tsStart[0] = t;
+            var sel = H5S.select_hyperslab(_tsFileSpace, H5S.seloper_t.SET, _tsStart, null, _tsCount, null);
+            if (sel < 0) throw new Exception("Failed to select hyperslab for timestamps.");
 
-            // Create /images : [T, H, W, 3] (uint8)
-            {
-                ulong[] dims = { FrameCount, (ulong)Height, (ulong)Width, (ulong)Channels };
-                long spaceId = H5S.create_simple(4, dims, dims);
-                if (spaceId < 0) throw new Exception("Failed to create images dataspace.");
-
-                long dcpl = H5P.create(H5P.DATASET_CREATE);
-                if (dcpl < 0) throw new Exception("Failed to create DCPL for images.");
-
-                ulong[] chunkDims = { Math.Min(FrameCount, (ulong)chunkFrames), (ulong)Height, (ulong)Width, (ulong)Channels };
-                var status = H5P.set_chunk(dcpl, 4, chunkDims);
-                if (status < 0) throw new Exception("Failed to set chunking for images.");
-
-                status = H5P.set_deflate(dcpl, 4); // gzip level 4
-                if (status < 0) throw new Exception("Failed to set deflate for images.");
-
-                _imagesId = H5D.create(_fileId, ImagesName, H5T.NATIVE_UCHAR, spaceId, H5P.DEFAULT, dcpl, H5P.DEFAULT);
-                if (_imagesId < 0) throw new Exception("Failed to create dataset 'images'.");
-
-                H5P.close(dcpl);
-                H5S.close(spaceId);
-            }
-
-            // /corners : [T, 4, 2] float32
-            {
-                ulong[] dims = { (ulong)FrameCount, 4, 2 };
-                long spaceId = H5S.create_simple(3, dims, dims);
-                long dcpl = H5P.create(H5P.DATASET_CREATE);
-                ulong[] chunkDims = { Math.Min(FrameCount, (ulong)chunkFrames), 4, 2 };
-                H5P.set_chunk(dcpl, 3, chunkDims);
-                H5P.set_deflate(dcpl, 4);
-
-                _cornersId = H5D.create(_fileId, CornersName, H5T.NATIVE_FLOAT, spaceId, H5P.DEFAULT, dcpl, H5P.DEFAULT);
-                if (_cornersId < 0) throw new Exception("Failed to create dataset 'corners'.");
-
-                H5P.close(dcpl);
-                H5S.close(spaceId);
-            }
-
-            // /labels : [T, A] float32
-            {
-                ulong[] dims = { (ulong)FrameCount, (ulong)AttrCount };
-                long spaceId = H5S.create_simple(2, dims, dims);
-                long dcpl = H5P.create(H5P.DATASET_CREATE);
-                ulong[] chunkDims = { Math.Min(FrameCount, (ulong)chunkFrames), (ulong)AttrCount };
-                H5P.set_chunk(dcpl, 2, chunkDims);
-                H5P.set_deflate(dcpl, 4);
-
-                _labelsId = H5D.create(_fileId, LabelsName, H5T.NATIVE_FLOAT, spaceId, H5P.DEFAULT, dcpl, H5P.DEFAULT);
-                if (_labelsId < 0) throw new Exception("Failed to create dataset 'labels'.");
-
-                H5P.close(dcpl);
-                H5S.close(spaceId);
-            }
-
-            // /label_mask : [T, A] uint8 (0/1)
-            {
-                ulong[] dims = { (ulong)FrameCount, (ulong)AttrCount };
-                long spaceId = H5S.create_simple(2, dims, dims);
-                long dcpl = H5P.create(H5P.DATASET_CREATE);
-                ulong[] chunkDims = { Math.Min(FrameCount, (ulong)chunkFrames), (ulong)AttrCount };
-                H5P.set_chunk(dcpl, 2, chunkDims);
-                H5P.set_deflate(dcpl, 4);
-
-                _labelMaskId = H5D.create(_fileId, LabelMaskName, H5T.NATIVE_UCHAR, spaceId, H5P.DEFAULT, dcpl, H5P.DEFAULT);
-                if (_labelMaskId < 0) throw new Exception("Failed to create dataset 'label_mask'.");
-
-                H5P.close(dcpl);
-                H5S.close(spaceId);
-            }
-
-            // You can also write file attributes (height/width/attr_count) here with H5A.*
+            ulong val = timestampNs;
+            var status = H5D.write(_timestampsId, H5T.NATIVE_ULLONG, _tsMemSpace, _tsFileSpace, _dxpl, new IntPtr(&val));
+            if (status < 0) throw new Exception("Failed to write timestamp.");
         }
 
-        // -------------------------------
-        // Internal: open existing file
-        // -------------------------------
-        private void OpenFileInternal(string path, bool writeable)
-        {
-            uint flags = writeable ? H5F.ACC_RDWR : H5F.ACC_RDONLY;
-            _fileId = H5F.open(path, flags);
-            if (_fileId < 0) throw new Exception("Failed to open HDF5 file.");
-
-            _imagesId = H5D.open(_fileId, ImagesName);
-            _cornersId = H5D.open(_fileId, CornersName);
-            _labelsId = H5D.open(_fileId, LabelsName);
-            _labelMaskId = H5D.open(_fileId, LabelMaskName);
-
-            // Read dimensions from /images
-            long spaceId = H5D.get_space(_imagesId);
-            int rank = H5S.get_simple_extent_ndims(spaceId);
-            if (rank != 4) throw new Exception("Expected images rank 4.");
-            ulong[] dims = new ulong[4];
-            ulong[] maxdims = new ulong[4];
-            H5S.get_simple_extent_dims(spaceId, dims, maxdims);
-            H5S.close(spaceId);
-
-            FrameCount = dims[0];
-            Height = (int)dims[1];
-            Width = (int)dims[2];
-            Channels = (int)dims[3];
-
-            // Read AttrCount from /labels
-            long labelSpace = H5D.get_space(_labelsId);
-            ulong[] labelDims = new ulong[2];
-            ulong[] labelMax = new ulong[2];
-            H5S.get_simple_extent_dims(labelSpace, labelDims, labelMax);
-            H5S.close(labelSpace);
-            AttrCount = (int)labelDims[1];
-        }
-
-        // -------------------------------
-        // Internal: Write helpers
-        // -------------------------------
         private unsafe void WriteCorners(ulong t, float[] corners)
         {
-            _cornStart[0] = t;
-            _cornStart[1] = 0;
-            _cornStart[2] = 0;
+            _cornStart[0] = t; _cornStart[1] = 0; _cornStart[2] = 0;
 
             var sel = H5S.select_hyperslab(_cornFileSpace, H5S.seloper_t.SET, _cornStart, null, _cornCount, null);
             if (sel < 0) throw new Exception("Failed to select hyperslab for corners.");
@@ -375,10 +207,10 @@ namespace InkMARC.Clean.Services
                 if (status < 0) throw new Exception("Failed to write corners.");
             }
         }
+
         private unsafe void WriteLabels(ulong t, float[] labels)
         {
-            _labStart[0] = t;
-            _labStart[1] = 0;
+            _labStart[0] = t; _labStart[1] = 0;
 
             var sel = H5S.select_hyperslab(_labFileSpace, H5S.seloper_t.SET, _labStart, null, _labCount, null);
             if (sel < 0) throw new Exception("Failed to select hyperslab for labels.");
@@ -392,8 +224,7 @@ namespace InkMARC.Clean.Services
 
         private unsafe void WriteLabelMask(ulong t, byte[] mask)
         {
-            _maskStart[0] = t;
-            _maskStart[1] = 0;
+            _maskStart[0] = t; _maskStart[1] = 0;
 
             var sel = H5S.select_hyperslab(_maskFileSpace, H5S.seloper_t.SET, _maskStart, null, _maskCount, null);
             if (sel < 0) throw new Exception("Failed to select hyperslab for label_mask.");
@@ -405,148 +236,24 @@ namespace InkMARC.Clean.Services
             }
         }
 
-        private unsafe void WriteImageFrameBuffered(ulong t, byte[] data)
-        {
-            // If buffering isn't initialized (shouldn't happen if InitIoCaches ran), fall back to direct write.
-            if (_imgBatchBuffer == null || _imgBatchFrames <= 1)
-            {
-                WriteImageFrameDirect(t, data);
-                return;
-            }
-
-            // If this is the first frame in the batch, record the start index.
-            if (!_imgBatchHasStart)
-            {
-                _imgBatchStartFrame = t;
-                _imgBatchHasStart = true;
-                _imgBatchFill = 0;
-            }
-
-            // We assume sequential writes. If caller jumps around, flush current batch and start anew.
-            ulong expectedT = _imgBatchStartFrame + (ulong)_imgBatchFill;
-            if (t != expectedT)
-            {
-                FlushImageBatch(); // writes any pending frames
-                _imgBatchStartFrame = t;
-                _imgBatchHasStart = true;
-                _imgBatchFill = 0;
-            }
-
-            // Copy this frame into the batch buffer.
-            Buffer.BlockCopy(data, 0, _imgBatchBuffer, _imgBatchFill * _imgFrameBytes, _imgFrameBytes);
-            _imgBatchFill++;
-
-            // If batch is full, write it in one H5D.write.
-            if (_imgBatchFill >= _imgBatchFrames)
-            {
-                FlushImageBatch();
-            }
-        }
-
-        private unsafe void FlushImageBatch()
-        {
-            if (_imgBatchBuffer == null || !_imgBatchHasStart || _imgBatchFill <= 0)
-                return;
-
-            _imgStart[0] = _imgBatchStartFrame;
-            _imgStart[1] = 0;
-            _imgStart[2] = 0;
-            _imgStart[3] = 0;
-
-            ulong[] writeCount =
-            {
-                (ulong)_imgBatchFill,
-                (ulong)Height,
-                (ulong)Width,
-                (ulong)Channels
-            };
-
-            var sel = H5S.select_hyperslab(_imgFileSpace, H5S.seloper_t.SET, _imgStart, null, writeCount, null);
-            if (sel < 0) throw new Exception("Failed to select hyperslab for buffered image write.");
-
-            long memSpace = _imgMemSpaceBatch;
-            bool tempMem = false;
-
-            // Tail batch (not full): create a matching memspace
-            if (_imgBatchFill != _imgBatchFrames)
-            {
-                ulong[] memDims =
-                {
-                    (ulong)_imgBatchFill,
-                    (ulong)Height,
-                    (ulong)Width,
-                    (ulong)Channels
-                };
-                memSpace = H5S.create_simple(4, memDims, memDims);
-                if (memSpace < 0) throw new Exception("Failed to create memspace for partial buffered image write.");
-                tempMem = true;
-            }
-
-            fixed (byte* p = _imgBatchBuffer)
-            {
-                var status = H5D.write(_imagesId, H5T.NATIVE_UCHAR, memSpace, _imgFileSpace, _dxpl, (IntPtr)p);
-                if (status < 0)
-                {
-                    // Optional: print native HDF5 error stack to debug output
-                    // H5E.print2(H5E.DEFAULT, IntPtr.Zero);
-                    throw new Exception("Failed to write buffered image frames.");
-                }
-            }
-
-            if (tempMem)
-                H5S.close(memSpace);
-
-            _imgBatchFill = 0;
-            _imgBatchHasStart = false;
-        }
-
-
-        // Keep a direct-write version for fallback / non-buffer mode.
-        private unsafe void WriteImageFrameDirect(ulong t, byte[] data)
-        {
-            _imgStart[0] = t; _imgStart[1] = 0; _imgStart[2] = 0; _imgStart[3] = 0;
-
-            var sel = H5S.select_hyperslab(_imgFileSpace, H5S.seloper_t.SET, _imgStart, null, _imgCountSingle, null);
-            if (sel < 0) throw new Exception("Failed to select hyperslab for image frame.");
-
-            fixed (byte* p = data)
-            {
-                var status = H5D.write(_imagesId, H5T.NATIVE_UCHAR, _imgMemSpaceSingle, _imgFileSpace, _dxpl, (IntPtr)p);
-                if (status < 0) throw new Exception("Failed to write image frame.");
-            }
-        }
-
-
         // -------------------------------
-        // Internal: Read helpers
+        // HDF5 read helpers
         // -------------------------------
-        private unsafe void ReadImageFrame(ulong t, byte[] buffer)
+        private unsafe ulong ReadTimestamp(ulong t)
         {
-
-            if (buffer == null) throw new ArgumentNullException(nameof(buffer));
-            if ((ulong)buffer.Length != (ulong)Height * (ulong)Width * (ulong)Channels)
-                throw new ArgumentException("Unexpected image buffer length.", nameof(buffer));
-
-            // Get a *fresh* file dataspace for this call
-            long fileSpace = H5D.get_space(_imagesId);
-            if (fileSpace < 0) throw new Exception("Failed to get images dataspace.");
+            long fileSpace = H5D.get_space(_timestampsId);
+            if (fileSpace < 0) throw new Exception("Failed to get /timestamps_ns dataspace.");
 
             try
             {
-                ulong[] start = { t, 0, 0, 0 };
-                // Use the same _imgCountSingle you already computed: {1,H,W,C}
-                var sel = H5S.select_hyperslab(fileSpace, H5S.seloper_t.SET, start, null, _imgCountSingle, null);
-                if (sel < 0) throw new Exception("Failed to select hyperslab for image read.");
+                ulong[] start = { t };
+                var sel = H5S.select_hyperslab(fileSpace, H5S.seloper_t.SET, start, null, _tsCount, null);
+                if (sel < 0) throw new Exception("Failed to select hyperslab for timestamps read.");
 
-                fixed (byte* p = buffer)
-                {
-                    var status = H5D.read(_imagesId, H5T.NATIVE_UCHAR, _imgMemSpaceSingle, fileSpace, _dxpl, (IntPtr)p);
-                    if (status < 0)
-                    {
-                        DumpHdf5ErrorsToDebug("H5D.read(/images)");
-                        throw new Exception("Failed to read image frame.");
-                    }
-                }
+                ulong val = 0;
+                var status = H5D.read(_timestampsId, H5T.NATIVE_ULLONG, _tsMemSpace, fileSpace, _dxpl, new IntPtr(&val));
+                if (status < 0) throw new Exception("Failed to read timestamp.");
+                return val;
             }
             finally
             {
@@ -554,12 +261,9 @@ namespace InkMARC.Clean.Services
             }
         }
 
-
         private unsafe void ReadCorners(ulong t, float[] buffer)
         {
-            _cornStart[0] = t;
-            _cornStart[1] = 0;
-            _cornStart[2] = 0;
+            _cornStart[0] = t; _cornStart[1] = 0; _cornStart[2] = 0;
 
             var sel = H5S.select_hyperslab(_cornFileSpace, H5S.seloper_t.SET, _cornStart, null, _cornCount, null);
             if (sel < 0) throw new Exception("Failed to select hyperslab for corners read.");
@@ -573,8 +277,7 @@ namespace InkMARC.Clean.Services
 
         private unsafe void ReadLabels(ulong t, float[] buffer)
         {
-            _labStart[0] = t;
-            _labStart[1] = 0;
+            _labStart[0] = t; _labStart[1] = 0;
 
             var sel = H5S.select_hyperslab(_labFileSpace, H5S.seloper_t.SET, _labStart, null, _labCount, null);
             if (sel < 0) throw new Exception("Failed to select hyperslab for labels read.");
@@ -588,8 +291,7 @@ namespace InkMARC.Clean.Services
 
         private unsafe void ReadLabelMask(ulong t, byte[] buffer)
         {
-            _maskStart[0] = t;
-            _maskStart[1] = 0;
+            _maskStart[0] = t; _maskStart[1] = 0;
 
             var sel = H5S.select_hyperslab(_maskFileSpace, H5S.seloper_t.SET, _maskStart, null, _maskCount, null);
             if (sel < 0) throw new Exception("Failed to select hyperslab for label_mask read.");
@@ -601,43 +303,333 @@ namespace InkMARC.Clean.Services
             }
         }
 
-        private static void DumpHdf5ErrorsToDebug(string context)
+        // -------------------------------
+        // Attributes helpers (scalar + string)
+        // -------------------------------
+        private static void WriteScalarAttribute(long locId, string name, int value)
         {
+            long space = H5S.create(H5S.class_t.SCALAR);
+            long attr = H5A.create(locId, name, H5T.NATIVE_INT, space);
+            if (attr < 0) throw new Exception($"Failed to create attribute '{name}'.");
+
             try
             {
-                long estack = H5E.get_current_stack();
-                if (estack < 0)
+                unsafe
                 {
-                    Debug.WriteLine($"[HDF5] {context}: Failed to get current error stack.");
-                    return;
+                    int v = value;
+                    var status = H5A.write(attr, H5T.NATIVE_INT, new IntPtr(&v));
+                    if (status < 0) throw new Exception($"Failed to write attribute '{name}'.");
                 }
-
-                Debug.WriteLine($"[HDF5] Error stack ({context}):");
-
-                H5E.walk(
-                    estack,
-                    H5E.direction_t.H5E_WALK_DOWNWARD,
-                    (uint n, ref H5E.error_t err, IntPtr client_data) =>
-                    {
-                        string file = string.IsNullOrWhiteSpace(err.file_name) ? "<unknown file>" : err.file_name;
-                        string func = string.IsNullOrWhiteSpace(err.func_name) ? "<unknown func>" : err.func_name;
-                        string desc = string.IsNullOrWhiteSpace(err.desc) ? "<no desc>" : err.desc;
-
-                        Debug.WriteLine($"  #{n}: {file}:{err.line} {func} - {desc}");
-                        return 0; // continue
-                    },
-                    IntPtr.Zero);
-
-                H5E.close_stack(estack);
             }
-            catch (Exception ex)
+            finally
             {
-                Debug.WriteLine($"[HDF5] {context}: Exception while dumping error stack: {ex}");
+                H5A.close(attr);
+                H5S.close(space);
+            }
+        }
+
+        private static void WriteScalarAttribute(long locId, string name, ulong value)
+        {
+            long space = H5S.create(H5S.class_t.SCALAR);
+            long attr = H5A.create(locId, name, H5T.NATIVE_ULLONG, space);
+            if (attr < 0) throw new Exception($"Failed to create attribute '{name}'.");
+
+            try
+            {
+                unsafe
+                {
+                    ulong v = value;
+                    var status = H5A.write(attr, H5T.NATIVE_ULLONG, new IntPtr(&v));
+                    if (status < 0) throw new Exception($"Failed to write attribute '{name}'.");
+                }
+            }
+            finally
+            {
+                H5A.close(attr);
+                H5S.close(space);
+            }
+        }
+
+        private static void WriteStringAttribute(long locId, string name, string value)
+        {
+            // Fixed-length string attribute (simple and portable)
+            byte[] bytes = Encoding.UTF8.GetBytes(value);
+            long type = H5T.copy(H5T.C_S1);
+            H5T.set_size(type, new IntPtr(bytes.Length));
+            H5T.set_strpad(type, H5T.str_t.NULLTERM);
+
+            long space = H5S.create(H5S.class_t.SCALAR);
+            long attr = H5A.create(locId, name, type, space);
+            if (attr < 0) throw new Exception($"Failed to create string attribute '{name}'.");
+
+            try
+            {
+                // Ensure null-terminated buffer
+                byte[] nt = new byte[bytes.Length + 1];
+                Buffer.BlockCopy(bytes, 0, nt, 0, bytes.Length);
+
+                unsafe
+                {
+                    fixed (byte* p = nt)
+                    {
+                        var status = H5A.write(attr, type, (IntPtr)p);
+                        if (status < 0) throw new Exception($"Failed to write string attribute '{name}'.");
+                    }
+                }
+            }
+            finally
+            {
+                H5A.close(attr);
+                H5S.close(space);
+                H5T.close(type);
+            }
+        }
+
+        private int? TryReadIntAttribute(long locId, string name)
+        {
+            if (H5A.exists(locId, name) <= 0) return null;
+            long attr = H5A.open(locId, name);
+            if (attr < 0) return null;
+            try
+            {
+                unsafe
+                {
+                    int v = 0;
+                    var status = H5A.read(attr, H5T.NATIVE_INT, new IntPtr(&v));
+                    if (status < 0) return null;
+                    return v;
+                }
+            }
+            finally
+            {
+                H5A.close(attr);
+            }
+        }
+
+        private ulong? TryReadUlongAttribute(long locId, string name)
+        {
+            if (H5A.exists(locId, name) <= 0) return null;
+            long attr = H5A.open(locId, name);
+            if (attr < 0) return null;
+            try
+            {
+                unsafe
+                {
+                    ulong v = 0;
+                    var status = H5A.read(attr, H5T.NATIVE_ULLONG, new IntPtr(&v));
+                    if (status < 0) return null;
+                    return v;
+                }
+            }
+            finally
+            {
+                H5A.close(attr);
+            }
+        }
+
+        private string? TryReadStringAttribute(long locId, string name)
+        {
+            if (H5A.exists(locId, name) <= 0) return null;
+            long attr = H5A.open(locId, name);
+            if (attr < 0) return null;
+
+            try
+            {
+                long atype = H5A.get_type(attr);
+                long aspace = H5A.get_space(attr);
+
+                try
+                {
+                    // Determine size
+                    IntPtr size = H5T.get_size(atype);
+                    int n = size.ToInt32();
+                    if (n <= 0 || n > 64_000) return null;
+
+                    byte[] buf = new byte[n + 1];
+                    unsafe
+                    {
+                        fixed (byte* p = buf)
+                        {
+                            var status = H5A.read(attr, atype, (IntPtr)p);
+                            if (status < 0) return null;
+                        }
+                    }
+
+                    // Trim at null terminator
+                    int end = Array.IndexOf(buf, (byte)0);
+                    if (end < 0) end = buf.Length;
+                    return Encoding.UTF8.GetString(buf, 0, end);
+                }
+                finally
+                {
+                    H5T.close(atype);
+                    H5S.close(aspace);
+                }
+            }
+            finally
+            {
+                H5A.close(attr);
             }
         }
 
         // -------------------------------
-        // Dispose pattern
+        // Internal: create file + datasets + attributes
+        // -------------------------------
+        private void CreateFileInternal(string h5Path, int chunkFrames)
+        {
+            _fileId = H5F.create(h5Path, H5F.ACC_TRUNC, H5P.DEFAULT, H5P.DEFAULT);
+            if (_fileId < 0) throw new Exception("Failed to create HDF5 file.");
+
+            // /corners : [T,4,2] float32
+            {
+                ulong[] dims = { FrameCount, 4, 2 };
+                long spaceId = H5S.create_simple(3, dims, dims);
+                long dcpl = H5P.create(H5P.DATASET_CREATE);
+
+                ulong[] chunkDims = { Math.Min(FrameCount, (ulong)chunkFrames), 4, 2 };
+                H5P.set_chunk(dcpl, 3, chunkDims);
+                // No compression needed; you can add it later if desired
+
+                _cornersId = H5D.create(_fileId, CornersName, H5T.NATIVE_FLOAT, spaceId, H5P.DEFAULT, dcpl, H5P.DEFAULT);
+                if (_cornersId < 0) throw new Exception("Failed to create dataset 'corners'.");
+
+                H5P.close(dcpl);
+                H5S.close(spaceId);
+            }
+
+            // /labels : [T,A] float32
+            {
+                ulong[] dims = { FrameCount, (ulong)AttrCount };
+                long spaceId = H5S.create_simple(2, dims, dims);
+                long dcpl = H5P.create(H5P.DATASET_CREATE);
+
+                ulong[] chunkDims = { Math.Min(FrameCount, (ulong)chunkFrames), (ulong)AttrCount };
+                H5P.set_chunk(dcpl, 2, chunkDims);
+
+                _labelsId = H5D.create(_fileId, LabelsName, H5T.NATIVE_FLOAT, spaceId, H5P.DEFAULT, dcpl, H5P.DEFAULT);
+                if (_labelsId < 0) throw new Exception("Failed to create dataset 'labels'.");
+
+                H5P.close(dcpl);
+                H5S.close(spaceId);
+            }
+
+            // /label_mask : [T,A] uint8
+            {
+                ulong[] dims = { FrameCount, (ulong)AttrCount };
+                long spaceId = H5S.create_simple(2, dims, dims);
+                long dcpl = H5P.create(H5P.DATASET_CREATE);
+
+                ulong[] chunkDims = { Math.Min(FrameCount, (ulong)chunkFrames), (ulong)AttrCount };
+                H5P.set_chunk(dcpl, 2, chunkDims);
+
+                _labelMaskId = H5D.create(_fileId, LabelMaskName, H5T.NATIVE_UCHAR, spaceId, H5P.DEFAULT, dcpl, H5P.DEFAULT);
+                if (_labelMaskId < 0) throw new Exception("Failed to create dataset 'label_mask'.");
+
+                H5P.close(dcpl);
+                H5S.close(spaceId);
+            }
+
+            // /timestamps_ns : [T] uint64
+            {
+                ulong[] dims = { FrameCount };
+                long spaceId = H5S.create_simple(1, dims, dims);
+                long dcpl = H5P.create(H5P.DATASET_CREATE);
+
+                ulong[] chunkDims = { Math.Min(FrameCount, (ulong)chunkFrames) };
+                H5P.set_chunk(dcpl, 1, chunkDims);
+
+                _timestampsId = H5D.create(_fileId, TimestampsName, H5T.NATIVE_ULLONG, spaceId, H5P.DEFAULT, dcpl, H5P.DEFAULT);
+                if (_timestampsId < 0) throw new Exception("Failed to create dataset 'timestamps_ns'.");
+
+                H5P.close(dcpl);
+                H5S.close(spaceId);
+            }
+
+            // Write attributes for reproducibility
+            WriteScalarAttribute(_fileId, AttrWidth, (int)Width);
+            WriteScalarAttribute(_fileId, AttrHeight, (int)Height);
+            WriteScalarAttribute(_fileId, AttrChannels, (int)Channels);
+            WriteScalarAttribute(_fileId, AttrAttrCount, (int)AttrCount);
+            WriteScalarAttribute(_fileId, AttrFps, (int)Fps);
+            WriteScalarAttribute(_fileId, AttrFrameCount, (ulong)FrameCount);
+        }
+
+        private void OpenFileInternal(string path, bool writeable)
+        {
+            uint flags = writeable ? H5F.ACC_RDWR : H5F.ACC_RDONLY;
+            _fileId = H5F.open(path, flags);
+            if (_fileId < 0) throw new Exception("Failed to open HDF5 file.");
+
+            _cornersId = H5D.open(_fileId, CornersName);
+            _labelsId = H5D.open(_fileId, LabelsName);
+            _labelMaskId = H5D.open(_fileId, LabelMaskName);
+            _timestampsId = H5D.open(_fileId, TimestampsName);
+
+            if (_cornersId < 0 || _labelsId < 0 || _labelMaskId < 0 || _timestampsId < 0)
+                throw new Exception("Failed to open one or more datasets (corners/labels/label_mask/timestamps_ns).");
+
+            // Read key attributes
+            Width = TryReadIntAttribute(_fileId, AttrWidth) ?? throw new Exception("Missing HDF5 attr 'width'.");
+            Height = TryReadIntAttribute(_fileId, AttrHeight) ?? throw new Exception("Missing HDF5 attr 'height'.");
+            Channels = TryReadIntAttribute(_fileId, AttrChannels) ?? 3;
+            AttrCount = TryReadIntAttribute(_fileId, AttrAttrCount) ?? throw new Exception("Missing HDF5 attr 'attr_count'.");
+            Fps = TryReadIntAttribute(_fileId, AttrFps) ?? throw new Exception("Missing HDF5 attr 'fps'.");
+            FrameCount = TryReadUlongAttribute(_fileId, AttrFrameCount) ?? ReadFrameCountFromDatasetsFallback();
+        }
+
+        private ulong ReadFrameCountFromDatasetsFallback()
+        {
+            // Fallback: get dims from /timestamps_ns (rank 1)
+            long spaceId = H5D.get_space(_timestampsId);
+            if (spaceId < 0) throw new Exception("Failed to read frame count.");
+            try
+            {
+                ulong[] dims = new ulong[1];
+                ulong[] maxdims = new ulong[1];
+                H5S.get_simple_extent_dims(spaceId, dims, maxdims);
+                return dims[0];
+            }
+            finally
+            {
+                H5S.close(spaceId);
+            }
+        }
+
+        private void InitIoCaches()
+        {
+            // /corners
+            _cornFileSpace = H5D.get_space(_cornersId);
+            if (_cornFileSpace < 0) throw new Exception("InitIoCaches: failed to get /corners dataspace.");
+
+            _cornMemSpace = H5S.create_simple(3, new ulong[] { 1, 4, 2 }, new ulong[] { 1, 4, 2 });
+            if (_cornMemSpace < 0) throw new Exception("InitIoCaches: failed to create /corners memspace.");
+
+            // /labels
+            _labFileSpace = H5D.get_space(_labelsId);
+            if (_labFileSpace < 0) throw new Exception("InitIoCaches: failed to get /labels dataspace.");
+
+            _labCount = new ulong[] { 1, (ulong)AttrCount };
+            _labMemSpace = H5S.create_simple(2, new ulong[] { 1, (ulong)AttrCount }, new ulong[] { 1, (ulong)AttrCount });
+            if (_labMemSpace < 0) throw new Exception("InitIoCaches: failed to create /labels memspace.");
+
+            // /label_mask
+            _maskFileSpace = H5D.get_space(_labelMaskId);
+            if (_maskFileSpace < 0) throw new Exception("InitIoCaches: failed to get /label_mask dataspace.");
+
+            _maskCount = new ulong[] { 1, (ulong)AttrCount };
+            _maskMemSpace = H5S.create_simple(2, new ulong[] { 1, (ulong)AttrCount }, new ulong[] { 1, (ulong)AttrCount });
+            if (_maskMemSpace < 0) throw new Exception("InitIoCaches: failed to create /label_mask memspace.");
+
+            // /timestamps_ns
+            _tsFileSpace = H5D.get_space(_timestampsId);
+            if (_tsFileSpace < 0) throw new Exception("InitIoCaches: failed to get /timestamps_ns dataspace.");
+
+            _tsMemSpace = H5S.create_simple(1, new ulong[] { 1 }, new ulong[] { 1 });
+            if (_tsMemSpace < 0) throw new Exception("InitIoCaches: failed to create /timestamps_ns memspace.");
+        }
+
+        // -------------------------------
+        // Dispose
         // -------------------------------
         private void EnsureNotDisposed()
         {
@@ -649,11 +641,14 @@ namespace InkMARC.Clean.Services
             if (_disposed) return;
             _disposed = true;
 
-            if (_imgBatchFill > 0) FlushImageBatch();
+            try
+            {
+                // No video writer to dispose here anymore
+            }
+            catch { /* ignore */ }
 
-            if (_imgMemSpaceBatch >= 0) H5S.close(_imgMemSpaceBatch);
-            if (_imgMemSpaceSingle >= 0) H5S.close(_imgMemSpaceSingle);            
-            if (_imgFileSpace >= 0) H5S.close(_imgFileSpace);
+            if (_tsMemSpace >= 0) H5S.close(_tsMemSpace);
+            if (_tsFileSpace >= 0) H5S.close(_tsFileSpace);
 
             if (_cornMemSpace >= 0) H5S.close(_cornMemSpace);
             if (_cornFileSpace >= 0) H5S.close(_cornFileSpace);
@@ -664,10 +659,10 @@ namespace InkMARC.Clean.Services
             if (_maskMemSpace >= 0) H5S.close(_maskMemSpace);
             if (_maskFileSpace >= 0) H5S.close(_maskFileSpace);
 
-            if (_imagesId >= 0) H5D.close(_imagesId);
             if (_cornersId >= 0) H5D.close(_cornersId);
             if (_labelsId >= 0) H5D.close(_labelsId);
             if (_labelMaskId >= 0) H5D.close(_labelMaskId);
+            if (_timestampsId >= 0) H5D.close(_timestampsId);
             if (_fileId >= 0) H5F.close(_fileId);
         }
     }

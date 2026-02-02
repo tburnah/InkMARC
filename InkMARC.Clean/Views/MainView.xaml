@@ -74,7 +74,9 @@
                         <materialDesign:PackIcon Kind="Image"
                                                  Foreground="{StaticResource MaterialDesign.Brush.Primary.Foreground}" />
                     </Button>
-                    <Separator />
+                    <Separator Style="{StaticResource MaterialDesignSeparator}"
+                               Width="2"
+                               Foreground="White" />
                     <TextBlock Text="Export:"
                                VerticalAlignment="Center"
                                Style="{StaticResource MaterialDesignButtonTextBlock}" />
@@ -88,8 +90,26 @@
                         <materialDesign:PackIcon Kind="DatabaseExport"
                                                  Foreground="{StaticResource MaterialDesign.Brush.Primary.Foreground}" />
                     </Button>
-                    <Button Style="{StaticResource MaterialDesignToolButton}">
+                    <Button Style="{StaticResource MaterialDesignToolButton}"
+                            Command="{Binding ExportImageCommand}">
                         <materialDesign:PackIcon Kind="ImageAdd"
+                                                 Foreground="{StaticResource MaterialDesign.Brush.Primary.Foreground}" />
+                    </Button>
+                    <Separator Style="{StaticResource MaterialDesignSeparator}"
+                               Height="10" Width="1"
+                               Foreground="White" />
+                    <Button Style="{StaticResource MaterialDesignToolButton}"
+                            Command="{Binding CycleColorsCommand}">
+                        <materialDesign:PackIcon Kind="Color"
+                                                 Foreground="{StaticResource MaterialDesign.Brush.Primary.Foreground}" />
+                    </Button>
+                    <Separator Style="{StaticResource MaterialDesignSeparator}"
+                               Height="10"
+                               Width="1"
+                               Foreground="White" />
+                    <Button Style="{StaticResource MaterialDesignToolButton}"
+                            Command="{Binding StatsCommand}">
+                        <materialDesign:PackIcon Kind="BarChart"
                                                  Foreground="{StaticResource MaterialDesign.Brush.Primary.Foreground}" />
                     </Button>
                 </ToolBar>
@@ -443,25 +463,119 @@
                         </StackPanel>
                     </materialDesign:Card>
 
-                    <!-- Frame Actions Card -->
+                    <!-- MaskControl -->
+                    <!-- MaskControl -->
                     <materialDesign:Card Margin="0,0,0,8"
-                                         Padding="8"
+                                         Padding="12"
                                          materialDesign:ElevationAssist.Elevation="Dp1">
-                        <StackPanel Orientation="Horizontal"
-                                    HorizontalAlignment="Right">
-                            <Button Content="Cycle"
-                                    Command="{Binding CycleColorsCommand}"
-                                    Foreground="{Binding ForegroundColor}"
-                                    Background="{Binding BackgroundColor}"
-                                    Margin="0,0,8,0">
-                            </Button>
-                            <Button Content="Mark Invalid"
-                                    Command="{Binding MarkInvalidCommand}"
-                                    Margin="0,0,8,0"
-                                    Style="{StaticResource MaterialDesignOutlinedButton}" />
-                            <Button Content="Reprocess"
-                                    Command="{Binding ReprocessFrameCommand}"
-                                    Style="{StaticResource MaterialDesignRaisedButton}" />
+                        <StackPanel>
+
+                            <TextBlock Text="Mask Control"
+                                       Margin="0,0,0,8"
+                                       Style="{StaticResource MaterialDesignTitleSmallTextBlock}" />
+
+                            <!-- ===== HUE RANGE (two sliders presented as one) ===== -->
+                            <StackPanel Margin="0,0,0,12">
+                                <DockPanel LastChildFill="True"
+                                           Margin="0,0,0,6">
+                                    <TextBlock Text="Hue (H)"
+                                               DockPanel.Dock="Left"
+                                               Margin="0,0,12,0"
+                                               VerticalAlignment="Center"
+                                               Style="{StaticResource MaterialDesignBodyMediumTextBlock}" />
+
+                                    <TextBlock DockPanel.Dock="Right"
+                                               VerticalAlignment="Center"
+                                               Text="{Binding HueRangeText}"
+                                               Opacity="0.8"
+                                               Style="{StaticResource MaterialDesignBodySmallTextBlock}" />
+                                </DockPanel>
+
+                                <!-- Min slider -->
+                                <DockPanel Margin="0,0,0,2">
+                                    <TextBlock Text="Min"
+                                               Width="40"
+                                               VerticalAlignment="Center"
+                                               Opacity="0.75" />
+                                    <Slider Minimum="0"
+                                            Maximum="179"
+                                            MinWidth="160"
+                                            TickFrequency="1"
+                                            IsSnapToTickEnabled="True"
+                                            Value="{Binding HueMin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            Style="{StaticResource MaterialDesign3.MaterialDesignSlider }" />
+                                    <TextBlock Width="40"
+                                               TextAlignment="Right"
+                                               VerticalAlignment="Center"
+                                               Margin="8,0,0,0"
+                                               Text="{Binding HueMin, StringFormat={}{0:0}}" />
+                                </DockPanel>
+
+                                <!-- Max slider -->
+                                <DockPanel>
+                                    <TextBlock Text="Max"
+                                               Width="40"
+                                               VerticalAlignment="Center"
+                                               Opacity="0.75" />
+                                    <Slider Minimum="0"
+                                            Maximum="179"
+                                            MinWidth="160"
+                                            TickFrequency="1"
+                                            IsSnapToTickEnabled="True"
+                                            Value="{Binding HueMax, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            Style="{StaticResource MaterialDesign3.MaterialDesignDiscreteHorizontalSlider}" />
+                                    <TextBlock Width="40"
+                                               TextAlignment="Right"
+                                               VerticalAlignment="Center"
+                                               Margin="8,0,0,0"
+                                               Text="{Binding HueMax, StringFormat={}{0:0}}" />
+                                </DockPanel>
+                            </StackPanel>
+
+                            <!-- ===== VALUE THRESHOLD ===== -->
+                            <DockPanel Margin="0,0,0,12">
+                                <TextBlock Text="Value min (V)"
+                                           Width="110"
+                                           VerticalAlignment="Center"
+                                           Style="{StaticResource MaterialDesignBodyMediumTextBlock}" />
+                                <Slider Minimum="0"
+                                        Maximum="255"
+                                        MinWidth="160"
+                                        TickFrequency="1"
+                                        IsSnapToTickEnabled="True"
+                                        Value="{Binding ValueThreshold, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Style="{StaticResource MaterialDesign3.MaterialDesignDiscreteHorizontalSlider}" />
+                                <TextBlock Width="40"
+                                           TextAlignment="Right"
+                                           VerticalAlignment="Center"
+                                           Margin="8,0,0,0"
+                                           Text="{Binding ValueThreshold, StringFormat={}{0:0}}" />
+                            </DockPanel>
+
+                            <!-- ===== SATURATION THRESHOLD ===== -->
+                            <DockPanel>
+                                <TextBlock Text="Saturation min (S)"
+                                           Width="110"
+                                           VerticalAlignment="Center"
+                                           Style="{StaticResource MaterialDesignBodyMediumTextBlock}" />
+                                <Slider Minimum="0"
+                                        Maximum="255"
+                                        MinWidth="160"
+                                        TickFrequency="1"
+                                        IsSnapToTickEnabled="True"
+                                        Value="{Binding SaturationThreshold, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Style="{StaticResource MaterialDesign3.MaterialDesignDiscreteHorizontalSlider}" />
+                                <TextBlock Width="40"
+                                           TextAlignment="Right"
+                                           VerticalAlignment="Center"
+                                           Margin="8,0,0,0"
+                                           Text="{Binding SaturationThreshold, StringFormat={}{0:0}}" />
+                            </DockPanel>
+
+                            <TextBlock Margin="0,10,0,0"
+                                       Opacity="0.7"
+                                       Text="OpenCV HSV: H 0–179, S/V 0–255."
+                                       Style="{StaticResource MaterialDesignBodySmallTextBlock}" />
                         </StackPanel>
                     </materialDesign:Card>
 

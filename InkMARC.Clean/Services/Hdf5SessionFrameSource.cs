@@ -2,6 +2,7 @@
 using InkMARC.Clean.Services.Interfaces;
 using OpenCvSharp;
 using System;
+using System.IO;
 using System.Runtime.InteropServices;
 
 namespace InkMARC.Clean.Services
@@ -15,8 +16,18 @@ namespace InkMARC.Clean.Services
         private SessionManager? _session;
         private bool _disposed;
         private readonly double _defaultFps;
+        private string _videoPath = string.Empty;
+
+        private int _lastFrameIndex = -1;
+        private readonly Mat _frameBuffer = new();        // reused decode buffer
+        private float[] _corners;
+        private float[] _labels;
+        private byte[] _labelMask;
 
         public event EventHandler<int>? FrameCountChanged;
+
+        private OpenCvSharp.VideoCapture? _cap;
+        private readonly object _capLock = new object();
 
         public int FrameCount { get; private set; }
 
@@ -25,10 +36,10 @@ namespace InkMARC.Clean.Services
         /// Currently a fixed default; you can later store/read this as an HDF5 attribute.
         /// </summary>
         public double FramesPerSecond { get; private set; }
-        public int ViewW { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int ViewH { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public int ViewW { get => _frameBuffer.Width; set => throw new NotImplementedException(); }
+        public int ViewH { get => _frameBuffer.Height; set => throw new NotImplementedException(); }
 
-        public string FileFilter => "HDF5 Files (*.h5;*.hdf5)|*.h5;*.hdf5|All Files|*.*";
+        public string FileFilter => "AVI File (*.avi)|*.avi|All Files|*.*";
 
         /// <summary>
         /// Create a new HDF5-backed frame source.
@@ -46,25 +57,86 @@ namespace InkMARC.Clean.Services
 
         public bool FileSeek => false;
 
-        public void Open(string path)
+        public void Open(string videoPath)
         {
             ThrowIfDisposed();
 
-            _session?.Dispose();
-            _session = SessionManager.OpenExisting(path, writeable: false);
+            if (string.IsNullOrWhiteSpace(videoPath))
+                throw new ArgumentException("Path is null/empty.", nameof(videoPath));
 
-            // FrameCount is ulong in SessionManager; we clamp/check for int here.
+            _videoPath = videoPath;
+
+            // Derive H5 path from the chosen video path.
+            // Example:
+            //   participant_17_Q1a_20251202_140719_White.avi
+            // ->participant_17_Q1a_20251202_140719.h5
+            string h5Path = DeriveH5PathFromVideoPath(videoPath);
+
+            _session?.Dispose();
+
+            // IMPORTANT: OpenExisting expects the H5 path, not the AVI path.
+            // Pass the selected video as an override so SessionManager knows which video to use.
+            _session = SessionManager.OpenExisting(h5Path, aviPathOverride: videoPath, writeable: false);
+
             if (_session.FrameCount > int.MaxValue)
                 throw new InvalidOperationException("HDF5 session has more frames than supported by IFrameSource.");
 
             FrameCount = (int)_session.FrameCount;
 
-            // At the moment SessionManager does not expose FPS, so we use the default.
-            // If you later store FPS as an attribute, you can add a property on SessionManager
-            // and read it here instead of using _defaultFps.
-            FramesPerSecond = _defaultFps;
+            FramesPerSecond = _defaultFps; // until you store/read FPS attribute
+
+            // reset playback state
+            lock (_capLock)
+            {
+                _cap?.Release();
+                _cap?.Dispose();
+                _cap = null;
+            }
+            _lastFrameIndex = -1;
+
+            // allocate metadata buffers once
+            _corners = new float[8];
+            _labels = new float[_session.AttrCount];
+            _labelMask = new byte[_session.AttrCount];
 
             FrameCountChanged?.Invoke(this, FrameCount);
+        }
+
+        private static string DeriveH5PathFromVideoPath(string videoPath)
+        {
+            string dir = Path.GetDirectoryName(videoPath) ?? string.Empty;
+            string stem = Path.GetFileNameWithoutExtension(videoPath) ?? string.Empty;
+
+            // Define the exact set of colour suffixes you export.
+            // Keep this in sync with your export list.
+            // Case-insensitive match.
+            var knownColours = ColorPalette.BackgroundNames;
+
+            // Strip a trailing "_Colour" if present.
+            int lastUnderscore = stem.LastIndexOf('_');
+            if (lastUnderscore > 0 && lastUnderscore < stem.Length - 1)
+            {
+                string suffix = stem[(lastUnderscore + 1)..];
+                if (knownColours.Contains(suffix))
+                {
+                    stem = stem[..lastUnderscore];
+                }
+            }
+
+            // Choose one convention. If you use baseName.h5:
+            string candidate = Path.Combine(dir, stem + ".h5");
+            if (File.Exists(candidate))
+                return candidate;
+
+            // If you use baseName_meta.h5:
+            string candidateMeta = Path.Combine(dir, stem + "_meta.h5");
+            if (File.Exists(candidateMeta))
+                return candidateMeta;
+
+            // Otherwise, fail loudly: the caller chose a video that doesn't map to metadata.
+            throw new FileNotFoundException(
+                "Could not find a corresponding H5 file for the selected video.",
+                candidate);
         }
 
         public FrameData? GetFrame(int index)
@@ -77,80 +149,87 @@ namespace InkMARC.Clean.Services
             if (index < 0 || index >= FrameCount)
                 return null;
 
-            // Prepare buffers for a single frame
             int h = _session.Height;
             int w = _session.Width;
-            int c = _session.Channels;
 
-            byte[] imageRgb = new byte[h * w * c];
-            var corners = new float[4 * 2];       // TL,TR,BR,BL → (x,y) each
-            var labels = new float[_session.AttrCount];
-            var labelMask = new byte[_session.AttrCount];
-
-            // Read frame t = index
-            _session.ReadFrame(
-                frameIndex: (ulong)index,
-                imageRgb: imageRgb,
-                corners: corners,
-                labels: labels,
-                labelMask: labelMask);
-
-            if (imageRgb.Length != h * w * 3)
+            // Ensure VideoCapture is open
+            VideoCapture cap;
+            lock (_capLock)
             {
-                throw new InvalidOperationException(
-                    $"Unexpected image buffer length: got {imageRgb.Length}, expected {h * w * 3}.");
+                if (_cap == null)
+                {
+                    if (string.IsNullOrWhiteSpace(_videoPath))
+                        return null;
+
+                    _cap = new VideoCapture(_videoPath);
+
+                    if (!_cap.IsOpened())
+                        return null;
+                }
+
+                cap = _cap;
             }
 
-            // Wrap image data into an OpenCV Mat (assumes 8UC3 packed RGB/BGR).
-            var mat = new Mat(h, w, MatType.CV_8UC3);
-            Marshal.Copy(imageRgb, 0, mat.Data, imageRgb.Length);
+            // Read metadata into reused buffers (no per-frame allocations)
+            _session.ReadMetadata(
+                frameIndex: (ulong)index,
+                timestampNs: out ulong timestampNs,
+                corners: _corners,
+                labels: _labels,
+                labelMask: _labelMask);
 
-            // Convert to BGR for the rest of your OpenCV pipeline
-            var matBgr = new Mat();
-            Cv2.CvtColor(mat, matBgr, ColorConversionCodes.RGB2BGR);
-            mat.Dispose(); // optional if you don't need it anymore
+            // Read video frame with sequential optimization
+            bool ok;
+            lock (_capLock)
+            {
+                if (index == _lastFrameIndex + 1)
+                {
+                    ok = cap.Read(_frameBuffer);
+                }
+                else
+                {
+                    ok = cap.Set(VideoCaptureProperties.PosFrames, index);
+                    if (ok) ok = cap.Read(_frameBuffer);
+                }
 
-            // Map corners:
-            var tl = new Point((int)Math.Round(corners[0]), (int)Math.Round(corners[1]));
-            var tr = new Point((int)Math.Round(corners[2]), (int)Math.Round(corners[3]));
-            var br = new Point((int)Math.Round(corners[4]), (int)Math.Round(corners[5]));
-            var bl = new Point((int)Math.Round(corners[6]), (int)Math.Round(corners[7]));
+                _lastFrameIndex = ok ? index : _lastFrameIndex;
+            }
 
-            // Stylus mapping:
-            //
-            // ASSUMPTION (change to match your label layout):
-            //   labels[0] → StylusX
-            //   labels[1] → StylusY
-            //   labels[2] → StylusPressure
-            //   labels[3] → StylusTiltX
-            //   labels[4] → StylusTiltY
-            //
-            // and labelMask[i] != 0 means "this attribute is present/valid".
-            int? stylusX = null;
-            int? stylusY = null;
-            int? stylusPressure = null;
-            int? stylusTiltX = null;
-            int? stylusTiltY = null;
+            if (!ok || _frameBuffer.Empty())
+                return null;
+            
+            // (Optional) avoid resize unless truly necessary
+            if (_frameBuffer.Rows != h || _frameBuffer.Cols != w)
+            {
+                Cv2.Resize(_frameBuffer, _frameBuffer, new Size(w, h));
+            }
+
+            // Map corners TL,TR,BR,BL
+            var tl = new Point((int)Math.Round(_corners[0]), (int)Math.Round(_corners[1]));
+            var tr = new Point((int)Math.Round(_corners[2]), (int)Math.Round(_corners[3]));
+            var br = new Point((int)Math.Round(_corners[4]), (int)Math.Round(_corners[5]));
+            var bl = new Point((int)Math.Round(_corners[6]), (int)Math.Round(_corners[7]));
+
+            int? stylusX = null, stylusY = null, stylusPressure = null, stylusTiltX = null, stylusTiltY = null;
             bool hasStylusData = false;
 
             if (_session.AttrCount >= 5)
             {
-                stylusX = labelMask[0] != 0 ? (int)Math.Round(labels[0]) : null;
-                stylusY = labelMask[1] != 0 ? (int)Math.Round(labels[1]) : null;
-                stylusPressure = labelMask[2] != 0 ? (int)Math.Round(labels[2]) : null;
-                stylusTiltX = labelMask[3] != 0 ? (int)Math.Round(labels[3]) : null;
-                stylusTiltY = labelMask[4] != 0 ? (int)Math.Round(labels[4]) : null;
+                stylusX = _labelMask[0] != 0 ? (int)Math.Round(_labels[0]) : null;
+                stylusY = _labelMask[1] != 0 ? (int)Math.Round(_labels[1]) : null;
+                stylusPressure = _labelMask[2] != 0 ? (int)Math.Round(_labels[2]) : null;
+                stylusTiltX = _labelMask[3] != 0 ? (int)Math.Round(_labels[3]) : null;
+                stylusTiltY = _labelMask[4] != 0 ? (int)Math.Round(_labels[4]) : null;
 
-                hasStylusData =
-                    stylusX.HasValue || stylusY.HasValue ||
-                    stylusPressure.HasValue || stylusTiltX.HasValue || stylusTiltY.HasValue;
+                hasStylusData = stylusX.HasValue || stylusY.HasValue || stylusPressure.HasValue || stylusTiltX.HasValue || stylusTiltY.HasValue;
             }
 
-            // Construct FrameData for the ViewModel / pipeline.
+            // IMPORTANT: FrameData must own its Mat; clone is safest (but expensive).
+            // If you can change FrameData to allow a "borrowed Mat" for display-only, you can avoid this clone.
             var frame = new FrameData
             {
                 FrameIndex = index,
-                Image = matBgr,
+                Image = _frameBuffer.Clone(),
 
                 TopLeft = tl,
                 TopRight = tr,
@@ -164,7 +243,7 @@ namespace InkMARC.Clean.Services
                 StylusTiltY = stylusTiltY,
 
                 HasStylusData = hasStylusData,
-                AdditionalText = null // fill if you later store per-frame text in HDF5
+                AdditionalText = null
             };
 
             return frame;
@@ -174,6 +253,13 @@ namespace InkMARC.Clean.Services
         {
             if (_disposed) return;
             _disposed = true;
+
+            lock (_capLock)
+            {
+                _cap?.Release();
+                _cap?.Dispose();
+                _cap = null;
+            }
 
             _session?.Dispose();
             _session = null;

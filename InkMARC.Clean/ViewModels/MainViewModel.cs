@@ -6,60 +6,61 @@ using InkMARC.Clean.Services.Interfaces;
 using Microsoft.Win32;
 using OpenCvSharp;
 using OpenCvSharp.WpfExtensions;
-using System;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 
 namespace InkMARC.Clean.ViewModels
 {
+    /// <summary>
+    /// ViewModel for the main application window. Manages video/frame loading,
+    /// export operations and image mask processing used by the UI.
+    /// </summary>
     public partial class MainViewModel : ObservableObject, IDisposable
     {
         private readonly IVideoService _videoService;
+        private readonly ColorPalette _palette;
         private CancellationTokenSource? _playCts;
 
         private IFrameSource? _frameSource;
-
         private bool _disposed;
 
         // Reused mats to avoid allocations every frame
-        private Mat? _surfaceMask;   // 8UC1, 0 outside polygon, 255 inside
-        private Mat? _hsv;           // 8UC3 for HSV conversion
-        private Mat? _colorMask;     // 8UC1 for green/blue detection
-        private Mat? _tmpMask;       // 8UC1 temp for OR / AND operations
+        private Mat? _surfaceMask;
+        private Mat? _hsv;
+        private Mat? _colorMask;
+        private Mat? _tmpMask;
         private Point[]? _lastSurfacePoly;
 
-        private Mat? _ycrcb;           // for skin detection
-        private Mat? _skinMask;        // foreground (hand/arm)
-        private Mat? _notSkinMask;     // ~skin, used to subtract from colorMask
+        private Mat? _ycrcb;
+        private Mat? _skinMask;
+        private Mat? _notSkinMask;
         private Mat? _pureGreenMask;
 
-        private Mat? _lab;            // CV_8UC3
-        private Mat? _labA;           // CV_8UC1
-        private Mat? _labB;           // CV_8UC1
-        private Mat? _penMaskLab;     // CV_8UC1  (pen pixels)
-        private Mat? _bGeAMask;       // CV_8UC1  (b >= a)
+        private Mat? _lab;
+        private Mat? _labA;
+        private Mat? _labB;
+        private Mat? _penMaskLab;
+        private Mat? _bGeAMask;
 
-        private Mat? _bgBgr;       // CV_8UC3
-        private Mat? _bgNoise;     // CV_8SC3 (signed noise)
-        private Mat? _bgGrad16;   // CV_16SC3
+        private Mat? _bgBgr;
+        private Mat? _bgNoise;
+        private Mat? _bgGrad16;
 
-        private Mat? _bg16;        // CV_16SC3
-        private Mat? _noise8s;     // CV_8SC3
-        private Mat? _noise16s;    // CV_16SC3
-        private Mat? _col16;       // CV_16SC1 (H x 1)
-        private Mat? _grad1_16;    // CV_16SC1 (H x W)
+        private Mat? _bg16;
+        private Mat? _noise8s;
+        private Mat? _noise16s;
+        private Mat? _col16;
+        private Mat? _grad1_16;
+
+        private Mat? _hsvOverlay;
+        private Mat? _hCh;
+        private Mat? _sCh;
+        private Mat? _vCh;
 
         // Cached base+gradient (16S)
         private Mat? _bgBaseGrad16;
-        private Scalar _bgBaseCached = new Scalar(double.NaN, double.NaN, double.NaN);
+        private Scalar _bgBaseCached = new(double.NaN, double.NaN, double.NaN);
         private int _bgRowsCached = -1, _bgColsCached = -1, _bgGradAmpCached = int.MinValue;
 
         // Noise bank (16S)
@@ -67,10 +68,17 @@ namespace InkMARC.Clean.ViewModels
         private int _noiseBankRows = -1, _noiseBankCols = -1, _noiseBankAmp = int.MinValue;
         private const int NoiseBankSize = 32;
 
+        /// <summary>
+        /// Creates a new instance of <see cref="MainViewModel"/>.
+        /// </summary>
+        /// <param name="videoService">The video service used for frame access.</param>
         public MainViewModel(IVideoService videoService)
         {
             _videoService = videoService ?? throw new ArgumentNullException(nameof(videoService));
             _videoService.FrameCountChanged += VideoService_FrameCountChanged;
+
+            // Centralised colour palette
+            _palette = new ColorPalette();
 
             OpenVideoCommand = new RelayCommand(OpenVideo);
             MoveFrameCommand = new RelayCommand<int>(MoveFrame);
@@ -78,22 +86,22 @@ namespace InkMARC.Clean.ViewModels
             ProcessAllCommand = new RelayCommand(ProcessAll);
             ExportDatasetCommand = new RelayCommand(ExportDataset);
             ExportMultipleDatasetsCommand = new RelayCommand(ExportMultipleDatasets);
-            MarkInvalidCommand = new RelayCommand(MarkInvalid);
-            ReprocessFrameCommand = new RelayCommand(ReprocessFrame);
+            ExportImageCommand = new RelayCommand(ExportImage);
             CycleResolutionCommand = new RelayCommand(CycleSizes);
             CycleColorsCommand = new RelayCommand(CycleColors);
             OpenPictureCommand = new RelayCommand(OpenPicture);
             OpenDatasetCommand = new RelayCommand(OpenDataset);
+            StatsCommand = new RelayCommand(GetH5Stats);
         }
 
         #region progress reporting
 
         [ObservableProperty] private bool _isExporting;
-        [ObservableProperty] private double _exportProgress01;          // 0..1 for a ProgressBar
+        [ObservableProperty] private double _exportProgress01;
         [ObservableProperty] private string _exportStatusText = string.Empty;
 
-        [ObservableProperty] private int _exportProgressFrames;         // optional: show "X / Y"
-        [ObservableProperty] private int _exportProgressTotalFrames;    // optional
+        [ObservableProperty] private int _exportProgressFrames;
+        [ObservableProperty] private int _exportProgressTotalFrames;
 
         [ObservableProperty]
         private double exportProgress; // 0..100
@@ -111,14 +119,82 @@ namespace InkMARC.Clean.ViewModels
 
         private bool CanCancelExport() => IsExporting;
 
+        private double _hueMin = 39;
+        public double HueMin
+        {
+            get => _hueMin;
+            set
+            {
+                if (_hueMin == value) return;
+                _hueMin = value;
+                if (_hueMin > HueMax) HueMax = _hueMin;   // clamp
+                OnPropertyChanged(nameof(HueMin));
+                OnPropertyChanged(nameof(HueRangeText));
+                TriggerRecomputeMasks();
+            }
+        }
+
+        private double _hueMax = 130;
+        public double HueMax
+        {
+            get => _hueMax;
+            set
+            {
+                if (_hueMax == value) return;
+                _hueMax = value;
+                if (_hueMax < HueMin) HueMin = _hueMax;   // clamp
+                OnPropertyChanged(nameof(HueMax));
+                OnPropertyChanged(nameof(HueRangeText));
+                TriggerRecomputeMasks();
+            }
+        }
+
+        public string HueRangeText => $"{HueMin:0} – {HueMax:0}";
+
+        private double _valueThreshold = 110;
+        public double ValueThreshold
+        {
+            get => _valueThreshold;
+            set
+            {
+                if (_valueThreshold == value) return;
+                _valueThreshold = value;
+                OnPropertyChanged(nameof(ValueThreshold));
+                TriggerRecomputeMasks();
+            }
+        }
+
+        private double _saturationThreshold = 27;
+        public double SaturationThreshold
+        {
+            get => _saturationThreshold;
+            set
+            {
+                if (_saturationThreshold == value) return;
+                _saturationThreshold = value;
+                OnPropertyChanged(nameof(SaturationThreshold));
+                TriggerRecomputeMasks();
+            }
+        }
+
+        private void TriggerRecomputeMasks()
+        {
+           LoadFrame(_frameCount > 0 ? _currentFrameIndex : 0);
+        }
+
+
         #endregion
-        
+
         private void VideoService_FrameCountChanged(object? sender, int e)
         {
             FrameCount = e;
         }
 
         private int _frameCount;
+
+        /// <summary>
+        /// Gets or sets the number of frames available in the currently opened source.
+        /// </summary>
         public int FrameCount
         {
             get => _frameCount;
@@ -126,6 +202,11 @@ namespace InkMARC.Clean.ViewModels
         }
 
         private int _currentFrameIndex;
+
+        /// <summary>
+        /// Gets or sets the index of the currently displayed frame. Setting this will
+        /// clamp the value and trigger a frame load.
+        /// </summary>
         public int CurrentFrameIndex
         {
             get => _currentFrameIndex;
@@ -177,9 +258,9 @@ namespace InkMARC.Clean.ViewModels
         private int? stylusTiltY;
 
         [ObservableProperty]
-        private double viewW = 1080.0; // 1220
+        private double viewW = 1080.0;
         [ObservableProperty]
-        private double viewH = 2161.0; // 2550
+        private double viewH = 2161.0;
 
         private const int HorizontalPadding = 300;
 
@@ -191,12 +272,23 @@ namespace InkMARC.Clean.ViewModels
         [ObservableProperty]
         private bool hasYellowBackground = false;
 
-        private Scalar _backgroundScalar = new Scalar(255, 255, 255);
+        private Scalar _backgroundScalar = new(255, 255, 255);
 
-        public bool ShowSurfaceMask { get; set; }        
+        /// <summary>
+        /// When true, the computed surface mask will be shown/used in rendering.
+        /// </summary>
+        public bool ShowSurfaceMask { get; set; }
+
+        /// <summary>
+        /// Raw text recognized from the frame's auxiliary strip (if any).
+        /// </summary>
         public string? CurrentRawOcr { get; set; }
 
         private bool _hasTextBar;
+
+        /// <summary>
+        /// Indicates whether the current frame contains an auxiliary text/strip area.
+        /// </summary>
         public bool HasTextBar
         {
             get => _hasTextBar;
@@ -204,18 +296,30 @@ namespace InkMARC.Clean.ViewModels
         }
 
         // Commands
+        /// <summary>Command that opens a video file.</summary>
         public ICommand OpenVideoCommand { get; }
+        /// <summary>Command that processes all frames sequentially.</summary>
         public ICommand ProcessAllCommand { get; }
+        /// <summary>Command that exports the current dataset.</summary>
         public ICommand ExportDatasetCommand { get; }
+        /// <summary>Command that exports multiple datasets in batch.</summary>
         public ICommand ExportMultipleDatasetsCommand { get; }
+        /// <summary>Exports a single frame image.</summary>
+        public ICommand ExportImageCommand { get; }
+        /// <summary>Command that moves the current frame index by a delta.</summary>
         public ICommand MoveFrameCommand { get; }
+        /// <summary>Command that toggles play/pause for frame playback.</summary>
         public ICommand TogglePlayCommand { get; }
-        public ICommand MarkInvalidCommand { get; }
-        public ICommand ReprocessFrameCommand { get; }
+        /// <summary>Command that cycles the viewport resolution.</summary>
         public ICommand CycleResolutionCommand { get; }
+        /// <summary>Command that cycles background/foreground colours.</summary>
         public ICommand CycleColorsCommand { get; }
+        /// <summary>Command that opens a single image file.</summary>
         public ICommand OpenPictureCommand { get; }
+        /// <summary>Command that opens a dataset file.</summary>
         public ICommand OpenDatasetCommand { get; }
+
+        public ICommand StatsCommand { get; }
 
         private async void Open()
         {
@@ -242,7 +346,6 @@ namespace InkMARC.Clean.ViewModels
 
                 FrameCount = _frameSource?.FrameCount ?? 0;
 
-                // Set index and force load of first frame so UI updates immediately
                 CurrentFrameIndex = 0;
                 LoadFrame(0);
             }
@@ -265,9 +368,9 @@ namespace InkMARC.Clean.ViewModels
             }
             Open();
         }
+
         private static string? PickOutputDirectory(string? initialDir = null)
         {
-            // Uses WinForms dialog without adding a global using.
             using var dlg = new System.Windows.Forms.FolderBrowserDialog
             {
                 Description = "Select export output folder",
@@ -403,6 +506,9 @@ namespace InkMARC.Clean.ViewModels
             }, ct);
         }
 
+        /// <summary>
+        /// Opens an image file frame source and shows the open dialog.
+        /// </summary>
         public void OpenPicture()
         {
             if (_frameSource is not ImageFileFrameSource)
@@ -416,6 +522,9 @@ namespace InkMARC.Clean.ViewModels
             Open();
         }
 
+        /// <summary>
+        /// Opens a dataset (HDF5) frame source and shows the open dialog.
+        /// </summary>
         public void OpenDataset()
         {
             if (_frameSource is not Hdf5SessionFrameSource)
@@ -450,36 +559,10 @@ namespace InkMARC.Clean.ViewModels
 
         private void CycleColors()
         {
-            BackgroundColor = (object)BackgroundColor switch
-            {
-                "White" => "Black",
-                "Black" => "Gray",
-                "Gray" => "SaddleBrown",
-                "SaddleBrown" => "DarkGreen",
-                "DarkGreen" => "Tan",
-                "Tan" => "White",
-                _ => "White",
-            };
-            ForegroundColor = (object)BackgroundColor switch
-            {                 
-                "White" => "Black",
-                "Black" => "White",
-                "Gray" => "White",
-                "SaddleBrown" => "White",
-                "DarkGreen" => "White",
-                "Tan" => "Black",
-                _ => "Black",
-            };
-            _backgroundScalar = BackgroundColor switch
-            {
-                "White" => new Scalar(255, 255, 255),
-                "Black" => new Scalar(0, 0, 0),
-                "Gray" => new Scalar(128, 128, 128),
-                "SaddleBrown" => new Scalar(139, 69, 19),
-                "DarkGreen" => new Scalar(0, 100, 0),
-                "Tan" => new Scalar(210, 180, 140),
-                _ => new Scalar(255, 255, 255),
-            };
+            // Cycle using palette to centralise colour definitions
+            BackgroundColor = _palette.Next(BackgroundColor);
+            ForegroundColor = _palette.GetForeground(BackgroundColor);
+            _backgroundScalar = _palette.GetScalar(BackgroundColor);
         }
 
         private void MoveFrame(int delta)
@@ -495,7 +578,7 @@ namespace InkMARC.Clean.ViewModels
                 {
                     var next = FileHelpers.GetNextFileInDirectory(CurrentFilePath);
                     if (!string.IsNullOrEmpty(next))
-                        OpenInternal(next);                    
+                        OpenInternal(next);
                 }
                 else
                 {
@@ -514,7 +597,7 @@ namespace InkMARC.Clean.ViewModels
                 _playCts = null;
 
                 try { cts.Cancel(); }
-                catch {  /* ignore */ }
+                catch {  }
                 finally { cts.Dispose(); }
 
                 return;
@@ -532,7 +615,7 @@ namespace InkMARC.Clean.ViewModels
                 {
                     while (!ct.IsCancellationRequested)
                     {
-                        var delayMs = Math.Max(1, 1000.0 / Math.Max(1.0, _videoService.FramesPerSecond));
+                        var delayMs = Math.Max(1, 1000.0 / Math.Max(1.0, _frameSource?.FramesPerSecond ?? 0));
                         await Task.Delay(TimeSpan.FromMilliseconds(delayMs), ct).ConfigureAwait(false);
 
                         if (ct.IsCancellationRequested) break;
@@ -566,7 +649,7 @@ namespace InkMARC.Clean.ViewModels
                 _playCts = null;
 
                 try { cts.Cancel(); }
-                catch {  /* ignore */ }
+                catch {  }
                 finally { cts.Dispose(); }
             }
 
@@ -608,18 +691,20 @@ namespace InkMARC.Clean.ViewModels
         }
 
         private void ExportDatasetCore(IFrameSource frameSource,
-                                       int frameCount,
-                                       string baseDir,
-                                       string baseName,
-                                       CancellationToken ct,
-                                       System.Action<double, string>? progress = null)
+                                                    int frameCount,
+                                                    string baseDir,
+                                                    string baseName,
+                                                    CancellationToken ct,
+                                                    Action<double, string>? progress = null)
         {
             const int attrCount = 5;
-            string[] colours = { "White", "Black", "Gray", "SaddleBrown", "DarkGreen", "Tan" }; // same as your export :contentReference[oaicite:5]{index=5}
+
+            var colours = ColorPalette.BackgroundNames.ToArray();
+            var bgScalars = colours.Select(name => _palette.GetScalar(name)).ToArray();
 
             var dispatcher = System.Windows.Application.Current.Dispatcher;
 
-            // Find first usable frame to establish dimensions (same logic as your current export) :contentReference[oaicite:6]{index=6}
+            // 1) Find first usable frame to establish dimensions
             FrameData? firstFrame = null;
             for (int i = 0; i < frameCount; i++)
             {
@@ -643,62 +728,70 @@ namespace InkMARC.Clean.ViewModels
             firstFrame.Image.Dispose();
             firstFrame.AuxImage?.Dispose();
 
-            int rgbLen = exportH * exportW * 3;
-            var rgbBuffer = new byte[rgbLen];
+            // 2) Buffers
             var cornersBuffer = new float[8];
             var labelsBuffer = new float[attrCount];
             var labelMaskBuffer = new byte[attrCount];
 
-            var zeroRgb = new byte[rgbLen];
             var zeroCorners = new float[8];
             var zeroLabels = new float[attrCount];
             var zeroMask = new byte[attrCount];
 
-            using var rgbMat = new Mat(exportH, exportW, MatType.CV_8UC3);
+            // A real black frame to keep AVI aligned + to satisfy validation if needed
+            using var zeroBgr = new Mat(exportH, exportW, MatType.CV_8UC3);
+            zeroBgr.SetTo(new Scalar(0, 0, 0));
 
-            int totalPasses = colours.Length;
-            long totalWork = (long)frameCount * totalPasses;
+            // 3) Timing
+            int fps = frameSource.FramesPerSecond > 0 ? (int)Math.Round(frameSource.FramesPerSecond) : 30;
+            if (fps <= 0) fps = 30;
+            ulong nsPerFrame = (ulong)(1_000_000_000L / fps);
 
-            const int reportEveryNFrames = 200;
+            // 4) Output paths: ONE H5, MANY AVIs
+            string outH5Path = Path.Combine(baseDir, $"{baseName}.h5");
 
-            for (int pass = 0; pass < totalPasses; pass++)
+            // Open single metadata session 
+            using var session = SessionManager.CreateNew(
+                h5Path: outH5Path,
+                frameCount: (ulong)frameCount,
+                height: exportH,
+                width: exportW,
+                attrCount: attrCount,
+                fps: fps,
+                chunkFrames: 256);
+
+            // Open all AVI writers once
+            var writers = new OpenCvSharp.VideoWriter[colours.Length];
+
+            // Preallocate per-variant output frames to avoid Clone() allocations
+            var outFrames = new Mat[colours.Length];
+            for (int i = 0; i < outFrames.Length; i++)
+                outFrames[i] = new Mat(exportH, exportW, MatType.CV_8UC3);
+
+            try
             {
-                ct.ThrowIfCancellationRequested();
-
-                string colourName = colours[pass];
-
-                // Set scalar used by DrawSurfaceMask (same as your current mapping) :contentReference[oaicite:7]{index=7}
-                _backgroundScalar = colourName switch
+                for (int pass = 0; pass < colours.Length; pass++)
                 {
-                    "White" => new Scalar(255, 255, 255),
-                    "Black" => new Scalar(0, 0, 0),
-                    "Gray" => new Scalar(128, 128, 128),
-                    "SaddleBrown" => new Scalar(139, 69, 19),
-                    "DarkGreen" => new Scalar(0, 100, 0),
-                    "Tan" => new Scalar(210, 180, 140),
-                    _ => new Scalar(255, 255, 255),
-                };
+                    string outAviPath = Path.Combine(baseDir, $"{baseName}_{colours[pass]}.avi");
+
+                    writers[pass] = new OpenCvSharp.VideoWriter(
+                        outAviPath,
+                        OpenCvSharp.FourCC.MJPG,
+                        fps,
+                        new OpenCvSharp.Size(exportW, exportH),
+                        isColor: true);
+
+                    if (!writers[pass].IsOpened())
+                        throw new InvalidOperationException($"Failed to open AVI writer: {outAviPath}");
+                }
+
+                long totalWork = (long)frameCount * colours.Length;
+                const int reportEveryNFrames = 200;
 
                 dispatcher.BeginInvoke(new Action(() =>
                 {
-                    BackgroundColor = colourName;
-                    ForegroundColor = colourName switch
-                    {
-                        "White" => "Black",
-                        "Tan" => "Black",
-                        _ => "White",
-                    };
+                    BackgroundColor = colours[0];
+                    ForegroundColor = _palette.GetForeground(colours[0]);
                 }));
-
-                string outPath = Path.Combine(baseDir, $"{baseName}_{colourName}.h5"); // same naming scheme :contentReference[oaicite:8]{index=8}
-
-                using var session = SessionManager.CreateNew(
-                    path: outPath,
-                    frameCount: (ulong)frameCount,
-                    height: exportH,
-                    width: exportW,
-                    attrCount: attrCount,
-                    chunkFrames: 16);
 
                 for (int frameIndex = 0; frameIndex < frameCount; frameIndex++)
                 {
@@ -708,24 +801,29 @@ namespace InkMARC.Clean.ViewModels
                     try
                     {
                         frameData = frameSource.GetFrameForExport(frameIndex);
+                        ulong timestampNs = (ulong)frameIndex * nsPerFrame;
 
                         if (frameData?.Image == null || frameData.Image.Empty())
                         {
-                            session.WriteFrame((ulong)frameIndex, zeroRgb, zeroCorners, zeroLabels, zeroMask);
+                            // Metadata once (zeros)
+                            session.WriteFrame(
+                                frameIndex: (ulong)frameIndex,
+                                timestampNs: timestampNs,
+                                corners: zeroCorners,
+                                labels: zeroLabels,
+                                labelMask: zeroMask);
+
+                            // Write a black frame to every AVI to keep alignment
+                            for (int pass = 0; pass < writers.Length; pass++)
+                                writers[pass].Write(zeroBgr);
+
                             continue;
                         }
 
                         int yOffset = frameData.AuxImage?.Height ?? 0;
-
                         using var cropped = GetBelowDatabarRoi(frameData.Image, yOffset);
 
-                        // Draw mask in cropped coordinates (no horizontal pad during export) :contentReference[oaicite:9]{index=9}
-                        DrawSurfaceMask(cropped, 0, frameData);
-
-                        Cv2.CvtColor(cropped, rgbMat, ColorConversionCodes.BGR2RGB);
-                        Marshal.Copy(rgbMat.Data, rgbBuffer, 0, rgbLen);
-
-                        // corners TL,TR,BR,BL (same as current) :contentReference[oaicite:10]{index=10}
+                        // ---- Metadata buffers ----
                         var tl = frameData.TopLeft;
                         var tr = frameData.TopRight;
                         var br = frameData.BottomRight;
@@ -740,7 +838,6 @@ namespace InkMARC.Clean.ViewModels
                         cornersBuffer[6] = (float)(bl?.X ?? 0);
                         cornersBuffer[7] = (float)(bl?.Y ?? 0);
 
-                        // labels + mask (same as current) :contentReference[oaicite:11]{index=11}
                         labelMaskBuffer[0] = frameData.StylusX.HasValue ? (byte)1 : (byte)0;
                         labelsBuffer[0] = frameData.StylusX.GetValueOrDefault();
 
@@ -756,7 +853,51 @@ namespace InkMARC.Clean.ViewModels
                         labelMaskBuffer[4] = frameData.StylusTiltY.HasValue ? (byte)1 : (byte)0;
                         labelsBuffer[4] = frameData.StylusTiltY.GetValueOrDefault();
 
-                        session.WriteFrame((ulong)frameIndex, rgbBuffer, cornersBuffer, labelsBuffer, labelMaskBuffer);
+                        // Write metadata ONCE
+                        session.WriteFrame(
+                            frameIndex: (ulong)frameIndex,
+                            timestampNs: timestampNs,
+                            corners: cornersBuffer,
+                            labels: labelsBuffer,
+                            labelMask: labelMaskBuffer);
+
+                        ComputeSurfaceAndKeyMasks(
+                            cropped,
+                            padX: 0,
+                            frameData: frameData,
+                            out var surfaceMask,
+                            out var colorMask,
+                            out var penMaskLab);
+
+                        // ---- Apply each colour variant cheaply ----
+                        for (int pass = 0; pass < colours.Length; pass++)
+                        {
+                            // Update UI only on first frame, optional
+                            if (frameIndex == 0)
+                            {
+                                string colourName = colours[pass];
+                                dispatcher.BeginInvoke(new Action(() =>
+                                {
+                                    BackgroundColor = colourName;
+                                    ForegroundColor = _palette.GetForeground(colourName);
+                                }));
+                            }
+
+                            var outFrame = outFrames[pass];
+
+                            // Apply background replacement using the precomputed colorMask
+                            ApplyBackgroundVariant(
+                                dstBgr: outFrame,
+                                srcBgr: cropped,
+                                colorMask: colorMask,
+                                backgroundScalar: bgScalars[pass],
+                                frameIndex: frameData.FrameIndex);
+
+                            // Apply pen overlay (same mask across variants)
+                            ApplyPenOverlay(outFrame, penMaskLab);
+
+                            writers[pass].Write(outFrame);
+                        }
                     }
                     finally
                     {
@@ -766,13 +907,77 @@ namespace InkMARC.Clean.ViewModels
 
                     if (frameIndex == 0 || frameIndex == frameCount - 1 || (frameIndex % reportEveryNFrames == 0))
                     {
-                        long done = (long)pass * frameCount + (frameIndex + 1);
-                        double pct = (totalWork <= 0) ? 1.0 : (done / (double)totalWork); // 0..1 for caller
-                        string status = $"Exporting {baseName}: {colourName} ({pass + 1}/{totalPasses}) - frame {frameIndex + 1}/{frameCount}";
-
+                        long done = (long)(frameIndex + 1) * colours.Length;
+                        double pct = (totalWork <= 0) ? 1.0 : (done / (double)totalWork);
+                        string status = $"Exporting {baseName}: frame {frameIndex + 1}/{frameCount} ({colours.Length} variants)";
                         progress?.Invoke(pct, status);
                     }
                 }
+            }
+            finally
+            {
+                for (int i = 0; i < writers.Length; i++)
+                    writers[i]?.Dispose();
+
+                for (int i = 0; i < outFrames.Length; i++)
+                    outFrames[i]?.Dispose();
+            }
+        }
+
+        private void ExportImage()
+        {
+            if (_frameSource is null || FrameCount <= 0)
+            {
+                System.Windows.MessageBox.Show("No video is open.");
+                return;
+            }
+
+            var dlg = new SaveFileDialog
+            {
+                Title = "Export current frame as PNG",
+                Filter = "PNG Image|*.png|All files|*.*",
+                AddExtension = true,
+                DefaultExt = ".png",
+                FileName = Path.GetFileNameWithoutExtension(CurrentFilePath) + $"_{CurrentFrameIndex}.png",
+                InitialDirectory = string.IsNullOrWhiteSpace(CurrentFilePath) ? null : Path.GetDirectoryName(CurrentFilePath)
+            };
+
+            if (dlg.ShowDialog() != true)
+                return;
+
+            FrameData? frameData = null;
+
+            try
+            {
+                frameData = _frameSource.GetFrame(CurrentFrameIndex);
+
+                if (frameData?.Image == null || frameData.Image.Empty())
+                {
+                    System.Windows.MessageBox.Show("Could not read the current frame.");
+                    return;
+                }
+
+                // IMPORTANT: FrameData.Image is already "minus data bar" per your note.
+                using var outBgr = frameData.Image.Clone();
+
+                // Apply mask exactly like the on-screen view (opaque)
+                if (ShowSurfaceMask)
+                {
+                    // Use the same frameData coordinates you render with.
+                    DrawSurfaceMask(outBgr, padX: 0, frameData);
+                }
+
+                Cv2.ImEncode(".png", outBgr, out byte[] buf);
+                File.WriteAllBytes(dlg.FileName, buf);
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show("Export failed: " + ex.Message);
+            }
+            finally
+            {
+                frameData?.Image?.Dispose();
+                frameData?.AuxImage?.Dispose();
             }
         }
 
@@ -876,306 +1081,17 @@ namespace InkMARC.Clean.ViewModels
             }, ct);
         }
 
-
-        //private void ExportDataset()
-        //{
-        //    if (_frameSource is null || FrameCount <= 0)
-        //    {
-        //        System.Windows.MessageBox.Show("No video is open.");
-        //        return;
-        //    }
-
-        //    // Stop any existing play/process/export loop that uses _playCts
-        //    if (_playCts != null)
-        //    {
-        //        var cts = _playCts;
-        //        _playCts = null;
-
-        //        try { cts.Cancel(); }
-        //        catch { /* ignore */ }
-        //        finally { cts.Dispose(); }
-        //    }
-
-        //    var dlg = new SaveFileDialog
-        //    {
-        //        Title = "Export dataset (base filename)",
-        //        Filter = "HDF5 files|*.h5;*.hdf5|All files|*.*",
-        //        FileName = Path.GetFileNameWithoutExtension(CurrentFilePath) + "_dataset.h5",
-        //        InitialDirectory = string.IsNullOrWhiteSpace(CurrentFilePath) ? null : Path.GetDirectoryName(CurrentFilePath),
-        //        AddExtension = true,
-        //        DefaultExt = ".h5",
-        //        OverwritePrompt = true
-        //    };
-
-        //    if (dlg.ShowDialog() != true)
-        //        return;
-
-        //    var basePath = dlg.FileName;
-        //    var baseDir = Path.GetDirectoryName(basePath) ?? Environment.CurrentDirectory;
-        //    var baseName = Path.GetFileNameWithoutExtension(basePath);
-
-        //    string[] colours = { "White", "Black", "Gray", "SaddleBrown", "DarkGreen", "Tan" };
-
-        //    bool prevShowSurfaceMask = ShowSurfaceMask;
-        //    ShowSurfaceMask = true;
-
-        //    // Save & restore background scalar so export doesn’t permanently change view state
-        //    var prevBackgroundScalar = _backgroundScalar;
-        //    var prevBackgroundColor = BackgroundColor;
-        //    var prevForegroundColor = ForegroundColor;
-
-        //    var newCts = new CancellationTokenSource();
-        //    _playCts = newCts;
-        //    var ct = newCts.Token;
-
-        //    IsExporting = true;
-        //    ExportProgress = 0;
-        //    ExportStatus = "Starting export...";
-
-
-        //    Task.Run(() =>
-        //    {
-        //        try
-        //        {
-        //            const int attrCount = 5;
-
-        //            var dispatcher = System.Windows.Application.Current.Dispatcher;
-
-        //            // Find first usable frame to establish dimensions
-        //            FrameData? firstFrame = null;
-        //            for (int i = 0; i < FrameCount; i++)
-        //            {
-        //                ct.ThrowIfCancellationRequested();
-        //                firstFrame = _frameSource.GetFrameForExport(i);
-        //                if (firstFrame?.Image != null && !firstFrame.Image.Empty())
-        //                    break;
-
-        //                firstFrame?.Image?.Dispose();
-        //                firstFrame?.AuxImage?.Dispose();
-        //                firstFrame = null;
-        //            }
-
-        //            if (firstFrame?.Image == null)
-        //                throw new InvalidOperationException("Could not read any frames to export.");
-
-        //            int yCrop = firstFrame.AuxImage?.Height ?? 0;
-        //            int exportH = firstFrame.Image.Height - yCrop;
-        //            int exportW = firstFrame.Image.Width;
-
-        //            firstFrame.Image.Dispose();
-        //            firstFrame.AuxImage?.Dispose();
-
-        //            int rgbLen = exportH * exportW * 3;
-        //            var rgbBuffer = new byte[rgbLen];
-        //            var cornersBuffer = new float[8];
-        //            var labelsBuffer = new float[attrCount];
-        //            var labelMaskBuffer = new byte[attrCount];
-
-        //            // Prebuilt “empty” buffers (avoid huge Array.Clear on missing frames)
-        //            var zeroRgb = new byte[rgbLen];
-        //            var zeroCorners = new float[8];
-        //            var zeroLabels = new float[attrCount];
-        //            var zeroMask = new byte[attrCount];
-
-        //            using var rgbMat = new Mat(exportH, exportW, MatType.CV_8UC3);
-
-        //            int totalPasses = colours.Length;
-        //            long totalWork = (long)FrameCount * totalPasses;
-
-        //            const int reportEveryNFrames = 200; // increase = faster, less UI churn
-
-        //            for (int pass = 0; pass < totalPasses; pass++)
-        //            {
-        //                ct.ThrowIfCancellationRequested();
-
-        //                string colourName = colours[pass];
-
-        //                // Set ONLY the scalar used by DrawSurfaceMask (no UI cycling required)
-        //                _backgroundScalar = colourName switch
-        //                {
-        //                    "White" => new Scalar(255, 255, 255),
-        //                    "Black" => new Scalar(0, 0, 0),
-        //                    "Gray" => new Scalar(128, 128, 128),
-        //                    "SaddleBrown" => new Scalar(139, 69, 19),
-        //                    "DarkGreen" => new Scalar(0, 100, 0),
-        //                    "Tan" => new Scalar(210, 180, 140),
-        //                    _ => new Scalar(255, 255, 255),
-        //                };
-
-        //                // Optional: update UI colours once per pass for clarity (non-blocking)
-        //                dispatcher.BeginInvoke(new Action(() =>
-        //                {
-        //                    BackgroundColor = colourName;
-        //                    ForegroundColor = colourName switch
-        //                    {
-        //                        "White" => "Black",
-        //                        "Tan" => "Black",
-        //                        _ => "White",
-        //                    };
-        //                }));
-
-        //                string outPath = Path.Combine(baseDir, $"{baseName}_{colourName}.h5");
-
-        //                using var session = SessionManager.CreateNew(
-        //                    path: outPath,
-        //                    frameCount: (ulong)FrameCount,
-        //                    height: exportH,
-        //                    width: exportW,
-        //                    attrCount: attrCount,
-        //                    chunkFrames: 16);
-
-        //                for (int frameIndex = 0; frameIndex < FrameCount; frameIndex++)
-        //                {
-        //                    ct.ThrowIfCancellationRequested();
-
-        //                    FrameData? frameData = null;
-
-        //                    try
-        //                    {
-        //                        frameData = _frameSource.GetFrameForExport(frameIndex);
-
-        //                        if (frameData?.Image == null || frameData.Image.Empty())
-        //                        {
-        //                            session.WriteFrame((ulong)frameIndex, zeroRgb, zeroCorners, zeroLabels, zeroMask);
-        //                            continue;
-        //                        }
-
-        //                        int yOffset = frameData.AuxImage?.Height ?? 0;
-
-        //                        // Crop out the text strip (top yOffset pixels) but keep full width.
-        //                        using var cropped = GetBelowDatabarRoi(frameData.Image, yOffset);
-
-        //                        // Draw mask in cropped coordinates (no horizontal pad during export)
-        //                        DrawSurfaceMask(cropped, 0, frameData);
-
-        //                        // Convert for writing
-        //                        Cv2.CvtColor(cropped, rgbMat, ColorConversionCodes.BGR2RGB);
-        //                        Marshal.Copy(rgbMat.Data, rgbBuffer, 0, rgbLen);
-
-        //                        // Corners (TL,TR,BR,BL) in padded coordinates
-        //                        var tl = frameData.TopLeft;
-        //                        var tr = frameData.TopRight;
-        //                        var br = frameData.BottomRight;
-        //                        var bl = frameData.BottomLeft;
-
-        //                        cornersBuffer[0] = (float)(tl?.X ?? 0);
-        //                        cornersBuffer[1] = (float)(tl?.Y ?? 0);
-        //                        cornersBuffer[2] = (float)(tr?.X ?? 0);
-        //                        cornersBuffer[3] = (float)(tr?.Y ?? 0);
-        //                        cornersBuffer[4] = (float)(br?.X ?? 0);
-        //                        cornersBuffer[5] = (float)(br?.Y ?? 0);
-        //                        cornersBuffer[6] = (float)(bl?.X ?? 0);
-        //                        cornersBuffer[7] = (float)(bl?.Y ?? 0);
-
-        //                        // Labels + mask (overwrite fully; no clears)
-        //                        labelMaskBuffer[0] = frameData.StylusX.HasValue ? (byte)1 : (byte)0;
-        //                        labelsBuffer[0] = frameData.StylusX.GetValueOrDefault();
-
-        //                        labelMaskBuffer[1] = frameData.StylusY.HasValue ? (byte)1 : (byte)0;
-        //                        labelsBuffer[1] = frameData.StylusY.GetValueOrDefault();
-
-        //                        labelMaskBuffer[2] = frameData.StylusPressure.HasValue ? (byte)1 : (byte)0;
-        //                        labelsBuffer[2] = frameData.StylusPressure.GetValueOrDefault();
-
-        //                        labelMaskBuffer[3] = frameData.StylusTiltX.HasValue ? (byte)1 : (byte)0;
-        //                        labelsBuffer[3] = frameData.StylusTiltX.GetValueOrDefault();
-
-        //                        labelMaskBuffer[4] = frameData.StylusTiltY.HasValue ? (byte)1 : (byte)0;
-        //                        labelsBuffer[4] = frameData.StylusTiltY.GetValueOrDefault();
-
-        //                        session.WriteFrame((ulong)frameIndex, rgbBuffer, cornersBuffer, labelsBuffer, labelMaskBuffer);
-        //                    }
-        //                    finally
-        //                    {
-        //                        if (frameData != null)
-        //                        {
-        //                            frameData.Image?.Dispose();
-        //                            frameData.AuxImage?.Dispose();
-        //                        }
-        //                    }
-
-        //                    // Progress update (throttled + non-blocking)
-        //                    if (frameIndex == 0 || frameIndex == FrameCount - 1 || (frameIndex % reportEveryNFrames == 0))
-        //                    {
-        //                        long done = (long)pass * FrameCount + (frameIndex + 1);
-        //                        double pct = (totalWork <= 0) ? 100.0 : (done * 100.0 / totalWork);
-        //                        var status = $"Exporting {colourName} ({pass + 1}/{totalPasses}) - frame {frameIndex + 1}/{FrameCount}";
-
-        //                        dispatcher.BeginInvoke(new Action(() =>
-        //                        {
-        //                            ExportProgress = pct;
-        //                            ExportStatus = status;
-        //                        }));
-        //                    }
-        //                }
-        //            }
-
-        //            System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-        //            {
-        //                ExportProgress = 100;
-        //                ExportStatus = "Export complete.";
-        //            }));
-        //        }
-        //        catch (OperationCanceledException)
-        //        {
-        //            System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-        //            {
-        //                ExportStatus = "Export cancelled.";
-        //            }));
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-        //            {
-        //                ExportStatus = "Export failed: " + ex.Message;
-        //                System.Windows.MessageBox.Show("Export failed: " + ex);
-        //            }));
-        //        }
-        //        finally
-        //        {
-        //            System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-        //            {
-        //                // restore state
-        //                ShowSurfaceMask = prevShowSurfaceMask;
-        //                _backgroundScalar = prevBackgroundScalar;
-        //                BackgroundColor = prevBackgroundColor;
-        //                ForegroundColor = prevForegroundColor;
-        //                IsExporting = false;
-        //            }));
-
-        //            if (ReferenceEquals(_playCts, newCts))
-        //                _playCts = null;
-
-        //            newCts.Dispose();
-        //        }
-        //    }, ct);
-        //}
-
         private static Mat GetBelowDatabarRoi(Mat src, int yOffset)
         {
-            if (src == null) throw new ArgumentNullException(nameof(src));
+            ArgumentNullException.ThrowIfNull(src);
             if (src.Empty()) throw new ArgumentException("src is empty", nameof(src));
 
-            if (yOffset <= 0) return src; // ROI is the whole image
+            if (yOffset <= 0) return src;
             yOffset = Math.Clamp(yOffset, 0, src.Rows - 1);
 
             var rect = new Rect(0, yOffset, src.Cols, src.Rows - yOffset);
-            return new Mat(src, rect); // NO CLONE: view into src data
+            return new Mat(src, rect);
         }
-
-        [ThreadStatic]
-        private static Mat? s_paddedReuse;
-
-        private void MarkInvalid()
-        {
-            // stub
-        }
-
-        private void ReprocessFrame()
-        {
-            // stub
-            LoadFrame(CurrentFrameIndex);
-        }       
 
         private void LoadFrame(int index)
         {
@@ -1185,16 +1101,16 @@ namespace InkMARC.Clean.ViewModels
             {
                 if (_frameSource is null)
                     return;
-                
-                frameData = _frameSource.GetFrame(index);                
 
-                if (frameData is null || frameData.Image == null)                
+                frameData = _frameSource.GetFrame(index);
+
+                if (frameData is null || frameData.Image == null)
                 {
                     CurrentFrameImage = null;
                     CurrentTextStripImage = null;
                     HasTextBar = false;
                     CurrentRawOcr = null;
-                    OnPropertyChanged(nameof(CurrentRawOcr));                    
+                    OnPropertyChanged(nameof(CurrentRawOcr));
                     return;
                 }
 
@@ -1274,7 +1190,7 @@ namespace InkMARC.Clean.ViewModels
         /// with 'src' copied into the centre.
         /// Caller is responsible for disposing the returned Mat.
         /// </summary>
-        private Mat AddHorizontalPadding(Mat src, int padX)
+        private static Mat AddHorizontalPadding(Mat src, int padX)
         {
             int newW = src.Width + 2 * padX;
             int newH = src.Height;
@@ -1291,12 +1207,44 @@ namespace InkMARC.Clean.ViewModels
             return padded;
         }
 
+        private void GetH5Stats()
+        {
+            using var dlg = new System.Windows.Forms.FolderBrowserDialog
+            {
+                Description = "Select data folder",
+                UseDescriptionForTitle = true,
+                SelectedPath = Environment.CurrentDirectory,
+                ShowNewFolderButton = true
+            };
+
+            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {                
+                var dirStats = H5LabelStats.ScanDirectory(dlg.SelectedPath, recursive: false);
+                
+                // Totals
+                Console.WriteLine($"Files: {dirStats.PerFile.Count}");
+                Console.WriteLine($"Total frames: {dirStats.TotalFrames}");
+                Console.WriteLine($"Frames with any labels: {dirStats.TotalFramesWithAnyLabels}");
+                Console.WriteLine($"Frames with NO labels: {dirStats.TotalFramesWithNoLabels}");
+                Console.WriteLine($"Labeled frames: pressure > 0: {dirStats.TotalLabeledPressureGt0}");
+                Console.WriteLine($"Labeled frames: pressure == 0: {dirStats.TotalLabeledPressureEq0}");
+                Console.WriteLine($"Labeled frames: pressure missing: {dirStats.TotalLabeledPressureMissing}");
+
+                // Per file breakdown
+                foreach (var f in dirStats.PerFile)
+                {
+                    Console.WriteLine($"{Path.GetFileName(f.Path)} : frames={f.FrameCount}, labeled={f.FramesWithAnyLabels}, unlabeled={f.FramesWithNoLabels}, p>0={f.LabeledFramesPressureGt0}, p=0={f.LabeledFramesPressureEq0}, p-missing={f.LabeledFramesPressureMissing}");
+                }
+
+            }
+        }
+
         private static void MakeYellowPenMaskLab(Mat bgr,
-                                                 Mat lab,     // CV_8UC3 scratch
-                                                 Mat labA,    // CV_8UC1 scratch
-                                                 Mat labB,    // CV_8UC1 scratch
-                                                 Mat bGeAMask,// CV_8UC1 scratch
-                                                 Mat penMask) // CV_8UC1 output)
+                                                 Mat lab,
+                                                 Mat labA,
+                                                 Mat labB,
+                                                 Mat bGeAMask,
+                                                 Mat penMask)
         {
             const int PenBMin = 152; // derived from your samples
 
@@ -1320,65 +1268,85 @@ namespace InkMARC.Clean.ViewModels
         private static readonly Mat KernelGreen = Cv2.GetStructuringElement(MorphShapes.Ellipse, new Size(3, 3));
         private static readonly Mat KernelSkin = Cv2.GetStructuringElement(MorphShapes.Ellipse, new Size(1, 1));
 
-        private int _perfMaskCounter;
-        private void DrawSurfaceMask(Mat target, int padX, FrameData frameData)
-        {            
+        /// <summary>
+        /// Compute the surface mask (area inside the page polygon) and the chroma-based
+        /// colour mask used for background replacement. Optionally computes a pen mask
+        /// when the yellow-background processing flag is set.
+        ///
+        /// This method reuses internal Mats for performance and MUST NOT modify the
+        /// provided source image; it operates on copies/temporary buffers only.
+        /// </summary>
+        private bool ComputeSurfaceAndKeyMasks(Mat target,
+                                               int padX,
+                                               FrameData frameData,
+                                               out Mat surfaceMask,
+                                               out Mat colorMask,
+                                               out Mat? penMaskLab)
+        {
+            penMaskLab = null;
+
             if (!ShowSurfaceMask)
-                return;
-
-            if (frameData.TopLeft is null || frameData.TopRight is null || frameData.BottomLeft is null || frameData.BottomRight is null)
-                return;           
-
-            // --- allocate / resize scratch Mats once ---
-            void EnsureSize(ref Mat? m, MatType type)
             {
-                if (m == null || m.Width != target.Width || m.Height != target.Height || m.Type() != type)
-                {
-                    m?.Dispose();
-                    m = new Mat(target.Rows, target.Cols, type);
-                }
+                EnsureSize(target, ref _surfaceMask, MatType.CV_8UC1);
+                EnsureSize(target, ref _colorMask, MatType.CV_8UC1);
+                _surfaceMask!.SetTo(Scalar.All(0));
+                _colorMask!.SetTo(Scalar.All(0));
+                surfaceMask = _surfaceMask!;
+                colorMask = _colorMask!;
+                return false;
             }
 
-            EnsureSize(ref _hsv, MatType.CV_8UC3);
-            EnsureSize(ref _ycrcb, MatType.CV_8UC3);
+            if (frameData.TopLeft is null || frameData.TopRight is null ||
+                frameData.BottomLeft is null || frameData.BottomRight is null)
+            {
+                EnsureSize(target, ref _surfaceMask, MatType.CV_8UC1);
+                EnsureSize(target, ref _colorMask, MatType.CV_8UC1);
+                _surfaceMask!.SetTo(Scalar.All(0));
+                _colorMask!.SetTo(Scalar.All(0));
+                surfaceMask = _surfaceMask!;
+                colorMask = _colorMask!;
+                return false;
+            }
 
-            EnsureSize(ref _surfaceMask, MatType.CV_8UC1);
-            EnsureSize(ref _colorMask, MatType.CV_8UC1);
-            EnsureSize(ref _tmpMask, MatType.CV_8UC1);
-            EnsureSize(ref _skinMask, MatType.CV_8UC1);
-            EnsureSize(ref _notSkinMask, MatType.CV_8UC1);
-            EnsureSize(ref _pureGreenMask, MatType.CV_8UC1);
+            EnsureSize(target, ref _hsv, MatType.CV_8UC3);
+            EnsureSize(target, ref _ycrcb, MatType.CV_8UC3);
 
-            // HSV channels + intermediate masks
-            EnsureSize(ref _h, MatType.CV_8UC1);
-            EnsureSize(ref _s, MatType.CV_8UC1);
-            EnsureSize(ref _v, MatType.CV_8UC1);
-            EnsureSize(ref _hueMask, MatType.CV_8UC1);
-            EnsureSize(ref _brightMask, MatType.CV_8UC1);
-            EnsureSize(ref _darkMask, MatType.CV_8UC1);
-            EnsureSize(ref _highSatMask, MatType.CV_8UC1);
-            EnsureSize(ref _darkHighSatMask, MatType.CV_8UC1);
-            EnsureSize(ref _valueCondMask, MatType.CV_8UC1);
+            EnsureSize(target, ref _surfaceMask, MatType.CV_8UC1);
+            EnsureSize(target, ref _colorMask, MatType.CV_8UC1);
+            EnsureSize(target, ref _tmpMask, MatType.CV_8UC1);
+            EnsureSize(target, ref _skinMask, MatType.CV_8UC1);
+            EnsureSize(target, ref _notSkinMask, MatType.CV_8UC1);
+            EnsureSize(target, ref _pureGreenMask, MatType.CV_8UC1);
 
-            EnsureSize(ref _tubeMask, MatType.CV_8UC1);
-            EnsureSize(ref _tipCandMask, MatType.CV_8UC1);
-            EnsureSize(ref _ccLabels, MatType.CV_32SC1);
-            EnsureSize(ref _ccStats, MatType.CV_32SC1);
-            EnsureSize(ref _ccCentroids, MatType.CV_64FC1);
+            EnsureSize(target, ref _h, MatType.CV_8UC1);
+            EnsureSize(target, ref _s, MatType.CV_8UC1);
+            EnsureSize(target, ref _v, MatType.CV_8UC1);
+            EnsureSize(target, ref _hueMask, MatType.CV_8UC1);
+            EnsureSize(target, ref _brightMask, MatType.CV_8UC1);
+            EnsureSize(target, ref _darkMask, MatType.CV_8UC1);
+            EnsureSize(target, ref _highSatMask, MatType.CV_8UC1);
+            EnsureSize(target, ref _darkHighSatMask, MatType.CV_8UC1);
+            EnsureSize(target, ref _valueCondMask, MatType.CV_8UC1);
 
-            EnsureSize(ref _lab, MatType.CV_8UC3);
-            EnsureSize(ref _labA, MatType.CV_8UC1);
-            EnsureSize(ref _labB, MatType.CV_8UC1);
-            EnsureSize(ref _penMaskLab, MatType.CV_8UC1);
-            EnsureSize(ref _bGeAMask, MatType.CV_8UC1);
+            EnsureSize(target, ref _tubeMask, MatType.CV_8UC1);
+            EnsureSize(target, ref _tipCandMask, MatType.CV_8UC1);
+            EnsureSize(target, ref _ccLabels, MatType.CV_32SC1);
+            EnsureSize(target, ref _ccStats, MatType.CV_32SC1);
+            EnsureSize(target, ref _ccCentroids, MatType.CV_64FC1);
 
-            EnsureSize(ref _bgBgr, MatType.CV_8UC3);
-            EnsureSize(ref _bg16, MatType.CV_8UC3);
-            EnsureSize(ref _bgGrad16, MatType.CV_16SC3);
-            EnsureSize(ref _noise8s, MatType.CV_8SC3);
-            EnsureSize(ref _noise16s, MatType.CV_8SC3);
-            EnsureSize(ref _col16, MatType.CV_16SC1);
-            EnsureSize(ref _grad1_16, MatType.CV_16SC1);                        
+            EnsureSize(target, ref _lab, MatType.CV_8UC3);
+            EnsureSize(target, ref _labA, MatType.CV_8UC1);
+            EnsureSize(target, ref _labB, MatType.CV_8UC1);
+            EnsureSize(target, ref _penMaskLab, MatType.CV_8UC1);
+            EnsureSize(target, ref _bGeAMask, MatType.CV_8UC1);
+
+            EnsureSize(target, ref _bgBgr, MatType.CV_8UC3);
+            EnsureSize(target, ref _bg16, MatType.CV_16SC3);
+            EnsureSize(target, ref _bgGrad16, MatType.CV_16SC3);
+            EnsureSize(target, ref _noise8s, MatType.CV_8SC3);
+            EnsureSize(target, ref _noise16s, MatType.CV_16SC3);
+            EnsureSize(target, ref _col16, MatType.CV_16SC1);
+            EnsureSize(target, ref _grad1_16, MatType.CV_16SC1);
 
             // --- polygon + clip ---
             var bl = Point2f.FromPoint(frameData.BottomLeft.Value) + new Point2f(padX, 0);
@@ -1390,7 +1358,15 @@ namespace InkMARC.Clean.ViewModels
             var clipRect = new Rect2f(0, 0, target.Width, target.Height);
             var clipped = PolygonClipper.ClipToRect(poly, clipRect);
             if (clipped.Count < 3)
-                return;
+            {
+                EnsureSize(target, ref _surfaceMask, MatType.CV_8UC1);
+                EnsureSize(target, ref _colorMask, MatType.CV_8UC1);
+                _surfaceMask!.SetTo(Scalar.All(0));
+                _colorMask!.SetTo(Scalar.All(0));
+                surfaceMask = _surfaceMask!;
+                colorMask = _colorMask!;
+                return false;
+            }
 
             var pts = new Point[clipped.Count];
             for (int i = 0; i < clipped.Count; i++)
@@ -1399,26 +1375,26 @@ namespace InkMARC.Clean.ViewModels
                 pts[i] = new Point((int)Math.Round(p.X), (int)Math.Round(p.Y));
             }
 
-            EnsureSurfaceMask(target, pts);            
+            EnsureSurfaceMask(target, pts);
 
             // --- HSV chroma detection (your existing green-screen style mask) ---
             Cv2.CvtColor(target, _hsv!, ColorConversionCodes.BGR2HSV);
 
             Cv2.ExtractChannel(_hsv!, _h!, 0);
             Cv2.ExtractChannel(_hsv!, _s!, 1);
-            Cv2.ExtractChannel(_hsv!, _v!, 2);          
-            
+            Cv2.ExtractChannel(_hsv!, _v!, 2);
+
             // hueMask = inrange(H)
-            Cv2.InRange(_h!, new Scalar(39), new Scalar(108), _hueMask!);
+            Cv2.InRange(_h!, new Scalar(HueMin), new Scalar(HueMax), _hueMask!);
 
             // brightMask = V > 40
-            Cv2.Threshold(_v!, _brightMask!, 40, 255, ThresholdTypes.Binary);
+            Cv2.Threshold(_v!, _brightMask!, ValueThreshold, 255, ThresholdTypes.Binary);
 
             // darkMask = V <= 40
-            Cv2.Threshold(_v!, _darkMask!, 40, 255, ThresholdTypes.BinaryInv);
+            Cv2.Threshold(_v!, _darkMask!, ValueThreshold, 255, ThresholdTypes.BinaryInv);
 
             // highSatMask = S > 27
-            Cv2.Threshold(_s!, _highSatMask!, 27, 255, ThresholdTypes.Binary);
+            Cv2.Threshold(_s!, _highSatMask!, SaturationThreshold, 255, ThresholdTypes.Binary);
 
             // darkHighSatMask = darkMask & highSatMask
             Cv2.BitwiseAnd(_darkMask!, _highSatMask!, _darkHighSatMask!);
@@ -1429,47 +1405,130 @@ namespace InkMARC.Clean.ViewModels
             // colorMask = hueMask & valueCondMask
             Cv2.BitwiseAnd(_hueMask!, _valueCondMask!, _colorMask!);
 
-            // --- Pen highlight (yellow-vs-skin OR legacy red) ---
-            if (HasYellowBackground)
-            {                
-                // Yellow pen (Lab) mask: pen pixels not on skin
-                MakeYellowPenMaskLab(
-                    target,        // ideally your original frame (pre-green), but target is OK here since it hasn't been modified yet
-                    _lab!,
-                    _labA!,
-                    _labB!,
-                    _bGeAMask!,
-                    _penMaskLab!);
-
-                // Restrict to surface
-                Cv2.BitwiseAnd(_penMaskLab!, _surfaceMask!, _penMaskLab!);
-
-                // Optional: light cleanup
-                Cv2.MedianBlur(_penMaskLab!, _penMaskLab!, 3);
-
-                // Visualise pen pixels (red overlay)
-                target.SetTo(new Scalar(0, 0, 255), _penMaskLab!);                
-            }
-            
-            // restrict to polygon
+            // restrict to polygon / surface
             Cv2.BitwiseAnd(_colorMask!, _surfaceMask!, _colorMask!);
 
-            // apply green replacement
-            EnsureSize(ref _bgBgr, MatType.CV_8UC3);
-            if (_bgNoise == null || _bgNoise.Width != target.Width || _bgNoise.Height != target.Height || _bgNoise.Type() != MatType.CV_8SC3)
+            // Optional pen mask
+            if (HasYellowBackground)
             {
-                _bgNoise?.Dispose();
-                _bgNoise = new Mat(target.Rows, target.Cols, MatType.CV_8SC3);
-            }          
+                MakeYellowPenMaskLab(target, _lab!, _labA!, _labB!, _bGeAMask!, _penMaskLab!);
 
-            BuildBackgroundFast(_bgBgr!, _backgroundScalar, noiseAmp: 2, gradAmp: 6, frameIndex: frameData.FrameIndex);            
-            
-            _bgBgr!.CopyTo(target, _colorMask!);            
-            
-            // --- kill remaining near-green anywhere ---
-            Cv2.InRange(target, new Scalar(0, 250, 0), new Scalar(15, 255, 25), _pureGreenMask!);
+                // Restrict pen detection to the surface polygon first
+                Cv2.BitwiseAnd(_penMaskLab!, _surfaceMask!, _penMaskLab!);
+
+                // Build "available area" mask: inside surface AND NOT already in background colorMask
+                // (_colorMask is already inside _surfaceMask, but ANDing with _surfaceMask is harmless + explicit)
+                Cv2.BitwiseNot(_colorMask!, _tmpMask!);
+                Cv2.BitwiseAnd(_tmpMask!, _surfaceMask!, _tmpMask!);
+
+                // Keep yellow pen only where background mask hasn't been placed
+                Cv2.BitwiseAnd(_penMaskLab!, _tmpMask!, _penMaskLab!);
+
+                Cv2.MedianBlur(_penMaskLab!, _penMaskLab!, 3);
+                penMaskLab = _penMaskLab!;
+            }
+
+
+            surfaceMask = _surfaceMask!;
+            colorMask = _colorMask!;
+            return true;
+        }
+
+        private void ApplyBackgroundVariantInPlace(Mat targetBgr,
+                                                   Mat colorMask,
+                                                   Scalar backgroundScalar,
+                                                   int frameIndex)
+       {
+            EnsureSize(targetBgr, ref _bgBgr, MatType.CV_8UC3);
+            EnsureSize(targetBgr, ref _bgNoise, MatType.CV_8SC3);
+
+            BuildBackgroundFast(_bgBgr!, backgroundScalar, noiseAmp: 2, gradAmp: 6, frameIndex: frameIndex);
+            _bgBgr!.CopyTo(targetBgr, colorMask);
+
+            Cv2.InRange(targetBgr, new Scalar(0, 250, 0), new Scalar(15, 255, 25), _pureGreenMask!);
             Cv2.Dilate(_pureGreenMask!, _pureGreenMask!, KernelGreen, iterations: 1);
-            target.SetTo(new Scalar(40, 40, 40), _pureGreenMask!);
+            targetBgr.SetTo(new Scalar(40, 40, 40), _pureGreenMask!);
+        }
+
+        private void ApplyBackgroundVariant(Mat dstBgr,
+                                            Mat srcBgr,
+                                            Mat colorMask,
+                                            Scalar backgroundScalar,
+                                            int frameIndex)
+        {
+            // Start from original frame
+            srcBgr.CopyTo(dstBgr);
+
+            // Build background once per variant (depends on scalar)
+            EnsureSize(srcBgr, ref _bgBgr, MatType.CV_8UC3);
+            EnsureSize(srcBgr, ref _bgNoise, MatType.CV_8SC3);
+
+            BuildBackgroundFast(_bgBgr!, backgroundScalar, noiseAmp: 2, gradAmp: 6, frameIndex: frameIndex);
+
+            // Composite background into masked pixels
+            _bgBgr!.CopyTo(dstBgr, colorMask);
+
+            // Optional cleanup pass (kept identical to your current behaviour)
+            Cv2.InRange(dstBgr, new Scalar(0, 250, 0), new Scalar(15, 255, 25), _pureGreenMask!);
+            Cv2.Dilate(_pureGreenMask!, _pureGreenMask!, KernelGreen, iterations: 1);
+            dstBgr.SetTo(new Scalar(40, 40, 40), _pureGreenMask!);
+        }
+
+        // --- allocate / resize scratch Mats once ---
+        static void EnsureSize(Mat target, ref Mat? m, MatType type)
+        {
+            if (m == null || m.Width != target.Width || m.Height != target.Height || m.Type() != type)
+            {
+                m?.Dispose();
+                m = new Mat(target.Rows, target.Cols, type);
+            }
+        }
+
+        private void DrawSurfaceMask(Mat target, int padX, FrameData frameData)
+        {
+            if (!ComputeSurfaceAndKeyMasks(target, padX, frameData, out var surfaceMask, out var colorMask, out var penMask))
+                return;
+
+            ApplyBackgroundVariantInPlace(target, colorMask, _backgroundScalar, frameData.FrameIndex);
+            ApplyPenOverlay(target, penMask);
+        }
+
+        /// <summary>
+        /// Desaturate and darken only where penMaskLab is non-zero.
+        /// </summary>
+        private void ApplyPenOverlay(Mat dstBgr, Mat? penMaskLab, double vScale = 0.85)
+        {
+            if (penMaskLab == null || penMaskLab.Empty())
+                return;
+
+            EnsureSize(dstBgr, ref _hsvOverlay, MatType.CV_8UC3);
+            EnsureSize(dstBgr, ref _hCh, MatType.CV_8UC1);
+            EnsureSize(dstBgr, ref _sCh, MatType.CV_8UC1);
+            EnsureSize(dstBgr, ref _vCh, MatType.CV_8UC1);
+
+            // Convert to HSV
+            Cv2.CvtColor(dstBgr, _hsvOverlay!, ColorConversionCodes.BGR2HSV);
+
+            // Split
+            Cv2.ExtractChannel(_hsvOverlay!, _hCh!, 0);
+            Cv2.ExtractChannel(_hsvOverlay!, _sCh!, 1);
+            Cv2.ExtractChannel(_hsvOverlay!, _vCh!, 2);
+
+            // S = 0 inside mask (desaturate)
+            _sCh!.SetTo(Scalar.All(0), penMaskLab);
+
+            // V = V * vScale inside mask (darken)
+            // Multiply uses saturation arithmetic for 8U, which is fine here.
+            Cv2.Multiply(_vCh!, new Scalar(vScale), _darkMask!);     // temp = V * scale
+            _darkMask!.CopyTo(_vCh!, penMaskLab);                   // write back only in mask
+
+            // Merge back
+            Cv2.InsertChannel(_hCh!, _hsvOverlay!, 0);
+            Cv2.InsertChannel(_sCh!, _hsvOverlay!, 1);
+            Cv2.InsertChannel(_vCh!, _hsvOverlay!, 2);
+
+            // Back to BGR
+            Cv2.CvtColor(_hsvOverlay!, dstBgr, ColorConversionCodes.HSV2BGR);
         }
 
         private void EnsureNoiseBank(int rows, int cols, int noiseAmp)
@@ -1519,13 +1578,11 @@ namespace InkMARC.Clean.ViewModels
             _bgBaseGrad16?.Dispose();
             _bgBaseGrad16 = new Mat(rows, cols, MatType.CV_16SC3);
 
-            // Start from constant base in 16S (note: SetTo works fine on 16S mats)
+            // Prepare a constant base image and add a cached vertical gradient.
             _bgBaseGrad16.SetTo(baseBgr);
 
-            // Ensure gradient is up to date for this size/gradAmp
-            EnsureGradient(rows, cols, gradAmp); // should set _bgGrad16 as CV_16SC3
+            EnsureGradient(rows, cols, gradAmp);
 
-            // Cache base+gradient
             Cv2.Add(_bgBaseGrad16, _bgGrad16!, _bgBaseGrad16);
 
             _bgRowsCached = rows;
@@ -1534,39 +1591,29 @@ namespace InkMARC.Clean.ViewModels
             _bgBaseCached = baseBgr;
         }
 
-
-        // NOTE: added frameIndex parameter for deterministic noise selection
         private void BuildBackgroundFast(Mat bgBgr8u, Scalar baseBgr, int noiseAmp, int gradAmp, int frameIndex)
         {
             int rows = bgBgr8u.Rows;
             int cols = bgBgr8u.Cols;
 
-            // Ensure scratch output (16S working buffer)
             if (_bg16 == null || _bg16.Rows != rows || _bg16.Cols != cols || _bg16.Type() != MatType.CV_16SC3)
             {
                 _bg16?.Dispose();
                 _bg16 = new Mat(rows, cols, MatType.CV_16SC3);
             }
-            
-            // Cache base+gradient (built only when size/base/gradAmp changes)
-            EnsureBaseGrad(rows, cols, baseBgr, gradAmp);            
 
-            // Start from cached base+grad
+            EnsureBaseGrad(rows, cols, baseBgr, gradAmp);
+
             _bgBaseGrad16!.CopyTo(_bg16);
-            
-            // Cache noise bank (built only when size/noiseAmp changes)
-            EnsureNoiseBank(rows, cols, noiseAmp);            
-          
-            // Add deterministic noise for this frame
+
+            EnsureNoiseBank(rows, cols, noiseAmp);
+
             var noise16 = _noise16Bank![frameIndex % NoiseBankSize];
-            Cv2.Add(_bg16!, noise16, _bg16!);            
-            
-            // Convert back with saturation to 8U
-            _bg16!.ConvertTo(bgBgr8u, MatType.CV_8UC3);            
+            Cv2.Add(_bg16!, noise16, _bg16!);
+
+            _bg16!.ConvertTo(bgBgr8u, MatType.CV_8UC3);
         }
 
-
-        // Cache key for gradient        
         private int _bgGradRowsCached = -1;
         private int _bgGradColsCached = -1;
 
@@ -1581,14 +1628,12 @@ namespace InkMARC.Clean.ViewModels
             _bgGrad16?.Dispose();
             _bgGrad16 = new Mat(rows, cols, MatType.CV_16SC3);
 
-            // Reuse a cached Hx1 column and repeated HxW gradient
             if (_col16 == null || _col16.Rows != rows || _col16.Cols != 1 || _col16.Type() != MatType.CV_16SC1)
             {
                 _col16?.Dispose();
                 _col16 = new Mat(rows, 1, MatType.CV_16SC1);
             }
 
-            // Fill column offsets
             for (int y = 0; y < rows; y++)
             {
                 double t = (rows <= 1) ? 0.0 : (double)y / (rows - 1);
@@ -1602,11 +1647,9 @@ namespace InkMARC.Clean.ViewModels
                 _grad1_16 = new Mat(rows, cols, MatType.CV_16SC1);
             }
 
-            // Repeat column into full image (HxW)
             Cv2.Repeat(_col16, 1, cols, _grad1_16);
 
-            // Merge into 3 channels WITHOUT Clone() allocations
-            Cv2.Merge(new[] { _grad1_16, _grad1_16, _grad1_16 }, _bgGrad16);
+            Cv2.Merge([_grad1_16, _grad1_16, _grad1_16], _bgGrad16);
 
             _bgGradRowsCached = rows;
             _bgGradColsCached = cols;
@@ -1647,6 +1690,9 @@ namespace InkMARC.Clean.ViewModels
             _lastSurfacePoly = (Point[])surfacePoly.Clone();
         }
 
+        /// <summary>
+        /// Dispose the ViewModel and release all unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
             if (_disposed) return;
@@ -1658,7 +1704,7 @@ namespace InkMARC.Clean.ViewModels
             if (cts != null)
             {
                 try { cts.Cancel(); }
-                catch { /* ignore */ }
+                catch { }
                 finally { cts.Dispose(); }
             }
 

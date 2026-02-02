@@ -8,10 +8,12 @@ namespace InkMARC.Clean.Services
 {
     /// <summary>
     /// Provides video file access and frame extraction using OpenCV.
+    /// Also provides a simple video writer for MJPEG AVI export.
     /// </summary>
     public class VideoService : IVideoService, IDisposable
     {
         private VideoCapture? _videoCapture;
+        private VideoWriter? _videoWriter;
         private int _lastFrameIndex = -1;
         private readonly Mat _frameBuffer = new();
 
@@ -43,9 +45,14 @@ namespace InkMARC.Clean.Services
         public double FramesPerSecond { get; private set; } = 0;
 
         /// <summary>
-        /// Gets whether a video is currently open.
+        /// Gets whether a video is currently open for reading.
         /// </summary>
         public bool IsOpen => _videoCapture?.IsOpened() ?? false;
+
+        /// <summary>
+        /// Whether a video writer is currently open for writing.
+        /// </summary>
+        public bool IsWriterOpen => _videoWriter?.IsOpened() ?? false;
 
         /// <summary>
         /// Gets the threshold in microseconds for frame timing.
@@ -58,7 +65,11 @@ namespace InkMARC.Clean.Services
         /// <param name="videoPath">The path to the video file.</param>
         public void Open(string videoPath)
         {
-            Dispose();
+            _videoCapture?.Dispose();
+            _videoCapture = null;
+            _lastFrameIndex = -1;
+
+            CloseWriter();
 
             _videoCapture = new VideoCapture(videoPath);
 
@@ -82,6 +93,62 @@ namespace InkMARC.Clean.Services
 
             if (FramesPerSecond <= 0)
                 throw new InvalidOperationException("Invalid FPS detected in video.");
+        }
+
+        /// <summary>
+        /// Opens a video writer for writing MJPEG AVI.
+        /// </summary>
+        public void OpenWriter(string aviPath, int fps, int width, int height)
+        {
+            // MJPEG fourcc for AVI
+            int fourcc = VideoWriter.FourCC('M', 'J', 'P', 'G');
+
+            _videoWriter?.Release();
+            _videoWriter?.Dispose();
+
+            if (File.Exists(aviPath))
+                File.Delete(aviPath);
+
+            _videoWriter = new VideoWriter(aviPath, fourcc, fps, new OpenCvSharp.Size(width, height), true);
+
+            if (!_videoWriter.IsOpened())
+                throw new Exception($"Failed to open VideoWriter: {aviPath}");
+
+            _lastFrameIndex = -1;
+        }
+
+        /// <summary>
+        /// Writes a BGR image to the open writer. Writer expects sequential writes but will not enforce index.
+        /// </summary>
+        public void WriteFrame(Mat imageBgr)
+        {
+            if (_videoWriter == null || !_videoWriter.IsOpened())
+                throw new InvalidOperationException("Video writer not open.");
+
+            if (imageBgr.Empty())
+                throw new ArgumentException("imageBgr is empty.", nameof(imageBgr));
+
+            if (!imageBgr.IsContinuous())
+            {
+                using var tmp = imageBgr.Clone();
+                _videoWriter.Write(tmp);
+            }
+            else
+            {
+                _videoWriter.Write(imageBgr);
+            }
+
+            _lastFrameIndex++;
+        }
+
+        /// <summary>
+        /// Closes the writer (if any).
+        /// </summary>
+        public void CloseWriter()
+        {
+            _videoWriter?.Release();
+            _videoWriter?.Dispose();
+            _videoWriter = null;
         }
 
         /// <summary>
@@ -183,6 +250,9 @@ namespace InkMARC.Clean.Services
             _videoCapture?.Dispose();
             _videoCapture = null;
             _lastFrameIndex = -1;
+
+            CloseWriter();
+            _frameBuffer.Dispose();
         }
 
 
