@@ -1,0 +1,16 @@
+InkMARC research archive
+Copyright (c) 2026 Tavish Burnah. All rights reserved.
+
+The reservation covers the author's original contributions in src/, ml/,
+inkdepth_student/, inkdepth_student_workspace/, and archive documentation,
+subject to the exceptions in LICENSE and THIRD_PARTY_NOTICES.md.
+
+It does not claim ownership of third-party software or model parameters,
+unmodified upstream notices/model cards in docs/third-party/, or facts and
+research measurements as such. Mixed-origin files and every staged model
+artifact are mapped in provenance/file-rights.json and
+provenance/model-licensing.json.
+
+Component COPYRIGHT files and README notices point back to these terms.
+Research executable source and binaries have not been changed to insert
+copyright headers; this sidecar approach preserves their original bytes.

@@ -1,0 +1,13 @@
+torch>=2.2
+torchvision>=0.17
+numpy>=1.24
+opencv-python>=4.8
+Pillow>=10.0
+PyYAML>=6.0
+tqdm>=4.66
+zarr>=2.16
+h5py>=3.10
+pandas>=2.0
+tensorboard>=2.15
+onnx>=1.15
+onnxruntime>=1.17

@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "status": "approved_vm_archive_update",
+  "reviewed_at": "2026-10-24T11:04:31.787154+13:00",
+  "repository": "https://github.com/tburnah/InkMARC.git",
+  "target_ref": "refs/heads/main",
+  "base_commit": "715d1ce7e2b0e9432cf2c1e29246c51a9d1eecc7",
+  "authorization": "Author explicitly approved committing, merging into main and pushing the combined VM archive and repository documentation; desktop source will follow in a separate push.",
+  "content_scope": "Existing application suite with updated original-contribution rights notices and documentation, plus unchanged frozen Phase B public candidate under research/",
+  "research_regular_files": 646,
+  "research_symlinks": 1,
+  "research_file_mapping": "docs/integration-plan.json",
+  "research_file_mapping_sha256": "1cd870933575789221a7811a204b5388af3359b104082f7cc3a315444f85c47c",
+  "historical_local_import_record": "docs/provenance/research-import.json",
+  "historical_local_import_record_sha256": "df85a4e2e19c81b9f6e78e963d30132bd25975bbfffaca47a7e220f505a64ae4",
+  "publication_documentation_changes": [
+    {
+      "path": "README.md",
+      "before_sha256": "0451338e471ff95c26143e6442cace0127fc97c6d4c2485058552e425698af5d",
+      "after_sha256": "c082c8212ffc6cb828701caaf0ffef6342f5d4d50dbc01aa151d2594fa1fa83e"
+    },
+    {
+      "path": "docs/archive-status.json",
+      "before_sha256": "24ecee50c9c21cf737e6f86b86bf844d1266e0727968090e15fee14374524628",
+      "after_sha256": "31398f38a15db8da06063c923ec53915b566169a808060fbaf7df2384dcdd50c"
+    },
+    {
+      "path": "docs/integration-plan.md",
+      "before_sha256": "63bc4b50aef1065a2e0c4e2e3136233ea67e4b996edcd350e5665cac45c2002b",
+      "after_sha256": "487105a0ec5b553fd0e8a0bb8261696e172ac9bf0fb0eb5308ae15c725773524"
+    },
+    {
+      "path": "docs/licensing/README.md",
+      "before_sha256": "50c27becb0688da7365c85f50081fc28e9a4cbaa5b6218093c9bab1026ff64e2",
+      "after_sha256": "c054f57de2a8178f9861691627d37aff1552b4aaf92cb7fa2895dbe3d896add3"
+    },
+    {
+      "path": "docs/licensing/current-policy.json",
+      "before_sha256": "dfc523c8a1b2919b5a809d847be15a8393014697421fb68ae2b125132a986b98",
+      "after_sha256": "4efb7909d0569faa9872c10be4e57596da28d715530f4df56e56862c491760a9"
+    },
+    {
+      "path": "docs/research-import.md",
+      "before_sha256": "abd4b818a2e863585f0676d9f729d6d1905bd44bed58f06b0287b72580c7598a",
+      "after_sha256": "c3a200f8708d57eec6e69c7f7ae9ad2669f5864f68e981028551eb206140b7aa"
+    }
+  ],
+  "checks": {
+    "research_file_hashes_and_link_passed": true,
+    "checksum_manifest_entries": 645,
+    "checksum_manifest_passed": true,
+    "historical_import_record_unchanged": true,
+    "frozen_phase_b_snapshot_unchanged": true,
+    "existing_source_model_configuration_or_application_asset_changes_for_publication": false,
+    "remote_main_matches_reviewed_base": true
+  },
+  "licensing": "Original contributions all rights reserved, subject to prior valid grants and retained third-party terms. The publication does not resolve recorded model/asset provenance questions or claim new third-party permissions.",
+  "desktop_components": "InkMARC-Capture and Chapter 8 Surface/application pending incorporation from desktop; later push",
+  "complete_archive_ready_for_final_github_publication": false,
+  "git_history_rewrite_or_force_push_authorized": false,
+  "research_training_model_conversion_quantisation_or_data_generation_performed": false
+}

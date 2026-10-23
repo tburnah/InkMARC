@@ -1,0 +1,298 @@
+[
+  {
+    "path": ".gitignore",
+    "action": "add_documentation_or_ignore",
+    "before_sha256": null,
+    "after_sha256": "66aeb8cc66d415b72ecb8322ffcaf2f71b2dc0058fd0f3da3a2a794d7c2a0c23",
+    "original_preserved_at": null,
+    "reason": "Thesis-aligned archive navigation, execution scope, provenance or artifact exclusion; no executable source edited"
+  },
+  {
+    "path": "README.md",
+    "action": "add_documentation_or_ignore",
+    "before_sha256": null,
+    "after_sha256": "38e9c457af1b543a98c6d5e7103f520fb64083621453565a65c74f3d2e3a4c26",
+    "original_preserved_at": null,
+    "reason": "Thesis-aligned archive navigation, execution scope, provenance or artifact exclusion; no executable source edited"
+  },
+  {
+    "path": "docs/contribution-index.md",
+    "action": "add_documentation_or_ignore",
+    "before_sha256": null,
+    "after_sha256": "7c4edb38c5d19c81c709734aea9096964d52e48a8e90aef3f0d31ab9bb4621e3",
+    "original_preserved_at": null,
+    "reason": "Thesis-aligned archive navigation, execution scope, provenance or artifact exclusion; no executable source edited"
+  },
+  {
+    "path": "docs/datasets.md",
+    "action": "add_documentation_or_ignore",
+    "before_sha256": null,
+    "after_sha256": "f2c054eab47360667afb04473459101fd477626e2212d73a851ab3bc740949e3",
+    "original_preserved_at": null,
+    "reason": "Thesis-aligned archive navigation, execution scope, provenance or artifact exclusion; no executable source edited"
+  },
+  {
+    "path": "docs/dependencies.md",
+    "action": "add_documentation_or_ignore",
+    "before_sha256": null,
+    "after_sha256": "e3aab8dcaf95c874e8dedd5f541ae7e508d47b432b0b3f2a69ba990dd2392c4c",
+    "original_preserved_at": null,
+    "reason": "Thesis-aligned archive navigation, execution scope, provenance or artifact exclusion; no executable source edited"
+  },
+  {
+    "path": "docs/known-issues.md",
+    "action": "add_documentation_or_ignore",
+    "before_sha256": null,
+    "after_sha256": "8ed68144f2172d42094c5d091a8f234ad24c30b95a341e1399df08fc0579d4ef",
+    "original_preserved_at": null,
+    "reason": "Thesis-aligned archive navigation, execution scope, provenance or artifact exclusion; no executable source edited"
+  },
+  {
+    "path": "docs/licensing.md",
+    "action": "add_documentation_or_ignore",
+    "before_sha256": null,
+    "after_sha256": "e0f0580348899163bfbb80a232e8999488f86715a272cf0d5e8c2e5e4707abc1",
+    "original_preserved_at": null,
+    "reason": "Thesis-aligned archive navigation, execution scope, provenance or artifact exclusion; no executable source edited"
+  },
+  {
+    "path": "docs/reproducibility.md",
+    "action": "add_documentation_or_ignore",
+    "before_sha256": null,
+    "after_sha256": "3ed85d7147d1b63f3b0762e6a217aeb38c8126884447f43a81e1a8fe4b1d4d66",
+    "original_preserved_at": null,
+    "reason": "Thesis-aligned archive navigation, execution scope, provenance or artifact exclusion; no executable source edited"
+  },
+  {
+    "path": "docs/terminology-map.md",
+    "action": "add_documentation_or_ignore",
+    "before_sha256": null,
+    "after_sha256": "ae3ee68260efe93fc03d6c502729624047891b1c58b29df7be50f14eed5ef88b",
+    "original_preserved_at": null,
+    "reason": "Thesis-aligned archive navigation, execution scope, provenance or artifact exclusion; no executable source edited"
+  },
+  {
+    "path": "inkdepth_student/README.md",
+    "action": "replace_documentation_or_ignore",
+    "before_sha256": "25d3f224f6b7d2d8c272a58fd3b09b8bb6931995881da8876c4f653418495b90",
+    "after_sha256": "327b391056d3cadb18a41173bbd6b4125f8974c9be371af8b5180d07cf73234d",
+    "original_preserved_at": "provenance/original-documentation/inkdepth_student/README.md",
+    "reason": "Thesis-aligned archive navigation, execution scope, provenance or artifact exclusion; no executable source edited"
+  },
+  {
+    "path": "inkdepth_student/reference/README.md",
+    "action": "add_documentation_or_ignore",
+    "before_sha256": null,
+    "after_sha256": "6b51e07951d4dc1667b8688b67f375b0164d2875973cbb6f359a20f9483ab498",
+    "original_preserved_at": null,
+    "reason": "Thesis-aligned archive navigation, execution scope, provenance or artifact exclusion; no executable source edited"
+  },
+  {
+    "path": "inkdepth_student_workspace/.gitignore",
+    "action": "replace_documentation_or_ignore",
+    "before_sha256": "c20bc6302cbf6f68b769711ed96070b9988f509191e9ec1f788a574296f95710",
+    "after_sha256": "5aafa35c3600dd2636cdd0c4fdce4620cc7e1cc42129850c19dfb98c1334c4d7",
+    "original_preserved_at": "provenance/original-documentation/inkdepth_student_workspace/.gitignore",
+    "reason": "Thesis-aligned archive navigation, execution scope, provenance or artifact exclusion; no executable source edited"
+  },
+  {
+    "path": "inkdepth_student_workspace/DEPTH_PROXY.md",
+    "action": "add_documentation_or_ignore",
+    "before_sha256": null,
+    "after_sha256": "decfa979e72f9a05dc4e55d08f7c039f63c447a7a940ec5e7fa73ea36a9b847a",
+    "original_preserved_at": null,
+    "reason": "Thesis-aligned archive navigation, execution scope, provenance or artifact exclusion; no executable source edited"
+  },
+  {
+    "path": "inkdepth_student_workspace/README.md",
+    "action": "replace_documentation_or_ignore",
+    "before_sha256": "fbded0752aed56cbcd77d3aaa856f1de456b1de81997c88b8877998cb2afbdc5",
+    "after_sha256": "37adba7597fb082143fb4465db25115f2f62b93672ed9c4aeb090cac1612bdde",
+    "original_preserved_at": "provenance/original-documentation/inkdepth_student_workspace/README.md",
+    "reason": "Thesis-aligned archive navigation, execution scope, provenance or artifact exclusion; no executable source edited"
+  },
+  {
+    "path": "inkdepth_student_workspace/reference/README.md",
+    "action": "add_documentation_or_ignore",
+    "before_sha256": null,
+    "after_sha256": "6b51e07951d4dc1667b8688b67f375b0164d2875973cbb6f359a20f9483ab498",
+    "original_preserved_at": null,
+    "reason": "Thesis-aligned archive navigation, execution scope, provenance or artifact exclusion; no executable source edited"
+  },
+  {
+    "path": "ml/README.md",
+    "action": "replace_documentation_or_ignore",
+    "before_sha256": "707d5734d0e7ef71a120f73b32ccd806acdf63c088b30ceed6be2fac90b18848",
+    "after_sha256": "d688b7f12c2d3ab18c8485755c4e21db70a4c95444d13570a95b465ec81856bf",
+    "original_preserved_at": "provenance/original-documentation/ml/README.md",
+    "reason": "Thesis-aligned archive navigation, execution scope, provenance or artifact exclusion; no executable source edited"
+  },
+  {
+    "path": "provenance/README.md",
+    "action": "add_documentation_or_ignore",
+    "before_sha256": null,
+    "after_sha256": "60714c7e6fe20ab2b28a376eaad2088efb1bfcee1cc58c95e878a6f46da9ad1e",
+    "original_preserved_at": null,
+    "reason": "Thesis-aligned archive navigation, execution scope, provenance or artifact exclusion; no executable source edited"
+  },
+  {
+    "path": "src/depth_model/README.md",
+    "action": "add_documentation_or_ignore",
+    "before_sha256": null,
+    "after_sha256": "c22085c95df44846926a2967a1936c93f2ece9dd1fdaebdae83ec5ef653011de",
+    "original_preserved_at": null,
+    "reason": "Thesis-aligned archive navigation, execution scope, provenance or artifact exclusion; no executable source edited"
+  },
+  {
+    "path": "src/location_model/README.md",
+    "action": "add_documentation_or_ignore",
+    "before_sha256": null,
+    "after_sha256": "27b1d4eb258a0acca27c4e5ee723421d2d2836d358df2ab92f600658a5608fbe",
+    "original_preserved_at": null,
+    "reason": "Thesis-aligned archive navigation, execution scope, provenance or artifact exclusion; no executable source edited"
+  },
+  {
+    "path": "src/shadow_extraction/README.md",
+    "action": "add_documentation_or_ignore",
+    "before_sha256": null,
+    "after_sha256": "88782dde9d1bba8feee53f0decbe540046154dded9f59c8e3d2fa6948371258b",
+    "original_preserved_at": null,
+    "reason": "Thesis-aligned archive navigation, execution scope, provenance or artifact exclusion; no executable source edited"
+  },
+  {
+    "path": "src/touch_model/README.md",
+    "action": "add_documentation_or_ignore",
+    "before_sha256": null,
+    "after_sha256": "5b11ba3316c618febe81ca218d2638b240c75fbb0650deb89ccecf54d9379eb1",
+    "original_preserved_at": null,
+    "reason": "Thesis-aligned archive navigation, execution scope, provenance or artifact exclusion; no executable source edited"
+  },
+  {
+    "path": "LICENSE",
+    "action": "add_copyright_attribution_or_documentation",
+    "before_sha256": null,
+    "after_sha256": "0e550cadaea0844ebfe0389549524620b6b3cd2b5a1362931e55ab39822dd686",
+    "original_preserved_at": null,
+    "reason": "Explicit author instruction: credit third parties and reserve rights in original contributions; no research implementation changes"
+  },
+  {
+    "path": "COPYRIGHT",
+    "action": "add_copyright_attribution_or_documentation",
+    "before_sha256": null,
+    "after_sha256": "272f7cd485128526b8e9f4a9535b89be56dc57a6f6629aec6b1810282de46c6f",
+    "original_preserved_at": null,
+    "reason": "Explicit author instruction: credit third parties and reserve rights in original contributions; no research implementation changes"
+  },
+  {
+    "path": "THIRD_PARTY_NOTICES.md",
+    "action": "add_copyright_attribution_or_documentation",
+    "before_sha256": null,
+    "after_sha256": "6aeb2d41062e8c928e4fc57f4e4560094c93ef6a383e58623746554eef87af9f",
+    "original_preserved_at": null,
+    "reason": "Explicit author instruction: credit third parties and reserve rights in original contributions; no research implementation changes"
+  },
+  {
+    "path": "src/depth_model/models/THIRD_PARTY_NOTICES.md",
+    "action": "add_copyright_attribution_or_documentation",
+    "before_sha256": null,
+    "after_sha256": "d3021e4066bcf2db2192c83b071c72cca3f6a98dde4f51f1b38fb1a5c133cb80",
+    "original_preserved_at": null,
+    "reason": "Explicit author instruction: credit third parties and reserve rights in original contributions; no research implementation changes"
+  },
+  {
+    "path": "src/depth_model/models/LICENSE.MobileNetV4",
+    "action": "add_copyright_attribution_or_documentation",
+    "before_sha256": null,
+    "after_sha256": "a063147521e44cbc25c40a59a7eb4ddb877acbb6d7c65640e3e32d26244c2efa",
+    "original_preserved_at": null,
+    "reason": "Explicit author instruction: credit third parties and reserve rights in original contributions; no research implementation changes"
+  },
+  {
+    "path": "src/touch_model/COPYRIGHT",
+    "action": "add_copyright_attribution_or_documentation",
+    "before_sha256": null,
+    "after_sha256": "4ba8e519c0c3719e8be716b1303094e7c0abfbeee768f52f949eb86889f43c67",
+    "original_preserved_at": null,
+    "reason": "Explicit author instruction: credit third parties and reserve rights in original contributions; no research implementation changes"
+  },
+  {
+    "path": "src/location_model/COPYRIGHT",
+    "action": "add_copyright_attribution_or_documentation",
+    "before_sha256": null,
+    "after_sha256": "4ba8e519c0c3719e8be716b1303094e7c0abfbeee768f52f949eb86889f43c67",
+    "original_preserved_at": null,
+    "reason": "Explicit author instruction: credit third parties and reserve rights in original contributions; no research implementation changes"
+  },
+  {
+    "path": "src/depth_model/COPYRIGHT",
+    "action": "add_copyright_attribution_or_documentation",
+    "before_sha256": null,
+    "after_sha256": "4ba8e519c0c3719e8be716b1303094e7c0abfbeee768f52f949eb86889f43c67",
+    "original_preserved_at": null,
+    "reason": "Explicit author instruction: credit third parties and reserve rights in original contributions; no research implementation changes"
+  },
+  {
+    "path": "src/shadow_extraction/COPYRIGHT",
+    "action": "add_copyright_attribution_or_documentation",
+    "before_sha256": null,
+    "after_sha256": "4ba8e519c0c3719e8be716b1303094e7c0abfbeee768f52f949eb86889f43c67",
+    "original_preserved_at": null,
+    "reason": "Explicit author instruction: credit third parties and reserve rights in original contributions; no research implementation changes"
+  },
+  {
+    "path": "ml/COPYRIGHT",
+    "action": "add_copyright_attribution_or_documentation",
+    "before_sha256": null,
+    "after_sha256": "1f3f00515b8d948510684f8584ea33c257fa100e293f2a0c59b36bf69bfa2d29",
+    "original_preserved_at": null,
+    "reason": "Explicit author instruction: credit third parties and reserve rights in original contributions; no research implementation changes"
+  },
+  {
+    "path": "inkdepth_student/COPYRIGHT",
+    "action": "add_copyright_attribution_or_documentation",
+    "before_sha256": null,
+    "after_sha256": "1f3f00515b8d948510684f8584ea33c257fa100e293f2a0c59b36bf69bfa2d29",
+    "original_preserved_at": null,
+    "reason": "Explicit author instruction: credit third parties and reserve rights in original contributions; no research implementation changes"
+  },
+  {
+    "path": "inkdepth_student_workspace/COPYRIGHT",
+    "action": "add_copyright_attribution_or_documentation",
+    "before_sha256": null,
+    "after_sha256": "1f3f00515b8d948510684f8584ea33c257fa100e293f2a0c59b36bf69bfa2d29",
+    "original_preserved_at": null,
+    "reason": "Explicit author instruction: credit third parties and reserve rights in original contributions; no research implementation changes"
+  },
+  {
+    "path": "docs/third-party/DEPENDENCIES.md",
+    "action": "add_copyright_attribution_or_documentation",
+    "before_sha256": null,
+    "after_sha256": "bfbc7a027d998969f0fc570acb96b8b64eece38b7a8000e7bd0698f97cdefbf3",
+    "original_preserved_at": null,
+    "reason": "Explicit author instruction: credit third parties and reserve rights in original contributions; no research implementation changes"
+  },
+  {
+    "path": "docs/third-party/README.md",
+    "action": "add_copyright_attribution_or_documentation",
+    "before_sha256": null,
+    "after_sha256": "b28378d6269d0537532dfab19caf8c5b7878d575b89a3da5f3745311b36bd80e",
+    "original_preserved_at": null,
+    "reason": "Explicit author instruction: credit third parties and reserve rights in original contributions; no research implementation changes"
+  },
+  {
+    "path": "docs/models.md",
+    "action": "update_copyright_attribution_documentation",
+    "before_sha256": "b022ba10632ecdd498c6cc06a2776bac68e42da559530774a7a874bd72bdbe30",
+    "after_sha256": "befa54257cf390f86e15e55365070413e983007411b4df130ee4e1cdc3870fc7",
+    "original_preserved_at": null,
+    "reason": "Explicit author instruction: credit third parties and reserve rights in original contributions; no research implementation changes"
+  },
+  {
+    "path": "provenance/CHANGELOG.md",
+    "action": "update_copyright_attribution_documentation",
+    "before_sha256": "4f26b196404c9fffb71f1a5c15ec2076c687441e4800d4e33fb7f3a4301efdd4",
+    "after_sha256": "a3b1ab8d20a8b15f3de2013ea72b7fec09b0d489b10637e00567f4b142d2c9e9",
+    "original_preserved_at": null,
+    "reason": "Explicit author instruction: credit third parties and reserve rights in original contributions; no research implementation changes"
+  }
+]

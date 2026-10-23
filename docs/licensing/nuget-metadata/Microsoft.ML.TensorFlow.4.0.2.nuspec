@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Microsoft.ML.TensorFlow</id>
+    <version>4.0.2</version>
+    <authors>Microsoft</authors>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <icon>mlnetlogo.png</icon>
+    <readme>PACKAGE.md</readme>
+    <projectUrl>https://dot.net/ml</projectUrl>
+    <description>Microsoft.ML.TensorFlow contains ML.NET integration of TensorFlow.</description>
+    <releaseNotes>https://aka.ms/mlnetreleasenotes</releaseNotes>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <tags>ML.NET ML Machine Learning</tags>
+    <serviceable>true</serviceable>
+    <repository type="git" url="https://github.com/dotnet/machinelearning" commit="987204b98892690bf367581bb24702080d78f5ab" />
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Microsoft.ML" version="4.0.2" exclude="Build,Analyzers" />
+        <dependency id="Google.Protobuf" version="3.27.1" exclude="Build,Analyzers" />
+        <dependency id="System.IO.FileSystem.AccessControl" version="5.0.0" exclude="Build,Analyzers" />
+        <dependency id="System.Security.Principal.Windows" version="5.0.0" exclude="Build,Analyzers" />
+        <dependency id="TensorFlow.NET" version="0.20.1" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

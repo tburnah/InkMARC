@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>HDF.PInvoke.NETStandard</id>
+    <version>1.10.502</version>
+    <title>HDF.PInvoke for .NET Standard</title>
+    <authors>The HDF Group, Sebastian Urban (.NET Standard port)</authors>
+    <owners>The HDF Group, Sebastian Urban (.NET Standard port)</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>http://www.hdfgroup.org/ftp/HDF5/current/src/unpacked/COPYING</licenseUrl>
+    <projectUrl>https://surban.github.io/HDF.PInvoke</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/HDFGroup/HDF.PInvoke/master/images/hdf.png</iconUrl>
+    <description>This package contains PInvoke declarations for the (unmanaged) HDF5 1.10.x API and
+the native HDF5 libraries for 64-bit Linux, MacOS and Microsoft Windows built with
+thread-safety enabled.
+
+Full API reference documentation is provided at
+https://surban.github.io/HDF.PInvoke/api/HDF.PInvoke.html
+
+For information on how to use the HDF5 libraries please refer to
+https://portal.hdfgroup.org/display/HDF5/HDF5
+
+This is an inofficial port of HDF.PInvoke to .NET Standard 2.0, based on 
+the code published by the HDF Group at https://github.com/HDFGroup/HDF.PInvoke.</description>
+    <copyright>Copyright © 2016-2019</copyright>
+    <tags>HDF5 HDF Hierarchical Data Format</tags>
+    <dependencies>
+      <group targetFramework=".NETStandard2.0" />
+    </dependencies>
+  </metadata>
+</package>

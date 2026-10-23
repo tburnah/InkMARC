@@ -1,0 +1,147 @@
+[
+  {
+    "component": "depth_model",
+    "reason": "cache_or_bytecode",
+    "file_or_link_count": 2
+  },
+  {
+    "component": "depth_model",
+    "reason": "checkpoint_or_export_held_for_selection",
+    "file_or_link_count": 4
+  },
+  {
+    "component": "depth_model",
+    "reason": "data_media_generated_output_or_document_held",
+    "file_or_link_count": 1044
+  },
+  {
+    "component": "depth_model",
+    "reason": "generated_output_binary_or_uncertain_file",
+    "file_or_link_count": 1
+  },
+  {
+    "component": "depth_model",
+    "reason": "third_party_revision_recorded_separately",
+    "file_or_link_count": 2
+  },
+  {
+    "component": "inkdepth_student",
+    "reason": "cache_or_bytecode",
+    "file_or_link_count": 38
+  },
+  {
+    "component": "inkdepth_student",
+    "reason": "checkpoint_or_export_held_for_selection",
+    "file_or_link_count": 395
+  },
+  {
+    "component": "inkdepth_student",
+    "reason": "data_media_generated_output_or_document_held",
+    "file_or_link_count": 9452
+  },
+  {
+    "component": "inkdepth_student",
+    "reason": "external_link_not_followed",
+    "file_or_link_count": 11
+  },
+  {
+    "component": "inkdepth_student",
+    "reason": "generated_output_binary_or_uncertain_file",
+    "file_or_link_count": 888
+  },
+  {
+    "component": "inkdepth_student_workspace",
+    "reason": "cache_or_bytecode",
+    "file_or_link_count": 52
+  },
+  {
+    "component": "inkdepth_student_workspace",
+    "reason": "data_media_generated_output_or_document_held",
+    "file_or_link_count": 3
+  },
+  {
+    "component": "inkdepth_student_workspace",
+    "reason": "external_link_not_followed",
+    "file_or_link_count": 1
+  },
+  {
+    "component": "inkdepth_student_workspace",
+    "reason": "original_git_history_not_copied_or_modified",
+    "file_or_link_count": 1
+  },
+  {
+    "component": "location_model",
+    "reason": "cache_or_bytecode",
+    "file_or_link_count": 22
+  },
+  {
+    "component": "location_model",
+    "reason": "checkpoint_or_export_held_for_selection",
+    "file_or_link_count": 505
+  },
+  {
+    "component": "location_model",
+    "reason": "data_media_generated_output_or_document_held",
+    "file_or_link_count": 11
+  },
+  {
+    "component": "location_model",
+    "reason": "external_link_not_followed",
+    "file_or_link_count": 1
+  },
+  {
+    "component": "location_model",
+    "reason": "generated_output_binary_or_uncertain_file",
+    "file_or_link_count": 28
+  },
+  {
+    "component": "ml",
+    "reason": "cache_or_bytecode",
+    "file_or_link_count": 48
+  },
+  {
+    "component": "ml",
+    "reason": "checkpoint_or_export_held_for_selection",
+    "file_or_link_count": 109
+  },
+  {
+    "component": "ml",
+    "reason": "data_media_generated_output_or_document_held",
+    "file_or_link_count": 7150
+  },
+  {
+    "component": "ml",
+    "reason": "generated_output_binary_or_uncertain_file",
+    "file_or_link_count": 1488
+  },
+  {
+    "component": "shadow_extraction",
+    "reason": "cache_or_bytecode",
+    "file_or_link_count": 11
+  },
+  {
+    "component": "shadow_extraction",
+    "reason": "data_media_generated_output_or_document_held",
+    "file_or_link_count": 1514
+  },
+  {
+    "component": "shadow_extraction",
+    "reason": "generated_output_binary_or_uncertain_file",
+    "file_or_link_count": 51
+  },
+  {
+    "component": "touch_model",
+    "reason": "checkpoint_or_export_held_for_selection",
+    "file_or_link_count": 17
+  },
+  {
+    "component": "touch_model",
+    "reason": "data_media_generated_output_or_document_held",
+    "file_or_link_count": 6
+  },
+  {
+    "component": "touch_model",
+    "reason": "generated_output_binary_or_uncertain_file",
+    "file_or_link_count": 1
+  }
+]

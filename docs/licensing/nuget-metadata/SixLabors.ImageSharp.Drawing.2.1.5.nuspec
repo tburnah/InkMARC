@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>SixLabors.ImageSharp.Drawing</id>
+    <version>2.1.5</version>
+    <authors>Six Labors and contributors</authors>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="file">LICENSE</license>
+    <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>
+    <icon>sixlabors.imagesharp.drawing.128.png</icon>
+    <projectUrl>https://github.com/SixLabors/ImageSharp.Drawing</projectUrl>
+    <description>An extension to ImageSharp that allows the drawing of images, paths, and text.</description>
+    <copyright>Copyright © Six Labors</copyright>
+    <tags>Image Draw Shape Path Font</tags>
+    <repository type="git" url="https://github.com/SixLabors/ImageSharp.Drawing" commit="435aae4c97471c33566debfb948b270b6041b551" />
+    <dependencies>
+      <group targetFramework="net6.0">
+        <dependency id="SixLabors.Fonts" version="2.0.8" exclude="Build,Analyzers" />
+        <dependency id="SixLabors.ImageSharp" version="3.1.6" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

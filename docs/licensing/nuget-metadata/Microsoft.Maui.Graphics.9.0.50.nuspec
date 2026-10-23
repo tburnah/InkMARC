@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Microsoft.Maui.Graphics</id>
+    <version>9.0.50</version>
+    <authors>Microsoft</authors>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <icon>Icon.png</icon>
+    <readme>README.md</readme>
+    <projectUrl>https://github.com/dotnet/maui</projectUrl>
+    <description>.NET Multi-platform App UI (.NET MAUI) is a cross-platform framework for creating native mobile and desktop apps with C# and XAML. This package contains a collection of cross-platform graphics and drawing APIs.</description>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <tags>dotnet-maui dotnet maui cross-platform ios android macos maccatalyst windows winui tizen graphics drawing</tags>
+    <serviceable>true</serviceable>
+    <repository type="git" url="https://github.com/dotnet/maui.git" commit="9705d5c5bf0b75c77c46ecbf3c14af3bc2b4f2b3" />
+    <dependencies>
+      <group targetFramework="net9.0" />
+      <group targetFramework="net9.0-android35.0" />
+      <group targetFramework="net9.0-ios18.0" />
+      <group targetFramework="net9.0-maccatalyst18.0" />
+      <group targetFramework="net9.0-macos15.0" />
+      <group targetFramework="net9.0-tizen7.0" />
+      <group targetFramework="net9.0-windows10.0.19041">
+        <dependency id="Microsoft.Graphics.Win2D" version="1.2.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.IO.RecyclableMemoryStream" version="3.0.1" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net9.0-windows10.0.20348">
+        <dependency id="Microsoft.Graphics.Win2D" version="1.2.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.IO.RecyclableMemoryStream" version="3.0.1" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="System.Memory" version="4.5.5" exclude="Build,Analyzers" />
+        <dependency id="System.Numerics.Vectors" version="4.5.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard2.1">
+        <dependency id="System.Numerics.Vectors" version="4.5.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

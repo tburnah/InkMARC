@@ -1,0 +1,17 @@
+{
+  "policy": "all_rights_reserved",
+  "copyright_holder": "Tavish Burnah",
+  "copyright_notice": "Copyright (c) 2024\u20132026 Tavish Burnah. All rights reserved in original contributions.",
+  "scope": "Current notice for original contributions throughout the combined local repository, its eight existing .NET components and imported VM research; nested historical notices and third-party exceptions retained",
+  "third_party_terms_preserved": true,
+  "prior_valid_grants_preserved": true,
+  "historical_documents_preserved": true,
+  "desktop_incorporation_required_for_this_notice_update": false,
+  "desktop_components": "pending_incorporation_from_desktop",
+  "phase_b_snapshot": "unchanged; already reserves rights in original contributions",
+  "research_import_performed": true,
+  "research_import_provenance": "../provenance/research-import.json",
+  "remote_update_authorized": true,
+  "authorization_scope": "Current combined VM archive and licensing/documentation; desktop components later",
+  "publication_record": "../provenance/vm-publication.json"
+}

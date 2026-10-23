@@ -1,0 +1,414 @@
+{
+  "base_commit": "715d1ce7e2b0e9432cf2c1e29246c51a9d1eecc7",
+  "evidence": "Existing project XML, without restore/build or version changes",
+  "projects": [
+    {
+      "project": "InkMARC.Clean/InkMARC.Clean.csproj",
+      "target_declarations": [
+        {
+          "tag": "TargetFramework",
+          "condition": null,
+          "value": "net8.0-windows7.0"
+        }
+      ],
+      "packages": [
+        {
+          "name": "CommunityToolkit.Mvvm",
+          "version": "8.4.0"
+        },
+        {
+          "name": "HDF.PInvoke.NETStandard",
+          "version": "1.10.502"
+        },
+        {
+          "name": "MaterialDesignThemes",
+          "version": "5.3.0"
+        },
+        {
+          "name": "Microsoft.Extensions.DependencyInjection",
+          "version": "10.0.0"
+        },
+        {
+          "name": "Microsoft.Extensions.Hosting",
+          "version": "10.0.0"
+        },
+        {
+          "name": "Microsoft.Extensions.Logging",
+          "version": "10.0.0"
+        },
+        {
+          "name": "Microsoft.ML.OnnxRuntime",
+          "version": "1.23.2"
+        },
+        {
+          "name": "Microsoft.ML.OnnxRuntime.Managed",
+          "version": "1.23.2"
+        },
+        {
+          "name": "OpenCvSharp4",
+          "version": "4.11.0.20250507"
+        },
+        {
+          "name": "OpenCvSharp4.Extensions",
+          "version": "4.11.0.20250507"
+        },
+        {
+          "name": "OpenCvSharp4.runtime.win",
+          "version": "4.11.0.20250507"
+        },
+        {
+          "name": "OpenCvSharp4.Windows",
+          "version": "4.11.0.20250507"
+        },
+        {
+          "name": "OpenCvSharp4.WpfExtensions",
+          "version": "4.11.0.20250507"
+        },
+        {
+          "name": "System.Drawing.Common",
+          "version": "10.0.0"
+        },
+        {
+          "name": "WindowsAPICodePack",
+          "version": "8.0.12"
+        }
+      ],
+      "project_references": []
+    },
+    {
+      "project": "InkMARC.Cue/InkMARC.Cue/InkMARC.Cue.csproj",
+      "target_declarations": [
+        {
+          "tag": "TargetFrameworks",
+          "condition": null,
+          "value": "net9.0-android;net9.0-ios"
+        }
+      ],
+      "packages": [
+        {
+          "name": "Microsoft.Extensions.DependencyInjection",
+          "version": "9.0.3"
+        },
+        {
+          "name": "Microsoft.Maui.Controls",
+          "version": "9.0.50"
+        },
+        {
+          "name": "Microsoft.Extensions.Logging.Debug",
+          "version": "9.0.3"
+        },
+        {
+          "name": "Plugin.Maui.Audio",
+          "version": "3.0.1"
+        },
+        {
+          "name": "TagLibSharp",
+          "version": "2.3.0"
+        }
+      ],
+      "project_references": []
+    },
+    {
+      "project": "InkMARC.Deform/InkMARC.Deform.csproj",
+      "target_declarations": [
+        {
+          "tag": "TargetFrameworks",
+          "condition": null,
+          "value": "net9.0-android35.0"
+        },
+        {
+          "tag": "TargetFrameworks",
+          "condition": "$([MSBuild]::IsOSPlatform('windows'))",
+          "value": "$(TargetFrameworks);net9.0-windows10.0.19041.0"
+        }
+      ],
+      "packages": [
+        {
+          "name": "CommunityToolkit.Maui",
+          "version": "7.0.1"
+        },
+        {
+          "name": "CommunityToolkit.Mvvm",
+          "version": "8.2.2"
+        },
+        {
+          "name": "Microsoft.Extensions.Logging.Debug",
+          "version": "8.0.0"
+        },
+        {
+          "name": "Microsoft.Maui.Controls",
+          "version": "8.0.7"
+        }
+      ],
+      "project_references": [
+        "..\\InkMARC.Models\\InkMARC.Models.csproj"
+      ]
+    },
+    {
+      "project": "InkMARC.Evaluate/InkMARC.Evaluate/InkMARC.Evaluate.csproj",
+      "target_declarations": [
+        {
+          "tag": "TargetFrameworks",
+          "condition": null,
+          "value": "net9.0-android35.0"
+        }
+      ],
+      "packages": [
+        {
+          "name": "Microsoft.Extensions.DependencyInjection",
+          "version": "9.0.3"
+        },
+        {
+          "name": "Microsoft.Maui.Controls",
+          "version": "9.0.50"
+        },
+        {
+          "name": "Microsoft.Extensions.Logging.Debug",
+          "version": "9.0.3"
+        },
+        {
+          "name": "Microsoft.Maui.Graphics",
+          "version": "9.0.50"
+        },
+        {
+          "name": "Microsoft.ML.OnnxRuntime",
+          "version": "1.21.0"
+        },
+        {
+          "name": "Plugin.Maui.Audio",
+          "version": "3.0.1"
+        },
+        {
+          "name": "TagLibSharp",
+          "version": "2.3.0"
+        }
+      ],
+      "project_references": []
+    },
+    {
+      "project": "InkMARC.Label/InkMARC.Label.csproj",
+      "target_declarations": [
+        {
+          "tag": "TargetFramework",
+          "condition": null,
+          "value": "net9.0-windows"
+        }
+      ],
+      "packages": [
+        {
+          "name": "CommunityToolkit.Mvvm",
+          "version": "8.4.0"
+        },
+        {
+          "name": "HDF5-CSharp",
+          "version": "1.19.1"
+        },
+        {
+          "name": "MaterialDesignThemes",
+          "version": "5.2.1"
+        },
+        {
+          "name": "Microsoft.Extensions.DependencyInjection",
+          "version": "9.0.8"
+        },
+        {
+          "name": "Microsoft.Extensions.Hosting",
+          "version": "9.0.8"
+        },
+        {
+          "name": "Microsoft.Extensions.Logging",
+          "version": "9.0.8"
+        },
+        {
+          "name": "Microsoft.ML.OnnxRuntime",
+          "version": "1.22.1"
+        },
+        {
+          "name": "Microsoft.ML.OnnxRuntime.Managed",
+          "version": "1.22.1"
+        },
+        {
+          "name": "OpenCvSharp4",
+          "version": "4.11.0.20250507"
+        },
+        {
+          "name": "OpenCvSharp4.Extensions",
+          "version": "4.11.0.20250507"
+        },
+        {
+          "name": "OpenCvSharp4.runtime.win",
+          "version": "4.11.0.20250507"
+        },
+        {
+          "name": "OpenCvSharp4.Windows",
+          "version": "4.11.0.20250507"
+        },
+        {
+          "name": "OpenCvSharp4.WpfExtensions",
+          "version": "4.11.0.20250507"
+        },
+        {
+          "name": "System.Drawing.Common",
+          "version": "9.0.6"
+        },
+        {
+          "name": "WindowsAPICodePack",
+          "version": "8.0.6"
+        }
+      ],
+      "project_references": [
+        "..\\InkMARC.Models\\InkMARC.Models.csproj"
+      ]
+    },
+    {
+      "project": "InkMARC.Models/InkMARC.Models.csproj",
+      "target_declarations": [
+        {
+          "tag": "TargetFramework",
+          "condition": null,
+          "value": "net8.0"
+        }
+      ],
+      "packages": [],
+      "project_references": []
+    },
+    {
+      "project": "InkMARC.Prepare/InkMARC.Prepare.csproj",
+      "target_declarations": [
+        {
+          "tag": "TargetFramework",
+          "condition": null,
+          "value": "net9.0-windows"
+        }
+      ],
+      "packages": [
+        {
+          "name": "CommunityToolkit.Mvvm",
+          "version": "8.4.0"
+        },
+        {
+          "name": "HDF5-CSharp",
+          "version": "1.19.0"
+        },
+        {
+          "name": "MaterialDesignThemes",
+          "version": "5.1.0"
+        },
+        {
+          "name": "Microsoft.ML.OnnxRuntime",
+          "version": "1.20.1"
+        },
+        {
+          "name": "Microsoft.ML.OnnxRuntime.Managed",
+          "version": "1.20.1"
+        },
+        {
+          "name": "OpenCvSharp4",
+          "version": "4.10.0.20241108"
+        },
+        {
+          "name": "OpenCvSharp4.Extensions",
+          "version": "4.10.0.20241108"
+        },
+        {
+          "name": "OpenCvSharp4.Windows",
+          "version": "4.10.0.20241108"
+        },
+        {
+          "name": "SixLabors.ImageSharp",
+          "version": "3.1.6"
+        },
+        {
+          "name": "SixLabors.ImageSharp.Drawing",
+          "version": "2.1.5"
+        },
+        {
+          "name": "System.Drawing.Common",
+          "version": "9.0.0"
+        }
+      ],
+      "project_references": [
+        "..\\InkMARC.Models\\InkMARC.Models.csproj"
+      ]
+    },
+    {
+      "project": "InkMARC.Test/InkMARC.Test.csproj",
+      "target_declarations": [
+        {
+          "tag": "TargetFramework",
+          "condition": null,
+          "value": "net9.0-windows"
+        }
+      ],
+      "packages": [
+        {
+          "name": "CommunityToolkit.Mvvm",
+          "version": "8.4.0"
+        },
+        {
+          "name": "HDF5-CSharp",
+          "version": "1.19.1"
+        },
+        {
+          "name": "MaterialDesignThemes",
+          "version": "5.2.1"
+        },
+        {
+          "name": "Microsoft.ML.OnnxRuntime",
+          "version": "1.21.0"
+        },
+        {
+          "name": "Microsoft.ML.OnnxRuntime.Managed",
+          "version": "1.21.0"
+        },
+        {
+          "name": "Microsoft.ML.OnnxTransformer",
+          "version": "4.0.2"
+        },
+        {
+          "name": "Microsoft.ML.TensorFlow",
+          "version": "4.0.2"
+        },
+        {
+          "name": "Microsoft.ML.TensorFlow.Redist",
+          "version": "0.14.0"
+        },
+        {
+          "name": "OpenCvSharp4",
+          "version": "4.10.0.20241108"
+        },
+        {
+          "name": "OpenCvSharp4.Extensions",
+          "version": "4.10.0.20241108"
+        },
+        {
+          "name": "OpenCvSharp4.Windows",
+          "version": "4.10.0.20241108"
+        },
+        {
+          "name": "OpenCvSharp4.WpfExtensions",
+          "version": "4.10.0.20241108"
+        },
+        {
+          "name": "SixLabors.ImageSharp",
+          "version": "3.1.7"
+        },
+        {
+          "name": "SixLabors.ImageSharp.Drawing",
+          "version": "2.1.5"
+        },
+        {
+          "name": "System.Drawing.Common",
+          "version": "9.0.3"
+        },
+        {
+          "name": "WindowsAPICodePack",
+          "version": "8.0.6"
+        }
+      ],
+      "project_references": [
+        "..\\InkMARC.Models\\InkMARC.Models.csproj"
+      ]
+    }
+  ]
+}

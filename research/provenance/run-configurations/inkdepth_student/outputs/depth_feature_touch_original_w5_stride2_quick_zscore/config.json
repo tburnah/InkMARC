@@ -1,0 +1,27 @@
+{
+  "manifest": "/data/baseAVIs_432x672/manifest_texture_replacement_v3_no_missing_h5_no_black_participant_splits.json",
+  "output_dir": "outputs/depth_feature_touch_original_w5_stride2_quick_zscore",
+  "variant_kind": "original",
+  "offsets": [
+    -6,
+    -3,
+    -1,
+    0,
+    1,
+    3,
+    6
+  ],
+  "center_stride": 2,
+  "exclude_transition_window": 5,
+  "min_touch_pressure": 1000.0,
+  "pressure_touch_threshold": 0.0,
+  "crop_size": 128,
+  "crop_normalize": "local_zscore",
+  "max_train_samples": 30000,
+  "max_val_samples": 10000,
+  "models": [
+    "hgb",
+    "logreg"
+  ],
+  "seed": 1337
+}

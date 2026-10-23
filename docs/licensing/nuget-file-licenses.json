@@ -1,0 +1,128 @@
+[
+  {
+    "package": "Microsoft.ML.OnnxRuntime",
+    "version": "1.20.1",
+    "source_url": "https://www.nuget.org/packages/Microsoft.ML.OnnxRuntime/1.20.1/License",
+    "file": "nuget-metadata/Microsoft.ML.OnnxRuntime.1.20.1.license.txt",
+    "bytes": 14599,
+    "sha256": "2f07c72751aed99790b8a4869cf2311df85a860b22ded05fa22803587a48922c",
+    "extraction": "License text extracted from NuGet license-file HTML; anonymous original page retained in private local review evidence"
+  },
+  {
+    "package": "Microsoft.ML.OnnxRuntime",
+    "version": "1.21.0",
+    "source_url": "https://www.nuget.org/packages/Microsoft.ML.OnnxRuntime/1.21.0/License",
+    "file": "nuget-metadata/Microsoft.ML.OnnxRuntime.1.21.0.license.txt",
+    "bytes": 14599,
+    "sha256": "2f07c72751aed99790b8a4869cf2311df85a860b22ded05fa22803587a48922c",
+    "extraction": "License text extracted from NuGet license-file HTML; anonymous original page retained in private local review evidence"
+  },
+  {
+    "package": "Microsoft.ML.OnnxRuntime",
+    "version": "1.22.1",
+    "source_url": "https://www.nuget.org/packages/Microsoft.ML.OnnxRuntime/1.22.1/License",
+    "file": "nuget-metadata/Microsoft.ML.OnnxRuntime.1.22.1.license.txt",
+    "bytes": 14599,
+    "sha256": "2f07c72751aed99790b8a4869cf2311df85a860b22ded05fa22803587a48922c",
+    "extraction": "License text extracted from NuGet license-file HTML; anonymous original page retained in private local review evidence"
+  },
+  {
+    "package": "Microsoft.ML.OnnxRuntime",
+    "version": "1.23.2",
+    "source_url": "https://www.nuget.org/packages/Microsoft.ML.OnnxRuntime/1.23.2/License",
+    "file": "nuget-metadata/Microsoft.ML.OnnxRuntime.1.23.2.license.txt",
+    "bytes": 14599,
+    "sha256": "2f07c72751aed99790b8a4869cf2311df85a860b22ded05fa22803587a48922c",
+    "extraction": "License text extracted from NuGet license-file HTML; anonymous original page retained in private local review evidence"
+  },
+  {
+    "package": "Microsoft.ML.OnnxRuntime.Managed",
+    "version": "1.20.1",
+    "source_url": "https://www.nuget.org/packages/Microsoft.ML.OnnxRuntime.Managed/1.20.1/License",
+    "file": "nuget-metadata/Microsoft.ML.OnnxRuntime.Managed.1.20.1.license.txt",
+    "bytes": 14645,
+    "sha256": "2f07c72751aed99790b8a4869cf2311df85a860b22ded05fa22803587a48922c",
+    "extraction": "License text extracted from NuGet license-file HTML; anonymous original page retained in private local review evidence"
+  },
+  {
+    "package": "Microsoft.ML.OnnxRuntime.Managed",
+    "version": "1.21.0",
+    "source_url": "https://www.nuget.org/packages/Microsoft.ML.OnnxRuntime.Managed/1.21.0/License",
+    "file": "nuget-metadata/Microsoft.ML.OnnxRuntime.Managed.1.21.0.license.txt",
+    "bytes": 14645,
+    "sha256": "2f07c72751aed99790b8a4869cf2311df85a860b22ded05fa22803587a48922c",
+    "extraction": "License text extracted from NuGet license-file HTML; anonymous original page retained in private local review evidence"
+  },
+  {
+    "package": "Microsoft.ML.OnnxRuntime.Managed",
+    "version": "1.22.1",
+    "source_url": "https://www.nuget.org/packages/Microsoft.ML.OnnxRuntime.Managed/1.22.1/License",
+    "file": "nuget-metadata/Microsoft.ML.OnnxRuntime.Managed.1.22.1.license.txt",
+    "bytes": 14645,
+    "sha256": "2f07c72751aed99790b8a4869cf2311df85a860b22ded05fa22803587a48922c",
+    "extraction": "License text extracted from NuGet license-file HTML; anonymous original page retained in private local review evidence"
+  },
+  {
+    "package": "Microsoft.ML.OnnxRuntime.Managed",
+    "version": "1.23.2",
+    "source_url": "https://www.nuget.org/packages/Microsoft.ML.OnnxRuntime.Managed/1.23.2/License",
+    "file": "nuget-metadata/Microsoft.ML.OnnxRuntime.Managed.1.23.2.license.txt",
+    "bytes": 14645,
+    "sha256": "2f07c72751aed99790b8a4869cf2311df85a860b22ded05fa22803587a48922c",
+    "extraction": "License text extracted from NuGet license-file HTML; anonymous original page retained in private local review evidence"
+  },
+  {
+    "package": "Microsoft.ML.TensorFlow.Redist",
+    "version": "0.14.0",
+    "source_url": "https://www.nuget.org/packages/Microsoft.ML.TensorFlow.Redist/0.14.0/License",
+    "file": "nuget-metadata/Microsoft.ML.TensorFlow.Redist.0.14.0.license.txt",
+    "bytes": 25144,
+    "sha256": "37dbed59a6aef0803f24a7dac146679491c460faa8bc3834974d786acf56a40f",
+    "extraction": "License text extracted from NuGet license-file HTML; anonymous original page retained in private local review evidence"
+  },
+  {
+    "package": "SixLabors.ImageSharp",
+    "version": "3.1.6",
+    "source_url": "https://www.nuget.org/packages/SixLabors.ImageSharp/3.1.6/License",
+    "file": "nuget-metadata/SixLabors.ImageSharp.3.1.6.license.txt",
+    "bytes": 15745,
+    "sha256": "fdb7f24db8a6838eba1477242d2457bf6db2f3682b7cb3a16824e9f2f07936c2",
+    "extraction": "License text extracted from NuGet license-file HTML; anonymous original page retained in private local review evidence"
+  },
+  {
+    "package": "SixLabors.ImageSharp",
+    "version": "3.1.7",
+    "source_url": "https://www.nuget.org/packages/SixLabors.ImageSharp/3.1.7/License",
+    "file": "nuget-metadata/SixLabors.ImageSharp.3.1.7.license.txt",
+    "bytes": 15745,
+    "sha256": "fdb7f24db8a6838eba1477242d2457bf6db2f3682b7cb3a16824e9f2f07936c2",
+    "extraction": "License text extracted from NuGet license-file HTML; anonymous original page retained in private local review evidence"
+  },
+  {
+    "package": "SixLabors.ImageSharp.Drawing",
+    "version": "2.1.5",
+    "source_url": "https://www.nuget.org/packages/SixLabors.ImageSharp.Drawing/2.1.5/License",
+    "file": "nuget-metadata/SixLabors.ImageSharp.Drawing.2.1.5.license.txt",
+    "bytes": 15793,
+    "sha256": "fdb7f24db8a6838eba1477242d2457bf6db2f3682b7cb3a16824e9f2f07936c2",
+    "extraction": "License text extracted from NuGet license-file HTML; anonymous original page retained in private local review evidence"
+  },
+  {
+    "package": "WindowsAPICodePack",
+    "version": "8.0.12",
+    "source_url": "https://www.nuget.org/packages/WindowsAPICodePack/8.0.12/License",
+    "file": "nuget-metadata/WindowsAPICodePack.8.0.12.license.txt",
+    "bytes": 14511,
+    "sha256": "a3984aaf47106a1f5f3e912c2323f6c8422ae753bfe33fe3b5a5c930d76e135c",
+    "extraction": "License text extracted from NuGet license-file HTML; anonymous original page retained in private local review evidence"
+  },
+  {
+    "package": "WindowsAPICodePack",
+    "version": "8.0.6",
+    "source_url": "https://www.nuget.org/packages/WindowsAPICodePack/8.0.6/License",
+    "file": "nuget-metadata/WindowsAPICodePack.8.0.6.license.txt",
+    "bytes": 14504,
+    "sha256": "727284b7cda9619fa8f417ac136f79fd515ac5d4a36200029e67d5b29ef4d7f0",
+    "extraction": "License text extracted from NuGet license-file HTML; anonymous original page retained in private local review evidence"
+  }
+]

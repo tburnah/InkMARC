@@ -1,0 +1,3869 @@
+{
+  "excludes_self_and_SHA256SUMS": true,
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 6505,
+      "sha256": "66aeb8cc66d415b72ecb8322ffcaf2f71b2dc0058fd0f3da3a2a794d7c2a0c23",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "COPYRIGHT",
+      "bytes": 822,
+      "sha256": "272f7cd485128526b8e9f4a9535b89be56dc57a6f6629aec6b1810282de46c6f",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 1610,
+      "sha256": "0e550cadaea0844ebfe0389549524620b6b3cd2b5a1362931e55ab39822dd686",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "README.md",
+      "bytes": 6203,
+      "sha256": "38e9c457af1b543a98c6d5e7103f520fb64083621453565a65c74f3d2e3a4c26",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.md",
+      "bytes": 6812,
+      "sha256": "6aeb2d41062e8c928e4fc57f4e4560094c93ef6a383e58623746554eef87af9f",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/contribution-index.md",
+      "bytes": 5588,
+      "sha256": "7c4edb38c5d19c81c709734aea9096964d52e48a8e90aef3f0d31ab9bb4621e3",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/datasets.md",
+      "bytes": 3013,
+      "sha256": "f2c054eab47360667afb04473459101fd477626e2212d73a851ab3bc740949e3",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/dependencies.md",
+      "bytes": 2594,
+      "sha256": "e3aab8dcaf95c874e8dedd5f541ae7e508d47b432b0b3f2a69ba990dd2392c4c",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/known-issues.md",
+      "bytes": 1682,
+      "sha256": "8ed68144f2172d42094c5d091a8f234ad24c30b95a341e1399df08fc0579d4ef",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/licensing.md",
+      "bytes": 2541,
+      "sha256": "e0f0580348899163bfbb80a232e8999488f86715a272cf0d5e8c2e5e4707abc1",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/models.md",
+      "bytes": 9274,
+      "sha256": "befa54257cf390f86e15e55365070413e983007411b4df130ee4e1cdc3870fc7",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/reproducibility.md",
+      "bytes": 4086,
+      "sha256": "3ed85d7147d1b63f3b0762e6a217aeb38c8126884447f43a81e1a8fe4b1d4d66",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/terminology-map.md",
+      "bytes": 2251,
+      "sha256": "ae3ee68260efe93fc03d6c502729624047891b1c58b29df7be50f14eed5ef88b",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/DEPENDENCIES.md",
+      "bytes": 9133,
+      "sha256": "bfbc7a027d998969f0fc570acb96b8b64eece38b7a8000e7bd0698f97cdefbf3",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/Depth-Anything-3/LICENSE",
+      "bytes": 11355,
+      "sha256": "78446e29c48900cda82620a8df183cca61f0a595e05a49d0401a5fd604dd1870",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "docs/third-party/Depth-Anything-V2/LICENSE",
+      "bytes": 11357,
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "docs/third-party/README.md",
+      "bytes": 3599,
+      "sha256": "b28378d6269d0537532dfab19caf8c5b7878d575b89a3da5f3745311b36bd80e",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/autokeras/2.0.0/autokeras-2.0.0.dist-info/LICENSE",
+      "bytes": 11354,
+      "sha256": "7fe08ccb922f6d24e7ea3117e7307d8720cd457b8364b3241ec6c6859d60514b",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/communitytoolkit-mvvm/not-established/LICENSE.upstream.txt",
+      "bytes": 1145,
+      "sha256": "1e1101b893f295b4526da2c167e4234610f1078e2fe43a0e814c1a883656877b",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/dotnet-runtime/not-established/LICENSE.upstream.txt",
+      "bytes": 1116,
+      "sha256": "cfc21f5e8bd655ae997eec916138b707b1d290b83272c02a95c9f821b8c87310",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/h5py/3.13.0/h5py-3.13.0.dist-info/LICENSE",
+      "bytes": 1520,
+      "sha256": "e574b296655cfb0ca5180ec6eee3c95d122b0906736d3ca7e3ce19e0f297f0c9",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/huggingface-hub/1.7.1/huggingface_hub-1.7.1.dist-info/licenses/LICENSE",
+      "bytes": 11357,
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/joblib/1.4.2/joblib-1.4.2.dist-info/LICENSE.txt",
+      "bytes": 1527,
+      "sha256": "42612911c1872c5e4b43f6ae0e8ee59467cd350332241cf72ce90640264fae6a",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/keras/3.9.0/LICENSE.upstream.txt",
+      "bytes": 11356,
+      "sha256": "43070e2d4e532684de521b885f385d0841030efa2b1a20bafb76133a5e1379c1",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/matplotlib/3.10.1/matplotlib-3.10.1.dist-info/LICENSE",
+      "bytes": 4830,
+      "sha256": "5a1a81ea301728c8bba2933da832c0cd62229daf20893a024ab3d53244468dbc",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/numba/not-established/LICENSE.upstream.txt",
+      "bytes": 1286,
+      "sha256": "3a70e0a21cad03147246f6363d07bf76fae216c72779707f4ae5db06bcacf067",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/numcodecs/0.16.5/numcodecs-0.16.5.dist-info/licenses/LICENSE.txt",
+      "bytes": 1124,
+      "sha256": "949cac68479e13b6c97924635150b4e1ef5e69766ad9e472ea85a08c1576bb96",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/numcodecs/0.16.5/numcodecs-0.16.5.dist-info/licenses/c-blosc/LICENSE.txt",
+      "bytes": 1644,
+      "sha256": "22623131a9b9f6a86a4dc6b9bccbb1d2aeb390df86bca00fc727af24735c2fae",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/numcodecs/0.16.5/numcodecs-0.16.5.dist-info/licenses/c-blosc/LICENSES/BITSHUFFLE.txt",
+      "bytes": 1148,
+      "sha256": "ef357c2061cf67db298f9f1565572ee229ad9263582a9f9d0ebff5094f5d10ac",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/numcodecs/0.16.5/numcodecs-0.16.5.dist-info/licenses/c-blosc/LICENSES/FASTLZ.txt",
+      "bytes": 1135,
+      "sha256": "cf52909e6ed770fe81511ba62d4ebee13185d30a37d0fd7de2b56685e288ab38",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/numcodecs/0.16.5/numcodecs-0.16.5.dist-info/licenses/c-blosc/LICENSES/LZ4.txt",
+      "bytes": 1312,
+      "sha256": "fe6dc1f27f68d9dd6b0192e39be1a8f1fbed0fe86e13540f618a7133971b10b3",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/numcodecs/0.16.5/numcodecs-0.16.5.dist-info/licenses/c-blosc/LICENSES/SNAPPY.txt",
+      "bytes": 1475,
+      "sha256": "5221a36a801b981fbdfda7b87db64cff231a3b88223a066c325411b539df796f",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/numcodecs/0.16.5/numcodecs-0.16.5.dist-info/licenses/c-blosc/LICENSES/STDINT.txt",
+      "bytes": 1568,
+      "sha256": "f2af03db562e88539f019b1ab0881878ee82d0c80f3bce68c650064652e25d7b",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/numcodecs/0.16.5/numcodecs-0.16.5.dist-info/licenses/c-blosc/LICENSES/ZLIB-NG.txt",
+      "bytes": 893,
+      "sha256": "f8ad3757bc2ae9f5a6af77e13b37a5721397421ce55ab16e1da49e4629264d2c",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/numcodecs/0.16.5/numcodecs-0.16.5.dist-info/licenses/c-blosc/LICENSES/ZLIB.txt",
+      "bytes": 1002,
+      "sha256": "845efc77857d485d91fb3e0b884aaa929368c717ae8186b66fe1ed2495753243",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/numpy/2.1.3/numpy-2.1.3.dist-info/LICENSE.txt",
+      "bytes": 1543,
+      "sha256": "01fb016849aa427edb1bbbbd55f91c26ca6cadb32a5b20e7f000655dd05b0760",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/onnx/1.17.0/onnx-1.17.0.dist-info/LICENSE",
+      "bytes": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/onnxruntime/1.21.0/onnxruntime/LICENSE",
+      "bytes": 1073,
+      "sha256": "2f07c72751aed99790b8a4869cf2311df85a860b22ded05fa22803587a48922c",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/onnxruntime/1.21.0/onnxruntime/ThirdPartyNotices.txt",
+      "bytes": 316114,
+      "sha256": "8c06e8cff286a4a117b3b246a4c7da68428a144af757823db50e3d6520941ec6",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/opencvsharp/not-established/LICENSE.upstream.txt",
+      "bytes": 11336,
+      "sha256": "93a73400a67ba64071d073386c96b21da8d8265574de0c71520061f741b0d645",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/pandas/2.3.3/pandas-2.3.3.dist-info/LICENSE",
+      "bytes": 62399,
+      "sha256": "1dea2e80ed1cbd0233f84cee4486b29689f133babaccf4d295e51c43051f3216",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/pillow/12.2.0/pillow-12.2.0.dist-info/licenses/LICENSE",
+      "bytes": 68065,
+      "sha256": "13e1d5014de0064b4b1ca4d837111797673cc91a116616e3dde555009243aaf6",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/psutil/7.0.0/psutil-7.0.0.dist-info/LICENSE",
+      "bytes": 1548,
+      "sha256": "b89c063b3786e28e0c0a38f1931db61fed35e69dd2a2966fbecffee0f46c8d10",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/pytest/9.0.3/pytest-9.0.3.dist-info/licenses/LICENSE",
+      "bytes": 1091,
+      "sha256": "ca836a5f9ecca3b2f350230faa20a48fb8b145653b5568d784862df864706b9b",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/pyyaml/6.0.2/PyYAML-6.0.2.dist-info/LICENSE",
+      "bytes": 1101,
+      "sha256": "8d3928f9dc4490fd635707cb88eb26bd764102a7282954307d3e5167a577e8a4",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/scikit-learn/1.6.1/scikit_learn-1.6.1.dist-info/COPYING",
+      "bytes": 5078,
+      "sha256": "fde6cdc0a86c65a845af17086f964f7a38d934467b7f36203894af30ecee7640",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/scipy/1.15.2/scipy-1.15.2.dist-info/LICENSE.txt",
+      "bytes": 46845,
+      "sha256": "828cb9a7369c0a9f633ce7c10023f8d822f0f76b54ce25c723361d45b088879a",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/setuptools/75.8.0/LICENSE.upstream.txt",
+      "bytes": 1023,
+      "sha256": "86da0f01aeae46348a3c3d465195dc1ceccde79f79e87769a64b8da04b2a4741",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/tensorboard/2.19.0/tensorboard-2.19.0.dist-info/LICENSE",
+      "bytes": 29236,
+      "sha256": "9ae2277443f1fd1a948bbc562b2d3331956e5320a1cc43a11cdd33e13d2c9279",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/tensorflow/2.19.1/LICENSE.upstream.txt",
+      "bytes": 13575,
+      "sha256": "71c6915d04265772a0339bed47276942c678b45cc01534210ebe6984fd1aec65",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/tensorflow/2.19.1/tensorflow/THIRD_PARTY_NOTICES.txt",
+      "bytes": 466978,
+      "sha256": "b9cc03566b8e0e074f718e64f96f49b6fe070e3f777c41b3d4bb0df7113ea634",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/tensorflow-addons/not-established/LICENSE.upstream.txt",
+      "bytes": 11418,
+      "sha256": "81267668f66e26641d744a2c099fbac33c859f91b7621828abfc7eb384c83a36",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/tf2onnx/1.16.1/tf2onnx-1.16.1.dist-info/LICENSE",
+      "bytes": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/torch/2.5.1+cu121/torch-2.5.1+cu121.dist-info/LICENSE",
+      "bytes": 507602,
+      "sha256": "46ae798ccb0920a6959fcb7b80180d89ca6fb652909235b0f035a52cec228584",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/torch/2.5.1+cu121/torch-2.5.1+cu121.dist-info/NOTICE",
+      "bytes": 23632,
+      "sha256": "c2cc7bf0caec7652c2b460a8a470bea1677f241e4ab8e431df34cf17f5a9fec0",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/torchvision/0.20.1+cu121/torchvision-0.20.1+cu121.dist-info/LICENSE",
+      "bytes": 1517,
+      "sha256": "6502f676851cfe25f8af75531dfb32375b7325b73c37e7b43741fa422893e71d",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/tqdm/4.67.1/tqdm-4.67.1.dist-info/LICENCE",
+      "bytes": 1985,
+      "sha256": "dc33252e829015e3b150086fb9b3a40f6ad6fb32c2f4610ce812fa677d35986a",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/wheel/0.45.1/wheel-0.45.1.dist-info/LICENSE.txt",
+      "bytes": 1107,
+      "sha256": "30c23618679108f3e8ea1d2a658c7ca417bdfc891c98ef1a89fa4ff0c9828654",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/dependencies/zarr/3.1.6/zarr-3.1.6.dist-info/licenses/LICENSE.txt",
+      "bytes": 1124,
+      "sha256": "1d7756f33d3da20d53b162c2eb9beba91ee0dc1aeb4659728b6dc8f2f75941cb",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/licenses/CC-BY-NC-4.0.txt",
+      "bytes": 19347,
+      "sha256": "41003d4a74749c0220e33dd415042164b5a1093ed401f36277234f772d22d3d0",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/licenses/MPL-2.0.txt",
+      "bytes": 16726,
+      "sha256": "fab3dd6bdab226f1c08630b1dd917e11fcb4ec5e1e020e2c16f83a0a13863e85",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/mobilenetv4.pytorch/LICENSE",
+      "bytes": 1063,
+      "sha256": "a063147521e44cbc25c40a59a7eb4ddb877acbb6d7c65640e3e32d26244c2efa",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/model-cards/DA-V2-Base.md",
+      "bytes": 1961,
+      "sha256": "cdb2ad17bf77b91c4b41cc0260b5ef7ba1a0ed9f0c24749a0303686503f6dd92",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/model-cards/DA-V2-Large.md",
+      "bytes": 1966,
+      "sha256": "b7123cecb2b04be09bbe6043b33ab8efe0e71d5c689ac7d6582d8b085a274d3d",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/model-cards/DA-V2-Small.md",
+      "bytes": 1958,
+      "sha256": "d96b19c959007126110b199a7c2e9c24530b61796a26f1af035420625a10f916",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/model-cards/DA3-SMALL.md",
+      "bytes": 4694,
+      "sha256": "0a711be055e4eb5293e31586e3176c09ce12eb2e79593f6b96a41f7fe5b415d0",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/native/hdf5-1.14.3-nompi_h2d575fe_109/COPYING",
+      "bytes": 5515,
+      "sha256": "cacfb8c9d891e4b0514396e319f626a55f74e43f9fb539eecd1aa52dacf8b7e7",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/native/hdf5-1.14.4-nompi_h2d575fe_105/COPYING",
+      "bytes": 5517,
+      "sha256": "587b532c4c27b64ecff3192d6189e149231934a00c753a401d4559231af7f7a7",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/native/libaec-1.1.3-h59595ed_0/LICENSE.txt",
+      "bytes": 1346,
+      "sha256": "e831d176bf03288ca15c0a07298b250d9b6e9695750add499cc545513f06aec0",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "docs/third-party/opencv/LICENSE",
+      "bytes": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "docs/third-party/opencv_contrib/LICENSE",
+      "bytes": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "docs/third-party/salad/LICENSE",
+      "bytes": 35149,
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/COPYRIGHT",
+      "bytes": 442,
+      "sha256": "1f3f00515b8d948510684f8584ea33c257fa100e293f2a0c59b36bf69bfa2d29",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "inkdepth_student/README.md",
+      "bytes": 2105,
+      "sha256": "327b391056d3cadb18a41173bbd6b4125f8974c9be371af8b5180d07cf73234d",
+      "classification": "documentation_or_ignore_replacement"
+    },
+    {
+      "path": "inkdepth_student/configs/depth_calibrate_texture_v3_no307_outliers_stride16.yaml",
+      "bytes": 2544,
+      "sha256": "9eb3b92fd5da59ebe2ace38119245fa989071f09a65d4fcbdbcdd3162129bbf9",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/configs/depth_calibrate_texture_v3_no307_outliers_stride64.yaml",
+      "bytes": 2532,
+      "sha256": "4791a909c31000a21443d59d512dda1b7bde42b056eb70601b1dcfc17da7aa7f",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/configs/depth_pretrain_texture_v3.yaml",
+      "bytes": 2318,
+      "sha256": "ed905a9b4f76faed0a7fcd9f93194035bf894aa62322d31a2412192e7819acf9",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/configs/depth_pretrain_texture_v3_full_stride16.yaml",
+      "bytes": 2412,
+      "sha256": "9b56f69872e93cacbe6db2cdc966d522ac62fcb23999c6c6e4b2ae70882e528a",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/configs/depth_tip_roi_calibrate_texture_v3_stable_w5_p1000_no307_outliers.yaml",
+      "bytes": 2644,
+      "sha256": "862f3a5a76ff01d47835437cbc68830c3d5d8e78c094bec4252a2e2485c8b3c1",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/configs/inkdepth_mobilenetv3.yaml",
+      "bytes": 3510,
+      "sha256": "9458e6203a3009338ebc1307081b95f1175c1016d02b7b6b30b5fdcbca00f6ff",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/configs/interaction_gate_original_apriltag_w3.yaml",
+      "bytes": 2469,
+      "sha256": "817b0d5f0f6839e33812e61a20ed8f4777ac833787749ea64de10202c90bdf43",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/configs/interaction_gate_texture_stable_w3.yaml",
+      "bytes": 2468,
+      "sha256": "89b8a913bd7c6ef42ece3bb3c23a639268313794f5ac5da7252eaee4f5321804",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/configs/location_from_depth_texture_v3.yaml",
+      "bytes": 2369,
+      "sha256": "2dcc98b9baed30c7d4b75f4bc26125abef019c981b85507fa4db77f1d7f27ea5",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/configs/location_from_full_depth_texture_v3.yaml",
+      "bytes": 2389,
+      "sha256": "c3f57d5def45106512a183df47063b341c6b7813abc4581f29c367f2edcd02a5",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/configs/location_refine_calibrated_depth_l1_texture_v3.yaml",
+      "bytes": 2466,
+      "sha256": "c2a67a98a31a2fa8348ef54382ef492e226583ad56ec9b69e794acdf8c8bcde5",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/configs/location_refine_depth_texture_v3.yaml",
+      "bytes": 2371,
+      "sha256": "19ae4cb3aec357432440bb52f395379b16a3ab3e4601f33f7648bd46a147a6d2",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/configs/location_refine_full_depth_texture_v3.yaml",
+      "bytes": 2382,
+      "sha256": "5276f586458ba0a6dbdb9cebe1b0d1b86318aefda6f20885d779daf4fa342b50",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/configs/state_from_full_geometry_texture_v3.yaml",
+      "bytes": 2383,
+      "sha256": "066372c25af0833154f50ebeb83d558d506c515d7118755df37b41c75d8aebe4",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/configs/state_joint_refine_full_geometry_texture_v3.yaml",
+      "bytes": 2390,
+      "sha256": "d49ff3f63fb0324c8ccd5203934806b4f0bac49bc95bd38d89b04ce8c890b8b5",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/configs/state_local_context_full_geometry_texture_v3.yaml",
+      "bytes": 2449,
+      "sha256": "9e5a7a3f6e10c4d85d410c45120f42cc1461ca17735ecd55f55a94291601e3d0",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/configs/state_local_context_head_only_texture_v3.yaml",
+      "bytes": 2447,
+      "sha256": "8debdeb2dc0e12ffa746e76379cf581177d63d4a83bf5babcbd49b76d9d01470",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/configs/touch_depth_input_original_apriltag_w3.yaml",
+      "bytes": 2444,
+      "sha256": "ca158984676cf27fa143b00b2377d73349ee14a9e4e84ddca693272c041583f1",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/configs/touch_depth_input_original_apriltag_w5_p1000.yaml",
+      "bytes": 2456,
+      "sha256": "8d82af6760bac51291687f628323fa7acaf702c633c91a131da2c335c35bc13c",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/configs/touch_local_context_head_only_texture_v3.yaml",
+      "bytes": 2469,
+      "sha256": "7710a1a99d463b1df25d99d7bc3882f7b3db62c20e6eb7f632a0ec0bdbc02de7",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/configs/touch_pred_depth_calibrated_head_only_texture_v3_stable_w5_p1000_no307_outliers.yaml",
+      "bytes": 2594,
+      "sha256": "0747992a970f8ab2631f5907161af5daa33c4303ad5c4a683db1b848880abd74",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/configs/touch_pred_depthstats_calibrated_head_only_texture_v3_stable_w5_p1000_no307_outliers.yaml",
+      "bytes": 2605,
+      "sha256": "58c515e632f6eafd1eb1bf929d7ec3224c1f3b4ec90aff40c7127c96061faf38",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/configs/touch_pred_depthstats_tip_roi_head_only_texture_v3_stable_w5_p1000_no307_outliers.yaml",
+      "bytes": 2654,
+      "sha256": "2dd0c1e53caeadfd1304b20bbc81da0d600a0d87a191d1bc6b7d97d98ff8a2ef",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/configs/touch_pred_depthstats_tip_roi_head_only_texture_v3_stable_w5_p1000_no307_outliers_videotouch.yaml",
+      "bytes": 2663,
+      "sha256": "27cc12ac26421d53016435a97794fafab9fd58fbc9782dfe6d631cf376595cbc",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/configs/touch_rgbd_original_apriltag_stride4_stable_w21_p3000.yaml",
+      "bytes": 2554,
+      "sha256": "821d7f48c13298cd3b49d4ed5c156b005de99e1537cb33e2104b7b5bc86d9776",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/inkdepth/__init__.py",
+      "bytes": 90,
+      "sha256": "5564df48151b702d9b23247a943943fa596b414c28500e8d1b508bc735cc262c",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/inkdepth/datasets/__init__.py",
+      "bytes": 111,
+      "sha256": "4ea6ceeba3f49572f2de64900c9724a1a11edaaba51460681498858087a99ae8",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/inkdepth/datasets/stylus_dataset.py",
+      "bytes": 33691,
+      "sha256": "f28850d97f9fd31195943212bafcef76b6c341f2a89c7348b50e6a561d84a59a",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/inkdepth/models/__init__.py",
+      "bytes": 77,
+      "sha256": "c7ecd904146456babbbb88bdd122ca301029b9a2008967c3e3c84805d17434e3",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/inkdepth/models/heads.py",
+      "bytes": 4372,
+      "sha256": "74fa6e6ddcbfaceb7d13e649f42d9ab2017b1252ace47f3ce06d2d85529f0ad5",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/inkdepth/models/inkdepth_student.py",
+      "bytes": 12668,
+      "sha256": "d1c00ae1f646f986fa4af797cf6f413ab8d4264a52fb6a2f2ba3009ad99a12f7",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/inkdepth/models/losses.py",
+      "bytes": 9681,
+      "sha256": "c715993c9875827a114b182f2cec2c54eea3ca5b9df70cd895b385da7f445a86",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/inkdepth/training/__init__.py",
+      "bytes": 41,
+      "sha256": "0d8d709676e600a928486faa98df0582b70f332fe5ef533cc4b2a6575e14dd33",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/inkdepth/training/metrics.py",
+      "bytes": 2844,
+      "sha256": "514b2ccdd923b5acd60446ae45a0253213a17645844b5c0e26ac2815cfa63fad",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/inkdepth/training/train.py",
+      "bytes": 17744,
+      "sha256": "6f4e2e8f5d4bb05ffa1a3c6a32d8e92cc307086fd6ec9cf667630ef525c51193",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/inkdepth/training/validate.py",
+      "bytes": 13803,
+      "sha256": "81df82bf119db68ef760e94becc74714a1d9b858ceb6274a4381325134401baf",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/inkdepth/utils/__init__.py",
+      "bytes": 36,
+      "sha256": "d7f113b8ad799c2886a80192df7beb9c06badbf14330295dd161765624084a04",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/inkdepth/utils/checkpoints.py",
+      "bytes": 2395,
+      "sha256": "b9fa7be275564fb528647e8a4f1e2cb4bfe03509ad547e785467835378c17c8c",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/inkdepth/utils/config.py",
+      "bytes": 1778,
+      "sha256": "c26bcb6d8278d56919d24ad871b5ac5e35b1dd44e1510f209d6a61703dafbbde",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/inkdepth/utils/export_onnx.py",
+      "bytes": 2762,
+      "sha256": "9cb69d6854311746ca9864ae64c03a53a6d7b8560c9fb7bc387a8db15f262552",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/inkdepth/utils/visualization.py",
+      "bytes": 2336,
+      "sha256": "4203c5419df72e967bc4fc853eaabb9e257ab6a91afd21f568b9f4ac2884f884",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/commands.json",
+      "bytes": 7347,
+      "sha256": "4ace9ee60aea7874624be56cff91682d817463ce4f9c9fb61f5d1bd0b261d9b4",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_00/latest.pt",
+      "bytes": 16023190,
+      "sha256": "3453a84c6baa64ff194e20f8dc6700b5a65fdf28487785203d3ee78737e0f5b7",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_01/latest.pt",
+      "bytes": 16023190,
+      "sha256": "e67a578e476a266f1b783682d4640fdf1353a8e65d46df94725479a1d5ebd9aa",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_02/latest.pt",
+      "bytes": 16023190,
+      "sha256": "03e11529150b73cf803c08f34a04adae00b111d7e2ec3c33df1d2d62f10c5957",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_03/latest.pt",
+      "bytes": 16023190,
+      "sha256": "1d66f4466b658c69307b193e9c2dff1e016f2b758c7b1a8a16d0e62d978e7f1c",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_04/latest.pt",
+      "bytes": 16023190,
+      "sha256": "cb2012ecd86d61d54638d9a9a14f6f1d2d36c523fd1fd8ac4dd120a384354493",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/outputs/da3_depth_proxy_504x322_mnv2_mixed_full/best_val_loss.pt",
+      "bytes": 16258774,
+      "sha256": "f77b9ffc87654b5d597adbffa5a4139fe352e61bf8b9a9b6bb8a6f61c613dbd0",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/outputs/da3_depth_proxy_504x322_mnv2_mixed_full/depth_proxy_504x322.json",
+      "bytes": 596,
+      "sha256": "de0155c79aeeb51840ad396c0eb243f3b41aba966ed22618c92d44e56f32a91c",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/outputs/da3_depth_proxy_504x322_mnv2_mixed_full/depth_proxy_504x322.onnx",
+      "bytes": 3046848,
+      "sha256": "1e8e54dd27f753a60a49c1c8ee499c5bf6cd4f61971fb09aa6e8603999ec387d",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/outputs/da3_depth_proxy_504x322_mnv2_mixed_full/depth_proxy_504x322_qnn_qdq_u16a_u8w.json",
+      "bytes": 475,
+      "sha256": "efbd76e192c985a6deceee0ff94190ca58b5982f5669299128d71571ca14078d",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/outputs/da3_depth_proxy_504x322_mnv2_mixed_full/depth_proxy_504x322_qnn_qdq_u16a_u8w.onnx",
+      "bytes": 922574,
+      "sha256": "4b02a9e1b0164271496e567c143e2d19e3695aa5eb11a3e073a4b0898555e6a5",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/outputs/final_combined_live_da3_geometry_heatmap_touch_presence_from_best_xy/best_state.pt",
+      "bytes": 16026886,
+      "sha256": "2cc9e252c2e1a515a0a1707639d275ca5521561875ef3ae7d35db42f3fc12f98",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/outputs/final_combined_live_da3_geometry_heatmap_touch_presence_from_best_xy/best_touch.pt",
+      "bytes": 16026886,
+      "sha256": "d6515600174832f3b74ecbd753309449cb114ba063d4efa6fdd9cd3c94e1e9e2",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/outputs/final_combined_live_da3_geometry_heatmap_touch_presence_from_best_xy/best_val_loss.pt",
+      "bytes": 16028074,
+      "sha256": "0897864d440eca5a7f713252580065aae375022ab5240f2b702ee3a0a853802b",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/outputs/final_combined_live_da3_geometry_heatmap_touch_presence_from_best_xy/best_xy.pt",
+      "bytes": 16025442,
+      "sha256": "1db889587261994a795add5302cd2454f681a70b291824dec5e18b2bb8e29bf4",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/outputs/final_combined_live_da3_geometry_heatmap_touch_presence_from_best_xy/deployable_student_latest.pt",
+      "bytes": 14786234,
+      "sha256": "3c1596d3836529a8c0acf782a80e3fa49d1c994ddb9814aa81520b3f417d0bac",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/outputs/final_combined_live_da3_geometry_heatmap_touch_presence_from_best_xy/deployable_student_rgbd_geometry.onnx",
+      "bytes": 5373441,
+      "sha256": "b6a9dcf8782fa6d2e39fa49e469241f10cfb888aba9749f6b211bd1bb48d70e2",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/outputs/final_combined_live_da3_geometry_heatmap_touch_presence_from_best_xy/latest.pt",
+      "bytes": 16023190,
+      "sha256": "a8827abbe528f3cd741802336697c01b2232081116001479b4589d7d1eceb5d9",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/outputs/inkmarc_presence_head_from_best_strict_stride2/best_state.pt",
+      "bytes": 15416634,
+      "sha256": "bb62c988c842cb7a4a33c0a08cf213cdf55e3955c372464e8de0a7d0010fa656",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/outputs/inkmarc_rgbd_geometry_export_best_strict/inkmarc_rgbd_geometry_best_strict.onnx",
+      "bytes": 5069211,
+      "sha256": "b9ab5ca1bcd41bb4501bb2feaf09328bdd9c99945b9e1617257fe422919e1344",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/outputs/inkmarc_rgbd_geometry_export_best_strict/inkmarc_rgbd_geometry_best_strict.pt",
+      "bytes": 14482170,
+      "sha256": "fc66af035d59caa69d1c64255534a1f24ca457d795d2e9af2408a92ed5506088",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/outputs/inkmarc_rgbd_geometry_presence_touch_location_export_best_state/inkmarc_rgbd_geometry_presence_touch_location_best_state.onnx",
+      "bytes": 5374233,
+      "sha256": "cdb3c87a03609388063cc0a9f5077bbe5334d68ff28b4baba4748d9d4fe06ea4",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/outputs/inkmarc_rgbd_geometry_presence_touch_location_export_best_state/inkmarc_rgbd_geometry_presence_touch_location_best_state.pt",
+      "bytes": 14803718,
+      "sha256": "85172bf9d9930dd5ef583136d860ae9b27c5a49bd245bddaaeb856cfda346d90",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/outputs/location_tuning_experiments_stride2_no307_no321/best_balanced_location_touch_checkpoint.json",
+      "bytes": 521,
+      "sha256": "41911a4c27d2a5361e6172d4754d03a65b9b2aa589509d3bdf1e1cf310d8b7db",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/outputs/location_tuning_experiments_stride2_no307_no321/best_balanced_location_touch_checkpoint.pt",
+      "bytes": 15498786,
+      "sha256": "bac9f2adb0d0034ee3e2564fb329996bb46e972c64e1592834b6444938c8fedc",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/outputs/location_tuning_experiments_stride2_no307_no321/best_strict_no_touch_regression_checkpoint.json",
+      "bytes": 508,
+      "sha256": "2ea6222ad785a2ae3898893ea14a58655c12cad86840f259e7685da8bcd2c3b4",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/outputs/location_tuning_experiments_stride2_no307_no321/best_strict_no_touch_regression_checkpoint.pt",
+      "bytes": 15498722,
+      "sha256": "cf8d9ea768aa31a24c9dfa445c985c56b5d10aa73541dcdf52893ac2af37cc27",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/outputs/location_tuning_experiments_stride2_no307_no321/quick_xy_touch_only_head_cont_lr2e-5_s1000/latest.pt",
+      "bytes": 15498722,
+      "sha256": "cf8d9ea768aa31a24c9dfa445c985c56b5d10aa73541dcdf52893ac2af37cc27",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/outputs/location_tuning_experiments_stride2_no307_no321/quick_xy_touch_only_head_lr5e-5_s1000/latest.pt",
+      "bytes": 15498786,
+      "sha256": "bac9f2adb0d0034ee3e2564fb329996bb46e972c64e1592834b6444938c8fedc",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/outputs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000/best_xy.pt",
+      "bytes": 24706552,
+      "sha256": "69a3ef0468af657867f7e0043f23cff842a20a48ee1ba8f832afa0e9cbdaee65",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/outputs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000/commands_live_da3.json",
+      "bytes": 3693,
+      "sha256": "9e5745c0a440d43c1c9ea57fe36a3654e2f5bd092e2cdd670646bf873949bdde",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/outputs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000_xy_focus_from_best_xy/best_xy.pt",
+      "bytes": 22760564,
+      "sha256": "092eb2f1984c9bdf44de689fa1e190d13d87ac285bc09af2735d0f3a5756aced",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/pyproject.toml",
+      "bytes": 341,
+      "sha256": "b9af0206066b37e867d340f10f1b0e159f3af873f379bdecb78d7065d0ada2e5",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/reference/FrameProcessor.cs",
+      "bytes": 4832,
+      "sha256": "101eab2e629776b21a485b0e40e69b4c88a8da12d79229bd5550c28b5ca4721c",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/reference/GeometryHelper.cs",
+      "bytes": 1480,
+      "sha256": "59ca7c7e65e761e46bc00027edb8c6a30c2933e5a5a015ff6b9b97e6a3b80c5f",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/reference/H5LabelStatscs.cs",
+      "bytes": 6777,
+      "sha256": "474f83022817f016eeccce7cf9bcd68c2f09eedbe5ec7baaf7e8896960935804",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/reference/Hdf5SessionFrameSource.cs",
+      "bytes": 10548,
+      "sha256": "80e525d91aa4891b2c63bba19b1e2307fe724a9f1d4affd31552d60eed1533bd",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/reference/MainViewModel.cs",
+      "bytes": 301938,
+      "sha256": "930b448bf4d50a56bf5c3ee3cfa2a8f80ddc747bc91a2e47f3401426b1018e7b",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/reference/README.md",
+      "bytes": 1191,
+      "sha256": "6b51e07951d4dc1667b8688b67f375b0164d2875973cbb6f359a20f9483ab498",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "inkdepth_student/reference/VideoFileFrameSource.cs",
+      "bytes": 22479,
+      "sha256": "37126e6fe76f2e25035331354ed5adfb687e2c53159775e2b43737ea7fc4e134",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/reference/VideoService.cs",
+      "bytes": 9134,
+      "sha256": "3ad8542137267281ce9dcbf149de9f20ee54a97811f40267dbcd8f61cb283fda",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/requirements.txt",
+      "bytes": 177,
+      "sha256": "608c6f3e40ead91d5c4197e0d87c483c597d9d07a316c71aee76293bed9692c7",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/scripts/add_black_frame_exclusions.py",
+      "bytes": 11766,
+      "sha256": "15f40264934944447bd80f8e08db7bed61b2a51767dd111a2c284c9be727dad3",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/scripts/audit_dataset_labels.py",
+      "bytes": 9747,
+      "sha256": "d989d6a24f3276519db1e0fe84b63293746a43b85947f163d9538ec56cc0ef18",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/scripts/audit_participant_splits.py",
+      "bytes": 6466,
+      "sha256": "d5e6749c8c30be50138f062786b432f2ef8aebe2d894311f49850a017cd10f19",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/scripts/audit_pressure_boundary.py",
+      "bytes": 17970,
+      "sha256": "4e1d15019db6819915f4ca0ad53be9413d45545db3ccf13b0c24a7fa5a066d97",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/scripts/benchmark_da3_small.py",
+      "bytes": 6502,
+      "sha256": "23d1fb643e0350a011369db04689a61c4644c4ddbb0dcaba0fdc6e3284eff27e",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/scripts/create_balanced_frame_manifest.py",
+      "bytes": 8903,
+      "sha256": "014452ca64d95304e168216c387a11ae9216a89d8ae54421ab7049d6f4d1ba6c",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/scripts/create_outlier_filtered_manifest.py",
+      "bytes": 5017,
+      "sha256": "e6b26a37110bc9016ab7a8a29dbbf0bccacd5ee1e4d1b01daf238a20258b01f9",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/scripts/create_participant_splits.py",
+      "bytes": 5311,
+      "sha256": "1077a90b40ea4b930a4a8fd836ba446463030bd21c6f3032bbe31fc22d7dd335",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/scripts/create_stable_pressure_manifest.py",
+      "bytes": 11039,
+      "sha256": "662eae4e8790de0a7d8a365c5b8a5c16a89070ac9b275d09cc52f889b7ea8b66",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/scripts/create_texture_manifest.py",
+      "bytes": 7739,
+      "sha256": "b4151d659a07ba2feefc287ce069ac2fc4e0929c08c64081ef9ba5ebb72c6e8f",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/scripts/evaluate_temporal_depth_touch.py",
+      "bytes": 7586,
+      "sha256": "f62cad18468678b64bdc6fad3613b11bd7dc153b0476c8c114175cae420b4056",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/scripts/evaluate_temporal_touch.py",
+      "bytes": 16082,
+      "sha256": "de779190e557188a288998396f246c85296ae6df1e27ff7756ca5c3e99ffa480",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/scripts/evaluate_touch_fusion.py",
+      "bytes": 14989,
+      "sha256": "930f01c0ce2dc567ddf6978b632f4991d2c29a04391eca2297285e8d51e2324f",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/scripts/evaluate_touch_hysteresis.py",
+      "bytes": 15165,
+      "sha256": "d4474afaad5888bc20399fc48648dc4809940e3e8f44ac4585078e8e8b0fc3a2",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/scripts/export_student_onnx.py",
+      "bytes": 1338,
+      "sha256": "05e08c3010efd53b8390604f8745fd3bfbef47afe213c2b747f5d30ae801827d",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/scripts/generate_da3_depth_zarr.py",
+      "bytes": 11339,
+      "sha256": "06b39405934fc08c6afc2509d511cea4779a62e7ef4c7d627948ccc78c98277b",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/scripts/inspect_batch.py",
+      "bytes": 4442,
+      "sha256": "1e41770e5271c98052f5b3919971e91d6e4bff27d5e784859d4a7782eca16bf4",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/scripts/train_depth_feature_touch.py",
+      "bytes": 15613,
+      "sha256": "29d15383b31cdbe4963a383f03e554d0652e3423a94db51605d59fe2f4535006",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/scripts/train_student.py",
+      "bytes": 853,
+      "sha256": "64aeeb8407b5ea374643687ac7be11f1c33d26ec28d39e23a44d18a9b6a5f9cd",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/scripts/train_temporal_touch.py",
+      "bytes": 28721,
+      "sha256": "f014f0e38aab099d5eed676111b7f149d717b77d406853e0a93c6b8209a5aff8",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/scripts/validate_student.py",
+      "bytes": 1849,
+      "sha256": "1d376deeba543c4dd74fa85c93ce8892bdf582b0231b6ff7bd56400ff12918c9",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student/scripts/visualize_dataset_samples.py",
+      "bytes": 9007,
+      "sha256": "320ff813816db980e660e8f8b4ce0b2a6770285d04e62c299c183a9755017d6d",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/.gitignore",
+      "bytes": 127,
+      "sha256": "5aafa35c3600dd2636cdd0c4fdce4620cc7e1cc42129850c19dfb98c1334c4d7",
+      "classification": "documentation_or_ignore_replacement"
+    },
+    {
+      "path": "inkdepth_student_workspace/COPYRIGHT",
+      "bytes": 442,
+      "sha256": "1f3f00515b8d948510684f8584ea33c257fa100e293f2a0c59b36bf69bfa2d29",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "inkdepth_student_workspace/DEPTH_PROXY.md",
+      "bytes": 2241,
+      "sha256": "decfa979e72f9a05dc4e55d08f7c039f63c447a7a940ec5e7fa73ea36a9b847a",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "inkdepth_student_workspace/README.md",
+      "bytes": 4077,
+      "sha256": "37adba7597fb082143fb4465db25115f2f62b93672ed9c4aeb090cac1612bdde",
+      "classification": "documentation_or_ignore_replacement"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/da3_depth_proxy_504x322.yaml",
+      "bytes": 1243,
+      "sha256": "e99d8fa5557b8f42290eb9bcb746c8f5e09395e830ab801b3b7343fdeeca4602",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/depth_calibrate_texture_v3_no307_outliers_stride16.yaml",
+      "bytes": 2544,
+      "sha256": "9eb3b92fd5da59ebe2ace38119245fa989071f09a65d4fcbdbcdd3162129bbf9",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/depth_calibrate_texture_v3_no307_outliers_stride64.yaml",
+      "bytes": 2532,
+      "sha256": "4791a909c31000a21443d59d512dda1b7bde42b056eb70601b1dcfc17da7aa7f",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/depth_pretrain_texture_v3.yaml",
+      "bytes": 2318,
+      "sha256": "ed905a9b4f76faed0a7fcd9f93194035bf894aa62322d31a2412192e7819acf9",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/depth_pretrain_texture_v3_full_stride16.yaml",
+      "bytes": 2412,
+      "sha256": "9b56f69872e93cacbe6db2cdc966d522ac62fcb23999c6c6e4b2ae70882e528a",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/depth_tip_roi_calibrate_texture_v3_stable_w5_p1000_no307_outliers.yaml",
+      "bytes": 2644,
+      "sha256": "862f3a5a76ff01d47835437cbc68830c3d5d8e78c094bec4252a2e2485c8b3c1",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/final_cached_depth_location_slow_base_plus_texture_v3_hover_touch_no307_no321.yaml",
+      "bytes": 2978,
+      "sha256": "bc940d475dbfead35f1a8d1397409d75d0b45302b867b3e50ea99fad27374e4d",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/final_combined_live_da3_geometry_heatmap_touch_presence_from_best_xy.yaml",
+      "bytes": 3132,
+      "sha256": "d34701a37bdc8e0237c16c1a2dfc87d639d6978135cc53e8a6a1a2c4a7d2e78e",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/final_da3_location_slow_base_plus_texture_v3_hover_touch_no307_no321.yaml",
+      "bytes": 3180,
+      "sha256": "cb5e6111787efb7d903939eac67763a7ba4d8756b3b03c7e155dee9abe3f0396",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/final_inference_student_rgbd_geometry.yaml",
+      "bytes": 2861,
+      "sha256": "13401fa17889299bbb3bd078d0075c567dc7cd7809a1f8a3da7dfcdff6e30cc5",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/final_rgb_geometry_location_base_plus_texture.yaml",
+      "bytes": 2930,
+      "sha256": "1d7aecc0b78ceb31a4a41640c53f83098421d498cf7c68cfecfe2246b107ddbb",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/final_rgb_geometry_touch_base_only.yaml",
+      "bytes": 3048,
+      "sha256": "0cab86a90d48154c41cb3e90f4313d0e7d01715b9f54bceb7b68d19df5607fb3",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/inkdepth_mobilenetv3.yaml",
+      "bytes": 3510,
+      "sha256": "9458e6203a3009338ebc1307081b95f1175c1016d02b7b6b30b5fdcbca00f6ff",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/inkmarc_rgbd_geometry_export_best_strict.yaml",
+      "bytes": 2770,
+      "sha256": "ffda9f4219557ef93a5dfea1b47aab79c8c85f3d0d80201be16a3767e3d019c7",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/inkmarc_rgbd_geometry_presence_touch_location_export_best_state.yaml",
+      "bytes": 2867,
+      "sha256": "c56f77df690ab90acd4a01290bed6bfb797c65e248bc94c401d2fdf2ebb86ddd",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/interaction_gate_original_apriltag_w3.yaml",
+      "bytes": 2469,
+      "sha256": "817b0d5f0f6839e33812e61a20ed8f4777ac833787749ea64de10202c90bdf43",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/interaction_gate_texture_stable_w3.yaml",
+      "bytes": 2468,
+      "sha256": "89b8a913bd7c6ef42ece3bb3c23a639268313794f5ac5da7252eaee4f5321804",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/location_from_depth_texture_v3.yaml",
+      "bytes": 2369,
+      "sha256": "2dcc98b9baed30c7d4b75f4bc26125abef019c981b85507fa4db77f1d7f27ea5",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/location_from_full_depth_texture_v3.yaml",
+      "bytes": 2389,
+      "sha256": "c3f57d5def45106512a183df47063b341c6b7813abc4581f29c367f2edcd02a5",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/location_refine_calibrated_depth_l1_texture_v3.yaml",
+      "bytes": 2466,
+      "sha256": "c2a67a98a31a2fa8348ef54382ef492e226583ad56ec9b69e794acdf8c8bcde5",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/location_refine_depth_texture_v3.yaml",
+      "bytes": 2371,
+      "sha256": "19ae4cb3aec357432440bb52f395379b16a3ab3e4601f33f7648bd46a147a6d2",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/location_refine_full_depth_texture_v3.yaml",
+      "bytes": 2382,
+      "sha256": "5276f586458ba0a6dbdb9cebe1b0d1b86318aefda6f20885d779daf4fa342b50",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/location_surface_xy_live_da3_small_geometry_original_stride4_stable_w5_p1000.yaml",
+      "bytes": 2934,
+      "sha256": "e256d9c07a2c5ebe2554102a780e6206a9b89b8075650e087d10fb9b89eb96b8",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/location_surface_xy_touch_only_live_da3_small_geometry_original_stride4_stable_w5_p1000.yaml",
+      "bytes": 2967,
+      "sha256": "d12f47e64b80208078951c8658d2ff736a2519d9e3692808edffaca8eff19178",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/state_from_full_geometry_texture_v3.yaml",
+      "bytes": 2383,
+      "sha256": "066372c25af0833154f50ebeb83d558d506c515d7118755df37b41c75d8aebe4",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/state_joint_refine_full_geometry_texture_v3.yaml",
+      "bytes": 2390,
+      "sha256": "d49ff3f63fb0324c8ccd5203934806b4f0bac49bc95bd38d89b04ce8c890b8b5",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/state_local_context_full_geometry_texture_v3.yaml",
+      "bytes": 2449,
+      "sha256": "9e5a7a3f6e10c4d85d410c45120f42cc1461ca17735ecd55f55a94291601e3d0",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/state_local_context_head_only_texture_v3.yaml",
+      "bytes": 2447,
+      "sha256": "8debdeb2dc0e12ffa746e76379cf581177d63d4a83bf5babcbd49b76d9d01470",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/touch_depth_input_original_apriltag_w3.yaml",
+      "bytes": 2444,
+      "sha256": "ca158984676cf27fa143b00b2377d73349ee14a9e4e84ddca693272c041583f1",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/touch_depth_input_original_apriltag_w5_p1000.yaml",
+      "bytes": 2456,
+      "sha256": "8d82af6760bac51291687f628323fa7acaf702c633c91a131da2c335c35bc13c",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/touch_live_da3_small_depth_only_original_stride4_stable_w5_p1000.yaml",
+      "bytes": 2874,
+      "sha256": "87e5d71402be0032f584726af4a3bca813535b4a2d740bb3d8fb2d28052fad3c",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000.yaml",
+      "bytes": 2904,
+      "sha256": "7b6befc54b8a567a57c071e0763a0b0e66830901d6e4096ee203d69c36372530",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000_presence_head_only_from_best_xy_no307_no321.yaml",
+      "bytes": 3165,
+      "sha256": "112fae96e4bc1900b24973acfeaa81af268ae2004f3221990b206f8bf27aab45",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000_xy_focus_from_best_xy.yaml",
+      "bytes": 3001,
+      "sha256": "03a730a31f3980590f2df81dd16291d2cd4484bfd1b2453aa1a6a4e200cfde96",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000_xy_head_only_from_best_touch_no307_no321.yaml",
+      "bytes": 3034,
+      "sha256": "454fae59e66b4ac4d94aadae990c88f28222fa7f5b1729adbfbb7dc7b5c34d42",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/touch_live_da3_small_original_stride4_stable_w5_p1000.yaml",
+      "bytes": 2826,
+      "sha256": "044c6530a6b0568250835f31845eadd1c5457d71c1e0ab07410e2358957f94b0",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/touch_local_context_head_only_texture_v3.yaml",
+      "bytes": 2469,
+      "sha256": "7710a1a99d463b1df25d99d7bc3882f7b3db62c20e6eb7f632a0ec0bdbc02de7",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/touch_pred_depth_calibrated_head_only_texture_v3_stable_w5_p1000_no307_outliers.yaml",
+      "bytes": 2594,
+      "sha256": "0747992a970f8ab2631f5907161af5daa33c4303ad5c4a683db1b848880abd74",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/touch_pred_depthstats_calibrated_head_only_texture_v3_stable_w5_p1000_no307_outliers.yaml",
+      "bytes": 2605,
+      "sha256": "58c515e632f6eafd1eb1bf929d7ec3224c1f3b4ec90aff40c7127c96061faf38",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/touch_pred_depthstats_tip_roi_head_only_texture_v3_stable_w5_p1000_no307_outliers.yaml",
+      "bytes": 2654,
+      "sha256": "2dd0c1e53caeadfd1304b20bbc81da0d600a0d87a191d1bc6b7d97d98ff8a2ef",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/touch_pred_depthstats_tip_roi_head_only_texture_v3_stable_w5_p1000_no307_outliers_videotouch.yaml",
+      "bytes": 2663,
+      "sha256": "27cc12ac26421d53016435a97794fafab9fd58fbc9782dfe6d631cf376595cbc",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/configs/touch_rgbd_original_apriltag_stride4_stable_w21_p3000.yaml",
+      "bytes": 2554,
+      "sha256": "821d7f48c13298cd3b49d4ed5c156b005de99e1537cb33e2104b7b5bc86d9776",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/inkdepth/__init__.py",
+      "bytes": 90,
+      "sha256": "5564df48151b702d9b23247a943943fa596b414c28500e8d1b508bc735cc262c",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/inkdepth/datasets/__init__.py",
+      "bytes": 111,
+      "sha256": "4ea6ceeba3f49572f2de64900c9724a1a11edaaba51460681498858087a99ae8",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/inkdepth/datasets/stylus_dataset.py",
+      "bytes": 40989,
+      "sha256": "fcdda3d1e78f51e0fe013c7dc745b0283232951b5e3b06f3dbe0c92d239ce257",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/inkdepth/models/__init__.py",
+      "bytes": 726,
+      "sha256": "b17f3e20b3b6bbf9e017589766aa49c9a2635a0c22ed7871ca95a131708375ee",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/inkdepth/models/da3_backbone.py",
+      "bytes": 4267,
+      "sha256": "c1da744d8119f4a78070c36d91f0208e14ed2a15e608e032ecff62a24c3fcd36",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/inkdepth/models/depth_proxy.py",
+      "bytes": 5952,
+      "sha256": "053bae245e83c2e9cfc3243cdf92f58d67ba0af48b741938b4e9d505311e9754",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/inkdepth/models/heads.py",
+      "bytes": 6335,
+      "sha256": "2781788f6c918b5ed8d91bd48f45a4af1b5e92432115863da60020fcf869c0c3",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/inkdepth/models/inkdepth_da3_student.py",
+      "bytes": 4445,
+      "sha256": "957799d7f3128f967124b2e49de93a28892a7a9062a03e041782aba59bc1d6b7",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/inkdepth/models/inkdepth_student.py",
+      "bytes": 16931,
+      "sha256": "3d055565d0feeabb3347db1641275d1430863e8030696b147d0dbc6c296373c1",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/inkdepth/models/losses.py",
+      "bytes": 10637,
+      "sha256": "e8b1a6942a4bc8cb4790d0cf571f925b84c874c706282d9e2d31ad08db11dc60",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/inkdepth/training/__init__.py",
+      "bytes": 41,
+      "sha256": "0d8d709676e600a928486faa98df0582b70f332fe5ef533cc4b2a6575e14dd33",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/inkdepth/training/metrics.py",
+      "bytes": 4275,
+      "sha256": "f8e7f0dd359efb7e18d9597ba63c53d7dbca7e4113f8b25442436ebbadb054cc",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/inkdepth/training/train.py",
+      "bytes": 19678,
+      "sha256": "10c23b682b20aef1f54f9957f21ec2d748e47210375733b4fa66f4b0f30e7de0",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/inkdepth/training/validate.py",
+      "bytes": 15438,
+      "sha256": "f4f69e64054882bdc80a72daef8030ad38ecbce18e699815ea993edc28ac8677",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/inkdepth/utils/__init__.py",
+      "bytes": 36,
+      "sha256": "d7f113b8ad799c2886a80192df7beb9c06badbf14330295dd161765624084a04",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/inkdepth/utils/checkpoints.py",
+      "bytes": 2395,
+      "sha256": "b9fa7be275564fb528647e8a4f1e2cb4bfe03509ad547e785467835378c17c8c",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/inkdepth/utils/config.py",
+      "bytes": 1778,
+      "sha256": "c26bcb6d8278d56919d24ad871b5ac5e35b1dd44e1510f209d6a61703dafbbde",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/inkdepth/utils/export_onnx.py",
+      "bytes": 3823,
+      "sha256": "9f7d76a5d634f4d0ca5dcc6cb735b4b947e273ae5ece6f660c1f5c9ce8216cb4",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/inkdepth/utils/visualization.py",
+      "bytes": 2593,
+      "sha256": "bc7fbb0298227b11cd1147f01102463d50b6f9147379a67ec42476ffffc6cd15",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/pyproject.toml",
+      "bytes": 341,
+      "sha256": "b9af0206066b37e867d340f10f1b0e159f3af873f379bdecb78d7065d0ada2e5",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/reference/FrameProcessor.cs",
+      "bytes": 4832,
+      "sha256": "101eab2e629776b21a485b0e40e69b4c88a8da12d79229bd5550c28b5ca4721c",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/reference/GeometryHelper.cs",
+      "bytes": 1480,
+      "sha256": "59ca7c7e65e761e46bc00027edb8c6a30c2933e5a5a015ff6b9b97e6a3b80c5f",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/reference/H5LabelStatscs.cs",
+      "bytes": 6777,
+      "sha256": "474f83022817f016eeccce7cf9bcd68c2f09eedbe5ec7baaf7e8896960935804",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/reference/Hdf5SessionFrameSource.cs",
+      "bytes": 10548,
+      "sha256": "80e525d91aa4891b2c63bba19b1e2307fe724a9f1d4affd31552d60eed1533bd",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/reference/MainViewModel.cs",
+      "bytes": 301938,
+      "sha256": "930b448bf4d50a56bf5c3ee3cfa2a8f80ddc747bc91a2e47f3401426b1018e7b",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/reference/README.md",
+      "bytes": 1191,
+      "sha256": "6b51e07951d4dc1667b8688b67f375b0164d2875973cbb6f359a20f9483ab498",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "inkdepth_student_workspace/reference/VideoFileFrameSource.cs",
+      "bytes": 22479,
+      "sha256": "37126e6fe76f2e25035331354ed5adfb687e2c53159775e2b43737ea7fc4e134",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/reference/VideoService.cs",
+      "bytes": 9134,
+      "sha256": "3ad8542137267281ce9dcbf149de9f20ee54a97811f40267dbcd8f61cb283fda",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/requirements.txt",
+      "bytes": 177,
+      "sha256": "608c6f3e40ead91d5c4197e0d87c483c597d9d07a316c71aee76293bed9692c7",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/add_black_frame_exclusions.py",
+      "bytes": 11766,
+      "sha256": "15f40264934944447bd80f8e08db7bed61b2a51767dd111a2c284c9be727dad3",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/audit_dataset_labels.py",
+      "bytes": 9747,
+      "sha256": "d989d6a24f3276519db1e0fe84b63293746a43b85947f163d9538ec56cc0ef18",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/audit_participant_splits.py",
+      "bytes": 6466,
+      "sha256": "d5e6749c8c30be50138f062786b432f2ef8aebe2d894311f49850a017cd10f19",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/audit_pressure_boundary.py",
+      "bytes": 17970,
+      "sha256": "4e1d15019db6819915f4ca0ad53be9413d45545db3ccf13b0c24a7fa5a066d97",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/audit_surface_geometry_maps.py",
+      "bytes": 9418,
+      "sha256": "c61ed396b64d04219cceff327199f0711a1817747e80d3757c071ed48b88b386",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/benchmark_da3_small.py",
+      "bytes": 6502,
+      "sha256": "23d1fb643e0350a011369db04689a61c4644c4ddbb0dcaba0fdc6e3284eff27e",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/benchmark_onnx_depth.py",
+      "bytes": 1938,
+      "sha256": "4ea9f5b66878f655030921c9068a142a189012d009a0e6210a83a4437204e1cc",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/check_da3_student_parity.py",
+      "bytes": 3004,
+      "sha256": "397a7455acccdeacbda7abf02183d2f0bbde3f8f53cf50d4fe4f128657f122f2",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/check_onnx_da3_student_pipeline_parity.py",
+      "bytes": 3505,
+      "sha256": "0760cc6caa837977810577f8379afbf58431a30d8910ca8c70ac3e52b93d7aff",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/create_balanced_frame_manifest.py",
+      "bytes": 8903,
+      "sha256": "014452ca64d95304e168216c387a11ae9216a89d8ae54421ab7049d6f4d1ba6c",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/create_final_training_manifest.py",
+      "bytes": 5108,
+      "sha256": "cdd6c4cffa063fba22061643ab3513b89e4f88836c8abf30de27758f853aad7b",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/create_location_hover_touch_manifest.py",
+      "bytes": 10777,
+      "sha256": "a3eba716e30b0cf17691f23e9ea712a6f2dba6ac2043759d8108df654ee960dc",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/create_outlier_filtered_manifest.py",
+      "bytes": 5017,
+      "sha256": "e6b26a37110bc9016ab7a8a29dbbf0bccacd5ee1e4d1b01daf238a20258b01f9",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/create_participant_splits.py",
+      "bytes": 5311,
+      "sha256": "1077a90b40ea4b930a4a8fd836ba446463030bd21c6f3032bbe31fc22d7dd335",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/create_stable_pressure_manifest.py",
+      "bytes": 11039,
+      "sha256": "662eae4e8790de0a7d8a365c5b8a5c16a89070ac9b275d09cc52f889b7ea8b66",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/create_texture_manifest.py",
+      "bytes": 7739,
+      "sha256": "b4151d659a07ba2feefc287ce069ac2fc4e0929c08c64081ef9ba5ebb72c6e8f",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/evaluate_depth_proxy_student_pipeline.py",
+      "bytes": 7033,
+      "sha256": "fe0019e590d06ffbaa11fc22368407a4e72ef67587ab5ca3f3604e81aaed79ed",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/evaluate_onnx_da3_student_pipeline.py",
+      "bytes": 9832,
+      "sha256": "ab2873b35c7eafbbb958dc7c094eebfa86caf42e9267698dda089cba2b6208d7",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/evaluate_participant_cv_statistics.py",
+      "bytes": 35079,
+      "sha256": "65e6be65f08a8fd97359eeee97defce691c4613eda58d9b883a11cc6a4222420",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/evaluate_presence_cv_threshold.py",
+      "bytes": 3965,
+      "sha256": "e6c9c75efc88bd234c0b922b5a4a1cb961cf3db72899c6b2c770076325afe2bf",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/evaluate_temporal_depth_touch.py",
+      "bytes": 7586,
+      "sha256": "f62cad18468678b64bdc6fad3613b11bd7dc153b0476c8c114175cae420b4056",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/evaluate_temporal_touch.py",
+      "bytes": 16086,
+      "sha256": "fea674b8641cc4f173fc4ccac45a91dac4e37a08ce81d8a71c970f3210a66e6d",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/evaluate_touch_fusion.py",
+      "bytes": 14989,
+      "sha256": "930f01c0ce2dc567ddf6978b632f4991d2c29a04391eca2297285e8d51e2324f",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/evaluate_touch_hysteresis.py",
+      "bytes": 15165,
+      "sha256": "d4474afaad5888bc20399fc48648dc4809940e3e8f44ac4585078e8e8b0fc3a2",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/evaluate_touch_location_by_participant.py",
+      "bytes": 15485,
+      "sha256": "4ad9a5198e1434d0faf43f8aca3b5f12c569c5186574fce1f69c4a0539e66419",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/evaluate_touch_location_report.py",
+      "bytes": 17310,
+      "sha256": "7ffb1c7cb6058e626977a3f6bc7605bf64ba0f496879c46a37469f34464994ae",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/export_da3_small_onnx.py",
+      "bytes": 8120,
+      "sha256": "3ea058702ee3183ce8f1d89a8d83f81e561f2f7ec616214c872458fe384dffa9",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/export_depth_proxy_onnx.py",
+      "bytes": 2695,
+      "sha256": "3c616a48af353c930df89fcad88562d7cfff46c1ff8021a8132710aec9a96598",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/export_location_error_samples.py",
+      "bytes": 12889,
+      "sha256": "219b912edac8f7e812a0a85169106aaba52cbef980a8faa825bf5d228399c6c9",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/export_student_onnx.py",
+      "bytes": 1537,
+      "sha256": "891657fae0d5adef07b0c0dddbec2817b58a7ec71ab7469507e061b54a6b8f09",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/extract_deployable_student_checkpoint.py",
+      "bytes": 2350,
+      "sha256": "053817ea42ebc9bae45f193effad60e46b6e4326046bca217f9692b3f72051b0",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/generate_da3_depth_zarr.py",
+      "bytes": 11339,
+      "sha256": "06b39405934fc08c6afc2509d511cea4779a62e7ef4c7d627948ccc78c98277b",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/generate_da3_proxy_depth_cache.py",
+      "bytes": 5155,
+      "sha256": "cfc988a47251a489a8f26d513cf69ace6aa9b484be1d6d1a39d710003d1c6a4b",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/generate_da3_proxy_depth_cache_npy_xz.py",
+      "bytes": 8602,
+      "sha256": "e721ed18dbc7bbe6cc398547561f2009a88fe6f32dbb3abd03ec9f24f0e15fd9",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/guard_live_da3_resume.sh",
+      "bytes": 1436,
+      "sha256": "c5be2f820a5fe6328a90a0b493151ce60c362ec26d4bb05f5c0b0d61bc2ba314",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/inspect_batch.py",
+      "bytes": 4446,
+      "sha256": "8aa1b5709b836fc8c9de00e8bae305743f49f1e749b6b48c7bc8457a89219fff",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/quantize_da3_qnn_qdq.py",
+      "bytes": 8955,
+      "sha256": "180e053074b3464141e25d808364ff7444c87937605aaba896f90cc311ce3526",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/quantize_depth_proxy_qnn_qdq.py",
+      "bytes": 5115,
+      "sha256": "880fb1f5777d65af3efea5fe108a5e40bf72e0dfa6016adf313c222878acf1a8",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/quantize_onnx_dynamic.py",
+      "bytes": 1150,
+      "sha256": "55e2ca2213369f96a5e89a030c6b8ffaa6dbb286a8f48f6f3271ee71f6b64b59",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/run_component_ablation.py",
+      "bytes": 14810,
+      "sha256": "6507a4a433bf9d7f4246aeee9eaacf71ce0aae9a44e2cb1c174ceeb1d560e88d",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/run_corner_correction_ablation.py",
+      "bytes": 21149,
+      "sha256": "9052fe040fce6991c692ce6c324a653b463d8717536e935021c3b38c31059cef",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/run_live_da3_experiment.py",
+      "bytes": 5956,
+      "sha256": "7322880da55cfb8519d16137ac37757518a860f08d9cedde93ab320b2c5d1473",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/run_participant_crossval.py",
+      "bytes": 15667,
+      "sha256": "662dc1e3b9fc312d5f11b15b676e2db01ddd2bf03c5fe0e9b53a6cffa43aa878",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/run_stride2_freshsplit_head_finetune.sh",
+      "bytes": 2517,
+      "sha256": "0d1b357186483421820cd1be290104301d170ed0821f7ad0e467ebb189230db0",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/run_stride2_location_experiments.sh",
+      "bytes": 2947,
+      "sha256": "f7b3478c8ee86cb9c796267b43c5b0446097104325c3d8b96861a4acede0b132",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/run_targeted_stride2_location_experiment.sh",
+      "bytes": 1954,
+      "sha256": "110885a9a22826a43447c7ca8658f005e3befdc55440169293c32c8509d6cea2",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/sweep_heatmap_decode.py",
+      "bytes": 12026,
+      "sha256": "3405610c750cc422b547ee784f8393306736b1c04db297d94eb53cd418451e6f",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/sweep_state_threshold.py",
+      "bytes": 5866,
+      "sha256": "0237b0e93d0e8e8d5b390942dbd700279947180e9a5d7654154d4c439e75b994",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/train_da3_depth_proxy.py",
+      "bytes": 9950,
+      "sha256": "b4f899f8bc5b8a9e4e41832611073d7baec827b64361f06015265cedc91c1e23",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/train_depth_feature_touch.py",
+      "bytes": 15613,
+      "sha256": "29d15383b31cdbe4963a383f03e554d0652e3423a94db51605d59fe2f4535006",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/train_fast_rgb_final.py",
+      "bytes": 3366,
+      "sha256": "8377de47a2cf35aebb5245954d9dea924c78dd402d23eb7bce580c3d9c200fdc",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/train_student.py",
+      "bytes": 853,
+      "sha256": "64aeeb8407b5ea374643687ac7be11f1c33d26ec28d39e23a44d18a9b6a5f9cd",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/train_temporal_touch.py",
+      "bytes": 28721,
+      "sha256": "f014f0e38aab099d5eed676111b7f149d717b77d406853e0a93c6b8209a5aff8",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/train_xy_residual_refiner.py",
+      "bytes": 23598,
+      "sha256": "44b6f79382546a153418abfd0151fe1655a2cef0c2dbc0234e98ef8a3e6a6859",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/validate_student.py",
+      "bytes": 1852,
+      "sha256": "a68cf0e15e93be0945cf982faebcc73a9b93883694993c20464a3477bc0e232f",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/visualize_da3_geometry_heatmap_frame.py",
+      "bytes": 12192,
+      "sha256": "870812b9a28d1f0e8dec052c5b99bcfd477c6e1f0e590007fcfeb983c413ed4f",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "inkdepth_student_workspace/scripts/visualize_dataset_samples.py",
+      "bytes": 9007,
+      "sha256": "320ff813816db980e660e8f8b4ce0b2a6770285d04e62c299c183a9755017d6d",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/COPYRIGHT",
+      "bytes": 442,
+      "sha256": "1f3f00515b8d948510684f8584ea33c257fa100e293f2a0c59b36bf69bfa2d29",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "ml/README.md",
+      "bytes": 2205,
+      "sha256": "d688b7f12c2d3ab18c8485755c4e21db70a4c95444d13570a95b465ec81856bf",
+      "classification": "documentation_or_ignore_replacement"
+    },
+    {
+      "path": "ml/artifacts/experiments/broader_data_configs/focused_selected_eval.yaml",
+      "bytes": 1433,
+      "sha256": "f3429733bcbe88c3146218cf0f30dd1e45e60a8943bbc22f758296566844ca5e",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/artifacts/experiments/broader_data_configs/v1_selected_eval.yaml",
+      "bytes": 1423,
+      "sha256": "053691dd74f97fe591ca69c5f6d4b6384c2dfdb0d18e286aa9ce4a144e322a1c",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/artifacts/experiments/broader_data_configs/v1_selected_setup_train.yaml",
+      "bytes": 1490,
+      "sha256": "8bdb6ce43353aae5c690f949e635a7a06674d3cc32b8ad35248d48aeb4f24ff5",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/artifacts/experiments/broader_data_configs/v1_trained_on_focused_eval.yaml",
+      "bytes": 1438,
+      "sha256": "814f6125b200bc09ae1fb6babe9b78ab97e435aa5eede5dae8bb167469214070",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/artifacts/experiments/constrained_hover_touch_configs/F0_reference_C_touch_pos_weight_rerun.yaml",
+      "bytes": 1511,
+      "sha256": "d6f20a6e61c2c31175ce59ad2375f2ad6c210aaaf985747fdd1f0c9ae5ff8e66",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/artifacts/experiments/constrained_hover_touch_configs/F1_touch_as_hover_x2_hover_as_touch_x1.yaml",
+      "bytes": 1519,
+      "sha256": "d7dda4bbe787dcf21cf536ef1e8421bf2355a6ef2e0ed00b09c53f7347cb17e6",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/artifacts/experiments/constrained_hover_touch_configs/F2_touch_as_hover_x2_hover_as_touch_x1_5.yaml",
+      "bytes": 1521,
+      "sha256": "ad5a1b45d1046026eaaf045fa4fee39401f8b439ad6d1530ead38d7d61aee3b5",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/artifacts/experiments/constrained_hover_touch_configs/F3_touch_as_hover_x3_hover_as_touch_x1.yaml",
+      "bytes": 1519,
+      "sha256": "2b979f3f96e545291543e83506479c19e9e75c33bbcc48f2ef0829869030ef18",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/artifacts/experiments/constrained_hover_touch_configs/F4_touch_as_hover_x3_hover_as_touch_x1_5.yaml",
+      "bytes": 1521,
+      "sha256": "f9a555384b57e33608e78e286e4dc2fd019e493caba66af2882aff434e900f89",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/artifacts/experiments/constrained_hover_touch_configs/F5_touch_as_hover_x3_with_batch_cap_20_percent.yaml",
+      "bytes": 1560,
+      "sha256": "f442da6188c082a7fbe3d6a54545fe521038d3fdb16b421de1d9bdb22619188f",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/artifacts/experiments/constrained_hover_touch_configs/F6_touch_as_hover_x3_plus_hover_false_positive_loss.yaml",
+      "bytes": 1542,
+      "sha256": "1bfff7ef994720637bf1dae4ace2cde2b70decb41358ff0ac648ca7d65469e14",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/artifacts/experiments/hardmine_configs/A_baseline.yaml",
+      "bytes": 1449,
+      "sha256": "971cb25bbe2cb3c7f8d3065aa31e6dc410f5814fa7b8720397402a29590e3924",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/artifacts/experiments/hardmine_configs/B_state_balanced.yaml",
+      "bytes": 1463,
+      "sha256": "18acda103984889db620b46f012d88bcca10dec4379d0e0af78c9c3f5cade6a4",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/artifacts/experiments/hardmine_configs/C_touch_pos_weight.yaml",
+      "bytes": 1457,
+      "sha256": "a921c520c5125ef1ad4b84c565a0b7bcae38dad5c5902fbc7dc8b03604e4cbf0",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/artifacts/experiments/hardmine_configs/D_hard_weighted.yaml",
+      "bytes": 1461,
+      "sha256": "b47ab7d8e0fdfe802dc7dfc134f633374ad513984cb2fd90baeaedcb56aa968c",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/artifacts/experiments/hardmine_configs/E_hard_focal.yaml",
+      "bytes": 1458,
+      "sha256": "c7787c3f419aa5961c2d37f68c4e9025b5b52a3859877bc802a8cd65ee8df410",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/artifacts/experiments/mild_hardmine_configs/C0_touch_pos_weight_baseline.yaml",
+      "bytes": 1467,
+      "sha256": "a61436d2c3d63f18482c4d83aebfe90ecb561a3a57d687c2baf3033bf245539b",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/artifacts/experiments/mild_hardmine_configs/C1_touch_pos_weight_plus_touch_as_hover_x1_5.yaml",
+      "bytes": 1500,
+      "sha256": "d00dda484b98bfd041f9467069f04b56a9efddd6986c5862ad8d21eb8fb9fb8d",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/artifacts/experiments/mild_hardmine_configs/C2_touch_pos_weight_plus_touch_as_hover_x2.yaml",
+      "bytes": 1498,
+      "sha256": "767210457c7ed9822f7b68cc10cbf31df2b86dff41885003cd1c356a0f14250c",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/artifacts/experiments/mild_hardmine_configs/C3_touch_pos_weight_plus_touch_as_hover_x3.yaml",
+      "bytes": 1498,
+      "sha256": "f340593178951927ccc1d5c8cd2e77c3b78e185e6769298a8a18a0a003e43e92",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/artifacts/experiments/mild_hardmine_configs/C4_touch_pos_weight_plus_capped_hardmine.yaml",
+      "bytes": 1520,
+      "sha256": "813a4e092ee6a434ff64c8ce8509387c5aa61d3935e27c1eb77196d357471b67",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/artifacts/experiments/temporal_configs/T0_no_temporal_baseline.yaml",
+      "bytes": 1603,
+      "sha256": "a35fef84042965e95138b957fdf7f864dcaf44dc1115022afe550b252def7b25",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/artifacts/experiments/temporal_configs/T1_abs_gray_diff_motion_map.yaml",
+      "bytes": 1606,
+      "sha256": "edcd67dbb095289181fbac06422c048664b1262860e16269e9b3e60e9aec69a9",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/artifacts/experiments/temporal_configs/T2_signed_gray_diff_motion_map.yaml",
+      "bytes": 1612,
+      "sha256": "024a08c91a0574fec28ad5cdef911bb8801329a26f115991416b79f0f93982e1",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/artifacts/experiments/temporal_configs/T3_image_t_minus_1.yaml",
+      "bytes": 1602,
+      "sha256": "d06441a9c3e31239740000aa47272d38f681437b0e921d5bce23ec39f79fb85f",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/configs/loctouch_lite.yaml",
+      "bytes": 1460,
+      "sha256": "8b1704ef06e94e813c518e5718678c89bb56c29c23cbc9c0eff5d50d4e8f3593",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/docs/data_contract.md",
+      "bytes": 2919,
+      "sha256": "142cef195592829f8f401a99672b56827c6f018a0671148979cfc7baf3940e90",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/docs/model_readiness.md",
+      "bytes": 5484,
+      "sha256": "5ba3389c3b53612db5d2353fd379f228f8cca77b38febf66939f81b543797593",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/inkloc/__init__.py",
+      "bytes": 126,
+      "sha256": "6fb31c8a8b903ef085d7692eb65f1fdedf6dd5ade7d2f4e6c9f9feb1f0ca20b5",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/inkloc/data/__init__.py",
+      "bytes": 288,
+      "sha256": "483c60ab3053b3be051b5930ed8b64d1382be2f02d5199af10c462188267487d",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/inkloc/data/dataset.py",
+      "bytes": 3295,
+      "sha256": "8a9e8f1054ba13ef481da6114ee4c6e8ab100ff0c14a1f69f6fba0d415a66620",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/inkloc/data/inkmarc.py",
+      "bytes": 7809,
+      "sha256": "2be4f5f8481af56bf380183ae5570fc6501f95d477f0854f7fb296ce5b26b250",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/inkloc/data/make_splits.py",
+      "bytes": 6073,
+      "sha256": "579a756aab2a45f88f42e9df2018de512254b4eedea3d5265af8e5a96f7767fb",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/inkloc/data/summarize_inkmarc_indices.py",
+      "bytes": 4992,
+      "sha256": "274b097e0a668e544249d95b629901612acd70d07b190a53223370fcedbc3d3e",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/inkloc/data/synthetic.py",
+      "bytes": 3860,
+      "sha256": "22fdd47bc59f4517836c4279806ffbb9db14042f0c467402c93a12d70e34e617",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/inkloc/data/transforms.py",
+      "bytes": 437,
+      "sha256": "13471af93d1b0fcb28ccf4e33fdb909104db998efbb1d97c232893e752534377",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/inkloc/export/__init__.py",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/inkloc/export/check_onnx.py",
+      "bytes": 3387,
+      "sha256": "8e558a93c18da549185b0a96e9782bac1faf64b31b49e98f19bf69ce9aef409c",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/inkloc/export/export_onnx.py",
+      "bytes": 3232,
+      "sha256": "0ce87f1efdefa3af9f1331b0e46716070dcd389c6ada7bed6043ddc09adc63c3",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/inkloc/models/__init__.py",
+      "bytes": 74,
+      "sha256": "9b4c5fcd4df14b9458c62fa0239707853ad1c07d0cdcf6292751bf913cd9750c",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/inkloc/models/dsnt.py",
+      "bytes": 1524,
+      "sha256": "f51baf3f30f78eedc08e89fdb37ae57d28606110b89682f3bcdc50d46ce81f3c",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/inkloc/models/loctouch_lite.py",
+      "bytes": 13909,
+      "sha256": "464da8ff0434804d0431a0099be05f414c5fb37248e0266670aca94996c1ea17",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/inkloc/models/normalization.py",
+      "bytes": 483,
+      "sha256": "d1c308230408766d3b696e63515c655a939795bce51e5839175c6ca78ddb6e4c",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/inkloc/training/__init__.py",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/inkloc/training/aoi_diagnostics.py",
+      "bytes": 9834,
+      "sha256": "7ac9b945814b791df3712093d05dc94905fa8ec2df17660478219622ef19fefd",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/inkloc/training/audit_transition_duplicates.py",
+      "bytes": 15747,
+      "sha256": "86632ec9792554e7f7025c85afb49be1dc6f717c42d4562f71caa4ce51d5499e",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/inkloc/training/calibration.py",
+      "bytes": 8815,
+      "sha256": "85cddce1a7ce5820a4624d2c40522c133a159a1aaa39522faeb670ac0076d3e9",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/inkloc/training/decision_sweep.py",
+      "bytes": 19123,
+      "sha256": "e8796047c88dd143a99a0d036836f7015b967307577ae8d3157bd0eac7d77052",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/inkloc/training/eval.py",
+      "bytes": 2376,
+      "sha256": "9a44b65737dff0fb405f14566f83a1b18a5d74bb3b746a5564685207b9de0457",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/inkloc/training/export_error_audit.py",
+      "bytes": 21740,
+      "sha256": "06fedf85292cbb8f791f3399ccd55323f233bcbb10da4450e5e6aa42da5fc60a",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/inkloc/training/forward.py",
+      "bytes": 963,
+      "sha256": "4ee09f16d32ad65c14e266f025ae3a156eeea5675705b93939227c93b3a05b26",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/inkloc/training/losses.py",
+      "bytes": 5846,
+      "sha256": "2f4ae86bb2b842ac9aaa5a191dba4e887501ec98ab6172750091f982a4972b3a",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/inkloc/training/metrics.py",
+      "bytes": 2921,
+      "sha256": "8c97970b2142a34e4ce7ad951cff47ab8b7241fb816b10a40cb373edba9632c5",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/inkloc/training/mine_hard_examples.py",
+      "bytes": 4351,
+      "sha256": "c4e2d1d1a4876b5d95ea9c412ff5cfeee3bd8827d95c270f69b1a6eb3e74e145",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/inkloc/training/overfit_tiny.py",
+      "bytes": 2328,
+      "sha256": "dd03d5d81c5b55e637d391eeebde4125284467bc8578bac236f25bbbf275838f",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/inkloc/training/train.py",
+      "bytes": 15991,
+      "sha256": "32bd04230bc98b3dab3aa7bedf0fb251ec655a88cc5b48d6b506e0a166942302",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/inkloc/utils/__init__.py",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/inkloc/utils/config.py",
+      "bytes": 251,
+      "sha256": "aabea6651a7b82539a50c97bdfc2e3eddee58829fb57d545ad710b430efdb94f",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/inkloc/utils/seed.py",
+      "bytes": 232,
+      "sha256": "aa7c8bbba3e036417bd54a9e8b67a1a09be156bc4542fa0adf10f62e4563f344",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/inkloc/utils/timing.py",
+      "bytes": 247,
+      "sha256": "d38cfd4d7502552900aad39a7fec2e526ff0f5fdd2421c2674b5093ef92e6af9",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/tests/test_inkmarc_temporal.py",
+      "bytes": 1160,
+      "sha256": "6893313d2c4dfe2ef77c11c1f8db84172d222c70d4373018d75401a55034d779",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/tests/test_losses.py",
+      "bytes": 1137,
+      "sha256": "9f0cd308f95dd174f0073ee003d963dc7c26ebab960ff0e671fcc3295815c176",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/tests/test_model_shapes.py",
+      "bytes": 2050,
+      "sha256": "00b8e03c4f1d18822101c70c07d50b1d4045520899a59d419167dbd604fb3f6d",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/tests/test_onnx_export.py",
+      "bytes": 1096,
+      "sha256": "d1679c0ca3f8515cdae4228ba63ec4b2cb4f3623777001d8249f5bf6d57e057b",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "ml/tests/test_synthetic_overfit.py",
+      "bytes": 214,
+      "sha256": "659674073462164b43b12959474351c62bd81a1a3c1f243efb06e26754842445",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "provenance/CHANGELOG.md",
+      "bytes": 3423,
+      "sha256": "a3b1ab8d20a8b15f3de2013ea72b7fec09b0d489b10637e00567f4b142d2c9e9",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "provenance/README.md",
+      "bytes": 1753,
+      "sha256": "60714c7e6fe20ab2b28a376eaad2088efb1bfcee1cc58c95e878a6f46da9ad1e",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "provenance/config-inputs.json",
+      "bytes": 92473,
+      "sha256": "dff5ac4b5a2d91e726c75745c8999072bc80e70951a660b09267cd0d9a0f1eee",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "provenance/copied-files.json",
+      "bytes": 337204,
+      "sha256": "80e8532bac51d8c989121449b295d3c3c9e52a24ae9ef137def4179c0a49bfec",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "provenance/embedded-attribution-evidence.json",
+      "bytes": 569,
+      "sha256": "6b6d326fc1293c3adb5784121008f334fd7c73978b256efed8c35c1cc7de70c4",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "provenance/exclusion-summary.json",
+      "bytes": 3653,
+      "sha256": "bf92888a93cd440f492719c1ca530eb5f398ccdd450efec174669c978137b372",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "provenance/file-rights.json",
+      "bytes": 209354,
+      "sha256": "32c52acae59ab02d8864645e748fc2e5d7453284f4f2547de0e1013905f31813",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "provenance/license-evidence.json",
+      "bytes": 204584,
+      "sha256": "970d003c2a9c48e7562725de92f76bb4754c837fb0303c7c048c10254281bf1b",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "provenance/licensing-changes.json",
+      "bytes": 21855,
+      "sha256": "93206bb8b1d40990a6b9e515ed4206e00e6920e36ec4a351f3497c331e5e1d77",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "provenance/model-interfaces.json",
+      "bytes": 5217,
+      "sha256": "f6ea06f93193cd45a48a1cc134d19a1f5700f6df485c5db9707be57172d839e6",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "provenance/model-licensing.json",
+      "bytes": 30963,
+      "sha256": "b1ba9c4e5ce382bdac2a743456d0dcc3330dcb603899345851f4094e3f04c12d",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "provenance/models.csv",
+      "bytes": 10340,
+      "sha256": "31440e04150107851c81c77e3d5505d62ae295b1e857e83f4122fb1d2cae1208",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "provenance/modifications.json",
+      "bytes": 15022,
+      "sha256": "7e8d9fe112426449f5a4cd7a3411b7b6b775ec7d35e881c84930c7075f73ccfb",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "provenance/observed-environments.json",
+      "bytes": 4397,
+      "sha256": "6a3cc3daaba6d34b8023831e915fed355823ee41cc1a34122e0b4cae10bc7777",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "provenance/original-documentation/inkdepth_student/README.md",
+      "bytes": 10082,
+      "sha256": "25d3f224f6b7d2d8c272a58fd3b09b8bb6931995881da8876c4f653418495b90",
+      "classification": "byte_identical_original_document_preserved"
+    },
+    {
+      "path": "provenance/original-documentation/inkdepth_student_workspace/.gitignore",
+      "bytes": 247,
+      "sha256": "c20bc6302cbf6f68b769711ed96070b9988f509191e9ec1f788a574296f95710",
+      "classification": "byte_identical_original_document_preserved"
+    },
+    {
+      "path": "provenance/original-documentation/inkdepth_student_workspace/README.md",
+      "bytes": 15108,
+      "sha256": "fbded0752aed56cbcd77d3aaa856f1de456b1de81997c88b8877998cb2afbdc5",
+      "classification": "byte_identical_original_document_preserved"
+    },
+    {
+      "path": "provenance/original-documentation/ml/README.md",
+      "bytes": 3295,
+      "sha256": "707d5734d0e7ef71a120f73b32ccd806acdf63c088b30ceed6be2fac90b18848",
+      "classification": "byte_identical_original_document_preserved"
+    },
+    {
+      "path": "provenance/repositories.json",
+      "bytes": 2397,
+      "sha256": "51d642dad79f4e1d3405dc49f170f1a4d0507b310d2d8d14b9de77964cd35b1f",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "provenance/run-configurations/README.md",
+      "bytes": 11161,
+      "sha256": "d0b7412327c9541f80d3479c9fb62f024771ac06487353b07cc5ed530e245d65",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "provenance/run-configurations/inkdepth_student/outputs/da3_small_touch_experiment/eval_da3_small322_best_accuracy_swept/config.json",
+      "bytes": 859,
+      "sha256": "2547d0afea52a956e5d0c979c3dca479178a7819ea3c0527933a08c2938b4fa3",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/inkdepth_student/outputs/da3_small_touch_experiment/temporal_da3_small322_subset_w5_p1000_context/config.json",
+      "bytes": 859,
+      "sha256": "2547d0afea52a956e5d0c979c3dca479178a7819ea3c0527933a08c2938b4fa3",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/inkdepth_student/outputs/da_v2_small_base_experiment/eval_da_vits322_best_accuracy_swept/config.json",
+      "bytes": 853,
+      "sha256": "6e70f9337b38a94305d96e33d1f8cda6a1fd960e6cc7887fe1c03d8b8d85c2bc",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/inkdepth_student/outputs/da_v2_small_base_experiment/eval_reference_best_accuracy_swept/config.json",
+      "bytes": 860,
+      "sha256": "3a25c77513e7a7a712591a0f284a3883cdb3c4c5685991dc6ec90fc7ddc64bf3",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/inkdepth_student/outputs/da_v2_small_base_experiment/temporal_da_vits322_subset_w5_p1000_context/config.json",
+      "bytes": 853,
+      "sha256": "6e70f9337b38a94305d96e33d1f8cda6a1fd960e6cc7887fe1c03d8b8d85c2bc",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/inkdepth_student/outputs/da_v2_small_base_experiment/temporal_reference_subset_w5_p1000_context/config.json",
+      "bytes": 860,
+      "sha256": "3a25c77513e7a7a712591a0f284a3883cdb3c4c5685991dc6ec90fc7ddc64bf3",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/inkdepth_student/outputs/depth_feature_touch_original_w5_stride2_quick_zscore/config.json",
+      "bytes": 598,
+      "sha256": "55585c4555f0b08ce7037a094b52d89f46300d2096666746125daf2034d1645f",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/inkdepth_student/outputs/depth_feature_touch_original_w5_stride4_quick_zscore/config.json",
+      "bytes": 622,
+      "sha256": "83a659847bcf69d53a6beffcd768a4bd772ecb3dbff244432a0650104db3a67a",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/inkdepth_student/outputs/smoke_temporal_touch_depth/config.json",
+      "bytes": 662,
+      "sha256": "053244cc4678d4065b37ef3592410384cdae7b348949b1b48c076aa9649344a6",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/inkdepth_student/outputs/smoke_temporal_touch_depth_context/config.json",
+      "bytes": 724,
+      "sha256": "491dd73a9610763cca615f078cb27b25edf95f5d9bfc4d6d4a0392c1b934d857",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/inkdepth_student/outputs/temporal_touch_depth_context_original_w5_stride1_crop128_zscore/config.json",
+      "bytes": 789,
+      "sha256": "0a4d0645af8b8ccd4e1921c25fdda5b83df579f00d21d448c2aafade9b5bcb90",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/inkdepth_student/outputs/temporal_touch_depth_context_original_w5_stride4/config.json",
+      "bytes": 737,
+      "sha256": "b4db5fe9e848d23b202871fb8edf41dd232c51fbe0db181b35ded124f7efc691",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/inkdepth_student/outputs/temporal_touch_depth_local_original_w5_stride2_crop128_zscore/config.json",
+      "bytes": 779,
+      "sha256": "7fc937a74d1e00748018fa75e1f2163818d6e4581326e5a4db7985dc1901bda0",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/inkdepth_student/outputs/temporal_touch_depth_original_w5_stride4/config.json",
+      "bytes": 674,
+      "sha256": "6120d1605ce96d2ad6888477b718734c3d4817c2c6fde6e223b7902ade377c44",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/inkdepth_student/outputs/temporal_touch_gt_depth_original_no307_w15_p2000_context/config.json",
+      "bytes": 821,
+      "sha256": "83289cc9e45332c420808ede0b0861872264677bc4746c8ed704f8b8e9b9e2c0",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/inkdepth_student/outputs/temporal_touch_gt_depth_original_no307_w15_p2000_context/eval_val_best_accuracy_swept/config.json",
+      "bytes": 821,
+      "sha256": "83289cc9e45332c420808ede0b0861872264677bc4746c8ed704f8b8e9b9e2c0",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/inkdepth_student/outputs/temporal_touch_gt_depth_original_no307_w5_p1000_context/config.json",
+      "bytes": 819,
+      "sha256": "40e7cf98f64905b3e341b921aa4050e60ae3c6c99ae6443ac6a3d53a12b2cf92",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/inkdepth_student/outputs/temporal_touch_gt_depth_original_no307_w5_p1000_context/eval_smoke/config.json",
+      "bytes": 818,
+      "sha256": "28698d57ddead2811336dd9cbb64d0a965f79b56b523128fa03224380c95feb3",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/inkdepth_student/outputs/temporal_touch_gt_depth_original_no307_w5_p1000_context/eval_val_best_accuracy_swept/config.json",
+      "bytes": 819,
+      "sha256": "40e7cf98f64905b3e341b921aa4050e60ae3c6c99ae6443ac6a3d53a12b2cf92",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/inkdepth_student/outputs/temporal_touch_gt_depth_original_no307_w5_p1000_context_tasktouch/config.json",
+      "bytes": 856,
+      "sha256": "08645a0c8adb81a9b14fffaa6bf62218380396a29e6da03e64d84e026150a49c",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/location_model/runs/combined_touch_location/training_config.json",
+      "bytes": 941,
+      "sha256": "c01353062cda0f38577eca6bf12455b3cf3d59b89efee2ce2e7c1facea01088c",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/location_model/runs/combined_touch_location_binary_touch_iter1_overfit512_w1/training_config.json",
+      "bytes": 1199,
+      "sha256": "b319d7c4ac9fc102f0a7d9338a3fbc4662088150e0f50ba9d77d09ec2c024632",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/location_model/runs/combined_touch_location_binary_touch_iter2_overfit512_w4_pos25/training_config.json",
+      "bytes": 1205,
+      "sha256": "db07ba47477ce8eb848a1e41a08987b0a1fcb41f1b918b63eaf9383b0ccf9cc5",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/location_model/runs/combined_touch_location_binary_touch_iter3_touch_only_overfit512/training_config.json",
+      "bytes": 1204,
+      "sha256": "a4a7410649bf56125bfcaa4f432b85b987ee2c49fa1d78e9eed76779866852e2",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/location_model/runs/combined_touch_location_binary_touch_iter4_warmstart_full_hm01/training_config.json",
+      "bytes": 1301,
+      "sha256": "e0ab55e33f4750ffd395c9e87e630db437813fe37ea05bc6e7baf8428e98f997",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/location_model/runs/combined_touch_location_binary_touch_iter5_subset2048_warmup4_hm01/training_config.json",
+      "bytes": 1344,
+      "sha256": "fa11bbc8cff5993a781eb533ec086d818ebbbe02966bfe1276a8c57801437fa5",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/location_model/runs/combined_touch_location_binary_touch_iter6_touch_only_subset2048_small/training_config.json",
+      "bytes": 1345,
+      "sha256": "83b5d02788475c24cbe2b8ca13f849b6ae5e1d82ec6a748ad3654b20dec6ed38",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/location_model/runs/combined_touch_location_binary_touch_iter7_touch_only_subset2048_small_pretrained/training_config.json",
+      "bytes": 1416,
+      "sha256": "b4bde5a27310a499a4143856df1409b883a2d5814f848f2c94e7a60e48a92400",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/location_model/runs/combined_touch_location_full_state2_large/training_config.json",
+      "bytes": 1100,
+      "sha256": "e87ef1e201b98e2d47f8a5e70a44fac3606a1ffb5fdbfb8c99108f91e25f627b",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/location_model/runs/combined_touch_location_medium_generalization_large/training_config.json",
+      "bytes": 1185,
+      "sha256": "2b04d3d7a5924f8bb9fadee04c54f79038a4cc01ded937e75e32b0919dd7f796",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/location_model/runs/combined_touch_location_overfit/training_config.json",
+      "bytes": 779,
+      "sha256": "351202902940d83158ed0738c76afe805cccc83dd47852895ddd9fc5477c7714",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/location_model/runs/combined_touch_location_overfit_3state/training_config.json",
+      "bytes": 983,
+      "sha256": "78063b7c47dc4fe234411325f5eb021136d34131cbfb88cd479e7725d0e39002",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/location_model/runs/combined_touch_location_overfit_state_head/training_config.json",
+      "bytes": 1011,
+      "sha256": "f38fc2ec708f52836de2fc4430beb0a77164b4ba236f0b21537b687591da0b48",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/location_model/runs/combined_touch_location_overfit_state_head_bn_recal/training_config.json",
+      "bytes": 1058,
+      "sha256": "44cd08d44ce90bc495f0096f545d2fae93b028b27628de8ae786adbe8e52374e",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/location_model/runs/combined_touch_location_scale_100k_state2_large/training_config.json",
+      "bytes": 1110,
+      "sha256": "c007bacea8cacaca19c155d5143721311bd1600f7c437ce8dc6ad5baa3f9eae4",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/location_model/runs/combined_touch_location_scale_20k_large/training_config.json",
+      "bytes": 1101,
+      "sha256": "dc3dec5eb150f8f671813612813cc45036c5376a83fc0b249e9088aa94d536db",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/location_model/runs/combined_touch_location_smoke/training_config.json",
+      "bytes": 741,
+      "sha256": "73e871404300bfa58de23e2c5925e0a0af0d5e58cb3fda85dcb1a2059a8ef537",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/location_model/runs/combined_touch_location_smoke_state_head/training_config.json",
+      "bytes": 1006,
+      "sha256": "bb5eee11911823c6106aff3f86170f7924753a68e411d79900fa1c0fe1c0d97e",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/location_model/runs/combined_touch_location_smoke_state_head_bn_recal/training_config.json",
+      "bytes": 1053,
+      "sha256": "c1cbd5735199622a1b38591aed9601ee273ca7a6c48a0df44f18fe50295f4cfd",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/location_model/runs/focused_touch_only_lr5e5_wd5e4_pos12/training_config.json",
+      "bytes": 1538,
+      "sha256": "a2801e0e7a9684a2fa9b7e299bc080ad9fcebaacfaeccd8d711ffc6a215b213d",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/location_model/runs/focused_touch_only_lr5e5_wd5e4_pos15/training_config.json",
+      "bytes": 1538,
+      "sha256": "b1e64fd928d07b067830d3e86c0c8996eda66af4a66a18d64a549ddadadee017",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/location_model/runs/focused_touch_only_probe/training_config.json",
+      "bytes": 1527,
+      "sha256": "0c64f889a45b68006231071589a28775fbb95c7c6f6b0f516bc02dd74300c25a",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/location_model/runs/focused_touch_only_scale8192_lr1e4/training_config.json",
+      "bytes": 1538,
+      "sha256": "9a494d2708dfce90c0f3c56828148147225b700aa967d865b3cc2000ad4d8801",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/location_model/runs/staged_probe_stage1_location/training_config.json",
+      "bytes": 1528,
+      "sha256": "c0a3c1eb6c83a0e5003080506543175c18667d11055672002c7a616a6e110e7d",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/location_model/runs/staged_probe_stage2_touch_head/training_config.json",
+      "bytes": 1581,
+      "sha256": "51550dff0f6091016579559b5839f366afd11950d5e23aa66b0b4f0cf8207d8b",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/run-configurations/location_model/runs/staged_probe_stage2b_touch_lastblocks/training_config.json",
+      "bytes": 1595,
+      "sha256": "1bc5faba7e97f2cf5689753cb62d865a0c99cb7f8cb4d6dd67c827cfaac7170c",
+      "classification": "byte_identical_configuration_snapshot"
+    },
+    {
+      "path": "provenance/symlinks.json",
+      "bytes": 281,
+      "sha256": "8158a7a89b4bf2c906f37242dab2de03e572ffb4c4c0cdf3674f5a45343614b3",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "provenance/third-party.json",
+      "bytes": 1929,
+      "sha256": "fb471426f5a426caa2678b2d88431ab3817319b170d970112aed4cb8eda68b22",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "provenance/verification.json",
+      "bytes": 2916,
+      "sha256": "35b83a0a1191d3093ce98c25dd076c201ca922882bfc63ab4ae5e18c1eefd70e",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "src/depth_model/COPYRIGHT",
+      "bytes": 448,
+      "sha256": "4ba8e519c0c3719e8be716b1303094e7c0abfbeee768f52f949eb86889f43c67",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "src/depth_model/README.md",
+      "bytes": 1972,
+      "sha256": "c22085c95df44846926a2967a1936c93f2ece9dd1fdaebdae83ec5ef653011de",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "src/depth_model/build_teacher_dataset.py",
+      "bytes": 17841,
+      "sha256": "e0bcf8b3f2e9b9d338137db12051c188376e96fbda0e39d4dce815abcd48bbcb",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/check_npy.py",
+      "bytes": 707,
+      "sha256": "f9b5a8fc2afd52f318c6c44d98ce7998e5aee30060de15cbe422cf471f0a95a5",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/compare_teacher_vs_v2_vedge_image.py",
+      "bytes": 10637,
+      "sha256": "48806c62c5c9d0cd76c5b11cfe4299f09d2649a943efdf6e859d3cf1939114b5",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/compare_teacher_vs_v6_image.py",
+      "bytes": 9843,
+      "sha256": "8cedc6fa9f38b46a7c169892a2ee3f993c458b2de439fed7574b7d06d1d36d2f",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/compare_teacher_vs_v6_video_frame.py",
+      "bytes": 11918,
+      "sha256": "b1499994638a3fc514258dfdfd68a015458743660efe29b4099c4a595f9e9c7c",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/compare_teacher_vs_v7_image.py",
+      "bytes": 9915,
+      "sha256": "edd7b720a4ad8fbf7efa7735d0e1e46cefa90c2e9ce0ddf0882508eb66fdbef4",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/compare_teacher_vs_v9_frame.py",
+      "bytes": 14703,
+      "sha256": "ec8b1ce3b9c86dc78009e8bbfeab2be4fb48d9a3639aad5cbfd73b442abc2106",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/compare_v2_vedge_sample.py",
+      "bytes": 5038,
+      "sha256": "4b979ccf33ec57889e681b22815146cc6d5faee88c168db98aa02a083feed91d",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/compare_v6_sample.py",
+      "bytes": 5778,
+      "sha256": "b1bd9315216459b3e535f88c6dcef1935ed78377f03669f0d50cc714ef92f2da",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/compute_depth_percentiles.py",
+      "bytes": 2414,
+      "sha256": "98b736c3620195784f73491482a2eb03735c480535cf22f76d3f781747237827",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/generate_depth_teacher_labels.py",
+      "bytes": 59229,
+      "sha256": "8ebf33c876112341238882aa76443df1af8fa54a5af1a84e7ae392d85a4c8da0",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/inspect_tfrecord.py",
+      "bytes": 1250,
+      "sha256": "16f4a61ed8c3823f41148057fa4dbd4dcaad6ad3befcd0ab447935f75e84e92c",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/models/LICENSE.MobileNetV4",
+      "bytes": 1063,
+      "sha256": "a063147521e44cbc25c40a59a7eb4ddb877acbb6d7c65640e3e32d26244c2efa",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "src/depth_model/models/THIRD_PARTY_NOTICES.md",
+      "bytes": 986,
+      "sha256": "d3021e4066bcf2db2192c83b071c72cca3f6a98dde4f51f1b38fb1a5c133cb80",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "src/depth_model/models/student_depth_net.py",
+      "bytes": 2634,
+      "sha256": "9e071ba7c35b7bbad723fa4c4ea5370440a37011b30819934883a4522ba1e0fc",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/models/student_depth_net_v2.py",
+      "bytes": 2625,
+      "sha256": "9bd51e1f9ee631be81aebe02913d565ffe2c47b8ef3462193e91f1b4e4d73b87",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/models/student_depth_net_v2_edgefocus.py",
+      "bytes": 2650,
+      "sha256": "9cc93ac5ca5f092e37d6f8c04f4e24699068ec0594be361711719653dee222de",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/models/student_depth_net_v2_refine.py",
+      "bytes": 3819,
+      "sha256": "661dc1409ccc0cc273099c6c303ce11585ae9462ada8db0d11727dc26f6b7cb5",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/models/student_depth_net_v2_vedge.py",
+      "bytes": 2635,
+      "sha256": "000fe595d674839aa2399bf05da5b7ea4889c4e9516cf6f96e07b3931db3bb67",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/models/student_depth_net_v3.py",
+      "bytes": 8066,
+      "sha256": "3c6ee05db07d310c66ec3633a9ae9e4ce8817cd175c4d18a73751725534df639",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/models/student_depth_net_v4.py",
+      "bytes": 2626,
+      "sha256": "f05859836e140a737a8a399042b8bc3a310fc64d0623b7f085658c3aaef69fbb",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/models/student_depth_net_v5.py",
+      "bytes": 2624,
+      "sha256": "987a8bda58dc0beb6b0e39aae7a9a600956b191fac1fcc55aa0d2fa6c3b06810",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/models/student_depth_net_v6.py",
+      "bytes": 11321,
+      "sha256": "f13c1c81f548de58541f9273dc324c2c1122a692a11a55213b80051f82e78ed1",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/models/student_depth_net_v8.py",
+      "bytes": 3886,
+      "sha256": "4a12d01bcbcd21309f282efdbfde89aa7feb8d7f53225d8835fc0c08b134a896",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/models/student_depth_net_v9_temporal.py",
+      "bytes": 3540,
+      "sha256": "1067d3726db6ce0f83384904926152fc165cfcf95cac8303f14b7812b1532674",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/train_student.py",
+      "bytes": 9242,
+      "sha256": "57f174815b3158a451647f0432a0b52608bdb3e1684faa8bd835aeb5aafefe2d",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/train_student_v2.py",
+      "bytes": 9273,
+      "sha256": "21c726e02222dbe7a6d202ec3b627b695bacaeb11ae14ccce6560de4abe978dd",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/train_student_v2_edgefocus.py",
+      "bytes": 15277,
+      "sha256": "7f19028e76ad6b901b8ab38aeacbf3a1a2aa649fc4981a67160f28f23d6f0d9d",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/train_student_v2_refine.py",
+      "bytes": 15472,
+      "sha256": "6d6ad268c09b82cb92a73c0ec4093e99813be0aaf46def40b6638bba384695ec",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/train_student_v2_vedge.py",
+      "bytes": 12413,
+      "sha256": "a56cad9928fbb294e125872933f6df5475f37fb6fe585cfaad068f2f28e91a95",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/train_student_v3.py",
+      "bytes": 9150,
+      "sha256": "77219a3b3ee4f5ac4403a3fc9bd324be664225de5c5de250bbb9cf32c61e19e6",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/train_student_v3_edgefocus.py",
+      "bytes": 15658,
+      "sha256": "e44ee475182a5a23e26543ec8a3dba77fc85485c2278099eea64b55af0c4e3b3",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/train_student_v4.py",
+      "bytes": 10454,
+      "sha256": "0fbc9552887157fb6a1a4996eaf1f3064c8db020e0ed26086267eaaa03096384",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/train_student_v5.py",
+      "bytes": 11329,
+      "sha256": "b6b1119d11d00885d358b53c7281e46e8d257be02107a92d7f239fba53cf1989",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/train_student_v6.py",
+      "bytes": 10287,
+      "sha256": "ba8d1cc968434f6a640d9ff2cfc7712fcb23248aca2f07845b2f44d73d48cf24",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/train_student_v6_edgefocus.py",
+      "bytes": 20591,
+      "sha256": "8e262ecb3ee18b5fbc1af8da0403f82dda2d713897d63a502d1266b156d19c2a",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/train_student_v7_edgefocus.py",
+      "bytes": 20403,
+      "sha256": "cf457e03d730d195bd81ac6a82917881d5c10cecc933e80fea2d2cfd17f032cf",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/train_student_v8.py",
+      "bytes": 12032,
+      "sha256": "4bc6c811c9645dbeeb7213b7262020fce886749519e045529deb1dee1cc62cc2",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/train_student_v8_edgefocus.py",
+      "bytes": 22698,
+      "sha256": "6d5e86811317dd167d2fbccff9844898e5575a1d2d8582be4a60993dcfe4c52d",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/train_student_v9_temporal.py",
+      "bytes": 18173,
+      "sha256": "385f82f4425493c7c8f7be4fd4242951a37b256743c6fb0d37411e3bc577c7af",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/depth_model/visualize_teacher_edge_mask.py",
+      "bytes": 8380,
+      "sha256": "557ff1c04864885f8f958f6286eceb860e476dabf5964a94dbae940d01d1c0f4",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/COPYRIGHT",
+      "bytes": 448,
+      "sha256": "4ba8e519c0c3719e8be716b1303094e7c0abfbeee768f52f949eb86889f43c67",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "src/location_model/README.md",
+      "bytes": 2141,
+      "sha256": "27b1d4eb258a0acca27c4e5ee723421d2d2836d358df2ab92f600658a5608fbe",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "src/location_model/export_to_onnx.py",
+      "bytes": 701,
+      "sha256": "867194765e4f3d05bcf1dadf8cbe2adb59e1c4804dad6e30a03bde572cd0b097",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/infer_once.py",
+      "bytes": 2558,
+      "sha256": "ceb4df9dbddeff76cbc8f557cd6e8af0a680223cde27c054d43420f4571d02ee",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/scripts/build_index.py",
+      "bytes": 3547,
+      "sha256": "33e40601a982f274d97c87e1b65e4144b10762792acf5bc438f9420d121c721b",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/scripts/build_manifest.py",
+      "bytes": 7390,
+      "sha256": "ae9f3028611bfb0fe812765b8ddda6cdcf2baf03e96f29f329aa2caf01aec15c",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/scripts/build_splits.py",
+      "bytes": 5109,
+      "sha256": "09fb28daf1b5e0695a8032c855c76dd4de794e72b86d340d3ea8f27028c5c6c1",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/scripts/check_touch_balance.py",
+      "bytes": 2907,
+      "sha256": "7d8a6b25c3713823da38b1aa7bef1d8213ff3d3bb9da645a4ccc4c2d5580003f",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/scripts/compare_h5_corners_to_frames.py",
+      "bytes": 8770,
+      "sha256": "63158f72191452233b592002b96140816d5017477af134b2bb0987c649ca2093",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/scripts/dump_h5_records.py",
+      "bytes": 5069,
+      "sha256": "63684c58f5293011c04f052c7499e0ed99204ba85406c8b30d7b2714c6c90b99",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/scripts/eval_phase2e_onnx_xy.py",
+      "bytes": 4066,
+      "sha256": "6a43d432b4fabdac1c7ddf8d1cf92650935ccae91e6ec4c942a70e13600edd6f",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/scripts/run_phase1_next_steps.py",
+      "bytes": 3200,
+      "sha256": "ef37b168b4b4fc8f9642f2c1e20ab9f5b3557ca1f620229491b6974733b24f6f",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/scripts/test_dataset_counts.py",
+      "bytes": 2112,
+      "sha256": "2598b4d15560db81811bf7a0d6913523fec3f80f5bc9da6064dacb24b7cdd812",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/scripts/test_phase1_sample.py",
+      "bytes": 2076,
+      "sha256": "72480a5ea96c668dab994443a1bec1f6b2882711f994ca0d9a89a0e236dd5b44",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/scripts/test_phase1_sequence_video.py",
+      "bytes": 10716,
+      "sha256": "00ac6e6284975994e3ee8d0ed4197f7b4a244b75f445e2863154bfaaea326d71",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/scripts/test_video_alignment.py",
+      "bytes": 8571,
+      "sha256": "4e842649d42c97e26291396d45fc3a3f7afe53719a4b2914aae6ca56926052ef",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/scripts/validate_phase1_geometry.py",
+      "bytes": 7063,
+      "sha256": "995b8ba72495de64422b50c391f56950dacf4f549dc1133afab960e2ef3579d9",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/analysis/error_dashboard.py",
+      "bytes": 3500,
+      "sha256": "c0f75106094287bac383a2d054bac6ddb649379c25bb5e3823fc8501c84a1df0",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/analysis/error_dashboard_phase2a.py",
+      "bytes": 3845,
+      "sha256": "c7e08892964ebd3a4f87411ecf96ed1ccec8fdbb7f38f0f84447a3b4777fadc8",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/combined_touch_location/README_combined.md",
+      "bytes": 4343,
+      "sha256": "5b07f830f970d14c2aadddcf4c65ceb6d8de573ee0637c23d8802365374b4b30",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/combined_touch_location/__init__.py",
+      "bytes": 49,
+      "sha256": "d0ef3c304f625933ad5102ae83f0f86a1caf358cc95e1ac22654308f2ba446ba",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/combined_touch_location/combined_model.py",
+      "bytes": 5093,
+      "sha256": "f968cecd44cf10e0e6560e8ecd0891ec5f3040fa83fee67e9a44979e97b2d906",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/combined_touch_location/combined_transform.py",
+      "bytes": 5567,
+      "sha256": "e3311be47566bc61e4c7e1af38e9e03ebe6cf5e18ae181d67062cdeb6e269b0f",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/combined_touch_location/export_combined_onnx.py",
+      "bytes": 6353,
+      "sha256": "72de8a53d68d43a8cb709c4b51277ed6f4018d736e60ee3df841853042bde17a",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/combined_touch_location/train_combined.py",
+      "bytes": 45597,
+      "sha256": "40c2ff4904266bd18bdebf5a8acbbe9c1b502c4509a839854712bb7e3615c385",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/data/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/data/dataset_clip.py",
+      "bytes": 13266,
+      "sha256": "4a863f0dd6d3981ba9ab715fdb2431a6d26cf82dfdb5b05751e37025ca6122af",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/data/dataset_core.py",
+      "bytes": 14443,
+      "sha256": "dcfe67778a17812b6c56aef45c4383f5f554e69b489be591d17d81fd78f66934",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/data/dataset_core_v2.py",
+      "bytes": 18910,
+      "sha256": "659d62c11fe6e82e513bab507b1f4ec0d363e9d8ac40b2d801145f94d89a84c9",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/data/dataset_history.py",
+      "bytes": 3403,
+      "sha256": "568fd0740d744f9e60f65e2b0cc3afdbfd9b6489d33fdce8319a802baad65c0c",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/data/label_schema.py",
+      "bytes": 1516,
+      "sha256": "1f24a5852292f74ae11bef6ad94e9392135f07d581a86adf2fb88659da70136c",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/data/transforms/__init__.py",
+      "bytes": 111,
+      "sha256": "f8e78905bec77c2199f5d559edc5d90ca666e6e3cb98e40386d1b20344ceec7f",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/data/transforms/homography_warp.py",
+      "bytes": 2949,
+      "sha256": "0743c234cbcc258f07d0cbcd6281627c85ae93063d61e3f6c6e3c6f2482c29d4",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/data/transforms/phase1_transform.py",
+      "bytes": 4043,
+      "sha256": "b4d3a382d7553752401e9f70b0ba9fc5e35d67424715f6c93f49a30a3cee0fe6",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/data/transforms/phase1_transform_v2.py",
+      "bytes": 4044,
+      "sha256": "4896f33223e36bd29aff0906936799d61d437723064c20a4b743b90d080d75ca",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/data/transforms/phase1a_transform_v1.py",
+      "bytes": 4066,
+      "sha256": "9f684a4f155688b837a5eaf8f27f748a52dcd0f541931621097adc2654dedf4c",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/data/transforms/phase2_transform_v1.py",
+      "bytes": 4706,
+      "sha256": "c32cc259f6aa4c9b70e205ad59fe9dbb12904f40f6b89dd037e754503b99be3c",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/data/transforms/phase2_transform_v2.py",
+      "bytes": 5071,
+      "sha256": "c0a81a56c4e1416bc8943ab8cb0ba43aaf655705493f30e0eb69554253cf0483",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/data/transforms/phase2e_transform_v1.py",
+      "bytes": 4629,
+      "sha256": "4947983c96cd83d8d7e082fc374aafa91ebf57b97584bd541e0656473e05993b",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/data/transforms/phase4_transform_clip_v1.py",
+      "bytes": 6086,
+      "sha256": "2a5cc0a799a073d374b434686b080ac387142e78ba03cae4ba9d422b8fd8adba",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/data/transforms/phase4_transform_clip_v2.py",
+      "bytes": 5623,
+      "sha256": "c5092ffc57606a64b99cc64a6a426d52186422acf39bd74c7045e877ae8b2b1d",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/data/video_io.py",
+      "bytes": 3436,
+      "sha256": "4c3559d2f012eadfa3d61d0b9e0230e68518f5bc03714f111997cf7792a01e36",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/data/video_io_v2.py",
+      "bytes": 5025,
+      "sha256": "58f84e822efad09be37e2d0f64ca2f9ee9a2ae193ccb25c2ffd5bd720003743f",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/eval/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/eval/eval_phase3.py",
+      "bytes": 3935,
+      "sha256": "d163aab9a69221ec02505a5b405d026e2d02b72462939e5ccaff942092b37bb4",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/eval/inference_latency.py",
+      "bytes": 3564,
+      "sha256": "ec369477731eb948bf699f1b842e1e0d87fdc3d073ca4979dc4f8036a1115e7f",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/eval/temporal_stabilizer.py",
+      "bytes": 1625,
+      "sha256": "b4f3673056b77fdc39dc490bb3a6f5d64614f22a5480588298eb583309aa221d",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/eval_phase4_tsm.py",
+      "bytes": 7712,
+      "sha256": "b9cc051eeb0d452d494522e1c18d95797f84805412674b4fd24dcfee4a03c9dc",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/evaluate_onnx_touch_on_v1.py",
+      "bytes": 6107,
+      "sha256": "8b4096b2a9af4a5feda8beca6acb035fbf70d11d74bf07ff8e2c0e8713ed0392",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/evaluate_onnx_touch_on_v1_v2.py",
+      "bytes": 7094,
+      "sha256": "a0ebb864ecd03c783101002a0b5089cc642feb78e86c9d63941dc8f5dc8562cf",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/evaluate_phase2a.py",
+      "bytes": 10481,
+      "sha256": "32b7b6aceed8f4b937996e3a9d43832c7df026ed6326a941ad0bf6310e0d12f8",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/models/model_phase2.py",
+      "bytes": 2980,
+      "sha256": "1e6de410a789a38116dbc030d03a6f275b48ebecc6ae1c830f8c7755529939df",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/models/model_phase4_tsm.py",
+      "bytes": 3301,
+      "sha256": "287492cdbb3e6c93410e033f0186e614f12b5cfaeba5ea68bb16c6c3f886aacd",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/models/model_v0.py",
+      "bytes": 5044,
+      "sha256": "42f4b7fe55e0af675f6bc50c17b0b10a5998831f33a887b5789e5fe1853af7b3",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/models/model_v1.py",
+      "bytes": 1142,
+      "sha256": "65e64f030027ef614672d4a63d5a4de6534ab5c9e4e034b5ec032ddea9f116e0",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/models/model_v2.py",
+      "bytes": 1030,
+      "sha256": "f86de02d29d6fbc2161fddf359fb494954b88f326a49c3ae90ac8be288311629",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/models/model_v3.py",
+      "bytes": 1665,
+      "sha256": "ca968a0b050857b1cd9bd708fc48ca47fa13648bf7d76d8046daa02b1f142c2e",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/run_all_phase_latency.py",
+      "bytes": 11172,
+      "sha256": "d7ca5059f97a87ebf1fed475da23799b6c84be9f6e4afac722b9918d886f08f1",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/train_interaction.py",
+      "bytes": 28268,
+      "sha256": "5e0df3201aaddfbc10dbc1e227c1e9a5b0c5e6a9513423e8389d7cdf1d64ddce",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/train_phase0.py",
+      "bytes": 7815,
+      "sha256": "aa53c49d13b891b19a2cd9e86c16f0098dada37e0e3b443b73411a9e7737ba05",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/train_phase1.py",
+      "bytes": 17869,
+      "sha256": "9d74dd4adfb0f17b8af437bdafce8cb56e55b2b6398cd5db5140f5b01978dff5",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/train_phase1_v2_location.py",
+      "bytes": 11052,
+      "sha256": "774ee5b9955979c63d9e3c51937d7983978e75011d45657753280ceacddb59e7",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/train_phase1a.py",
+      "bytes": 10948,
+      "sha256": "56b925789abd4248146a3519c02eb7090832cc5396d349795fa386399b2ce079",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/train_phase2.py",
+      "bytes": 11861,
+      "sha256": "e7177d4ad928c18cbb31fc54bc18415205ce3dbdfce353664663b94929ecc324",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/train_phase2a.py",
+      "bytes": 18990,
+      "sha256": "960a629c14f629b572ee43d03a43411ac2019cafbae442e9216d04dc4286ca3e",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/train_phase2a_analyse.py",
+      "bytes": 23494,
+      "sha256": "268a8e11c2527543cecbfc6c309199162329d539a88ea462466f7bc1453831c7",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/train_phase2c.py",
+      "bytes": 22447,
+      "sha256": "8c1e0af513c8ade83361e22f99b4b2ed3627f81be70890333b3cb1ca4f2f344d",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/train_phase2d.py",
+      "bytes": 23815,
+      "sha256": "e38d00051353204e13e05426e76bae53c7283ff478179f10f33cd9d126b4bd9d",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/train_phase2e.py",
+      "bytes": 27546,
+      "sha256": "155f3e7e6aa43caa287fe2e70aac30f0f4aa857b8c57c1c6563f13f70ae6fb46",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/train_phase2f.py",
+      "bytes": 30269,
+      "sha256": "73851a2ae7e7be48875c83e8671901d1659a1b3cc4aacd726bd2cb17a4e46591",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/train_phase3.py",
+      "bytes": 11547,
+      "sha256": "2dfdc2829066078d5044e1bb6ac82f80c0857bfb554049b418ed17d5479e67a4",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/train_phase4_tsm.py",
+      "bytes": 17947,
+      "sha256": "c56ccb73bdadab7810bfd243b0f8ac6e061f08da3980d916e3ef0329fbae3699",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/train_phase5.py",
+      "bytes": 24620,
+      "sha256": "f2e1fb3238d141ab15a10ad0d49c4cdb635f5917d99e2fd3d97943e0528116df",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/train_phase6.py",
+      "bytes": 20987,
+      "sha256": "5012daedbda4aafe04f4d351fb78e9d7673ea40fefefd22e36eddc10a5d695cf",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/train_touch_old.py",
+      "bytes": 18518,
+      "sha256": "9c8e9c2aad1a2473068c6f226cdf29160d755f909694cb07114351931991288a",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/src/train_touch_stageB.py",
+      "bytes": 22718,
+      "sha256": "69a7f409b09122b3daa5e2b1b8393470c107814324e9bf77b9ed8f3dad532e88",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/train_bounds.py",
+      "bytes": 12730,
+      "sha256": "af4fd76b3dc657047c1855e2604c3f082488b4ff13052e5b6dceb744beaeed96",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/train_bounds_3.py",
+      "bytes": 21713,
+      "sha256": "89073173d86baca8bb63093caf9f5d1d0915dca1b9353d7ec635f24de2a73801",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/train_bounds_seq.py",
+      "bytes": 17636,
+      "sha256": "8118aa2baf6e65132c3bbbf8097393948c750154650564ddf488ff3a0e2caadb",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/train_location.py",
+      "bytes": 14271,
+      "sha256": "1385257c478562375f332ca9fc0fc8ec888dc5fc5f8a452a6ff3da3f9a76aeed",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/train_location_2.py",
+      "bytes": 20142,
+      "sha256": "07fcc6f6074528baed3ce80d3c746e1a252d8424496858f693ebec34ca2b075b",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/location_model/train_stylus_heatmap_world_v2.py",
+      "bytes": 28197,
+      "sha256": "5176123466932335befac69308d7698e56baeb41b75b63a0ce4d91303e795a2b",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/shadow_extraction/COPYRIGHT",
+      "bytes": 448,
+      "sha256": "4ba8e519c0c3719e8be716b1303094e7c0abfbeee768f52f949eb86889f43c67",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "src/shadow_extraction/MainViewModel.cs",
+      "bytes": 89202,
+      "sha256": "8c25b8195ebccbef70e8d98f9934aeb2e0f5cbfa53775f20934f37b256ea7735",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/shadow_extraction/README.md",
+      "bytes": 2277,
+      "sha256": "88782dde9d1bba8feee53f0decbe540046154dded9f59c8e3d2fa6948371258b",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "src/shadow_extraction/SHADOW_EXTRACTION_PIPELINE.md",
+      "bytes": 17651,
+      "sha256": "e662280b8098cb70aed0641519276d27830b3b8373f12c1fa96d564e691d9a78",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/shadow_extraction/archive_public_datasets.py",
+      "bytes": 7071,
+      "sha256": "626f74bdfa310952824b1116491191b8a0de818d566f580679b8b511109e0ee6",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/shadow_extraction/build_shadow_v2.sh",
+      "bytes": 461,
+      "sha256": "0f5e034bcd71ae8ba60b49c8312ddb8b36f2759a32b0837772c4719575a56413",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/shadow_extraction/build_shadow_v3.sh",
+      "bytes": 926,
+      "sha256": "08cba45c9ca4a6413010b7db646894fea132bf9de2dafbea40c4467f8ea16c9c",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/shadow_extraction/resize_copy_media.sh",
+      "bytes": 4157,
+      "sha256": "8e30b6808f5d7b41f24914b811d0c8118790645ab1aaf4d469118169e0fe2820",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/shadow_extraction/resize_videos_and_h5.py",
+      "bytes": 23506,
+      "sha256": "3189befd002fe2a71d3bb5a428b4d3921f74ba0e6c959059a8ec87b89bc318de",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/shadow_extraction/run_all_base_avis_texture_replacement_v3.sh",
+      "bytes": 9117,
+      "sha256": "b1f55a22cab03b18d012fde8059e3cf4acdeb3d83621343c5cbf4950728f5e03",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/shadow_extraction/run_cleaned_base_avis_v3.sh",
+      "bytes": 5371,
+      "sha256": "464bf618b3e7bbe19d7814321d05fb06d013da300f34ac3663b34425794cc545",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/shadow_extraction/run_remaining_base_avis.sh",
+      "bytes": 3373,
+      "sha256": "7afdd152baf8532825b17ead5df754b195fe7144171a674861f2519b3bcbeee0",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/shadow_extraction/run_tag_sheet_matching_v3.sh",
+      "bytes": 4832,
+      "sha256": "73db8dddaa32b34557fdfdd67a7b8d97f8156d603126a07e141a2f02259d1269",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/shadow_extraction/run_v3_regression_hash.sh",
+      "bytes": 1838,
+      "sha256": "bc22646e4d8c15419054c54e592ba430299721f2d7345bc79558694fc11b4c96",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/shadow_extraction/sample_longest_participant_final_overlays_v3.sh",
+      "bytes": 9306,
+      "sha256": "03b3cd98b1c630d86ab8385a6f6978608a85939bf619f13c366867852c2f2408",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/shadow_extraction/sample_participant_final_overlays_v3.sh",
+      "bytes": 4570,
+      "sha256": "b087bdb70d5b7a8f1835b0c02f4a461848eae67c05fe859b0bbe2b5e6004c8dd",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/shadow_extraction/scripts/depth_anything_v2_raw_depth.py",
+      "bytes": 57494,
+      "sha256": "b3715162c8eb813a2955348e7967ea773b79c9256c3e3b05714cc468899d0297",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/shadow_extraction/shadow_extract_v2_main.cpp",
+      "bytes": 4165,
+      "sha256": "adb386a7ec3ce929e4bc8ecdf4fb2d82e889d8ee49933f0558cfd531e5cb85ed",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/shadow_extraction/shadow_extract_v3_main.cpp",
+      "bytes": 24292,
+      "sha256": "961a51ecf5abd48266b8dca317342a1d0d5831b11af9f4dc16f0f85922e966f5",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/shadow_extraction/shadow_pipeline_v2.cpp",
+      "bytes": 18939,
+      "sha256": "fd7fbf0dc8847fe1f73ee04172a3ebc50df7d7f37367d61c8e25ffdf4d0752bc",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/shadow_extraction/shadow_pipeline_v2.hpp",
+      "bytes": 3672,
+      "sha256": "7943c68fffad7718c5ca4a49ac394c7c7bda5b7151c0a49cc818cc1491d35a78",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/shadow_extraction/shadow_pipeline_v3.cpp",
+      "bytes": 506190,
+      "sha256": "a7132f483b28daae719456e7a08b0648e959a7d8a4fb1b17d987a435d9853962",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/shadow_extraction/shadow_pipeline_v3.hpp",
+      "bytes": 4711,
+      "sha256": "81652154e8f2c3cf56f3bc031448a019fdf62a7fddf6900c02a29c12bc7737ee",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/shadow_extraction/shadow_threshold_sweep.py",
+      "bytes": 5176,
+      "sha256": "83e859c70b9e99e1047a5af0b41d0f8600ce55e8a5194a107317e8ea91a43ebe",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/shadow_extraction/shadow_threshold_ui.py",
+      "bytes": 5544,
+      "sha256": "bafff3e33bb6eb96be31d976f0dfb18e788c19b1b7910143bc135d555e57f5ba",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/shadow_extraction/test_shadow_extraction.py",
+      "bytes": 173304,
+      "sha256": "32fe04488985bdd8913ba116d1e05286b4bd7e978aa3519a087da84fefe222d5",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/shadow_extraction/test_shadow_extraction_aligned_ref.cpp",
+      "bytes": 276519,
+      "sha256": "09bbcd80a628223a206eaf546c55517b0faada7c109d61ba46cf5f64c3571470",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/COPYRIGHT",
+      "bytes": 448,
+      "sha256": "4ba8e519c0c3719e8be716b1303094e7c0abfbeee768f52f949eb86889f43c67",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "src/touch_model/README.md",
+      "bytes": 1967,
+      "sha256": "5b11ba3316c618febe81ca218d2638b240c75fbb0650deb89ccecf54d9379eb1",
+      "classification": "added_archive_documentation_or_manifest"
+    },
+    {
+      "path": "src/touch_model/evaluate_model.py",
+      "bytes": 3930,
+      "sha256": "0de4bb94d32666a8fda2f0bb84e76b0e4779be109c74b6f3a7b5c7524370dc6f",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/evaluate_torch_model.py",
+      "bytes": 3741,
+      "sha256": "71ea89fe3089397305ce3eabf7a40145da6342b402121854ee568d60a54be2f4",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/imu_odometry/README.md",
+      "bytes": 2423,
+      "sha256": "2c7af8e0503cda2a5d5e533f9133cc184b99b9b6f2ccb2d59cbc56012cc82d83",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/imu_odometry/__init__.py",
+      "bytes": 52,
+      "sha256": "5a975697c67b680f87304486d4bf678406460817a7eeec7a4ea0d38d01ada493",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/imu_odometry/audit_dataset.py",
+      "bytes": 10718,
+      "sha256": "58b8f6a2e8cacd86783bb89c66f2259ae724888cd01318704a49d09a568c5440",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/imu_odometry/calibration.py",
+      "bytes": 4892,
+      "sha256": "4efb1638d17f224ae4b01d1973d88a6ad2d115dc2fd68d4cafe343cfcf4cafb5",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/imu_odometry/config.py",
+      "bytes": 33388,
+      "sha256": "1138e7edfbfa2ef0c8102fb33509eb199c444b392c36f824eaafb6e37188afbe",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/imu_odometry/cross_validate.py",
+      "bytes": 11061,
+      "sha256": "85255e732a8106ab310e62552d665ab1cd9cd6c60101da6e681d22012d92b86c",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/imu_odometry/dataset.py",
+      "bytes": 43099,
+      "sha256": "fec6f4ad1e9a31f2bc521d07b44c82b4417b6fcc28858214cf487ca010213f54",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/imu_odometry/ekf.py",
+      "bytes": 3022,
+      "sha256": "c4749ceac161619be1df823cebf9c64a7c73b7179b99ffe557dcfe32e1ea9e85",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/imu_odometry/evaluate.py",
+      "bytes": 108227,
+      "sha256": "96346a9991d17955127b80c73397aa07361488df47e2c6134cb598bf365bc363",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/imu_odometry/export_onnx.py",
+      "bytes": 9042,
+      "sha256": "0ca368add0873a27b129b97c9320383cbd9dd2422f407d5ce4c363a2f210c85b",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/imu_odometry/losses.py",
+      "bytes": 27693,
+      "sha256": "5e5e6e0cf6490b53fdcbd58d7bdc1c8148a665755bb20c34933aaf6f3c488cda",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/imu_odometry/model.py",
+      "bytes": 12581,
+      "sha256": "bda0224eecd16f2f345d00157e5a9ae109deb6df8ef1b3fac364ba77eeba09c3",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/imu_odometry/plane_metrics.py",
+      "bytes": 4324,
+      "sha256": "e34dbfb3d7a1142aed3656387a0bf7e1c6d649b8e616d1339916b0b8234a0303",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/imu_odometry/plane_tracker.py",
+      "bytes": 11094,
+      "sha256": "e9f05279227157f6a76c19790ba9dba1cc4dc8cd8f8dc5a5da8fe9aade771a85",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/imu_odometry/train.py",
+      "bytes": 70856,
+      "sha256": "719a64881f38dd185389c97d497e3bd122f10399872968eb20363bb8ed57abd5",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/imu_odometry/tune_ekf.py",
+      "bytes": 14518,
+      "sha256": "0bf8e86a8450c9d755266163f22095a007fda3b82ba46fd1d9f8e1319fce138a",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/imu_odometry/utils.py",
+      "bytes": 7845,
+      "sha256": "432a75605aeb20e463678db764d952ca00676480e89f75c3a3f1778eef78f4c3",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/inference_test.py",
+      "bytes": 1727,
+      "sha256": "2174ac442b8895998ac3d6e9f1f1e8fb2e46210360d8e1ffa46afd6ef5a7eba0",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/onnxconvert.py",
+      "bytes": 233,
+      "sha256": "8f4dc911b9797b6d6c3667f0f2fd0bb196fd15b51e16b6220c5c3531b89c8a7d",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/quantize_onnx.py",
+      "bytes": 1445,
+      "sha256": "de76896211531ee289081c7a82505a6e118770611ac79df123e2326a9d2c4096",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/quantize_onnx_2.py",
+      "bytes": 1576,
+      "sha256": "9851a5f6f0b10bb55f968003573bf131b53a477b7e20ddfad47b750533ab52c8",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/src/Model1.py",
+      "bytes": 11830,
+      "sha256": "87f96e4ae412c0038cd9dca1f99acf82803cce466698bd520c475b655cd52ca0",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/src/Model14.py",
+      "bytes": 3664,
+      "sha256": "387d2a245a32eebfc18545421fdf0c89a012ea634c1d1195deace532d5878c98",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/src/Model15.py",
+      "bytes": 4399,
+      "sha256": "8e25cf4a19b9589d97d2ac76407882a860eabfb5dc8ea860fc83632da9d82c43",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/src/Model2.py",
+      "bytes": 4840,
+      "sha256": "975b2935ab37d08a891e0cfd7c338b3906214109261abce057f8d3ef40632fd7",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/src/Model4.py",
+      "bytes": 2350,
+      "sha256": "e870e166b9a419ee1ed95106ce7e2951e58d2a4cdc6d98074072faee443c64f0",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/src/Model5.py",
+      "bytes": 1992,
+      "sha256": "a649e17b3efea31ecb90dfc39eb2722afe1ce7dff4dc56dfc0935826809fe98d",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/src/Model6.py",
+      "bytes": 4464,
+      "sha256": "42eb75293336708cffdf907a59402b7c40f76ecc994b1d1d6a06d40581806755",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/src/Model7.py",
+      "bytes": 5183,
+      "sha256": "4eccd3480e0c7b04be28875983963f453c99457ad8367be16de6861ae2688650",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/src/Model8.py",
+      "bytes": 4341,
+      "sha256": "6ffed12f56adec98809442e844b5ccc6dd5aa1b1069e030452a2a6afa4f06653",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/src/Model9.py",
+      "bytes": 4681,
+      "sha256": "cbca544deb9674ffcb2f507a577eb552e7f66feba9799b657ec79f6af07d9dfe",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/src/fix_npy_images.py",
+      "bytes": 2029,
+      "sha256": "adf7cdfb56724d1ee3f0e318c7082af8ae8514aa070b23ae719ae2ed6de4c303",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/src/mergeData.py",
+      "bytes": 7072,
+      "sha256": "f0b6bad0fe6a979370dda1b18cfc2b61cd5c637ce23647b9ec3e82db3e531153",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/src/repair_images_npy.py",
+      "bytes": 5349,
+      "sha256": "e67737fdaebf436b47b76756ec77855a42681b51cdf873266cff5acf65d31287",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/src/repair_to_uint8.py",
+      "bytes": 4016,
+      "sha256": "6d8c3e1d53200f6b57d0f52a6e425f6b52f6f50ce6ec288eb44f9dfe884b29f6",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/src/testdata.py",
+      "bytes": 5932,
+      "sha256": "951af5c039f11320fcb1cc4acd932307f0603de871ccd47375aab83e587b8304",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/tfrecordtonpy.py",
+      "bytes": 1574,
+      "sha256": "63a486662c79b661d8e6fa7a93e35f219a95bced3dd65e6c490b3f639984db28",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/train1.py",
+      "bytes": 5762,
+      "sha256": "d1dd93e877b0244a6029ed52d5c8c42b7090d66057f206d01e87659283875289",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/train18torch.py",
+      "bytes": 3664,
+      "sha256": "387d2a245a32eebfc18545421fdf0c89a012ea634c1d1195deace532d5878c98",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/train19.py",
+      "bytes": 4399,
+      "sha256": "8e25cf4a19b9589d97d2ac76407882a860eabfb5dc8ea860fc83632da9d82c43",
+      "classification": "byte_identical_copy"
+    },
+    {
+      "path": "src/touch_model/train2.py",
+      "bytes": 5586,
+      "sha256": "2a7c42479ccfa4046649cce572784e6776d326802654188f766a8a891d197625",
+      "classification": "byte_identical_copy"
+    }
+  ]
+}

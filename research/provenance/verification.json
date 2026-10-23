@@ -1,0 +1,61 @@
+{
+  "phase": "B staging checks",
+  "checked_at": "2026-10-24T09:27:29.857955+13:00",
+  "status": "passed_with_documented_scope",
+  "scope": "Copy identity, source preservation, syntax/configuration/navigation/ignore/privacy-pattern checks and selected synthetic tests; not full experiment reproduction",
+  "security_scope": "Pattern scan of staged text plus passive PyTorch metadata strings; no proof of all binary contents, personal data or rights clearance; no original Git history copied",
+  "checks": {
+    "source_files_rehashed": 538,
+    "source_hash_mismatches": [],
+    "copied_manifest_entries_checked": 542,
+    "copy_hash_mismatches": [],
+    "research_source_config_or_model_changed": [],
+    "original_git_worktrees_research_refs_and_indexes_unchanged": true,
+    "all_recorded_git_refs_equal_to_phase_b_baseline": false,
+    "client_bookkeeping_ref_namespace_excluded_from_research_comparison": "refs/codex/turn-diffs/",
+    "archive_internal_symlinks": 1,
+    "broken_or_escaping_symlinks": [],
+    "python_files_parsed": 313,
+    "python_syntax_errors": [],
+    "shell_scripts_checked": 14,
+    "shell_syntax_errors": [],
+    "yaml_files_loaded": 93,
+    "yaml_errors": [],
+    "ignored_public_files": [],
+    "generated_private_ignore_examples_checked": 12,
+    "generated_private_ignore_examples_not_ignored": [],
+    "forbidden_raw_media_cache_files_present": [],
+    "authored_navigation_missing_links": [],
+    "text_files_scanned": 620,
+    "credential_pattern_findings": [],
+    "preserved_historical_machine_path_file_count": 257,
+    "pytorch_checkpoint_metadata_passively_scanned": 21,
+    "model_candidates": 26,
+    "largest_model_bytes": 24706552,
+    "onnx_graphs_schema_checked": 5,
+    "onnx_schema_or_external_tensor_issues": [],
+    "lightweight_tests": {
+      "test_files": [
+        "ml/tests/test_model_shapes.py",
+        "ml/tests/test_losses.py",
+        "ml/tests/test_inkmarc_temporal.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.84,
+      "stdout": "......                                                                   [100%]\n6 passed in 0.54s\n",
+      "stderr": "",
+      "scope": "Existing tests; fresh in-memory synthetic tensors/models; no training/optimizer/checkpoint/export/data generation; CPU only; no cacheprovider/bytecode"
+    },
+    "research_training_export_quantisation_or_data_regeneration_run": false,
+    "pytorch_checkpoints_loaded_or_unpickled": false,
+    "remote_publication_or_git_lfs_migration_run": false,
+    "licensing_checks": {
+      "dependency_projects_recorded": 32,
+      "upstream_notice_and_card_entries_hashed": 53,
+      "upstream_notice_hash_mismatches": [],
+      "all_staged_model_artifacts_have_rights_entries": true,
+      "own_contribution_policy": "Copyright (c) 2026 Tavish Burnah. All rights reserved; third-party exceptions retained",
+      "model_redistribution_clearance_claimed": false
+    }
+  }
+}

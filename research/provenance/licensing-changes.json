@@ -1,0 +1,533 @@
+{
+  "client_date": "2026-10-24",
+  "changes": [
+    {
+      "path": "COPYRIGHT",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "272f7cd485128526b8e9f4a9535b89be56dc57a6f6629aec6b1810282de46c6f"
+    },
+    {
+      "path": "LICENSE",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "0e550cadaea0844ebfe0389549524620b6b3cd2b5a1362931e55ab39822dd686"
+    },
+    {
+      "path": "README.md",
+      "action": "update_documentation_or_provenance",
+      "before_sha256": "419a79f972a8a42c9deeee26f2f090822e60f87f4884f7e4457153d1cf143cdd",
+      "after_sha256": "38e9c457af1b543a98c6d5e7103f520fb64083621453565a65c74f3d2e3a4c26"
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.md",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "6aeb2d41062e8c928e4fc57f4e4560094c93ef6a383e58623746554eef87af9f"
+    },
+    {
+      "path": "docs/known-issues.md",
+      "action": "update_documentation_or_provenance",
+      "before_sha256": "a06fd7041b1cf7b13f8e5fb160f2d92df20c0e68c3077e73d18e2bd19852c769",
+      "after_sha256": "8ed68144f2172d42094c5d091a8f234ad24c30b95a341e1399df08fc0579d4ef"
+    },
+    {
+      "path": "docs/licensing.md",
+      "action": "update_documentation_or_provenance",
+      "before_sha256": "212d86eaf73b78206e66cdb6c96b580de025c733efd2c9eac539e7891b047b6d",
+      "after_sha256": "e0f0580348899163bfbb80a232e8999488f86715a272cf0d5e8c2e5e4707abc1"
+    },
+    {
+      "path": "docs/models.md",
+      "action": "update_documentation_or_provenance",
+      "before_sha256": "b022ba10632ecdd498c6cc06a2776bac68e42da559530774a7a874bd72bdbe30",
+      "after_sha256": "befa54257cf390f86e15e55365070413e983007411b4df130ee4e1cdc3870fc7"
+    },
+    {
+      "path": "docs/third-party/DEPENDENCIES.md",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "bfbc7a027d998969f0fc570acb96b8b64eece38b7a8000e7bd0698f97cdefbf3"
+    },
+    {
+      "path": "docs/third-party/README.md",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "b28378d6269d0537532dfab19caf8c5b7878d575b89a3da5f3745311b36bd80e"
+    },
+    {
+      "path": "docs/third-party/dependencies/autokeras/2.0.0/autokeras-2.0.0.dist-info/LICENSE",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "7fe08ccb922f6d24e7ea3117e7307d8720cd457b8364b3241ec6c6859d60514b"
+    },
+    {
+      "path": "docs/third-party/dependencies/communitytoolkit-mvvm/not-established/LICENSE.upstream.txt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "1e1101b893f295b4526da2c167e4234610f1078e2fe43a0e814c1a883656877b"
+    },
+    {
+      "path": "docs/third-party/dependencies/dotnet-runtime/not-established/LICENSE.upstream.txt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "cfc21f5e8bd655ae997eec916138b707b1d290b83272c02a95c9f821b8c87310"
+    },
+    {
+      "path": "docs/third-party/dependencies/h5py/3.13.0/h5py-3.13.0.dist-info/LICENSE",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "e574b296655cfb0ca5180ec6eee3c95d122b0906736d3ca7e3ce19e0f297f0c9"
+    },
+    {
+      "path": "docs/third-party/dependencies/huggingface-hub/1.7.1/huggingface_hub-1.7.1.dist-info/licenses/LICENSE",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    {
+      "path": "docs/third-party/dependencies/joblib/1.4.2/joblib-1.4.2.dist-info/LICENSE.txt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "42612911c1872c5e4b43f6ae0e8ee59467cd350332241cf72ce90640264fae6a"
+    },
+    {
+      "path": "docs/third-party/dependencies/keras/3.9.0/LICENSE.upstream.txt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "43070e2d4e532684de521b885f385d0841030efa2b1a20bafb76133a5e1379c1"
+    },
+    {
+      "path": "docs/third-party/dependencies/matplotlib/3.10.1/matplotlib-3.10.1.dist-info/LICENSE",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "5a1a81ea301728c8bba2933da832c0cd62229daf20893a024ab3d53244468dbc"
+    },
+    {
+      "path": "docs/third-party/dependencies/numba/not-established/LICENSE.upstream.txt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "3a70e0a21cad03147246f6363d07bf76fae216c72779707f4ae5db06bcacf067"
+    },
+    {
+      "path": "docs/third-party/dependencies/numcodecs/0.16.5/numcodecs-0.16.5.dist-info/licenses/LICENSE.txt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "949cac68479e13b6c97924635150b4e1ef5e69766ad9e472ea85a08c1576bb96"
+    },
+    {
+      "path": "docs/third-party/dependencies/numcodecs/0.16.5/numcodecs-0.16.5.dist-info/licenses/c-blosc/LICENSE.txt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "22623131a9b9f6a86a4dc6b9bccbb1d2aeb390df86bca00fc727af24735c2fae"
+    },
+    {
+      "path": "docs/third-party/dependencies/numcodecs/0.16.5/numcodecs-0.16.5.dist-info/licenses/c-blosc/LICENSES/BITSHUFFLE.txt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "ef357c2061cf67db298f9f1565572ee229ad9263582a9f9d0ebff5094f5d10ac"
+    },
+    {
+      "path": "docs/third-party/dependencies/numcodecs/0.16.5/numcodecs-0.16.5.dist-info/licenses/c-blosc/LICENSES/FASTLZ.txt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "cf52909e6ed770fe81511ba62d4ebee13185d30a37d0fd7de2b56685e288ab38"
+    },
+    {
+      "path": "docs/third-party/dependencies/numcodecs/0.16.5/numcodecs-0.16.5.dist-info/licenses/c-blosc/LICENSES/LZ4.txt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "fe6dc1f27f68d9dd6b0192e39be1a8f1fbed0fe86e13540f618a7133971b10b3"
+    },
+    {
+      "path": "docs/third-party/dependencies/numcodecs/0.16.5/numcodecs-0.16.5.dist-info/licenses/c-blosc/LICENSES/SNAPPY.txt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "5221a36a801b981fbdfda7b87db64cff231a3b88223a066c325411b539df796f"
+    },
+    {
+      "path": "docs/third-party/dependencies/numcodecs/0.16.5/numcodecs-0.16.5.dist-info/licenses/c-blosc/LICENSES/STDINT.txt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "f2af03db562e88539f019b1ab0881878ee82d0c80f3bce68c650064652e25d7b"
+    },
+    {
+      "path": "docs/third-party/dependencies/numcodecs/0.16.5/numcodecs-0.16.5.dist-info/licenses/c-blosc/LICENSES/ZLIB-NG.txt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "f8ad3757bc2ae9f5a6af77e13b37a5721397421ce55ab16e1da49e4629264d2c"
+    },
+    {
+      "path": "docs/third-party/dependencies/numcodecs/0.16.5/numcodecs-0.16.5.dist-info/licenses/c-blosc/LICENSES/ZLIB.txt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "845efc77857d485d91fb3e0b884aaa929368c717ae8186b66fe1ed2495753243"
+    },
+    {
+      "path": "docs/third-party/dependencies/numpy/2.1.3/numpy-2.1.3.dist-info/LICENSE.txt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "01fb016849aa427edb1bbbbd55f91c26ca6cadb32a5b20e7f000655dd05b0760"
+    },
+    {
+      "path": "docs/third-party/dependencies/onnx/1.17.0/onnx-1.17.0.dist-info/LICENSE",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "docs/third-party/dependencies/onnxruntime/1.21.0/onnxruntime/LICENSE",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "2f07c72751aed99790b8a4869cf2311df85a860b22ded05fa22803587a48922c"
+    },
+    {
+      "path": "docs/third-party/dependencies/onnxruntime/1.21.0/onnxruntime/ThirdPartyNotices.txt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "8c06e8cff286a4a117b3b246a4c7da68428a144af757823db50e3d6520941ec6"
+    },
+    {
+      "path": "docs/third-party/dependencies/opencvsharp/not-established/LICENSE.upstream.txt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "93a73400a67ba64071d073386c96b21da8d8265574de0c71520061f741b0d645"
+    },
+    {
+      "path": "docs/third-party/dependencies/pandas/2.3.3/pandas-2.3.3.dist-info/LICENSE",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "1dea2e80ed1cbd0233f84cee4486b29689f133babaccf4d295e51c43051f3216"
+    },
+    {
+      "path": "docs/third-party/dependencies/pillow/12.2.0/pillow-12.2.0.dist-info/licenses/LICENSE",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "13e1d5014de0064b4b1ca4d837111797673cc91a116616e3dde555009243aaf6"
+    },
+    {
+      "path": "docs/third-party/dependencies/psutil/7.0.0/psutil-7.0.0.dist-info/LICENSE",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "b89c063b3786e28e0c0a38f1931db61fed35e69dd2a2966fbecffee0f46c8d10"
+    },
+    {
+      "path": "docs/third-party/dependencies/pytest/9.0.3/pytest-9.0.3.dist-info/licenses/LICENSE",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "ca836a5f9ecca3b2f350230faa20a48fb8b145653b5568d784862df864706b9b"
+    },
+    {
+      "path": "docs/third-party/dependencies/pyyaml/6.0.2/PyYAML-6.0.2.dist-info/LICENSE",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "8d3928f9dc4490fd635707cb88eb26bd764102a7282954307d3e5167a577e8a4"
+    },
+    {
+      "path": "docs/third-party/dependencies/scikit-learn/1.6.1/scikit_learn-1.6.1.dist-info/COPYING",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "fde6cdc0a86c65a845af17086f964f7a38d934467b7f36203894af30ecee7640"
+    },
+    {
+      "path": "docs/third-party/dependencies/scipy/1.15.2/scipy-1.15.2.dist-info/LICENSE.txt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "828cb9a7369c0a9f633ce7c10023f8d822f0f76b54ce25c723361d45b088879a"
+    },
+    {
+      "path": "docs/third-party/dependencies/setuptools/75.8.0/LICENSE.upstream.txt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "86da0f01aeae46348a3c3d465195dc1ceccde79f79e87769a64b8da04b2a4741"
+    },
+    {
+      "path": "docs/third-party/dependencies/tensorboard/2.19.0/tensorboard-2.19.0.dist-info/LICENSE",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "9ae2277443f1fd1a948bbc562b2d3331956e5320a1cc43a11cdd33e13d2c9279"
+    },
+    {
+      "path": "docs/third-party/dependencies/tensorflow/2.19.1/LICENSE.upstream.txt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "71c6915d04265772a0339bed47276942c678b45cc01534210ebe6984fd1aec65"
+    },
+    {
+      "path": "docs/third-party/dependencies/tensorflow/2.19.1/tensorflow/THIRD_PARTY_NOTICES.txt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "b9cc03566b8e0e074f718e64f96f49b6fe070e3f777c41b3d4bb0df7113ea634"
+    },
+    {
+      "path": "docs/third-party/dependencies/tensorflow-addons/not-established/LICENSE.upstream.txt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "81267668f66e26641d744a2c099fbac33c859f91b7621828abfc7eb384c83a36"
+    },
+    {
+      "path": "docs/third-party/dependencies/tf2onnx/1.16.1/tf2onnx-1.16.1.dist-info/LICENSE",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "docs/third-party/dependencies/torch/2.5.1+cu121/torch-2.5.1+cu121.dist-info/LICENSE",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "46ae798ccb0920a6959fcb7b80180d89ca6fb652909235b0f035a52cec228584"
+    },
+    {
+      "path": "docs/third-party/dependencies/torch/2.5.1+cu121/torch-2.5.1+cu121.dist-info/NOTICE",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "c2cc7bf0caec7652c2b460a8a470bea1677f241e4ab8e431df34cf17f5a9fec0"
+    },
+    {
+      "path": "docs/third-party/dependencies/torchvision/0.20.1+cu121/torchvision-0.20.1+cu121.dist-info/LICENSE",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "6502f676851cfe25f8af75531dfb32375b7325b73c37e7b43741fa422893e71d"
+    },
+    {
+      "path": "docs/third-party/dependencies/tqdm/4.67.1/tqdm-4.67.1.dist-info/LICENCE",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "dc33252e829015e3b150086fb9b3a40f6ad6fb32c2f4610ce812fa677d35986a"
+    },
+    {
+      "path": "docs/third-party/dependencies/wheel/0.45.1/wheel-0.45.1.dist-info/LICENSE.txt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "30c23618679108f3e8ea1d2a658c7ca417bdfc891c98ef1a89fa4ff0c9828654"
+    },
+    {
+      "path": "docs/third-party/dependencies/zarr/3.1.6/zarr-3.1.6.dist-info/licenses/LICENSE.txt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "1d7756f33d3da20d53b162c2eb9beba91ee0dc1aeb4659728b6dc8f2f75941cb"
+    },
+    {
+      "path": "docs/third-party/licenses/CC-BY-NC-4.0.txt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "41003d4a74749c0220e33dd415042164b5a1093ed401f36277234f772d22d3d0"
+    },
+    {
+      "path": "docs/third-party/licenses/MPL-2.0.txt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "fab3dd6bdab226f1c08630b1dd917e11fcb4ec5e1e020e2c16f83a0a13863e85"
+    },
+    {
+      "path": "docs/third-party/mobilenetv4.pytorch/LICENSE",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "a063147521e44cbc25c40a59a7eb4ddb877acbb6d7c65640e3e32d26244c2efa"
+    },
+    {
+      "path": "docs/third-party/model-cards/DA-V2-Base.md",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "cdb2ad17bf77b91c4b41cc0260b5ef7ba1a0ed9f0c24749a0303686503f6dd92"
+    },
+    {
+      "path": "docs/third-party/model-cards/DA-V2-Large.md",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "b7123cecb2b04be09bbe6043b33ab8efe0e71d5c689ac7d6582d8b085a274d3d"
+    },
+    {
+      "path": "docs/third-party/model-cards/DA-V2-Small.md",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "d96b19c959007126110b199a7c2e9c24530b61796a26f1af035420625a10f916"
+    },
+    {
+      "path": "docs/third-party/model-cards/DA3-SMALL.md",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "0a711be055e4eb5293e31586e3176c09ce12eb2e79593f6b96a41f7fe5b415d0"
+    },
+    {
+      "path": "docs/third-party/native/hdf5-1.14.3-nompi_h2d575fe_109/COPYING",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "cacfb8c9d891e4b0514396e319f626a55f74e43f9fb539eecd1aa52dacf8b7e7"
+    },
+    {
+      "path": "docs/third-party/native/hdf5-1.14.4-nompi_h2d575fe_105/COPYING",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "587b532c4c27b64ecff3192d6189e149231934a00c753a401d4559231af7f7a7"
+    },
+    {
+      "path": "docs/third-party/native/libaec-1.1.3-h59595ed_0/LICENSE.txt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "e831d176bf03288ca15c0a07298b250d9b6e9695750add499cc545513f06aec0"
+    },
+    {
+      "path": "inkdepth_student/COPYRIGHT",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "1f3f00515b8d948510684f8584ea33c257fa100e293f2a0c59b36bf69bfa2d29"
+    },
+    {
+      "path": "inkdepth_student/README.md",
+      "action": "update_documentation_or_provenance",
+      "before_sha256": "5dc58722c34a6f0fe9bcc148474971af8404c01f43b09b663835b91e8677cdcb",
+      "after_sha256": "327b391056d3cadb18a41173bbd6b4125f8974c9be371af8b5180d07cf73234d"
+    },
+    {
+      "path": "inkdepth_student/reference/README.md",
+      "action": "update_documentation_or_provenance",
+      "before_sha256": "b148c46d058079d47b1dd10b29926217e24341ef07811b4a550b2116e312473e",
+      "after_sha256": "6b51e07951d4dc1667b8688b67f375b0164d2875973cbb6f359a20f9483ab498"
+    },
+    {
+      "path": "inkdepth_student_workspace/COPYRIGHT",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "1f3f00515b8d948510684f8584ea33c257fa100e293f2a0c59b36bf69bfa2d29"
+    },
+    {
+      "path": "inkdepth_student_workspace/README.md",
+      "action": "update_documentation_or_provenance",
+      "before_sha256": "e9580786b42898f3b2259e58bbb45593a3c656694a81847908f3da228c625407",
+      "after_sha256": "37adba7597fb082143fb4465db25115f2f62b93672ed9c4aeb090cac1612bdde"
+    },
+    {
+      "path": "inkdepth_student_workspace/reference/README.md",
+      "action": "update_documentation_or_provenance",
+      "before_sha256": "b148c46d058079d47b1dd10b29926217e24341ef07811b4a550b2116e312473e",
+      "after_sha256": "6b51e07951d4dc1667b8688b67f375b0164d2875973cbb6f359a20f9483ab498"
+    },
+    {
+      "path": "ml/COPYRIGHT",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "1f3f00515b8d948510684f8584ea33c257fa100e293f2a0c59b36bf69bfa2d29"
+    },
+    {
+      "path": "ml/README.md",
+      "action": "update_documentation_or_provenance",
+      "before_sha256": "c9f919046566fa4a43f47d36991fba75b0bc3ff545f35f8cdd491a808a8d08ab",
+      "after_sha256": "d688b7f12c2d3ab18c8485755c4e21db70a4c95444d13570a95b465ec81856bf"
+    },
+    {
+      "path": "provenance/CHANGELOG.md",
+      "action": "update_documentation_or_provenance",
+      "before_sha256": "4f26b196404c9fffb71f1a5c15ec2076c687441e4800d4e33fb7f3a4301efdd4",
+      "after_sha256": "a3b1ab8d20a8b15f3de2013ea72b7fec09b0d489b10637e00567f4b142d2c9e9"
+    },
+    {
+      "path": "provenance/copied-files.json",
+      "action": "update_documentation_or_provenance",
+      "before_sha256": "6dcd9b42c9511a32da3ce55f98145635050a781ed05edbff4b98152b6345fe14",
+      "after_sha256": "80e8532bac51d8c989121449b295d3c3c9e52a24ae9ef137def4179c0a49bfec"
+    },
+    {
+      "path": "provenance/embedded-attribution-evidence.json",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "6b6d326fc1293c3adb5784121008f334fd7c73978b256efed8c35c1cc7de70c4"
+    },
+    {
+      "path": "provenance/file-rights.json",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "32c52acae59ab02d8864645e748fc2e5d7453284f4f2547de0e1013905f31813"
+    },
+    {
+      "path": "provenance/license-evidence.json",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "970d003c2a9c48e7562725de92f76bb4754c837fb0303c7c048c10254281bf1b"
+    },
+    {
+      "path": "provenance/model-licensing.json",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "b1ba9c4e5ce382bdac2a743456d0dcc3330dcb603899345851f4094e3f04c12d"
+    },
+    {
+      "path": "provenance/modifications.json",
+      "action": "update_documentation_or_provenance",
+      "before_sha256": "1892e9cdefe9711b7453ddf3f179815fccc8644acb1459075932d0f6c5f01ecd",
+      "after_sha256": "7e8d9fe112426449f5a4cd7a3411b7b6b775ec7d35e881c84930c7075f73ccfb"
+    },
+    {
+      "path": "provenance/third-party.json",
+      "action": "update_documentation_or_provenance",
+      "before_sha256": "43076778ec18c7ad5cbdf1cf8e44302437332dc34a519857d2c72818f3077420",
+      "after_sha256": "fb471426f5a426caa2678b2d88431ab3817319b170d970112aed4cb8eda68b22"
+    },
+    {
+      "path": "provenance/verification.json",
+      "action": "update_documentation_or_provenance",
+      "before_sha256": "8cae503102b045e0232873f1367304739a48384da21260d51f6fba08b82f260e",
+      "after_sha256": "35b83a0a1191d3093ce98c25dd076c201ca922882bfc63ab4ae5e18c1eefd70e"
+    },
+    {
+      "path": "src/depth_model/COPYRIGHT",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "4ba8e519c0c3719e8be716b1303094e7c0abfbeee768f52f949eb86889f43c67"
+    },
+    {
+      "path": "src/depth_model/README.md",
+      "action": "update_documentation_or_provenance",
+      "before_sha256": "fe3ac13b09b389bb929c6d1122cc5edb68c96a53a0885d85157652a62024f49c",
+      "after_sha256": "c22085c95df44846926a2967a1936c93f2ece9dd1fdaebdae83ec5ef653011de"
+    },
+    {
+      "path": "src/depth_model/models/LICENSE.MobileNetV4",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "a063147521e44cbc25c40a59a7eb4ddb877acbb6d7c65640e3e32d26244c2efa"
+    },
+    {
+      "path": "src/depth_model/models/THIRD_PARTY_NOTICES.md",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "d3021e4066bcf2db2192c83b071c72cca3f6a98dde4f51f1b38fb1a5c133cb80"
+    },
+    {
+      "path": "src/location_model/COPYRIGHT",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "4ba8e519c0c3719e8be716b1303094e7c0abfbeee768f52f949eb86889f43c67"
+    },
+    {
+      "path": "src/location_model/README.md",
+      "action": "update_documentation_or_provenance",
+      "before_sha256": "8b320b7ff4596a95e5aed2521d0b8b6613d7ff4da1c6ab19082ce430ba44120b",
+      "after_sha256": "27b1d4eb258a0acca27c4e5ee723421d2d2836d358df2ab92f600658a5608fbe"
+    },
+    {
+      "path": "src/shadow_extraction/COPYRIGHT",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "4ba8e519c0c3719e8be716b1303094e7c0abfbeee768f52f949eb86889f43c67"
+    },
+    {
+      "path": "src/shadow_extraction/README.md",
+      "action": "update_documentation_or_provenance",
+      "before_sha256": "9bf2fe4ac34378173c172758c20c3c32299b16253024a2d143491afe711b196b",
+      "after_sha256": "88782dde9d1bba8feee53f0decbe540046154dded9f59c8e3d2fa6948371258b"
+    },
+    {
+      "path": "src/touch_model/COPYRIGHT",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "4ba8e519c0c3719e8be716b1303094e7c0abfbeee768f52f949eb86889f43c67"
+    },
+    {
+      "path": "src/touch_model/README.md",
+      "action": "update_documentation_or_provenance",
+      "before_sha256": "d4f536e605b2a94e9770be2dea8a99a27ed9843f1b1f85c2a8307777fe243cff",
+      "after_sha256": "5b11ba3316c618febe81ca218d2638b240c75fbb0650deb89ccecf54d9379eb1"
+    }
+  ]
+}

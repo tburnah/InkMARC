@@ -1,0 +1,157 @@
+[
+  {
+    "fold": 0,
+    "train": [
+      "/home/t/tburnah/miniconda3/envs/autokeras_env/bin/python",
+      "/home/t/tburnah/inkdepth_student_workspace/scripts/train_student.py",
+      "--config",
+      "configs/final_combined_live_da3_geometry_heatmap_touch_presence_from_best_xy.yaml",
+      "--override",
+      "data.manifest_path=outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_00/manifest.json",
+      "output_dir=outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_00",
+      "seed=1337",
+      "training.copy_manifest=false"
+    ],
+    "sweep": [
+      "/home/t/tburnah/miniconda3/envs/autokeras_env/bin/python",
+      "/home/t/tburnah/inkdepth_student_workspace/scripts/sweep_state_threshold.py",
+      "--config",
+      "configs/final_combined_live_da3_geometry_heatmap_touch_presence_from_best_xy.yaml",
+      "--checkpoint",
+      "outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_00/latest.pt",
+      "--split",
+      "val",
+      "--thresholds",
+      "0.01:0.99:0.01",
+      "--output-csv",
+      "outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_00/state_threshold_sweep_latest_val.csv",
+      "--override",
+      "data.manifest_path=outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_00/manifest.json",
+      "output_dir=outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_00"
+    ]
+  },
+  {
+    "fold": 1,
+    "train": [
+      "/home/t/tburnah/miniconda3/envs/autokeras_env/bin/python",
+      "/home/t/tburnah/inkdepth_student_workspace/scripts/train_student.py",
+      "--config",
+      "configs/final_combined_live_da3_geometry_heatmap_touch_presence_from_best_xy.yaml",
+      "--override",
+      "data.manifest_path=outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_01/manifest.json",
+      "output_dir=outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_01",
+      "seed=1338",
+      "training.copy_manifest=false"
+    ],
+    "sweep": [
+      "/home/t/tburnah/miniconda3/envs/autokeras_env/bin/python",
+      "/home/t/tburnah/inkdepth_student_workspace/scripts/sweep_state_threshold.py",
+      "--config",
+      "configs/final_combined_live_da3_geometry_heatmap_touch_presence_from_best_xy.yaml",
+      "--checkpoint",
+      "outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_01/latest.pt",
+      "--split",
+      "val",
+      "--thresholds",
+      "0.01:0.99:0.01",
+      "--output-csv",
+      "outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_01/state_threshold_sweep_latest_val.csv",
+      "--override",
+      "data.manifest_path=outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_01/manifest.json",
+      "output_dir=outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_01"
+    ]
+  },
+  {
+    "fold": 2,
+    "train": [
+      "/home/t/tburnah/miniconda3/envs/autokeras_env/bin/python",
+      "/home/t/tburnah/inkdepth_student_workspace/scripts/train_student.py",
+      "--config",
+      "configs/final_combined_live_da3_geometry_heatmap_touch_presence_from_best_xy.yaml",
+      "--override",
+      "data.manifest_path=outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_02/manifest.json",
+      "output_dir=outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_02",
+      "seed=1339",
+      "training.copy_manifest=false"
+    ],
+    "sweep": [
+      "/home/t/tburnah/miniconda3/envs/autokeras_env/bin/python",
+      "/home/t/tburnah/inkdepth_student_workspace/scripts/sweep_state_threshold.py",
+      "--config",
+      "configs/final_combined_live_da3_geometry_heatmap_touch_presence_from_best_xy.yaml",
+      "--checkpoint",
+      "outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_02/latest.pt",
+      "--split",
+      "val",
+      "--thresholds",
+      "0.01:0.99:0.01",
+      "--output-csv",
+      "outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_02/state_threshold_sweep_latest_val.csv",
+      "--override",
+      "data.manifest_path=outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_02/manifest.json",
+      "output_dir=outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_02"
+    ]
+  },
+  {
+    "fold": 3,
+    "train": [
+      "/home/t/tburnah/miniconda3/envs/autokeras_env/bin/python",
+      "/home/t/tburnah/inkdepth_student_workspace/scripts/train_student.py",
+      "--config",
+      "configs/final_combined_live_da3_geometry_heatmap_touch_presence_from_best_xy.yaml",
+      "--override",
+      "data.manifest_path=outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_03/manifest.json",
+      "output_dir=outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_03",
+      "seed=1340",
+      "training.copy_manifest=false"
+    ],
+    "sweep": [
+      "/home/t/tburnah/miniconda3/envs/autokeras_env/bin/python",
+      "/home/t/tburnah/inkdepth_student_workspace/scripts/sweep_state_threshold.py",
+      "--config",
+      "configs/final_combined_live_da3_geometry_heatmap_touch_presence_from_best_xy.yaml",
+      "--checkpoint",
+      "outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_03/latest.pt",
+      "--split",
+      "val",
+      "--thresholds",
+      "0.01:0.99:0.01",
+      "--output-csv",
+      "outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_03/state_threshold_sweep_latest_val.csv",
+      "--override",
+      "data.manifest_path=outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_03/manifest.json",
+      "output_dir=outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_03"
+    ]
+  },
+  {
+    "fold": 4,
+    "train": [
+      "/home/t/tburnah/miniconda3/envs/autokeras_env/bin/python",
+      "/home/t/tburnah/inkdepth_student_workspace/scripts/train_student.py",
+      "--config",
+      "configs/final_combined_live_da3_geometry_heatmap_touch_presence_from_best_xy.yaml",
+      "--override",
+      "data.manifest_path=outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_04/manifest.json",
+      "output_dir=outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_04",
+      "seed=1341",
+      "training.copy_manifest=false"
+    ],
+    "sweep": [
+      "/home/t/tburnah/miniconda3/envs/autokeras_env/bin/python",
+      "/home/t/tburnah/inkdepth_student_workspace/scripts/sweep_state_threshold.py",
+      "--config",
+      "configs/final_combined_live_da3_geometry_heatmap_touch_presence_from_best_xy.yaml",
+      "--checkpoint",
+      "outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_04/latest.pt",
+      "--split",
+      "val",
+      "--thresholds",
+      "0.01:0.99:0.01",
+      "--output-csv",
+      "outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_04/state_threshold_sweep_latest_val.csv",
+      "--override",
+      "data.manifest_path=outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_04/manifest.json",
+      "output_dir=outputs/crossval/final_combined_live_da3_geometry_heatmap_touch_presence/fold_04"
+    ]
+  }
+]

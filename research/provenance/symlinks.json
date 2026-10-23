@@ -1,0 +1,8 @@
+[
+  {
+    "path": "inkdepth_student_workspace/outputs",
+    "original_target": "external shared output directory",
+    "staged_target": "../inkdepth_student/outputs",
+    "change": "Replace VM-absolute link with an archive-internal relative link; scientific files unchanged"
+  }
+]

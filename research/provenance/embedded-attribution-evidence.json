@@ -1,0 +1,17 @@
+{
+  "scope": "Attribution support only; inspected upstream revision is recorded in license-evidence.json; historical adaptation revision unknown",
+  "matches": [
+    {
+      "path": "src/depth_model/models/student_depth_net_v3.py",
+      "symbol": "make_divisible",
+      "AST_matches_inspected_Duo_Li_upstream": true,
+      "source_bytes_modified": false
+    },
+    {
+      "path": "src/depth_model/models/student_depth_net_v6.py",
+      "symbol": "make_divisible",
+      "AST_matches_inspected_Duo_Li_upstream": true,
+      "source_bytes_modified": false
+    }
+  ]
+}

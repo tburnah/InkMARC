@@ -1,0 +1,13 @@
+{
+  "name": "touch_only_lr5e-5_hm0p5_s1000",
+  "checkpoint": "outputs/location_tuning_experiments_stride2_no307_no321/quick_xy_touch_only_head_lr5e-5_s1000/latest.pt",
+  "touch_true_mean_px": 19.55063480847455,
+  "touch_true_median_px": 8.494728088378906,
+  "touch_false_mean_px": 17.908603305372004,
+  "touch_false_median_px": 13.301840782165527,
+  "raw_acc": 0.9557682985942801,
+  "raw_f1": 0.9564075002985787,
+  "hyst_acc": 0.9601308773630635,
+  "hyst_f1": 0.960650639875613,
+  "hyst_episode_f1": 0.3013435700575816
+}

@@ -1,0 +1,10 @@
+{
+  "name": "touch_only_continue_lr2e-5_hm0p5_s1000",
+  "checkpoint": "outputs/location_tuning_experiments_stride2_no307_no321/quick_xy_touch_only_head_cont_lr2e-5_s1000/latest.pt",
+  "reason": "Best location improvement among tested runs with hysteresis F1 not below the rerun baseline.",
+  "touch_true_mean_px": 18.664654282637983,
+  "touch_true_median_px": 8.53563928604126,
+  "baseline_touch_true_median_px": 8.753274917602539,
+  "hyst_f1": 0.9615890869929401,
+  "baseline_hyst_f1": 0.9615384615384617
+}

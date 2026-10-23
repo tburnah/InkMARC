@@ -1,0 +1,69 @@
+seed: 7
+device: auto
+model:
+  input_height: 320
+  input_width: 480
+  heatmap_height: 40
+  heatmap_width: 60
+  backbone: mobilenet_v3_small
+  pretrained: false
+  use_torchvision: false
+  width_mult: 0.35
+  hidden_dim: 64
+training:
+  batch_size: 32
+  epochs: 3
+  learning_rate: 0.003
+  overfit_learning_rate: 0.01
+  weight_decay: 0.0001
+  checkpoint_dir: ml/artifacts/experiments/F4_touch_as_hover_x3_hover_as_touch_x1_5/checkpoints
+  num_workers: 4
+  train_max_samples: 32768
+  val_max_samples: 4096
+  log_every: 50
+  eval_every_steps: 300
+  val_max_batches: 0
+  sampler: hard_weighted
+  hard_examples_path: ml/artifacts/hard_examples/train_selected_hard_examples.jsonl
+  sampler_weights:
+    background: 1.0
+    hover: 1.0
+    touch: 1.0
+    touch_as_hover: 3.0
+    hover_as_touch: 1.5
+    background_as_valid: 1.0
+    high_xy_error: 1.0
+    low_conf_touch: 1.0
+data:
+  type: inkmarc
+  dataset_root: /data/LocationData
+  inkmarc_src: /home/t/tburnah/inkmarc/src
+  index_version: focused
+  train_split: train
+  eval_split: val
+  margin_frac: 0.1
+  heatmap_sigma: 1.5
+  touch_pressure_threshold: 0.0
+  require_labels: false
+  video_cache_size: 16
+  manifest: null
+  image_root: null
+  synthetic_size: 24
+loss_weights:
+  valid: 1.0
+  touch: 2.0
+  state: 1.0
+  xy: 2.0
+  heatmap: 0.05
+  pressure: 0.0
+  transition: 0.0
+  touch_pos_weight: 2.0
+  touch_focal_gamma: 0.0
+  hover_false_positive_weight: 0.0
+export:
+  opset: 17
+  dynamic_batch: true
+  include_heatmap_output: false
+temporal:
+  enabled: false
+  num_motion_maps: 0

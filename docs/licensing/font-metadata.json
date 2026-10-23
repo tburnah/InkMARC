@@ -1,0 +1,128 @@
+[
+  {
+    "path": "InkMARC.Cue/InkMARC.Cue/Resources/Fonts/OpenSans-Regular.ttf",
+    "sha256": "22e4069e49e998528e43d790fa02b1530b5b0af4dd664bde9158cabc36c6b1ee",
+    "embedded_name_records": {
+      "0": [
+        "Digitized data copyright \u00a9 2010-2011, Google Corporation."
+      ],
+      "1": [
+        "Open Sans"
+      ],
+      "8": [
+        "Ascender Corporation"
+      ],
+      "13": [
+        "Licensed under the Apache License, Version 2.0"
+      ],
+      "14": [
+        "http://www.apache.org/licenses/LICENSE-2.0"
+      ]
+    }
+  },
+  {
+    "path": "InkMARC.Cue/InkMARC.Cue/Resources/Fonts/OpenSans-Semibold.ttf",
+    "sha256": "21582ca6235676dff3f7d809551dedaae591069e62badf3efb9eaaa4653cf4ca",
+    "embedded_name_records": {
+      "0": [
+        "Digitized data copyright \u00a9 2011, Google Corporation."
+      ],
+      "1": [
+        "Open Sans SemiBold"
+      ],
+      "8": [
+        "Ascender Corporation"
+      ],
+      "13": [
+        "Licensed under the Apache License, Version 2.0"
+      ],
+      "14": [
+        "http://www.apache.org/licenses/LICENSE-2.0"
+      ]
+    }
+  },
+  {
+    "path": "InkMARC.Deform/Resources/Fonts/OpenSans-Regular.ttf",
+    "sha256": "f61b36a2bea6f08921076c17caad68d33b3fa9f8924ee99027109f8cc6f8d246",
+    "embedded_name_records": {
+      "0": [
+        "Digitized data copyright \u00a9 2010-2011, Google Corporation."
+      ],
+      "1": [
+        "Open Sans"
+      ],
+      "8": [
+        "Ascender Corporation"
+      ],
+      "13": [
+        "Licensed under the Apache License, Version 2.0"
+      ],
+      "14": [
+        "http://www.apache.org/licenses/LICENSE-2.0"
+      ]
+    }
+  },
+  {
+    "path": "InkMARC.Deform/Resources/Fonts/OpenSans-Semibold.ttf",
+    "sha256": "e3fc123e565813286b0f1ae7fcd3bbfaf120e4ec52afeef055b4986abf7ec4b3",
+    "embedded_name_records": {
+      "0": [
+        "Digitized data copyright \u00a9 2011, Google Corporation."
+      ],
+      "1": [
+        "Open Sans SemiBold"
+      ],
+      "8": [
+        "Ascender Corporation"
+      ],
+      "13": [
+        "Licensed under the Apache License, Version 2.0"
+      ],
+      "14": [
+        "http://www.apache.org/licenses/LICENSE-2.0"
+      ]
+    }
+  },
+  {
+    "path": "InkMARC.Evaluate/InkMARC.Evaluate/Resources/Fonts/OpenSans-Regular.ttf",
+    "sha256": "22e4069e49e998528e43d790fa02b1530b5b0af4dd664bde9158cabc36c6b1ee",
+    "embedded_name_records": {
+      "0": [
+        "Digitized data copyright \u00a9 2010-2011, Google Corporation."
+      ],
+      "1": [
+        "Open Sans"
+      ],
+      "8": [
+        "Ascender Corporation"
+      ],
+      "13": [
+        "Licensed under the Apache License, Version 2.0"
+      ],
+      "14": [
+        "http://www.apache.org/licenses/LICENSE-2.0"
+      ]
+    }
+  },
+  {
+    "path": "InkMARC.Evaluate/InkMARC.Evaluate/Resources/Fonts/OpenSans-Semibold.ttf",
+    "sha256": "21582ca6235676dff3f7d809551dedaae591069e62badf3efb9eaaa4653cf4ca",
+    "embedded_name_records": {
+      "0": [
+        "Digitized data copyright \u00a9 2011, Google Corporation."
+      ],
+      "1": [
+        "Open Sans SemiBold"
+      ],
+      "8": [
+        "Ascender Corporation"
+      ],
+      "13": [
+        "Licensed under the Apache License, Version 2.0"
+      ],
+      "14": [
+        "http://www.apache.org/licenses/LICENSE-2.0"
+      ]
+    }
+  }
+]

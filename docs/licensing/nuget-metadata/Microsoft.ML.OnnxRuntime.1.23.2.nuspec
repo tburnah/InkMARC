@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Microsoft.ML.OnnxRuntime</id>
+    <version>1.23.2</version>
+    <authors>Microsoft</authors>
+    <owners>Microsoft</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="file">LICENSE</license>
+    <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>
+    <icon>ORT_icon_for_light_bg.png</icon>
+    <readme>README.md</readme>
+    <projectUrl>https://github.com/Microsoft/onnxruntime</projectUrl>
+    <description>This package contains native shared library artifacts for all supported platforms of ONNX Runtime.</description>
+    <releaseNotes>Release Def:
+	Branch: refs/heads/rel-1.23.2
+	Commit: a83fc4d58cb48eb68890dd689f94f28288cf2278
+	Build: https://aiinfra.visualstudio.com/Lotus/_build/results?buildId=974988</releaseNotes>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <tags>native ONNX Runtime ONNXRuntime Machine Learning MachineLearning</tags>
+    <repository type="git" url="https://github.com/Microsoft/onnxruntime.git" commit="a83fc4d58cb48eb68890dd689f94f28288cf2278" />
+    <dependencies>
+      <group targetFramework=".NETCoreApp0.0">
+        <dependency id="Microsoft.ML.OnnxRuntime.Managed" version="1.23.2" />
+      </group>
+      <group targetFramework=".NETStandard0.0">
+        <dependency id="Microsoft.ML.OnnxRuntime.Managed" version="1.23.2" />
+      </group>
+      <group targetFramework=".NETFramework0.0">
+        <dependency id="Microsoft.ML.OnnxRuntime.Managed" version="1.23.2" />
+      </group>
+      <group targetFramework="native0.0" />
+      <group targetFramework="net8.0-android31.0">
+        <dependency id="Microsoft.ML.OnnxRuntime.Managed" version="1.23.2" />
+      </group>
+      <group targetFramework="net8.0-ios15.4">
+        <dependency id="Microsoft.ML.OnnxRuntime.Managed" version="1.23.2" />
+      </group>
+      <group targetFramework="net8.0-maccatalyst14.0">
+        <dependency id="Microsoft.ML.OnnxRuntime.Managed" version="1.23.2" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

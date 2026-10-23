@@ -1,0 +1,80 @@
+[
+  {
+    "name": "train",
+    "argv": [
+      "/home/t/tburnah/miniconda3/envs/autokeras_env/bin/python",
+      "/home/t/tburnah/inkdepth_student_workspace/scripts/train_student.py",
+      "--config",
+      "/home/t/tburnah/inkdepth_student_workspace/configs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000.yaml",
+      "--override",
+      "output_dir=/home/t/tburnah/inkdepth_student_workspace/outputs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000",
+      "training.epochs=10",
+      "training.batch_size=8",
+      "training.num_workers=4"
+    ]
+  },
+  {
+    "name": "eval_val",
+    "argv": [
+      "/home/t/tburnah/miniconda3/envs/autokeras_env/bin/python",
+      "/home/t/tburnah/inkdepth_student_workspace/scripts/evaluate_temporal_touch.py",
+      "--config",
+      "/home/t/tburnah/inkdepth_student_workspace/configs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000.yaml",
+      "--checkpoint",
+      "/home/t/tburnah/inkdepth_student_workspace/outputs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000/best_touch.pt",
+      "--split",
+      "val",
+      "--output-dir",
+      "/home/t/tburnah/inkdepth_student_workspace/outputs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000/eval_val_temporal",
+      "--save-frame-predictions",
+      "--stable-only",
+      "--override",
+      "output_dir=/home/t/tburnah/inkdepth_student_workspace/outputs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000",
+      "training.batch_size=8",
+      "training.num_workers=4"
+    ]
+  },
+  {
+    "name": "eval_test",
+    "argv": [
+      "/home/t/tburnah/miniconda3/envs/autokeras_env/bin/python",
+      "/home/t/tburnah/inkdepth_student_workspace/scripts/evaluate_temporal_touch.py",
+      "--config",
+      "/home/t/tburnah/inkdepth_student_workspace/configs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000.yaml",
+      "--checkpoint",
+      "/home/t/tburnah/inkdepth_student_workspace/outputs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000/best_touch.pt",
+      "--split",
+      "test",
+      "--output-dir",
+      "/home/t/tburnah/inkdepth_student_workspace/outputs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000/eval_test_temporal",
+      "--save-frame-predictions",
+      "--stable-only",
+      "--override",
+      "output_dir=/home/t/tburnah/inkdepth_student_workspace/outputs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000",
+      "training.batch_size=8",
+      "training.num_workers=4"
+    ]
+  },
+  {
+    "name": "hysteresis_val",
+    "argv": [
+      "/home/t/tburnah/miniconda3/envs/autokeras_env/bin/python",
+      "/home/t/tburnah/inkdepth_student_workspace/scripts/evaluate_touch_hysteresis.py",
+      "--predictions",
+      "/home/t/tburnah/inkdepth_student_workspace/outputs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000/eval_val_temporal/temporal_touch_frame_predictions.csv",
+      "--output-dir",
+      "/home/t/tburnah/inkdepth_student_workspace/outputs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000/hysteresis_val"
+    ]
+  },
+  {
+    "name": "hysteresis_test",
+    "argv": [
+      "/home/t/tburnah/miniconda3/envs/autokeras_env/bin/python",
+      "/home/t/tburnah/inkdepth_student_workspace/scripts/evaluate_touch_hysteresis.py",
+      "--predictions",
+      "/home/t/tburnah/inkdepth_student_workspace/outputs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000/eval_test_temporal/temporal_touch_frame_predictions.csv",
+      "--output-dir",
+      "/home/t/tburnah/inkdepth_student_workspace/outputs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000/hysteresis_test"
+    ]
+  }
+]

@@ -1,0 +1,72 @@
+[
+  {
+    "component": "touch_model",
+    "archive_directory": "src/touch_model",
+    "has_local_git_metadata": false,
+    "branch": null,
+    "commit": null,
+    "tracked_change_count": null,
+    "untracked_file_count": null,
+    "snapshot_policy": "Copy working files, including untracked source; no source history rewritten"
+  },
+  {
+    "component": "location_model",
+    "archive_directory": "src/location_model",
+    "has_local_git_metadata": false,
+    "branch": null,
+    "commit": null,
+    "tracked_change_count": null,
+    "untracked_file_count": null,
+    "snapshot_policy": "Copy working files, including untracked source; no source history rewritten"
+  },
+  {
+    "component": "depth_model",
+    "archive_directory": "src/depth_model",
+    "has_local_git_metadata": false,
+    "branch": null,
+    "commit": null,
+    "tracked_change_count": null,
+    "untracked_file_count": null,
+    "snapshot_policy": "Copy working files, including untracked source; no source history rewritten"
+  },
+  {
+    "component": "shadow_extraction",
+    "archive_directory": "src/shadow_extraction",
+    "has_local_git_metadata": false,
+    "branch": null,
+    "commit": null,
+    "tracked_change_count": null,
+    "untracked_file_count": null,
+    "snapshot_policy": "Copy working files, including untracked source; no source history rewritten"
+  },
+  {
+    "component": "ml",
+    "archive_directory": "ml",
+    "has_local_git_metadata": false,
+    "branch": null,
+    "commit": null,
+    "tracked_change_count": null,
+    "untracked_file_count": null,
+    "snapshot_policy": "Copy working files, including untracked source; no source history rewritten"
+  },
+  {
+    "component": "inkdepth_student",
+    "archive_directory": "inkdepth_student",
+    "has_local_git_metadata": false,
+    "branch": null,
+    "commit": null,
+    "tracked_change_count": null,
+    "untracked_file_count": null,
+    "snapshot_policy": "Copy working files, including untracked source; no source history rewritten"
+  },
+  {
+    "component": "inkdepth_student_workspace",
+    "archive_directory": "inkdepth_student_workspace",
+    "has_local_git_metadata": true,
+    "branch": "da3-small-backbone",
+    "commit": "9bd55a07fd267d183e71cd03410a1045f0ad2b31",
+    "tracked_change_count": 16,
+    "untracked_file_count": 58,
+    "snapshot_policy": "Copy working files, including untracked source; no source history rewritten"
+  }
+]

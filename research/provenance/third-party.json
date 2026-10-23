@@ -1,0 +1,65 @@
+[
+  {
+    "name": "Depth-Anything-V2",
+    "url": "https://github.com/DepthAnything/Depth-Anything-V2",
+    "commit": "e5a2732d3ea2cddc081d7bfd708fc0bf09f812f1",
+    "notices": [
+      "docs/third-party/Depth-Anything-V2/LICENSE"
+    ],
+    "source_vendored": false
+  },
+  {
+    "name": "Depth-Anything-3",
+    "url": "https://github.com/ByteDance-Seed/Depth-Anything-3",
+    "commit": "41736238f5bced4debf3f2a12375d2466874866d",
+    "notices": [
+      "docs/third-party/Depth-Anything-3/LICENSE"
+    ],
+    "source_vendored": false
+  },
+  {
+    "name": "opencv",
+    "url": "https://github.com/opencv/opencv",
+    "commit": "31b0eeea0b44b370fd0712312df4214d4ae1b158",
+    "notices": [
+      "docs/third-party/opencv/LICENSE"
+    ],
+    "source_vendored": false
+  },
+  {
+    "name": "opencv_contrib",
+    "url": "https://github.com/opencv/opencv_contrib",
+    "commit": "0e5254ebf54d2aed6e7eaf6660bf3b797cf50a02",
+    "notices": [
+      "docs/third-party/opencv_contrib/LICENSE"
+    ],
+    "source_vendored": false
+  },
+  {
+    "name": "salad",
+    "url": "https://github.com/serizba/salad",
+    "commit": "6aede13a3f6c25750bf7fde10209c06cb73060bb",
+    "notices": [
+      "docs/third-party/salad/LICENSE"
+    ],
+    "source_vendored": false
+  },
+  {
+    "name": "mobilenetv4.pytorch",
+    "url": "https://github.com/d-li14/mobilenetv4.pytorch",
+    "commit": "aea979c67dd7ad4cbd1cf67c830f407cc063c808",
+    "revision_scope": "Inspected now; original adaptation revision not established",
+    "license": "MIT",
+    "copyright": "Copyright (c) 2024 Duo Li",
+    "source_vendored": false,
+    "adapted_portions_present": [
+      "src/depth_model/models/student_depth_net_v3.py",
+      "src/depth_model/models/student_depth_net_v6.py",
+      "src/depth_model/models/student_depth_net_v8.py"
+    ],
+    "notices": [
+      "docs/third-party/mobilenetv4.pytorch/LICENSE",
+      "src/depth_model/models/LICENSE.MobileNetV4"
+    ]
+  }
+]

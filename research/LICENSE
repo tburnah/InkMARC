@@ -1,0 +1,28 @@
+Copyright (c) 2026 Tavish Burnah. All rights reserved.
+
+This notice reserves the copyright holder's rights in original InkMARC
+research code, configurations, documentation and other original contributions
+in this archive, to the extent those contributions are protected by copyright.
+No open-source or other general permission to use, copy, modify, redistribute,
+sublicense or commercially exploit those original contributions is granted
+by this notice. Separate written permission is required unless permission
+already exists or an applicable legal exception permits the activity.
+
+THIRD-PARTY EXCEPTIONS
+
+Third-party code, adapted third-party portions, upstream license texts,
+model cards, pretrained model parameters and other third-party material
+retain their owners' copyright and applicable license terms. This notice
+does not withdraw, restrict or replace permissions those owners have granted.
+In particular, the MIT-licensed MobileNetV4 adaptations identified in
+THIRD_PARTY_NOTICES.md remain subject to their upstream notices and license.
+
+Model artifacts can include or depend on pretrained third-party material.
+The reservation applies only to copyright in the author's original
+contributions; it is not a claim of exclusive ownership or a redistribution
+clearance for every parameter in a trained model.
+
+See COPYRIGHT, THIRD_PARTY_NOTICES.md and docs/licensing.md for scope,
+attribution, upstream terms and unresolved model-provenance items.
+Nothing in this notice limits rights provided by applicable law or governing
+hosting-platform terms. No endorsement by a credited third party is implied.

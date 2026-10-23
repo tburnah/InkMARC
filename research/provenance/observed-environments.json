@@ -1,0 +1,169 @@
+{
+  "scope": "Read existing package metadata; no environment changed; not a historical lock",
+  "environments": {
+    "autokeras_env": {
+      "py-opencv": {
+        "version": "4.11.0",
+        "metadata_source": "conda"
+      },
+      "tensorboard": {
+        "version": "2.19.0",
+        "metadata_source": "distribution_metadata"
+      },
+      "zarr": {
+        "version": "3.1.6",
+        "metadata_source": "distribution_metadata"
+      },
+      "keras": {
+        "version": "3.9.0",
+        "metadata_source": "distribution_metadata"
+      },
+      "python": {
+        "version": "3.11.8",
+        "metadata_source": "conda"
+      },
+      "pyyaml": {
+        "version": "6.0.2",
+        "metadata_source": "distribution_metadata"
+      },
+      "onnx": {
+        "version": "1.17.0",
+        "metadata_source": "distribution_metadata"
+      },
+      "pytorch": {
+        "version": "2.5.1",
+        "metadata_source": "conda"
+      },
+      "h5py": {
+        "version": "3.13.0",
+        "metadata_source": "distribution_metadata"
+      },
+      "cuda-cudart": {
+        "version": "12.1.105",
+        "metadata_source": "conda"
+      },
+      "matplotlib": {
+        "version": "3.10.1",
+        "metadata_source": "distribution_metadata"
+      },
+      "opencv": {
+        "version": "4.11.0",
+        "metadata_source": "conda"
+      },
+      "tensorflow": {
+        "version": "2.19.1",
+        "metadata_source": "distribution_metadata"
+      },
+      "hdf5": {
+        "version": "1.14.3",
+        "metadata_source": "conda"
+      },
+      "numpy": {
+        "version": "2.1.3",
+        "metadata_source": "distribution_metadata"
+      },
+      "safetensors": {
+        "version": "0.8.0",
+        "metadata_source": "distribution_metadata"
+      },
+      "torchvision": {
+        "version": "0.20.1+cu121",
+        "metadata_source": "distribution_metadata"
+      },
+      "scikit-learn": {
+        "version": "1.6.1",
+        "metadata_source": "distribution_metadata"
+      },
+      "tqdm": {
+        "version": "4.67.1",
+        "metadata_source": "distribution_metadata"
+      },
+      "pandas": {
+        "version": "2.3.3",
+        "metadata_source": "distribution_metadata"
+      },
+      "onnxruntime": {
+        "version": "1.21.0",
+        "metadata_source": "distribution_metadata"
+      },
+      "scipy": {
+        "version": "1.15.2",
+        "metadata_source": "distribution_metadata"
+      },
+      "pytest": {
+        "version": "9.0.3",
+        "metadata_source": "distribution_metadata"
+      },
+      "torch": {
+        "version": "2.5.1+cu121",
+        "metadata_source": "distribution_metadata"
+      },
+      "pillow": {
+        "version": "12.2.0",
+        "metadata_source": "distribution_metadata"
+      },
+      "autokeras": {
+        "version": "2.0.0",
+        "metadata_source": "distribution_metadata"
+      }
+    },
+    "opencv_cuda": {
+      "numpy": {
+        "version": "2.4.3",
+        "metadata_source": "distribution_metadata"
+      },
+      "python": {
+        "version": "3.11.15",
+        "metadata_source": "conda"
+      },
+      "safetensors": {
+        "version": "0.8.0",
+        "metadata_source": "distribution_metadata"
+      },
+      "torchvision": {
+        "version": "0.22.1+cu118",
+        "metadata_source": "distribution_metadata"
+      },
+      "pillow": {
+        "version": "12.1.1",
+        "metadata_source": "distribution_metadata"
+      },
+      "scikit-learn": {
+        "version": "1.9.0",
+        "metadata_source": "distribution_metadata"
+      },
+      "pytest": {
+        "version": "9.1.1",
+        "metadata_source": "distribution_metadata"
+      },
+      "matplotlib": {
+        "version": "3.11.0",
+        "metadata_source": "distribution_metadata"
+      },
+      "pandas": {
+        "version": "3.0.3",
+        "metadata_source": "distribution_metadata"
+      },
+      "scipy": {
+        "version": "1.17.1",
+        "metadata_source": "distribution_metadata"
+      },
+      "h5py": {
+        "version": "3.16.0",
+        "metadata_source": "distribution_metadata"
+      },
+      "tqdm": {
+        "version": "4.68.4",
+        "metadata_source": "distribution_metadata"
+      },
+      "torch": {
+        "version": "2.7.1+cu118",
+        "metadata_source": "distribution_metadata"
+      },
+      "pyyaml": {
+        "version": "6.0.3",
+        "metadata_source": "distribution_metadata"
+      }
+    }
+  }
+}

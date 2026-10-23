@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "status": "verified_local_import",
+  "copied_at": "2026-10-24T10:35:01.162863+13:00",
+  "verified_at": "2026-10-24T10:39:00.543987+13:00",
+  "repository": "https://github.com/tburnah/InkMARC.git",
+  "base_commit": "715d1ce7e2b0e9432cf2c1e29246c51a9d1eecc7",
+  "local_branch": "archive/documentation-and-integration",
+  "destination_prefix": "research/",
+  "source_snapshot": {
+    "name": "Frozen InkMARC Phase B public candidate after licensing review",
+    "regular_files": 646,
+    "internal_symlinks": 1,
+    "total_regular_file_bytes": 373457272,
+    "sha256_manifest": "research/provenance/SHA256SUMS",
+    "sha256_manifest_sha256": "bf813188922429d3388a16494e0d47225726cd1cd229017db92032c8dd65c61a",
+    "preflight_mapping": "docs/integration-plan.json",
+    "preflight_mapping_sha256": "1cd870933575789221a7811a204b5388af3359b104082f7cc3a315444f85c47c",
+    "preflight_mapping_status_is_historical": true,
+    "inventory_sha256": "e1d3a37d966f9c4597bb1ed56c26c8b41312a6474ccd6000025aa09c584b663d"
+  },
+  "checks": {
+    "regular_files_checked": 646,
+    "symlinks_checked": 1,
+    "byte_mode_selection_or_link_target_mismatches": [],
+    "source_public_tree_still_matches_preimport_inventory": true,
+    "frozen_phase_b_stage_entry_changes": [],
+    "hard_links_to_frozen_source": [],
+    "broken_or_escaping_imported_symlinks": [],
+    "sha256sum_entries_checked": 645,
+    "sha256sum_exit_code": 0,
+    "sha256sum_errors": "",
+    "checksum_manifest_itself_matches_preflight_hash": true,
+    "copied_manifest_entries_checked": 542,
+    "copied_manifest_hash_mismatches": [],
+    "model_binaries_rehashed": 26,
+    "model_hash_mismatches": [],
+    "original_selected_inputs_rehashed": 538,
+    "original_input_hash_mismatches": [],
+    "original_git_research_state_unchanged": true,
+    "client_bookkeeping_refs_excluded_from_original_git_research_comparison": "refs/codex/turn-diffs/",
+    "preexisting_clone_files_checked": 432,
+    "unexpected_preexisting_clone_changes": [],
+    "destination_head_unchanged": true,
+    "destination_index_unchanged": true,
+    "destination_remote_config_unchanged": true,
+    "preflight_mapping_unchanged": true,
+    "ignored_combined_repository_files": [],
+    "private_generated_ignore_examples_checked": 12,
+    "private_examples_not_ignored": [],
+    "authored_documents_checked": 23,
+    "broken_authored_document_links": [],
+    "forbidden_imported_private_raw_media_or_cache_paths": [],
+    "unexpected_new_repository_level_files": [],
+    "desktop_pending_and_complete_archive_not_ready_status_preserved": true
+  },
+  "documentation_changes": [
+    {
+      "path": "InkMARC.Clean/README.md",
+      "before_sha256": "1d95bf50231383e792c18c2be54671828a83b5823044b1fa1a2184c02cdbbfd7",
+      "after_sha256": "4fa1d9794564315e5f693e56d19e4466cde6d47fc403515d7ec4297b06e3d237"
+    },
+    {
+      "path": "InkMARC.Cue/README.md",
+      "before_sha256": "e0365f244c9b5bd9cc872afeb9295da27b4c3f19a807c15b84d57789c8c8426a",
+      "after_sha256": "28d9778954e1cd24b3bc7e5df5d47bd8f3b6a844501d563c68035f3f0df1fd4f"
+    },
+    {
+      "path": "InkMARC.Deform/README.md",
+      "before_sha256": "f3ec7eb727e71f192e64e34c533511849e723a578174fbd2d3e07217abf19b12",
+      "after_sha256": "6782019ac66a890929227f0e40d63e6457807f67f9c0435dc58466b71d605075"
+    },
+    {
+      "path": "InkMARC.Evaluate/README.md",
+      "before_sha256": "35c9b7b1a210a06c095ab3ed811a10c5886d455e8ac6d7b6671122e39a6936f6",
+      "after_sha256": "031ac56775fec8358b999a94cb44dae28b3c0de3c7547ffe78eb91969cc46d3f"
+    },
+    {
+      "path": "InkMARC.Label/README.md",
+      "before_sha256": "bddbd264333bb6756f11c11c65e4d15a4d1f9216467083651bd47b4258a0c4ea",
+      "after_sha256": "b949ebaaf1a7946cc8be4d75e860c2e477cdc9ed5a050a00610dbd9abc41a625"
+    },
+    {
+      "path": "InkMARC.Models/README.md",
+      "before_sha256": "d1272cec19f382ce17695f99d18edb865d9fe134a705dee6ae3f6a9834ae2162",
+      "after_sha256": "eadf323238d091b4dc78414d2472ab3bd3c7034979b0938ee3dd4fab9007a3cd"
+    },
+    {
+      "path": "InkMARC.Prepare/README.md",
+      "before_sha256": "e8ab262c2c190712294bf26403d1ee40a33cea57ee723723ff5a91902dc88f30",
+      "after_sha256": "71ea5415167a90e0c4757309b1435ea6ccba9d2abcd828ca40f9127e5ba7a7b8"
+    },
+    {
+      "path": "InkMARC.Test/README.md",
+      "before_sha256": "e6c540c96024778e62306a425e8452a73c2803b59a50da01b246b4cb1bc79517",
+      "after_sha256": "cc09590f85aab23cefc0f7708c68def932a380f9b8c8c6c553ea2e7aea2b8b9b"
+    },
+    {
+      "path": "README.md",
+      "before_sha256": "6011c5bdbea296a2823b800419d9a64d069253170c64196fee742ba747dea44b",
+      "after_sha256": "0451338e471ff95c26143e6442cace0127fc97c6d4c2485058552e425698af5d"
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.md",
+      "before_sha256": "0d48935f65ae9d036056eb3cad3d2d2cd18f60e6c1edecbd61446aa443f24e2f",
+      "after_sha256": "70975435a9fb353809ad483107638a611715408607449e2335dcca7090077c02"
+    },
+    {
+      "path": "docs/contribution-index.md",
+      "before_sha256": "ff694b998b62190076e8f614d97a8e7e69433be1f2119243e99e9c441e615de6",
+      "after_sha256": "78c2fded3f561d740edacc348409e1ea5ad204250e2c285f36a3f8ee248497eb"
+    },
+    {
+      "path": "docs/dependencies.md",
+      "before_sha256": "4101d7fc63a67ebdf615c27032de5de3e1a35674813bf2b9ef6056be1c425db4",
+      "after_sha256": "fdc849bfdc6ebd3bd6426d327f0038eae8352a6d3a09a7d78e9445f3689f8ae5"
+    },
+    {
+      "path": "docs/integration-plan.md",
+      "before_sha256": "c2a88d57edcf925340b318544cc475f2223d83d0a73027a88c96477bef4138ee",
+      "after_sha256": "63bc4b50aef1065a2e0c4e2e3136233ea67e4b996edcd350e5665cac45c2002b"
+    },
+    {
+      "path": "docs/licensing/README.md",
+      "before_sha256": "a1d88d736a9062bf10f94242ff7347d79dded6b3ce10decf56b83b1d8694192d",
+      "after_sha256": "50c27becb0688da7365c85f50081fc28e9a4cbaa5b6218093c9bab1026ff64e2"
+    },
+    {
+      "path": "docs/licensing/current-policy.json",
+      "before_sha256": "18c72dccd0f7b061f3dc7833d8df9e3e3ba90555083c02a5c2a1985895af8f07",
+      "after_sha256": "dfc523c8a1b2919b5a809d847be15a8393014697421fb68ae2b125132a986b98"
+    }
+  ],
+  "documentation_additions": [
+    {
+      "path": "docs/archive-status.json",
+      "sha256": "24ecee50c9c21cf737e6f86b86bf844d1266e0727968090e15fee14374524628"
+    },
+    {
+      "path": "docs/research-import.md",
+      "sha256": "abd4b818a2e863585f0676d9f729d6d1905bd44bed58f06b0287b72580c7598a"
+    }
+  ],
+  "verification_scope": "Fresh copy/hash/mode/symlink, original-source, original Git research-state, destination ignore/exclusion and authored-navigation checks; existing Phase B syntax, ONNX and synthetic-test results retained as historical evidence, not rerun.",
+  "licensing_scope": "Original contributions all rights reserved subject to prior valid grants and third-party terms. VM notices and all 26 model-rights entries preserved; no new redistribution clearance inferred.",
+  "desktop_status": "Capture and Chapter 8 Surface/application pending incorporation from desktop",
+  "complete_archive_ready_for_final_github_publication": false,
+  "source_staging_original_repositories_or_models_written": false,
+  "private_review_material_imported": false,
+  "research_workflow_execution_performed": false,
+  "model_training_export_conversion_quantisation_or_inference_performed": false,
+  "dependency_restore_or_upgrade_performed": false,
+  "commit_created": false,
+  "remote_operations_performed": false
+}

@@ -1,0 +1,1669 @@
+{
+  "scope": "Static inspection only; no referenced dataset loaded",
+  "references": [
+    {
+      "config": "inkdepth_student_workspace/configs/da3_depth_proxy_504x322.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "outputs/diagnostic_manifests/manifest_original_apriltag_frames_stride4_stable_w5_p1000_no307_no321.json",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/da3_depth_proxy_504x322.yaml",
+      "key": "model.da3_repo_root",
+      "historical_value": "/home/t/tburnah/src/depth_model/Depth-Anything-3",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/depth_calibrate_texture_v3_no307_outliers_stride16.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_replacement_v3_no_missing_h5_no_black_participant_splits_no307_depth_outliers.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/depth_calibrate_texture_v3_no307_outliers_stride16.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/depth_calibrate_texture_v3_no307_outliers_stride64/best_val_loss.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/depth_calibrate_texture_v3_no307_outliers_stride64.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_replacement_v3_no_missing_h5_no_black_participant_splits_no307_depth_outliers.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/depth_calibrate_texture_v3_no307_outliers_stride64.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/depth_pretrain_texture_v3_full_stride16/best_val_loss.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/depth_pretrain_texture_v3.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_tune.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/depth_pretrain_texture_v3_full_stride16.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_replacement_v3_no_missing_h5_no_black_participant_splits.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/depth_pretrain_texture_v3_full_stride16.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/depth_pretrain_texture_v3/best_val_loss.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/depth_tip_roi_calibrate_texture_v3_stable_w5_p1000_no307_outliers.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_stable_w5_p1000_no307_depth_outliers.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/depth_tip_roi_calibrate_texture_v3_stable_w5_p1000_no307_outliers.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/location_refine_calibrated_depth_l1_texture_v3/best_xy.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/final_cached_depth_location_slow_base_plus_texture_v3_hover_touch_no307_no321.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "outputs/diagnostic_manifests/manifest_final_da3_location_base_plus_texture_v3_hover_touch_no307_no321_all_train.json",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/final_cached_depth_location_slow_base_plus_texture_v3_hover_touch_no307_no321.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/final_combined_live_da3_geometry_heatmap_touch_presence_from_best_xy/deployable_student_latest.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": true,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/final_combined_live_da3_geometry_heatmap_touch_presence_from_best_xy.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "outputs/diagnostic_manifests/manifest_original_apriltag_frames_stride4_stable_w5_p1000_no307_no321.json",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/final_combined_live_da3_geometry_heatmap_touch_presence_from_best_xy.yaml",
+      "key": "model.da3_repo_root",
+      "historical_value": "/home/t/tburnah/src/depth_model/Depth-Anything-3",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/final_combined_live_da3_geometry_heatmap_touch_presence_from_best_xy.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000_xy_focus_from_best_xy/best_xy.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": true,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/final_da3_location_slow_base_plus_texture_v3_hover_touch_no307_no321.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "outputs/diagnostic_manifests/manifest_final_da3_location_base_plus_texture_v3_hover_touch_no307_no321_all_train.json",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/final_da3_location_slow_base_plus_texture_v3_hover_touch_no307_no321.yaml",
+      "key": "model.da3_repo_root",
+      "historical_value": "/home/t/tburnah/src/depth_model/Depth-Anything-3",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/final_da3_location_slow_base_plus_texture_v3_hover_touch_no307_no321.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/final_combined_live_da3_geometry_heatmap_touch_presence_from_best_xy/best_xy.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": true,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/final_inference_student_rgbd_geometry.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "outputs/diagnostic_manifests/manifest_final_training_original_apriltag_frames_stride4_stable_w5_p1000_no307_no321_all_train.json",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/final_inference_student_rgbd_geometry.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/final_combined_live_da3_geometry_heatmap_touch_presence_from_best_xy/deployable_student_latest.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": true,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/final_rgb_geometry_location_base_plus_texture.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "outputs/diagnostic_manifests/manifest_texture_v3_balanced_frames_stable_w5_p1000_no307_no321.json",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/final_rgb_geometry_touch_base_only.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "outputs/diagnostic_manifests/manifest_original_apriltag_frames_stride4_stable_w5_p1000_no307_no321.json",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/final_rgb_geometry_touch_base_only.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/final_rgb_geometry_location_base_plus_texture/best_xy.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/inkdepth_mobilenetv3.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/inkmarc_rgbd_geometry_export_best_strict.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_original_no307_no321_frames_stride2_stable_w3.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/inkmarc_rgbd_geometry_export_best_strict.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/inkmarc_rgbd_geometry_export_best_strict/inkmarc_rgbd_geometry_best_strict.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": true,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/inkmarc_rgbd_geometry_presence_touch_location_export_best_state.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_original_no307_no321_frames_stride2_stable_w3.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/inkmarc_rgbd_geometry_presence_touch_location_export_best_state.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/inkmarc_rgbd_geometry_presence_touch_location_export_best_state/inkmarc_rgbd_geometry_presence_touch_location_best_state.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": true,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/interaction_gate_original_apriltag_w3.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_original_apriltag_frames_stable_w3.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/interaction_gate_original_apriltag_w3.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/location_refine_full_depth_texture_v3/best_xy.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/interaction_gate_texture_stable_w3.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_stable_w3.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/interaction_gate_texture_stable_w3.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/location_refine_full_depth_texture_v3/best_xy.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/location_from_depth_texture_v3.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_tune.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/location_from_depth_texture_v3.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/depth_pretrain_texture_v3/best_val_loss.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/location_from_full_depth_texture_v3.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_tune.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/location_from_full_depth_texture_v3.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/depth_pretrain_texture_v3_full_stride16/best_val_loss.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/location_refine_calibrated_depth_l1_texture_v3.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_tune.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/location_refine_calibrated_depth_l1_texture_v3.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/location_from_calibrated_depth_texture_v3/best_xy.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/location_refine_depth_texture_v3.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_tune.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/location_refine_depth_texture_v3.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/location_from_depth_texture_v3/best_xy.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/location_refine_full_depth_texture_v3.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_tune.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/location_refine_full_depth_texture_v3.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/location_from_full_depth_texture_v3/best_xy.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/location_surface_xy_live_da3_small_geometry_original_stride4_stable_w5_p1000.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_original_apriltag_frames_stride4_stable_w5_p1000.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/location_surface_xy_live_da3_small_geometry_original_stride4_stable_w5_p1000.yaml",
+      "key": "model.da3_repo_root",
+      "historical_value": "/home/t/tburnah/src/depth_model/Depth-Anything-3",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/location_surface_xy_touch_only_live_da3_small_geometry_original_stride4_stable_w5_p1000.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_original_apriltag_frames_stride4_stable_w5_p1000.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/location_surface_xy_touch_only_live_da3_small_geometry_original_stride4_stable_w5_p1000.yaml",
+      "key": "model.da3_repo_root",
+      "historical_value": "/home/t/tburnah/src/depth_model/Depth-Anything-3",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/state_from_full_geometry_texture_v3.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_tune.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/state_from_full_geometry_texture_v3.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/location_refine_full_depth_texture_v3/best_xy.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/state_joint_refine_full_geometry_texture_v3.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_tune.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/state_joint_refine_full_geometry_texture_v3.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/state_from_full_geometry_texture_v3/latest.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/state_local_context_full_geometry_texture_v3.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_tune.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/state_local_context_full_geometry_texture_v3.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/location_refine_full_depth_texture_v3/best_xy.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/state_local_context_head_only_texture_v3.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_tune.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/state_local_context_head_only_texture_v3.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/location_refine_full_depth_texture_v3/best_xy.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/touch_depth_input_original_apriltag_w3.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_original_apriltag_frames_stable_w3.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/touch_depth_input_original_apriltag_w5_p1000.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_original_apriltag_frames_stable_w5_p1000.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/touch_live_da3_small_depth_only_original_stride4_stable_w5_p1000.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_original_apriltag_frames_stride4_stable_w5_p1000.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/touch_live_da3_small_depth_only_original_stride4_stable_w5_p1000.yaml",
+      "key": "model.da3_repo_root",
+      "historical_value": "/home/t/tburnah/src/depth_model/Depth-Anything-3",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_original_apriltag_frames_stride4_stable_w5_p1000.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000.yaml",
+      "key": "model.da3_repo_root",
+      "historical_value": "/home/t/tburnah/src/depth_model/Depth-Anything-3",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000_presence_head_only_from_best_xy_no307_no321.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "outputs/diagnostic_manifests/manifest_original_apriltag_frames_stride4_stable_w5_p1000_no307_no321.json",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000_presence_head_only_from_best_xy_no307_no321.yaml",
+      "key": "model.da3_repo_root",
+      "historical_value": "/home/t/tburnah/src/depth_model/Depth-Anything-3",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000_presence_head_only_from_best_xy_no307_no321.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000_xy_head_only_from_best_touch_no307_no321/best_xy.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000_xy_focus_from_best_xy.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_original_apriltag_frames_stride4_stable_w5_p1000.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000_xy_focus_from_best_xy.yaml",
+      "key": "model.da3_repo_root",
+      "historical_value": "/home/t/tburnah/src/depth_model/Depth-Anything-3",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000_xy_focus_from_best_xy.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000/best_xy.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": true,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000_xy_head_only_from_best_touch_no307_no321.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "outputs/diagnostic_manifests/manifest_original_apriltag_frames_stride4_stable_w5_p1000_no307_no321.json",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000_xy_head_only_from_best_touch_no307_no321.yaml",
+      "key": "model.da3_repo_root",
+      "historical_value": "/home/t/tburnah/src/depth_model/Depth-Anything-3",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000_xy_head_only_from_best_touch_no307_no321.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/touch_live_da3_small_geometry_original_stride4_stable_w5_p1000/best_touch.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/touch_live_da3_small_original_stride4_stable_w5_p1000.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_original_apriltag_frames_stride4_stable_w5_p1000.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/touch_live_da3_small_original_stride4_stable_w5_p1000.yaml",
+      "key": "model.da3_repo_root",
+      "historical_value": "/home/t/tburnah/src/depth_model/Depth-Anything-3",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/touch_local_context_head_only_texture_v3.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_tune.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/touch_local_context_head_only_texture_v3.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/location_refine_full_depth_texture_v3/best_xy.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/touch_pred_depth_calibrated_head_only_texture_v3_stable_w5_p1000_no307_outliers.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_stable_w5_p1000_no307_depth_outliers.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/touch_pred_depth_calibrated_head_only_texture_v3_stable_w5_p1000_no307_outliers.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/location_refine_calibrated_depth_l1_texture_v3/best_xy.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/touch_pred_depthstats_calibrated_head_only_texture_v3_stable_w5_p1000_no307_outliers.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_stable_w5_p1000_no307_depth_outliers.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/touch_pred_depthstats_calibrated_head_only_texture_v3_stable_w5_p1000_no307_outliers.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/location_refine_calibrated_depth_l1_texture_v3/best_xy.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/touch_pred_depthstats_tip_roi_head_only_texture_v3_stable_w5_p1000_no307_outliers.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_stable_w5_p1000_no307_depth_outliers.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/touch_pred_depthstats_tip_roi_head_only_texture_v3_stable_w5_p1000_no307_outliers.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/depth_tip_roi_calibrate_texture_v3_stable_w5_p1000_no307_outliers/best_val_loss.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/touch_pred_depthstats_tip_roi_head_only_texture_v3_stable_w5_p1000_no307_outliers_videotouch.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_stable_w5_p1000_no307_depth_outliers.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/touch_pred_depthstats_tip_roi_head_only_texture_v3_stable_w5_p1000_no307_outliers_videotouch.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/depth_tip_roi_calibrate_texture_v3_stable_w5_p1000_no307_outliers/best_val_loss.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/touch_rgbd_original_apriltag_stride4_stable_w21_p3000.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_original_apriltag_frames_stride4_stable_w21_p3000.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student_workspace/configs/touch_rgbd_original_apriltag_stride4_stable_w21_p3000.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/touch_depth_input_original_apriltag_w3/best_touch.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/depth_calibrate_texture_v3_no307_outliers_stride16.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_replacement_v3_no_missing_h5_no_black_participant_splits_no307_depth_outliers.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/depth_calibrate_texture_v3_no307_outliers_stride16.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/depth_calibrate_texture_v3_no307_outliers_stride64/best_val_loss.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/depth_calibrate_texture_v3_no307_outliers_stride64.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_replacement_v3_no_missing_h5_no_black_participant_splits_no307_depth_outliers.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/depth_calibrate_texture_v3_no307_outliers_stride64.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/depth_pretrain_texture_v3_full_stride16/best_val_loss.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/depth_pretrain_texture_v3.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_tune.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/depth_pretrain_texture_v3_full_stride16.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_replacement_v3_no_missing_h5_no_black_participant_splits.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/depth_pretrain_texture_v3_full_stride16.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/depth_pretrain_texture_v3/best_val_loss.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/depth_tip_roi_calibrate_texture_v3_stable_w5_p1000_no307_outliers.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_stable_w5_p1000_no307_depth_outliers.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/depth_tip_roi_calibrate_texture_v3_stable_w5_p1000_no307_outliers.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/location_refine_calibrated_depth_l1_texture_v3/best_xy.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/inkdepth_mobilenetv3.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/interaction_gate_original_apriltag_w3.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_original_apriltag_frames_stable_w3.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/interaction_gate_original_apriltag_w3.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/location_refine_full_depth_texture_v3/best_xy.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/interaction_gate_texture_stable_w3.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_stable_w3.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/interaction_gate_texture_stable_w3.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/location_refine_full_depth_texture_v3/best_xy.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/location_from_depth_texture_v3.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_tune.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/location_from_depth_texture_v3.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/depth_pretrain_texture_v3/best_val_loss.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/location_from_full_depth_texture_v3.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_tune.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/location_from_full_depth_texture_v3.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/depth_pretrain_texture_v3_full_stride16/best_val_loss.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/location_refine_calibrated_depth_l1_texture_v3.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_tune.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/location_refine_calibrated_depth_l1_texture_v3.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/location_from_calibrated_depth_texture_v3/best_xy.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/location_refine_depth_texture_v3.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_tune.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/location_refine_depth_texture_v3.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/location_from_depth_texture_v3/best_xy.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/location_refine_full_depth_texture_v3.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_tune.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/location_refine_full_depth_texture_v3.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/location_from_full_depth_texture_v3/best_xy.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/state_from_full_geometry_texture_v3.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_tune.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/state_from_full_geometry_texture_v3.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/location_refine_full_depth_texture_v3/best_xy.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/state_joint_refine_full_geometry_texture_v3.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_tune.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/state_joint_refine_full_geometry_texture_v3.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/state_from_full_geometry_texture_v3/latest.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/state_local_context_full_geometry_texture_v3.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_tune.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/state_local_context_full_geometry_texture_v3.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/location_refine_full_depth_texture_v3/best_xy.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/state_local_context_head_only_texture_v3.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_tune.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/state_local_context_head_only_texture_v3.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/location_refine_full_depth_texture_v3/best_xy.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/touch_depth_input_original_apriltag_w3.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_original_apriltag_frames_stable_w3.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/touch_depth_input_original_apriltag_w5_p1000.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_original_apriltag_frames_stable_w5_p1000.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/touch_local_context_head_only_texture_v3.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_tune.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/touch_local_context_head_only_texture_v3.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/location_refine_full_depth_texture_v3/best_xy.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/touch_pred_depth_calibrated_head_only_texture_v3_stable_w5_p1000_no307_outliers.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_stable_w5_p1000_no307_depth_outliers.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/touch_pred_depth_calibrated_head_only_texture_v3_stable_w5_p1000_no307_outliers.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/location_refine_calibrated_depth_l1_texture_v3/best_xy.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/touch_pred_depthstats_calibrated_head_only_texture_v3_stable_w5_p1000_no307_outliers.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_stable_w5_p1000_no307_depth_outliers.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/touch_pred_depthstats_calibrated_head_only_texture_v3_stable_w5_p1000_no307_outliers.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/location_refine_calibrated_depth_l1_texture_v3/best_xy.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/touch_pred_depthstats_tip_roi_head_only_texture_v3_stable_w5_p1000_no307_outliers.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_stable_w5_p1000_no307_depth_outliers.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/touch_pred_depthstats_tip_roi_head_only_texture_v3_stable_w5_p1000_no307_outliers.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/depth_tip_roi_calibrate_texture_v3_stable_w5_p1000_no307_outliers/best_val_loss.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/touch_pred_depthstats_tip_roi_head_only_texture_v3_stable_w5_p1000_no307_outliers_videotouch.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_stable_w5_p1000_no307_depth_outliers.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/touch_pred_depthstats_tip_roi_head_only_texture_v3_stable_w5_p1000_no307_outliers_videotouch.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/depth_tip_roi_calibrate_texture_v3_stable_w5_p1000_no307_outliers/best_val_loss.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/touch_rgbd_original_apriltag_stride4_stable_w21_p3000.yaml",
+      "key": "data.manifest_path",
+      "historical_value": "/data/baseAVIs_432x672/manifest_original_apriltag_frames_stride4_stable_w21_p3000.json",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "inkdepth_student/configs/touch_rgbd_original_apriltag_stride4_stable_w21_p3000.yaml",
+      "key": "training.init_checkpoint",
+      "historical_value": "outputs/touch_depth_input_original_apriltag_w3/best_touch.pt",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/broader_data_configs/focused_selected_eval.yaml",
+      "key": "training.checkpoint_dir",
+      "historical_value": "ml/artifacts/experiments/focused_selected_eval/checkpoints",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/broader_data_configs/focused_selected_eval.yaml",
+      "key": "data.dataset_root",
+      "historical_value": "/data/LocationData",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/broader_data_configs/focused_selected_eval.yaml",
+      "key": "data.inkmarc_src",
+      "historical_value": "/home/t/tburnah/inkmarc/src",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/broader_data_configs/v1_selected_eval.yaml",
+      "key": "training.checkpoint_dir",
+      "historical_value": "ml/artifacts/experiments/v1_selected_eval/checkpoints",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/broader_data_configs/v1_selected_eval.yaml",
+      "key": "data.dataset_root",
+      "historical_value": "/data/LocationData",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/broader_data_configs/v1_selected_eval.yaml",
+      "key": "data.inkmarc_src",
+      "historical_value": "/home/t/tburnah/inkmarc/src",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/broader_data_configs/v1_selected_setup_train.yaml",
+      "key": "training.checkpoint_dir",
+      "historical_value": "ml/artifacts/experiments/v1_selected_setup/checkpoints",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/broader_data_configs/v1_selected_setup_train.yaml",
+      "key": "data.dataset_root",
+      "historical_value": "/data/LocationData",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/broader_data_configs/v1_selected_setup_train.yaml",
+      "key": "data.inkmarc_src",
+      "historical_value": "/home/t/tburnah/inkmarc/src",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/broader_data_configs/v1_trained_on_focused_eval.yaml",
+      "key": "training.checkpoint_dir",
+      "historical_value": "ml/artifacts/experiments/v1_trained_on_focused_eval/checkpoints",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/broader_data_configs/v1_trained_on_focused_eval.yaml",
+      "key": "data.dataset_root",
+      "historical_value": "/data/LocationData",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/broader_data_configs/v1_trained_on_focused_eval.yaml",
+      "key": "data.inkmarc_src",
+      "historical_value": "/home/t/tburnah/inkmarc/src",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/constrained_hover_touch_configs/F0_reference_C_touch_pos_weight_rerun.yaml",
+      "key": "training.checkpoint_dir",
+      "historical_value": "ml/artifacts/experiments/F0_reference_C_touch_pos_weight_rerun/checkpoints",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/constrained_hover_touch_configs/F0_reference_C_touch_pos_weight_rerun.yaml",
+      "key": "data.dataset_root",
+      "historical_value": "/data/LocationData",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/constrained_hover_touch_configs/F0_reference_C_touch_pos_weight_rerun.yaml",
+      "key": "data.inkmarc_src",
+      "historical_value": "/home/t/tburnah/inkmarc/src",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/constrained_hover_touch_configs/F1_touch_as_hover_x2_hover_as_touch_x1.yaml",
+      "key": "training.checkpoint_dir",
+      "historical_value": "ml/artifacts/experiments/F1_touch_as_hover_x2_hover_as_touch_x1/checkpoints",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/constrained_hover_touch_configs/F1_touch_as_hover_x2_hover_as_touch_x1.yaml",
+      "key": "data.dataset_root",
+      "historical_value": "/data/LocationData",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/constrained_hover_touch_configs/F1_touch_as_hover_x2_hover_as_touch_x1.yaml",
+      "key": "data.inkmarc_src",
+      "historical_value": "/home/t/tburnah/inkmarc/src",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/constrained_hover_touch_configs/F2_touch_as_hover_x2_hover_as_touch_x1_5.yaml",
+      "key": "training.checkpoint_dir",
+      "historical_value": "ml/artifacts/experiments/F2_touch_as_hover_x2_hover_as_touch_x1_5/checkpoints",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/constrained_hover_touch_configs/F2_touch_as_hover_x2_hover_as_touch_x1_5.yaml",
+      "key": "data.dataset_root",
+      "historical_value": "/data/LocationData",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/constrained_hover_touch_configs/F2_touch_as_hover_x2_hover_as_touch_x1_5.yaml",
+      "key": "data.inkmarc_src",
+      "historical_value": "/home/t/tburnah/inkmarc/src",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/constrained_hover_touch_configs/F3_touch_as_hover_x3_hover_as_touch_x1.yaml",
+      "key": "training.checkpoint_dir",
+      "historical_value": "ml/artifacts/experiments/F3_touch_as_hover_x3_hover_as_touch_x1/checkpoints",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/constrained_hover_touch_configs/F3_touch_as_hover_x3_hover_as_touch_x1.yaml",
+      "key": "data.dataset_root",
+      "historical_value": "/data/LocationData",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/constrained_hover_touch_configs/F3_touch_as_hover_x3_hover_as_touch_x1.yaml",
+      "key": "data.inkmarc_src",
+      "historical_value": "/home/t/tburnah/inkmarc/src",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/constrained_hover_touch_configs/F4_touch_as_hover_x3_hover_as_touch_x1_5.yaml",
+      "key": "training.checkpoint_dir",
+      "historical_value": "ml/artifacts/experiments/F4_touch_as_hover_x3_hover_as_touch_x1_5/checkpoints",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/constrained_hover_touch_configs/F4_touch_as_hover_x3_hover_as_touch_x1_5.yaml",
+      "key": "data.dataset_root",
+      "historical_value": "/data/LocationData",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/constrained_hover_touch_configs/F4_touch_as_hover_x3_hover_as_touch_x1_5.yaml",
+      "key": "data.inkmarc_src",
+      "historical_value": "/home/t/tburnah/inkmarc/src",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/constrained_hover_touch_configs/F5_touch_as_hover_x3_with_batch_cap_20_percent.yaml",
+      "key": "training.checkpoint_dir",
+      "historical_value": "ml/artifacts/experiments/F5_touch_as_hover_x3_with_batch_cap_20_percent/checkpoints",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/constrained_hover_touch_configs/F5_touch_as_hover_x3_with_batch_cap_20_percent.yaml",
+      "key": "data.dataset_root",
+      "historical_value": "/data/LocationData",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/constrained_hover_touch_configs/F5_touch_as_hover_x3_with_batch_cap_20_percent.yaml",
+      "key": "data.inkmarc_src",
+      "historical_value": "/home/t/tburnah/inkmarc/src",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/constrained_hover_touch_configs/F6_touch_as_hover_x3_plus_hover_false_positive_loss.yaml",
+      "key": "training.checkpoint_dir",
+      "historical_value": "ml/artifacts/experiments/F6_touch_as_hover_x3_plus_hover_false_positive_loss/checkpoints",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/constrained_hover_touch_configs/F6_touch_as_hover_x3_plus_hover_false_positive_loss.yaml",
+      "key": "data.dataset_root",
+      "historical_value": "/data/LocationData",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/constrained_hover_touch_configs/F6_touch_as_hover_x3_plus_hover_false_positive_loss.yaml",
+      "key": "data.inkmarc_src",
+      "historical_value": "/home/t/tburnah/inkmarc/src",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/hardmine_configs/A_baseline.yaml",
+      "key": "training.checkpoint_dir",
+      "historical_value": "ml/artifacts/experiments/A_baseline/checkpoints",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/hardmine_configs/A_baseline.yaml",
+      "key": "data.dataset_root",
+      "historical_value": "/data/LocationData",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/hardmine_configs/A_baseline.yaml",
+      "key": "data.inkmarc_src",
+      "historical_value": "/home/t/tburnah/inkmarc/src",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/hardmine_configs/B_state_balanced.yaml",
+      "key": "training.checkpoint_dir",
+      "historical_value": "ml/artifacts/experiments/B_state_balanced/checkpoints",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/hardmine_configs/B_state_balanced.yaml",
+      "key": "data.dataset_root",
+      "historical_value": "/data/LocationData",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/hardmine_configs/B_state_balanced.yaml",
+      "key": "data.inkmarc_src",
+      "historical_value": "/home/t/tburnah/inkmarc/src",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/hardmine_configs/C_touch_pos_weight.yaml",
+      "key": "training.checkpoint_dir",
+      "historical_value": "ml/artifacts/experiments/C_touch_pos_weight/checkpoints",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/hardmine_configs/C_touch_pos_weight.yaml",
+      "key": "data.dataset_root",
+      "historical_value": "/data/LocationData",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/hardmine_configs/C_touch_pos_weight.yaml",
+      "key": "data.inkmarc_src",
+      "historical_value": "/home/t/tburnah/inkmarc/src",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/hardmine_configs/D_hard_weighted.yaml",
+      "key": "training.checkpoint_dir",
+      "historical_value": "ml/artifacts/experiments/D_hard_weighted/checkpoints",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/hardmine_configs/D_hard_weighted.yaml",
+      "key": "data.dataset_root",
+      "historical_value": "/data/LocationData",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/hardmine_configs/D_hard_weighted.yaml",
+      "key": "data.inkmarc_src",
+      "historical_value": "/home/t/tburnah/inkmarc/src",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/hardmine_configs/E_hard_focal.yaml",
+      "key": "training.checkpoint_dir",
+      "historical_value": "ml/artifacts/experiments/E_hard_focal/checkpoints",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/hardmine_configs/E_hard_focal.yaml",
+      "key": "data.dataset_root",
+      "historical_value": "/data/LocationData",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/hardmine_configs/E_hard_focal.yaml",
+      "key": "data.inkmarc_src",
+      "historical_value": "/home/t/tburnah/inkmarc/src",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/mild_hardmine_configs/C0_touch_pos_weight_baseline.yaml",
+      "key": "training.checkpoint_dir",
+      "historical_value": "ml/artifacts/experiments/C0_touch_pos_weight_baseline/checkpoints",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/mild_hardmine_configs/C0_touch_pos_weight_baseline.yaml",
+      "key": "data.dataset_root",
+      "historical_value": "/data/LocationData",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/mild_hardmine_configs/C0_touch_pos_weight_baseline.yaml",
+      "key": "data.inkmarc_src",
+      "historical_value": "/home/t/tburnah/inkmarc/src",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/mild_hardmine_configs/C1_touch_pos_weight_plus_touch_as_hover_x1_5.yaml",
+      "key": "training.checkpoint_dir",
+      "historical_value": "ml/artifacts/experiments/C1_touch_pos_weight_plus_touch_as_hover_x1_5/checkpoints",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/mild_hardmine_configs/C1_touch_pos_weight_plus_touch_as_hover_x1_5.yaml",
+      "key": "data.dataset_root",
+      "historical_value": "/data/LocationData",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/mild_hardmine_configs/C1_touch_pos_weight_plus_touch_as_hover_x1_5.yaml",
+      "key": "data.inkmarc_src",
+      "historical_value": "/home/t/tburnah/inkmarc/src",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/mild_hardmine_configs/C2_touch_pos_weight_plus_touch_as_hover_x2.yaml",
+      "key": "training.checkpoint_dir",
+      "historical_value": "ml/artifacts/experiments/C2_touch_pos_weight_plus_touch_as_hover_x2/checkpoints",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/mild_hardmine_configs/C2_touch_pos_weight_plus_touch_as_hover_x2.yaml",
+      "key": "data.dataset_root",
+      "historical_value": "/data/LocationData",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/mild_hardmine_configs/C2_touch_pos_weight_plus_touch_as_hover_x2.yaml",
+      "key": "data.inkmarc_src",
+      "historical_value": "/home/t/tburnah/inkmarc/src",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/mild_hardmine_configs/C3_touch_pos_weight_plus_touch_as_hover_x3.yaml",
+      "key": "training.checkpoint_dir",
+      "historical_value": "ml/artifacts/experiments/C3_touch_pos_weight_plus_touch_as_hover_x3/checkpoints",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/mild_hardmine_configs/C3_touch_pos_weight_plus_touch_as_hover_x3.yaml",
+      "key": "data.dataset_root",
+      "historical_value": "/data/LocationData",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/mild_hardmine_configs/C3_touch_pos_weight_plus_touch_as_hover_x3.yaml",
+      "key": "data.inkmarc_src",
+      "historical_value": "/home/t/tburnah/inkmarc/src",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/mild_hardmine_configs/C4_touch_pos_weight_plus_capped_hardmine.yaml",
+      "key": "training.checkpoint_dir",
+      "historical_value": "ml/artifacts/experiments/C4_touch_pos_weight_plus_capped_hardmine/checkpoints",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/mild_hardmine_configs/C4_touch_pos_weight_plus_capped_hardmine.yaml",
+      "key": "data.dataset_root",
+      "historical_value": "/data/LocationData",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/mild_hardmine_configs/C4_touch_pos_weight_plus_capped_hardmine.yaml",
+      "key": "data.inkmarc_src",
+      "historical_value": "/home/t/tburnah/inkmarc/src",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/temporal_configs/T0_no_temporal_baseline.yaml",
+      "key": "training.checkpoint_dir",
+      "historical_value": "ml/artifacts/experiments/T0_no_temporal_baseline/checkpoints",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/temporal_configs/T0_no_temporal_baseline.yaml",
+      "key": "data.dataset_root",
+      "historical_value": "/data/LocationData",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/temporal_configs/T0_no_temporal_baseline.yaml",
+      "key": "data.inkmarc_src",
+      "historical_value": "/home/t/tburnah/inkmarc/src",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/temporal_configs/T1_abs_gray_diff_motion_map.yaml",
+      "key": "training.checkpoint_dir",
+      "historical_value": "ml/artifacts/experiments/T1_abs_gray_diff_motion_map/checkpoints",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/temporal_configs/T1_abs_gray_diff_motion_map.yaml",
+      "key": "data.dataset_root",
+      "historical_value": "/data/LocationData",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/temporal_configs/T1_abs_gray_diff_motion_map.yaml",
+      "key": "data.inkmarc_src",
+      "historical_value": "/home/t/tburnah/inkmarc/src",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/temporal_configs/T2_signed_gray_diff_motion_map.yaml",
+      "key": "training.checkpoint_dir",
+      "historical_value": "ml/artifacts/experiments/T2_signed_gray_diff_motion_map/checkpoints",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/temporal_configs/T2_signed_gray_diff_motion_map.yaml",
+      "key": "data.dataset_root",
+      "historical_value": "/data/LocationData",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/temporal_configs/T2_signed_gray_diff_motion_map.yaml",
+      "key": "data.inkmarc_src",
+      "historical_value": "/home/t/tburnah/inkmarc/src",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/temporal_configs/T3_image_t_minus_1.yaml",
+      "key": "training.checkpoint_dir",
+      "historical_value": "ml/artifacts/experiments/T3_image_t_minus_1/checkpoints",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/temporal_configs/T3_image_t_minus_1.yaml",
+      "key": "data.dataset_root",
+      "historical_value": "/data/LocationData",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/artifacts/experiments/temporal_configs/T3_image_t_minus_1.yaml",
+      "key": "data.inkmarc_src",
+      "historical_value": "/home/t/tburnah/inkmarc/src",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/configs/loctouch_lite.yaml",
+      "key": "training.checkpoint_dir",
+      "historical_value": "ml/artifacts/checkpoints",
+      "reference_type": "relative_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/configs/loctouch_lite.yaml",
+      "key": "data.dataset_root",
+      "historical_value": "/data/LocationData",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    },
+    {
+      "config": "ml/configs/loctouch_lite.yaml",
+      "key": "data.inkmarc_src",
+      "historical_value": "/home/t/tburnah/inkmarc/src",
+      "reference_type": "external_absolute_path",
+      "present_within_archive": false,
+      "policy": "Preserved definition; provide approved external input or existing path override as documented"
+    }
+  ]
+}

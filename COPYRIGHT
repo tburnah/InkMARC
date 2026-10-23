@@ -1,0 +1,21 @@
+Copyright (c) 2024–2026 Tavish Burnah.
+All rights reserved in original contributions, subject to prior valid
+license grants and third-party rights.
+
+The existing copyright year 2024 in InkMARC.Deform's project metadata is
+preserved. This notice documents the author's current reservation; it does
+not assert that every file was created throughout the entire year range.
+
+Previously granted permissions are not revoked. The historical root CC
+BY-NC 4.0 license, the retained Deform MIT notice and other valid prior
+grants remain effective to the extent they apply. See LICENSE and
+docs/licensing/README.md.
+
+Third-party contributions, templates, dependencies, model parameters,
+fonts, music and other assets are excluded from any claim of exclusive
+ownership. Preserve their notices and applicable rights. See
+THIRD_PARTY_NOTICES.md.
+
+Research source headers, project definitions and model files were not
+rewritten to apply this notice. Component sidecars and READMEs record the
+same scope without changing executable code.
