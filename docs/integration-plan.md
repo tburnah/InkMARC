@@ -98,34 +98,33 @@ The entire `research/` tree is the unchanged imported snapshot. Future nested
 documentation changes need their own successor change record; source,
 configuration and model preservation constraints remain in force.
 
-## Pending desktop projects
+## Desktop project status
 
-The latest Capture and Chapter 8 Surface/application source are present on
-the author's desktop and pending incorporation. Recommended future destinations
-are `applications/InkMARC-Capture/` and `applications/InkMARC/`, preserving
-each original project/solution layout and Surface's actual location. If they
-share a solution or relative dependencies, retain their common root rather
-than splitting projects to fit the directory labels.
+The latest Capture source is incorporated as `InkMARC.Capture/`, preserving
+its standalone Android Gradle project and AprilTag dependency. The Chapter 8
+Surface/application source remains on the author's desktop and pending
+incorporation; its recommended future destination is `applications/InkMARC/`,
+preserving its original solution layout and Surface's actual location.
 
 Before inclusion, inventory and hash the original source and dirty repository
 state; document actual dependencies, SDKs, hardware and build requirements;
 exclude sensitive recordings, credentials and signing material; inspect
 third-party/model/asset licensing; record private origin and public copy
-provenance; and add verified links to Capture (§5.3.1) and Chapter 8 in the
-contribution index. Preserve desktop originals and do not reconstruct or
-substitute older VM applications.
+provenance; and add verified links to the incorporated Capture (§5.3.1) and
+pending Chapter 8 source in the contribution index. Preserve desktop originals
+and do not reconstruct or substitute older VM applications.
 
 ## Review and publication gates
 
 The VM import was completed independently of the desktop additions. The
-complete archive must remain pending until **both desktop components have
-been reviewed and incorporated**. Existing model initialization/redistribution
+complete archive must remain pending until the **Chapter 8 desktop component
+has been reviewed and incorporated**. Existing model initialization/redistribution
 questions, repository assets/binaries and tracked signing material need their
 own handling decisions before the completed archive is released. The import
 did not delete tracked historical material, rewrite Git history, revoke valid
 prior licenses or enable Git LFS. The author has separately approved committing
 and pushing the current combined VM archive and documentation to `main`;
-the two desktop additions will follow in a later push. See the
+the Chapter 8 desktop addition will follow in a later push. See the
 [VM publication record](provenance/vm-publication.json). This approval does
 not mark the complete archive finished.
 

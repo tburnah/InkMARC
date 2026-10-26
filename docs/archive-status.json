@@ -10,9 +10,9 @@
   "desktop_components": [
     {
       "name": "InkMARC-Capture",
-      "availability": "Present on the author's desktop; author confirmed",
-      "status": "pending_incorporation_from_desktop",
-      "recommended_destination": "applications/InkMARC-Capture/",
+      "availability": "Incorporated from the author's desktop source",
+      "status": "incorporated",
+      "destination": "InkMARC.Capture/",
       "thesis_anchor": "Chapter 5, section 5.3.1"
     },
     {
@@ -26,10 +26,10 @@
   ],
   "original_contribution_policy": "all_rights_reserved_subject_to_prior_valid_grants_and_third_party_terms",
   "complete_archive_ready_for_final_github_publication": false,
-  "both_desktop_components_must_be_reviewed_and_incorporated_before_complete_archive_ready": true,
+  "remaining_desktop_component_must_be_reviewed_and_incorporated_before_complete_archive_ready": true,
   "existing_model_asset_privacy_and_release_decisions_still_apply": true,
   "separate_explicit_remote_publication_approval_required": true,
   "vm_update_publication_authorized": true,
-  "publication_scope": "Combined VM archive and repository licensing/documentation on main; desktop components will follow in a separate push",
+  "publication_scope": "Combined VM archive, InkMARC.Capture and repository licensing/documentation on main; the Chapter 8 desktop component will follow in a separate push",
   "publication_record": "provenance/vm-publication.json"
 }

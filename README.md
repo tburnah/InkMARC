@@ -13,11 +13,11 @@ cleaning and evaluation implementations. The imported [VM research archive](rese
 under `research/` adds offline augmentation, preliminary sensing,
 InkMARC-Sense and InkMARC Depth. Its frozen Phase B files are preserved intact.
 
-**Archive completion is pending.** The latest InkMARC-Capture and Chapter 8
-InkMARC-Surface/integrated application source are stored on the author's
-desktop and are **pending incorporation from desktop**. They are not lost
-or missing implementations. Existing repository applications and older VM
-implementations do not replace these final desktop projects.
+**Archive completion is pending.** The latest InkMARC-Capture application is
+now incorporated as [InkMARC.Capture](InkMARC.Capture/README.md). The Chapter
+8 InkMARC-Surface/integrated application source remains stored on the
+author's desktop and pending incorporation. Existing repository applications
+and older VM implementations do not replace that final desktop project.
 
 ## Existing applications and thesis navigation
 
@@ -25,6 +25,7 @@ implementations do not replace these final desktop projects.
 | --- | --- | --- |
 | [InkMARC.Clean](InkMARC.Clean/README.md) | Reconstruction, inspection, geometry and paired video/HDF5 export; Chapter 5, §5.3.3 | Project and solution present, rather than only the VM reference excerpts |
 | [InkMARC.Cue](InkMARC.Cue/README.md) | Prompted touch/no-touch recording; Chapter 5, §5.2.3, D2 | Project and solution present; device build not verified here |
+| [InkMARC.Capture](InkMARC.Capture/README.md) | Android camera, AprilTag and USB-stylus collection; Chapter 5, §5.3.1, D3 | Gradle project and native AprilTag submodule present; device build not verified here |
 | [InkMARC.Prepare](InkMARC.Prepare/README.md) | Earlier video/ink alignment, frame processing and HDF5 export | Historical preparation workflow; original solution spelling retained |
 | [InkMARC.Deform](InkMARC.Deform/README.md) | Instrumented pen/exercise collection and pressure-related data | Historical collection application; exact Probe/Train version association remains unconfirmed |
 | [InkMARC.Label](InkMARC.Label/README.md) | Touch/location annotation, geometry and dataset export | Historical labelling workflow, preserved separately from Clean |
@@ -49,6 +50,7 @@ the frozen Phase B publication tree intact beneath `research/`:
 ```text
 InkMARC.Clean/                existing .NET projects remain in place
 InkMARC.Cue/
+InkMARC.Capture/             Android D3 collection project
 InkMARC.Deform/
 InkMARC.Evaluate/
 InkMARC.Label/
@@ -63,8 +65,7 @@ research/                    imported VM archive; frozen files preserved
   inkdepth_student_workspace/ InkMARC-Sense and InkMARC Depth
   docs/                      VM-specific documentation and third-party notices
   provenance/                preserved Phase B hashes and inventories
-applications/                proposed future desktop projects; not added yet
-  InkMARC-Capture/
+applications/                proposed future desktop project; not added yet
   InkMARC/                   Chapter 8 application and original Surface layout
 ```
 
@@ -80,7 +81,7 @@ The nested [VM contribution index](research/docs/contribution-index.md),
 and [dependencies](research/docs/dependencies.md) retain their Phase B scope.
 Use this root README and the [combined contribution index](docs/contribution-index.md)
 for current archive coverage, including the existing Clean project and the
-two desktop additions. The nested README's statements about applications
+pending Chapter 8 desktop addition. The nested README's statements about applications
 outside its snapshot describe that VM snapshot, not the whole combined repository.
 
 The import contains 646 regular files and one internal symlink (about 356 MiB).
@@ -140,8 +141,8 @@ rather than asserted as the current blanket license.
 The VM research import is complete. The author has approved this VM archive
 and documentation update for GitHub; the desktop components will follow in
 a separate update. See the [publication record](docs/provenance/vm-publication.json).
-The complete archive is not ready for final GitHub publication until both
-desktop components are reviewed and incorporated and remaining rights,
+The complete archive is not ready for final GitHub publication until the
+Chapter 8 desktop component is reviewed and incorporated and remaining rights,
 asset and release decisions are resolved. This VM update does not claim
 that the complete archive is finished or that documented upstream rights
 questions have been resolved.

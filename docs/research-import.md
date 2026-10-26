@@ -65,12 +65,13 @@ Phase B snapshot. The [combined contribution index](contribution-index.md)
 adds the existing full Clean project and other .NET applications and is the
 current navigation/availability overlay for the combined repository.
 
-The latest InkMARC-Capture (§5.3.1) and Chapter 8 InkMARC-Surface/integrated
-application source are stored on the author's desktop and remain **pending
-incorporation from desktop**. Older VM or existing .NET applications do not
-substitute for those implementations. Recommended destinations and required
-preservation, dependency, sensitive-file, licensing, provenance and index
-checks remain in the [desktop incorporation plan](integration-plan.md#pending-desktop-projects).
+The latest InkMARC-Capture (§5.3.1) source is incorporated as
+[InkMARC.Capture](../InkMARC.Capture/README.md). The Chapter 8
+InkMARC-Surface/integrated application source remains **pending incorporation
+from desktop**. Older VM or existing .NET applications do not substitute for
+that implementation. Its preservation, dependency, sensitive-file, licensing,
+provenance and index checks remain in the
+[desktop incorporation plan](integration-plan.md#desktop-project-status).
 
 Original contributions remain all rights reserved, subject to prior valid
 grants and third-party terms. Root and imported notices are both retained;
@@ -79,12 +80,9 @@ Existing model, asset, signing-material and release decisions remain as
 documented. No new release clearance is claimed.
 
 The VM import is complete. The [complete archive status](archive-status.json)
-remains pending until the two desktop components are reviewed and incorporated
-and remaining release decisions are resolved. The author has separately
-approved committing and pushing the combined VM archive and documentation
-to `tburnah/InkMARC` on `main`; the desktop projects will follow in a later
-push. The [publication record](provenance/vm-publication.json) records that
-scope separately from the historical local import verification.
+remains pending until the Chapter 8 desktop component is reviewed and
+incorporated and remaining release decisions are resolved. The historical VM
+publication record remains separate from this Capture incorporation.
 
 Copyright (c) 2024–2026 Tavish Burnah. All rights reserved in original
 contributions, subject to prior grants and third-party rights.

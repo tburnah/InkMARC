@@ -1,0 +1,1 @@
+Write the alphabet in lower case, then uppercase, then write the digits 0-9
