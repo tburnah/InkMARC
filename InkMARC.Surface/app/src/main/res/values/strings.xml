@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+   Copyright 2021 Google LLC
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<resources>
+  <string translatable="false" name="app_name">InkMARC</string>
+  <string translatable="false" name="depth_use_explanation">When Depth is enabled on supported devices, virtual objects adapt to the environment by blending in with the real world.</string>
+  <string translatable="false" name="button_text_enable_depth">Enable</string>
+  <string translatable="false" name="button_text_disable_depth">Disable</string>
+  <string translatable="false" name="options_title_with_depth">Your device supports depth</string>
+  <string translatable="false" name="options_title_without_depth">Your device does not support depth</string>
+  <string translatable="false" name="done">Done</string>
+  <string translatable="false" name="searching_planes">Move the device until a surface is found.</string>
+  <string translatable="false" name="waiting_depth_taps">Move slowly over the surface, then tap to place.</string>
+  <string translatable="false" name="waiting_taps">Surface found. Tap to place the rectangle.</string>
+  <string translatable="false" name="tracking_planes">Tracking detected surfaces.</string>
+  <string translatable="false" name="recording_status_initial">Recorder: waiting for session…</string>
+  <string translatable="false" name="recording_waiting_for_plane">Recorder: waiting for first tracked plane</string>
+  <string translatable="false" name="recording_active">Recorder: recording dataset</string>
+  <string translatable="false" name="recording_stopped">Recorder: stopped</string>
+  <string translatable="false" name="recording_failed">Recorder error: %1$s</string>
+  <string translatable="false" name="recording_sensor_fallback">High-rate IMU access was rejected; using 5000us sensor sampling instead.</string>
+  <string translatable="false" name="recording_exporting">Recorder: exporting finished capture</string>
+  <string translatable="false" name="recording_exported">Recorder: exported to Downloads</string>
+  <string translatable="false" name="recording_export_failed">Recorder export failed: %1$s</string>
+  <string translatable="false" name="recording_finish_capture">Finish &amp; save capture</string>
+  <string translatable="false" name="recording_not_started">No ARCore capture is running yet. Wait for a tracked plane.</string>
+  <string translatable="false" name="recording_export_complete">Capture saved to Downloads/InkMARCCaptures</string>
+  <string translatable="false" name="recording_export_unsuccessful">Capture could not be exported. Check the status banner.</string>
+  <string translatable="false" name="recording_status_format">%1$s
+%2$s</string>
+  <string translatable="false" name="fallback_status_initial">Fallback: waiting for tracker</string>
+  <string translatable="false" name="fallback_status_disabled">Fallback: OpenCV failed to initialize</string>
+  <string translatable="false" name="fallback_status_waiting_arcore">Fallback: waiting for camera tracking</string>
+  <string translatable="false" name="fallback_status_waiting_seed">Fallback: tap a surface to start tracking</string>
+  <string translatable="false" name="fallback_status_seeded">Fallback: surface tracking started</string>
+  <string translatable="false" name="fallback_status_tracking">Fallback: tracking last plane (%1$d tracks, %2$d inliers)</string>
+  <string translatable="false" name="fallback_status_insufficient">Fallback: too few stable features to hold the plane</string>
+  <string translatable="false" name="fallback_status_lost">Fallback: tracking lost; tap the surface again</string>
+  <string translatable="false" name="fallback_status_seed_failed">Fallback: seed failed, only %1$d candidate features found</string>
+  <string translatable="false" name="fallback_status_camera_error">Fallback camera unavailable: %1$s</string>
+  <string translatable="false" name="session_video_recording_started">Session video recording started</string>
+  <string translatable="false" name="session_video_saved">Session video saved to Movies/InkMARC/%1$s</string>
+  <string translatable="false" name="session_video_recording_failed">Session video recording failed: %1$s</string>
+  <string translatable="false" name="session_sensor_saved">Sensor log saved to Downloads/InkMARC/%1$s</string>
+
+</resources>

@@ -1,0 +1,36 @@
+# Android Studio configuration.
+*.iml
+.idea/
+
+# Gradle configuration.
+.gradle/
+build/
+
+# User configuration.
+local.properties
+
+# OS configurations.
+.DS_Store
+
+# Android NDK cmake output.
+.cxx/
+
+# Generated Android and Python outputs.
+app/build/
+tools/__pycache__/
+__pycache__/
+*.py[cod]
+
+# Local capture/research artifacts and model weights. These are deliberately
+# kept outside the source import because they are generated or too large for
+# regular Git hosting.
+.analysis_tracking/
+.docx_qa/
+.kotlin/
+captures/
+reports/
+*.logcat
+*.mp4
+*.csv
+*.onnx
+*.task
