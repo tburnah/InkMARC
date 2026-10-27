@@ -7,6 +7,16 @@ represent a full transitive or binary redistribution clearance.
 
 ## Declared NuGet components
 
+The later `InkMARC.Probe/` import retains the source repository's
+[Apache-2.0 license](InkMARC.Probe/LICENSE), its application
+[MIT notice](InkMARC.Probe/InkMARC.Probe/LICENSE.md), and the bundled
+Camera.MAUI [MIT notice](InkMARC.Probe/Camera.MAUI/LICENSE.md). The camera
+project identifies `https://github.com/hjam40/Camera.MAUI` as its upstream.
+Its original source and notices are preserved. Probe's original fonts and
+other binary assets are also preserved; no new rights claim is made for them.
+See the [Probe README](InkMARC.Probe/README.md) and
+[additional dependency declarations](docs/dependencies.md#inkmarcprobe-import).
+
 All eight project files were inspected without restore or build. The
 [dependency inventory](docs/dependencies.md) records which project declares
 each version. [Exact package metadata](docs/licensing/nuget-license-evidence.json)

@@ -2,12 +2,13 @@
 
 References use the thesis's printed page numbers. Component associations
 describe roles; they do not establish exact experiment runs or final desktop
-revision identity. Existing project directories and executable names remain
-unchanged.
+revision identity. The imported OcuInk application is renamed InkMARC.Probe
+following the author's explicit confirmation of its thesis name; other
+existing project directories and executable names remain unchanged.
 
 | Thesis contribution | Repository source or confirmed location | Coverage and pending work |
 | --- | --- | --- |
-| Chapter 5, §5.2.1: exploratory tools and earlier stream preparation | [Prepare](../InkMARC.Prepare/README.md) supplies an earlier alignment/export family; [Deform](../InkMARC.Deform/README.md) preserves instrumented collection | Exact Deform association with Probe/Train remains unconfirmed; no renaming |
+| Chapter 5, §5.2.1: exploratory tools and earlier stream preparation | [Probe](../InkMARC.Probe/README.md) is the author-confirmed former OcuInk desktop collection application; [Prepare](../InkMARC.Prepare/README.md) supplies an earlier alignment/export family; [Deform](../InkMARC.Deform/README.md) preserves instrumented collection | Probe imported and renamed; no exact experiment-run association asserted and Deform remains a separate application |
 | Chapter 5, §5.2.2: InkMARC-Train/D1 collection | No exact application-version association asserted | Thesis Train is a collection tool, not a label for all Python training scripts |
 | Chapter 5, §5.2.3: InkMARC-Cue/D2 | [Cue](../InkMARC.Cue/README.md), prompted touch/no-touch recording | Preserve this repository version; no final desktop Capture claim |
 | Chapter 5, §5.3.1: InkMARC-Capture/D3 | [Capture](../InkMARC.Capture/README.md), Android camera, AprilTag and USB-stylus collection | Gradle Android project and AprilTag submodule incorporated; device build not verified here |
