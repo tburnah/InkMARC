@@ -1,0 +1,38 @@
+{
+  "import_date": "2026-10-27",
+  "component": "InkMARC.Probe",
+  "identity_evidence": "Author explicitly identified OcuInk/OcuInkTrain as the application renamed InkMARC Probe in the thesis.",
+  "source_repository": "https://github.com/tavish-burnah/OcuInkTrain.git",
+  "source_commit": "33238557ea4995a26a80f55e48cea7041770ab88",
+  "source_worktree": "clean",
+  "destination": "InkMARC.Probe/",
+  "tracked_files_imported": 173,
+  "path_renames": {
+    "OcuInkTrain": "InkMARC.Probe",
+    "OcuInk.Models": "InkMARC.Probe.Models",
+    "OcuInk drawing/model type prefixes": "InkMARC"
+  },
+  "changes": [
+    "Rename application solution, projects, namespaces, drawing/model types and visible titles.",
+    "Set all application ID declarations to com.tavishburnah.inkmarcprobe.",
+    "Replace the absolute strong-name key path with ../InkMARC.Probe.snk.",
+    "Update repository metadata, collection landing-page branding and documentation.",
+    "Remove one duplicate using directive introduced by consolidating the old application namespaces."
+  ],
+  "preserved": [
+    "All source-tracked files are represented under the new root folder.",
+    "Bundled Camera.MAUI source, binary assets, signing-key bytes and license files are byte-identical.",
+    "Target frameworks and package declarations are unchanged.",
+    "The application's original models remain separate from the suite's shared InkMARC.Models.",
+    "Original repository and Git history retained as a local backup, not nested Git metadata."
+  ],
+  "validation": {
+    "solution": "dotnet sln list resolves the application, models and Camera.MAUI projects.",
+    "static": "47 XML files parse; project references, signing-key path and XAML/code-behind classes resolve.",
+    "models_build": "net8.0 build succeeds with the same four nullability warnings as the original models.",
+    "json_compatibility": "Synthetic camera metadata and stylus-point exercise data deserialize and serialize identically with original and renamed model assemblies.",
+    "windows_build": "net8.0-windows10.0.19041.0 build succeeds with warnings using SDK 10.0.302, explicit MauiVersion=8.0.7, separate models restore and AppxPackageSigningEnabled=false. Exact commands are in the component README.",
+    "not_tested": ["Installation", "Camera/stylus runtime operation", "Android execution"]
+  },
+  "compatibility_note": "The new application identity does not automatically migrate private application data from an existing OcuInk installation. JSON field names and recording filename conventions are preserved."
+}

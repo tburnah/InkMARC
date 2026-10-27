@@ -23,6 +23,7 @@ and older VM implementations do not replace that final desktop project.
 
 | Source | Purpose and contribution | Coverage |
 | --- | --- | --- |
+| [InkMARC.Probe](InkMARC.Probe/README.md) | Desktop stylus, writing-exercise and camera collection; formerly OcuInk / OcuInk Train | Author-confirmed Probe identity; application, models and bundled camera component imported |
 | [InkMARC.Clean](InkMARC.Clean/README.md) | Reconstruction, inspection, geometry and paired video/HDF5 export; Chapter 5, §5.3.3 | Project and solution present, rather than only the VM reference excerpts |
 | [InkMARC.Cue](InkMARC.Cue/README.md) | Prompted touch/no-touch recording; Chapter 5, §5.2.3, D2 | Project and solution present; device build not verified here |
 | [InkMARC.Capture](InkMARC.Capture/README.md) | Android camera, AprilTag and USB-stylus collection; Chapter 5, §5.3.1, D3 | Gradle project and native AprilTag submodule present; device build not verified here |
@@ -56,6 +57,7 @@ InkMARC.Evaluate/
 InkMARC.Label/
 InkMARC.Models/
 InkMARC.Prepare/
+InkMARC.Probe/               desktop stylus and camera collection (formerly OcuInk)
 InkMARC.Test/
 docs/                        repository index, licensing and import provenance
 research/                    imported VM archive; frozen files preserved
@@ -93,7 +95,9 @@ Private review records and withheld research data were not imported.
 Targets differ between projects: Clean uses .NET 8 Windows/WPF; Prepare,
 Label and Test use .NET 9 Windows/WPF; Cue targets .NET 9 Android/iOS;
 Deform and Evaluate declare .NET 9 Android targets, with an additional
-conditional Windows target in Deform; Models targets .NET 8.
+conditional Windows target in Deform; Models targets .NET 8. Probe retains
+its .NET 8 MAUI Android and conditional Windows targets, with its own models
+and bundled Camera.MAUI library; see its README for migration/build results.
 See each component README, the [declared .NET dependency inventory](docs/dependencies.md)
 and the [VM execution notes](research/docs/reproducibility.md). Run VM entry
 points from their documented roots within `research/`; the VM archive root

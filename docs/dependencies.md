@@ -1,7 +1,8 @@
 # Declared .NET dependencies
 
-This inventory comes from the eight existing project XML files. Versions and
-targets were preserved; no package restore, upgrade or build was performed.
+The original inventory comes from the eight existing project XML files.
+Versions and targets were preserved during that review. The later Probe
+import retains three additional projects, listed separately below.
 The [machine-readable inventory](repository-dependencies.json) includes target
 conditions, exact package references and shared project references.
 
@@ -26,6 +27,21 @@ pass.
 
 The project name InkMARC.Test denotes an application, not an automated test
 suite. No application/device tests or research-data exports were performed.
+
+## InkMARC.Probe import
+
+These projects were added after the original machine-readable inventory;
+their source and validation are recorded in [probe-import.json](provenance/probe-import.json).
+
+| Project under `InkMARC.Probe/` | Declared targets | Direct package references |
+| --- | --- | --- |
+| `InkMARC.Probe/InkMARC.Probe.csproj` | `net8.0-android34.0`; conditional `net8.0-windows10.0.19041.0` | CommunityToolkit.Maui 7.0.1; CommunityToolkit.Mvvm 8.2.2; Microsoft.Extensions.Logging.Debug 8.0.0; Microsoft.Maui.Controls 8.0.7 |
+| `InkMARC.Probe.Models/InkMARC.Probe.Models.csproj` | `net8.0` | None |
+| `Camera.MAUI/Camera.MAUI.csproj` | `net8.0`; `net8.0-maccatalyst`; conditional `net8.0-windows10.0.19041.0` | Microsoft.Maui.Controls and Microsoft.Maui.Controls.Compatibility, both using `$(MauiVersion)` |
+
+Probe references its local models and camera projects. It does not replace
+the suite's existing shared models. Its original package declarations remain
+unchanged; consult its README for the attempted build and toolchain limits.
 
 See [exact-version package license evidence](licensing/nuget-license-evidence.json)
 and [third-party notices](../THIRD_PARTY_NOTICES.md). A package may have native,
