@@ -8,20 +8,21 @@ See-Through Interaction, Machine Learning, and InkMARC*. InkMARC means
 The archive preserves research implementations for dataset preparation and
 surface-appearance augmentation (Chapter 5), preliminary touch-state and
 stylus-tip localisation experiments (Chapter 6), and InkMARC-Sense with its
-distilled relative-depth proxy (Chapter 7). Original project paths, package
-names, experimental variants and executable identifiers are retained.
+distilled relative-depth proxy (Chapter 7). Suite components now live in
+root folders; see the [component map](../docs/component-layout.md). Historical
+experimental variants and checkpoint-compatible names are retained.
 
 ## Navigate by thesis contribution
 
 | Thesis contribution | Start here | Implementation status |
 | --- | --- | --- |
-| Chapter 5, §5.3.3: ground-truth reconstruction and export | [InkMARC-Clean reference sources](inkdepth_student_workspace/reference/README.md) | Desktop source excerpts |
-| Chapter 5, §5.3.5: surface-appearance augmentation | [InkMARC-Augment](src/shadow_extraction/README.md) | Offline C++/Python workflow; historical versions retained |
+| Chapter 5, §5.3.3: ground-truth reconstruction and export | [InkMARC-Clean reference sources](../InkMARC.Sense/reference/README.md) | Desktop source excerpts |
+| Chapter 5, §5.3.5: surface-appearance augmentation | [InkMARC-Augment](../InkMARC.Augment/README.md) | Offline C++/Python workflow; historical versions retained |
 | Chapter 5: D3/D3a manifests, filtering and splits | [Dataset preparation](docs/datasets.md) | Utilities distributed across the original projects |
-| Chapter 6, §6.1: preliminary touch classification | [Touch experiments](src/touch_model/README.md) | Historical stand-alone experiments |
-| Chapter 6, §6.2: preliminary localisation, E01–E11 | [Localisation experiments](src/location_model/README.md) | Historical experiment families |
-| Chapter 7: final sensing architecture | [InkMARC-Sense](inkdepth_student_workspace/README.md) | Integrated sensing implementation and selected artifacts |
-| Chapter 7, §7.1.2: distilled relative depth | [InkMARC Depth / InkDepth](inkdepth_student_workspace/DEPTH_PROXY.md) | MobileNetV2 DA3 proxy and existing exports |
+| Chapter 6, §6.1: preliminary touch classification | [Touch experiments](../InkMARC.Touch/README.md) | Historical stand-alone experiments |
+| Chapter 6, §6.2: preliminary localisation, E01–E11 | [Localisation experiments](../InkMARC.Location/README.md) | Historical experiment families |
+| Chapter 7: final sensing architecture | [InkMARC-Sense](../InkMARC.Sense/README.md) | Integrated sensing implementation and selected artifacts |
+| Chapter 7, §7.1.2: distilled relative depth | [InkMARC-Depth](../InkMARC.Depth/README.md) | MobileNetV2 DA3 proxy and existing exports |
 | Chapter 8: live surface tracking | [Suite terminology and scope](docs/terminology-map.md) | Live tracker described in thesis; complete implementation not in this snapshot |
 
 See the [detailed chapter index](docs/contribution-index.md),
@@ -34,7 +35,7 @@ The preliminary classifiers and localisation models investigate separate
 sensing tasks. InkMARC-Sense combines image-space tip localisation,
 interaction presence and touch state using a shared backbone. Its inputs
 combine RGB, estimated relative depth and surface mask/U/V channels.
-InkMARC Depth is the smaller depth proxy described in Chapter 7; earlier
+InkMARC-Depth is the smaller depth proxy described in Chapter 7; earlier
 depth students remain in a separate historical project.
 
 InkMARC-Clean reconstructs aligned recordings. InkMARC-Augment uses reviewed
@@ -45,23 +46,22 @@ Chapter 5 preparation/augmentation workflow.
 
 ## Directory structure
 
+The repository-root components are `InkMARC.Augment`, `InkMARC.Touch`,
+`InkMARC.Location`, `InkMARC.Sense` and `InkMARC.Depth`. Within `research/`:
+
 ```text
-docs/                         chapter index, models, data and execution notes
-provenance/                   copy hashes, source versions and change records
-src/touch_model/              preliminary touch experiments and ancillary IMU work
-src/location_model/           preliminary localisation and combined experiments
-src/depth_model/              historical relative-depth student development
-src/shadow_extraction/        InkMARC-Augment and preparation utilities
-ml/                           supplementary LocTouchNetLite experiments
-inkdepth_student/             earlier multitask student source snapshot
-inkdepth_student/outputs/     selectively retained existing model artifacts
-inkdepth_student_workspace/   InkMARC-Sense and DA3 proxy development workspace
+docs/                        chapter index, models, data and execution notes
+provenance/                  original copy hashes, source versions and records
+src/depth_model/             historical relative-depth student development
+ml/                          supplementary LocTouchNetLite experiments
+inkdepth_student/            earlier multitask student source snapshot
+inkdepth_student/outputs/    selected existing model artifacts shared by Sense/Depth
 ```
 
-The workspace `outputs` link points to `../inkdepth_student/outputs` within
-this archive. Run `ml` modules from the archive root; run other project
-scripts from their documented project roots. The two `inkdepth` packages are
-historical snapshots and should use separate environments when installed.
+The root Sense and Depth components each expose the shared artifacts through
+an `outputs` link. Run `ml` modules from `research/`; run other scripts from
+their documented component roots. The earlier student and current Sense
+packages both use `inkdepth`, so install those in separate environments.
 
 ## Models and data
 
@@ -80,8 +80,10 @@ suite index where their complete sources are outside this snapshot.
 
 ## Preservation and practical scope
 
-Research source, configurations and copied model binaries are preserved
-byte for byte. Documentation and ignore-rule replacements are listed in
+Selected model binaries and historical provenance remain byte for byte.
+Source names, component locations and current documentation were updated
+after the original import; the [migration map](../docs/component-layout.json)
+resolves historical paths. Original archival replacements are listed in
 [the change log](provenance/CHANGELOG.md); replaced documents are retained
 under `provenance/original-documentation/`.
 

@@ -1,7 +1,8 @@
 # Execution and reproducibility notes
 
 Start with the component README and original configuration. Historical paths,
-arguments and numerical operations are preserved. The examples below are
+arguments and numerical operations are retained. Component paths and model
+names were updated; see the [migration notes](../../docs/component-layout.md). The examples below are
 documentation of available interfaces, not claims that the thesis experiments
 have been rerun. Dataset-dependent evaluation needs the approved original
 data, split manifests, checkpoints and upstream dependencies together.
@@ -17,6 +18,9 @@ staged component READMEs are the archive navigation entry points.
 `ml` uses the `ml.inkloc` namespace: run its modules/tests from this archive's
 root. Its real-data adapter additionally requires the location project source
 through `data.inkmarc_src`, alongside the indexed dataset.
+The default now resolves to repository-root `InkMARC.Location/src`; the
+live YAML uses `../InkMARC.Location/src` when run from `research/`.
+Historical experiment configurations retain their recorded machine paths.
 
 ## Existing lightweight tests
 

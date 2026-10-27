@@ -2,7 +2,7 @@
 
 This project preserves the earlier relative-depth student models, teacher-label
 generation and comparison utilities. It records research progression alongside
-the later [InkMARC Depth / InkDepth proxy](../../inkdepth_student_workspace/DEPTH_PROXY.md)
+the later [InkMARC Depth / InkDepth proxy](../../../InkMARC.Depth/README.md)
 associated with thesis §7.1.2. An exact thesis experiment is not inferred for
 every historical variant.
 

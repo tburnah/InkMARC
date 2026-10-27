@@ -8,7 +8,7 @@ import torch
 from torch.utils.data import DataLoader, Subset, WeightedRandomSampler
 
 from ml.inkloc.data.dataset import ManifestInteractionDataset
-from ml.inkloc.data.inkmarc import InkMARCCombinedDataset
+from ml.inkloc.data.inkmarc import INKMARC_SRC_DEFAULT, InkMARCCombinedDataset
 from ml.inkloc.data.synthetic import SyntheticInteractionDataset
 from ml.inkloc.models import LocTouchNetLite
 from ml.inkloc.training.calibration import evaluate_calibration
@@ -35,7 +35,7 @@ def build_dataset(cfg, split: str = "train"):
             dataset_root=data_cfg.get("dataset_root", "/data/LocationData"),
             index_version=str(data_cfg.get("index_version", "v1")),
             split=str(data_cfg.get(f"{split}_split", split)),
-            inkmarc_src=data_cfg.get("inkmarc_src", "/home/t/tburnah/inkmarc/src"),
+            inkmarc_src=data_cfg.get("inkmarc_src", INKMARC_SRC_DEFAULT),
             input_height=cfg["model"]["input_height"],
             input_width=cfg["model"]["input_width"],
             margin_frac=float(data_cfg.get("margin_frac", 0.10)),

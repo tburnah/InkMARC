@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "inkmarc-depth"
+version = "0.1.0"
+description = "InkMARC-Depth distilled relative-depth model"
+requires-python = ">=3.10"
+dependencies = ["torch>=2.2", "torchvision>=0.17"]
+
+[tool.setuptools.packages.find]
+include = ["inkmarc_depth*"]

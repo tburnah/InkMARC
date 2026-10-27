@@ -40,7 +40,7 @@ training:
 data:
   type: inkmarc
   dataset_root: /data/LocationData
-  inkmarc_src: /home/t/tburnah/inkmarc/src
+  inkmarc_src: ../InkMARC.Location/src
   index_version: focused
   train_split: train
   eval_split: val

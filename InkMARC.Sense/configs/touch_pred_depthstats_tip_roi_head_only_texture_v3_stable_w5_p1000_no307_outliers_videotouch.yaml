@@ -1,0 +1,120 @@
+seed: 1337
+output_dir: outputs/touch_pred_depthstats_tip_roi_head_only_texture_v3_stable_w5_p1000_no307_outliers_videotouch
+
+data:
+  manifest_path: /data/baseAVIs_432x672/manifest_texture_v3_balanced_frames_stable_w5_p1000_no307_depth_outliers.json
+  rgb_source: auto
+  input_source: rgb
+  frame_root: null
+  video_root: null
+  frame_stride: 1
+  max_frames_per_video: null
+  max_videos_per_split: null
+  depth:
+    format: zarr
+    path: null
+    key: depth_norm
+    cache_size: 64
+  labels:
+    load: auto
+    format: inkmarc_h5
+    path: null
+    label_mode: derive_from_pressure_and_xy
+    touch_target: pressure
+    background_policy: invalid_xy_is_background
+    coordinate_mode: surface_to_image
+    state_key: state
+    touch_key: touch
+    x_key: x
+    y_key: y
+    xy_normalized: true
+    image_width: 432
+    image_height: 672
+    surface_width: 44800.0
+    surface_height: 29600.0
+    surface_model_width: 480
+    surface_model_height: 320
+    corners_coordinate_mode: resized
+    tablet_width: 44800.0
+    tablet_height: 29600.0
+    pressure_touch_threshold: 0.0
+  input_size: [672, 432]
+  synthetic:
+    enabled: false
+    length: 64
+
+augment:
+  color_jitter: true
+  brightness: 0.12
+  contrast: 0.12
+  saturation: 0.08
+  hue: 0.015
+  blur_prob: 0.03
+  noise_std: 0.005
+
+model:
+  name: InkMARCSense
+  backbone: mobilenet_v3_large
+  width_mult: 1.0
+  pretrained: true
+  fpn_channels: 96
+  depth_out_size: [168, 108]
+  depth_mode: normalized
+  state_mode: binary
+  num_states: 3
+  use_depth_features_for_tasks: true
+  depth_feature_source: decoder
+  state_context_mode: gap_xy_depth
+  train_depth: false
+  train_touch: true
+  train_state: false
+  train_location: false
+  freeze_backbone: true
+  freeze_neck: true
+  freeze_depth_head: true
+  freeze_state_head: false
+  freeze_location_head: true
+
+loss:
+  lambda_depth_ssi: 0.0
+  lambda_depth_l1: 0.0
+  lambda_depth_roi_l1: 0.0
+  lambda_depth_grad: 0.0
+  lambda_touch: 2.0
+  lambda_state: 0.0
+  lambda_xy: 0.0
+  lambda_heatmap: 0.0
+  state_label_smoothing: 0.0
+  heatmap_loss: mse
+  xy_loss: smooth_l1
+
+training:
+  phase: task_finetune
+  epochs: 8
+  batch_size: 64
+  num_workers: 4
+  persistent_workers: false
+  prefetch_factor: 2
+  amp: true
+  init_checkpoint: outputs/depth_tip_roi_calibrate_texture_v3_stable_w5_p1000_no307_outliers/best_val_loss.pt
+  init_strict: false
+  init_skip_mismatched: true
+  resume: null
+  log_every: 20
+  val_every: 1
+  save_visuals: false
+  max_visuals: 8
+  sampler: video_touch
+  copy_manifest: true
+  tensorboard: false
+
+optimizer:
+  name: AdamW
+  backbone_lr: 0.0
+  head_lr: 0.0005
+  weight_decay: 0.01
+
+scheduler:
+  enabled: false
+  name: cosine
+  min_lr: 0.000001

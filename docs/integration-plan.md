@@ -1,5 +1,9 @@
 # Integrating the VM publication candidate
 
+> Historical import record. The current layout is documented in the
+> [component map](component-layout.md); original inventories and hashes retain
+> their import-time paths.
+
 **Status: VM research imported locally and verified.** The local branch is based on
 `715d1ce7e2b0e9432cf2c1e29246c51a9d1eecc7` of `tburnah/InkMARC`.
 The Phase B staging tree and all original research repositories remain

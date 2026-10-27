@@ -1,0 +1,65 @@
+seed: 1337
+output_dir: outputs/da3_depth_proxy_504x322_mnv2
+
+data:
+  manifest_path: outputs/diagnostic_manifests/manifest_original_apriltag_frames_stride4_stable_w5_p1000_no307_no321.json
+  rgb_source: auto
+  input_source: rgb
+  frame_root: null
+  video_root: null
+  frame_stride: 1
+  max_frames_per_video: null
+  max_videos_per_split: null
+  variant_kind_filter: [original]
+  surface_geometry:
+    enabled: false
+  depth:
+    format: zarr
+    path: null
+    key: depth_norm
+    cache_size: 0
+  labels:
+    load: false
+  input_size: [672, 432]
+  synthetic:
+    enabled: false
+    length: 64
+
+augment:
+  color_jitter: false
+  brightness: 0.0
+  contrast: 0.0
+  saturation: 0.0
+  hue: 0.0
+  blur_prob: 0.0
+  noise_std: 0.0
+
+model:
+  name: InkMARCDepth
+  backbone: mobilenet_v2
+  proxy_input_size: [504, 322]
+  width_mult: 1.0
+  pretrained: true
+  fpn_channels: 64
+  decoder_channels: 64
+  da3_repo_root: /home/t/tburnah/src/depth_model/Depth-Anything-3
+  da3_process_res: 322
+  da3_process_res_method: lower_bound_resize
+
+loss:
+  lambda_raw_l1: 1.0
+  lambda_grad_l1: 0.2
+  lambda_norm_l1: 1.0
+
+training:
+  epochs: 8
+  batch_size: 16
+  num_workers: 4
+  amp: true
+
+optimizer:
+  lr: 0.0003
+  weight_decay: 0.01
+
+scheduler:
+  min_lr: 0.000001

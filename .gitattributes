@@ -1,0 +1,7 @@
+# Preserve the imported research sources' existing line endings when moved.
+# This also keeps shell scripts with LF endings usable in Windows checkouts.
+InkMARC.Augment/** -text
+InkMARC.Depth/** -text
+InkMARC.Location/** -text
+InkMARC.Sense/** -text
+InkMARC.Touch/** -text

@@ -3,7 +3,7 @@
 This earlier `inkdepth` source snapshot preserves depth-supervised,
 multitask and temporal-touch development related to the Chapter 7 sensing
 work. It remains distinct from the later
-[InkMARC-Sense workspace](../inkdepth_student_workspace/README.md).
+[InkMARC-Sense workspace](../../InkMARC.Sense/README.md).
 
 The package contains `datasets/stylus_dataset.py`, model/heads/losses,
 training/validation and configuration/checkpoint/export helpers.
@@ -24,8 +24,8 @@ retained under `provenance/original-documentation/`.
 `outputs/` is a historical shared storage location. The selectively copied
 files there include later workspace artifacts; their placement does not mean
 this older source snapshot created them. Use [the model index](../docs/models.md)
-to identify the corresponding source family. The current workspace's relative
-`outputs` link points here, preserving that shared-output relationship within
+to identify the corresponding source family. The root Sense and Depth components' relative
+`outputs` links point here, preserving that shared-output relationship within
 the archive.
 
 `reference/` contains InkMARC-Clean source excerpts associated with §5.3.3;

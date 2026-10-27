@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "inkmarc-sense"
+version = "0.1.0"
+description = "InkMARC-Sense integrated stylus location, presence and touch sensing"
+requires-python = ">=3.10"
+dependencies = ["inkmarc-depth>=0.1.0"]
+
+[tool.setuptools.packages.find]
+include = ["inkdepth*"]

@@ -59,7 +59,6 @@ depth_audit_307/
 **/artifacts/**
 !inkdepth_student/outputs/
 !inkdepth_student/outputs/**/
-!inkdepth_student_workspace/outputs
 !ml/artifacts/
 !ml/artifacts/**/
 !provenance/models.csv

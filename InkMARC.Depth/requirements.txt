@@ -1,0 +1,2 @@
+# Training/cache tools share the Sense dataset and configuration utilities.
+-r ../InkMARC.Sense/requirements.txt

@@ -9,7 +9,7 @@ import torch
 from torch.utils.data import Dataset
 
 
-INKMARC_SRC_DEFAULT = Path("/home/t/tburnah/inkmarc/src")
+INKMARC_SRC_DEFAULT = Path(__file__).resolve().parents[4] / "InkMARC.Location" / "src"
 
 
 def _ensure_inkmarc_imports(inkmarc_src: str | Path = INKMARC_SRC_DEFAULT):

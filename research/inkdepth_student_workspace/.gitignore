@@ -1,5 +1,0 @@
-# Archive-wide artifact policy and explicit model allowlist are in ../.gitignore.
-__pycache__/
-*.py[cod]
-.pytest_cache/
-.venv/

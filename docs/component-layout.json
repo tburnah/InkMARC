@@ -1,0 +1,21 @@
+{
+  "date": "2026-10-27",
+  "directory_moves": {
+    "research/inkdepth_student_workspace": "InkMARC.Sense",
+    "research/src/shadow_extraction": "InkMARC.Augment",
+    "research/src/touch_model": "InkMARC.Touch",
+    "research/src/location_model": "InkMARC.Location"
+  },
+  "file_moves": {
+    "research/inkdepth_student_workspace/inkdepth/models/depth_proxy.py": "InkMARC.Depth/inkmarc_depth/model.py",
+    "research/inkdepth_student_workspace/configs/da3_depth_proxy_504x322.yaml": "InkMARC.Depth/configs/da3_depth_proxy_504x322.yaml",
+    "research/inkdepth_student_workspace/DEPTH_PROXY.md": "InkMARC.Depth/README.md",
+    "research/inkdepth_student_workspace/scripts/train_da3_depth_proxy.py": "InkMARC.Depth/scripts/train_da3_depth_proxy.py",
+    "research/inkdepth_student_workspace/scripts/export_depth_proxy_onnx.py": "InkMARC.Depth/scripts/export_depth_proxy_onnx.py",
+    "research/inkdepth_student_workspace/scripts/quantize_depth_proxy_qnn_qdq.py": "InkMARC.Depth/scripts/quantize_depth_proxy_qnn_qdq.py",
+    "research/inkdepth_student_workspace/scripts/generate_da3_proxy_depth_cache.py": "InkMARC.Depth/scripts/generate_da3_proxy_depth_cache.py",
+    "research/inkdepth_student_workspace/scripts/generate_da3_proxy_depth_cache_npy_xz.py": "InkMARC.Depth/scripts/generate_da3_proxy_depth_cache_npy_xz.py"
+  },
+  "shared_outputs": "research/inkdepth_student/outputs",
+  "note": "Historical provenance paths/hashes describe the original import. Apply file_moves first, then directory_moves to locate current sources. Model binaries and metadata are unchanged."
+}

@@ -1,5 +1,9 @@
 # VM research import review
 
+> Historical import record. The current layout is documented in the
+> [component map](component-layout.md); original inventories and hashes retain
+> their import-time paths.
+
 The frozen Phase B `public/` tree has been imported into `research/` in the
 local InkMARC clone. The existing .NET suite remains in place. All imported
 files retain their bytes, modes and original relative paths; no implementation
@@ -16,10 +20,10 @@ layout and preservation procedure.
 
 | Material | Destination and navigation |
 | --- | --- |
-| InkMARC-Augment and preparation utilities | [Offline surface appearance](../research/src/shadow_extraction/README.md) |
-| Preliminary touch/localisation | [Touch](../research/src/touch_model/README.md), [localisation](../research/src/location_model/README.md) and [experiment mapping](../research/docs/contribution-index.md) |
-| InkMARC-Sense | [Current sensing workspace](../research/inkdepth_student_workspace/README.md) |
-| InkMARC Depth / InkDepth | [Distilled depth proxy](../research/inkdepth_student_workspace/DEPTH_PROXY.md) |
+| InkMARC-Augment and preparation utilities | [Offline surface appearance](../InkMARC.Augment/README.md) |
+| Preliminary touch/localisation | [Touch](../InkMARC.Touch/README.md), [localisation](../InkMARC.Location/README.md) and [experiment mapping](../research/docs/contribution-index.md) |
+| InkMARC-Sense | [Current sensing workspace](../InkMARC.Sense/README.md) |
+| InkMARC Depth / InkDepth | [Distilled depth proxy](../InkMARC.Depth/README.md) |
 | Historical and supplementary sources | [Earlier student](../research/inkdepth_student/README.md), [depth prototypes](../research/src/depth_model/README.md), [LocTouchNetLite](../research/ml/README.md) |
 | Selected existing models and exports | [Model index](../research/docs/models.md), [artifact hashes](../research/provenance/models.csv), [rights records](../research/provenance/model-licensing.json) |
 | Dependencies, inputs and practical execution | [Dependencies](../research/docs/dependencies.md), [data](../research/docs/datasets.md), [execution notes](../research/docs/reproducibility.md) |

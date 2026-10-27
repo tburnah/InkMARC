@@ -1,5 +1,6 @@
 # Thesis contribution index
 
+Paths beginning with `InkMARC.` are relative to the repository root.
 References use printed thesis pages. In the supplied 245-page PDF, main-text
 printed page p corresponds to PDF page p + 25. The thesis PDF is not included
 in this candidate. This index maps implementation families; it does not
@@ -13,22 +14,22 @@ D0 / Probe (§5.2.1), D1 / Train (§5.2.2), D2 / Cue (§5.2.3), D3 / Capture
 
 | Thesis section | Archive source | Match |
 | --- | --- | --- |
-| §5.3.3, pp. 91–92: ground-truth reconstruction/export | `inkdepth_student_workspace/reference/`, earlier `inkdepth_student/reference/`, `src/shadow_extraction/MainViewModel.cs` | InkMARC.Clean namespaces, strip extraction, frame/H5 and geometry handling |
+| §5.3.3, pp. 91–92: ground-truth reconstruction/export | `InkMARC.Sense/reference/`, earlier `inkdepth_student/reference/`, `InkMARC.Augment/MainViewModel.cs` | InkMARC.Clean namespaces, strip extraction, frame/H5 and geometry handling |
 | §5.3.4, p. 92: retained source data/filtering | `scripts/create_stable_pressure_manifest.py`, `create_balanced_frame_manifest.py` and related utilities in the InkDepth projects | Preparation implementation family; retain each historical configuration |
-| §5.3.5, pp. 92–96: surface appearance | `src/shadow_extraction/shadow_pipeline_v3.cpp`, CLI, depth helper and batch scripts | Direct workflow match for registration/review, foreground separation and shadow transfer |
+| §5.3.5, pp. 92–96: surface appearance | `InkMARC.Augment/shadow_pipeline_v3.cpp`, CLI, depth helper and batch scripts | Direct workflow match for registration/review, foreground separation and shadow transfer |
 | §5.3.6, pp. 96–97: derived dataset/partitions | `create_texture_manifest.py`, `create_participant_splits.py`, manifest and audit utilities | D3/D3a preparation and partition tooling |
 
 ## Chapter 6: preliminary sensing
 
 Section 6.1 (pp. 102–104) concerns stand-alone touch/no-touch classification
-and supports RQ3.1. `src/touch_model/` retains the NAS/AutoKeras,
+and supports RQ3.1. `InkMARC.Touch/` retains the NAS/AutoKeras,
 EfficientNet, ResNet and deployment experiment families. The ResNet18
 architecture is present in `src/Model15.py` and `train19.py`.
 
 Section 6.2 (pp. 105–110) concerns stand-alone localisation and supports
 RQ2.1. E01–E11 are thesis experiment identifiers, not source phase numbers.
 
-| Thesis label | Code relative to `src/location_model/` | Association |
+| Thesis label | Code relative to `InkMARC.Location/` | Association |
 | --- | --- | --- |
 | E01 Rectified direct regression | `src/train_phase1_v2_location.py`, location-only model/transform family | Family match |
 | E02 Raw image + corners | `src/train_phase1a.py`, `src/models/model_v3.py` | Family match |
@@ -44,23 +45,23 @@ RQ2.1. E01–E11 are thesis experiment identifiers, not source phase numbers.
 Exact historical commands and selected checkpoints for these experiment IDs
 remain an author selection item. No E-number was inserted into source code.
 
-## Chapter 7: InkMARC-Sense and InkMARC Depth
+## Chapter 7: InkMARC-Sense and InkMARC-Depth
 
-The current `inkdepth_student_workspace/` contains the integrated sensing
+The current `InkMARC.Sense/` contains the integrated sensing
 family supporting RQ2 (stylus location) and RQ3 (touch/hover).
 
 | Thesis section | Source relative to the current workspace |
 | --- | --- |
 | §7.1.1, p. 115: surface mask and U/V encoding | `inkdepth/datasets/stylus_dataset.py`; `scripts/audit_surface_geometry_maps.py` |
-| §7.1.2, pp. 116–117: distilled DA3 depth proxy | `inkdepth/models/depth_proxy.py`; `configs/da3_depth_proxy_504x322.yaml`; training/cache/export/quantisation utilities |
+| §7.1.2, pp. 116–117: distilled DA3 depth proxy | `../InkMARC.Depth/inkmarc_depth/model.py`; `../InkMARC.Depth/configs/da3_depth_proxy_504x322.yaml`; Depth training/cache/export/quantisation utilities |
 | §7.1.3, pp. 117–118: shared MobileNetV3/FPN | `inkdepth/models/inkdepth_student.py` |
 | §7.1.4, p. 118: heatmap and soft-argmax | `inkdepth/models/heads.py`; location path in `inkdepth_student.py` |
 | §7.1.5, pp. 118–121: presence and touch heads | Heatmap-weighted feature/depth pooling and separate heads in `inkdepth_student.py` |
 | §7.2, p. 121: implementation settings | Original YAML configurations, model definitions and selected export metadata |
 | §7.3: evaluation | `evaluate_touch_location_report.py`, `evaluate_touch_location_by_participant.py`, `run_participant_crossval.py`, `evaluate_participant_cv_statistics.py`, `evaluate_presence_cv_threshold.py` |
 
-`InkDepthDA3Student` supplies live frozen DA3 depth during development;
-`DepthProxyMobileNet` and `evaluate_depth_proxy_student_pipeline.py` provide
+`InkMARCSenseDA3` supplies live frozen DA3 depth during development;
+`InkMARCDepth` and `evaluate_depth_proxy_student_pipeline.py` provide
 the smaller proxy path. See [model provenance](models.md) for the distinction
 between component identity and individual historical checkpoint selection.
 
